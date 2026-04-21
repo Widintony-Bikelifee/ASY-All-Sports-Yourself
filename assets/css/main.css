@@ -1,0 +1,219 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap");
+
+/* ── GLOBAL VARIABLES── */
+:root {
+  /* Colores principales */
+  --color-green: #2ecc50;
+  --color-green-dark: #1db53e;
+  --color-green-dim: rgba(46, 204, 80, 0.15);
+  --color-green-glow: rgba(46, 204, 80, 0.35);
+  --color-orange: #ff6b2b;
+  --color-orange-dim: rgba(255, 107, 43, 0.15);
+  --color-blue: #0a84ff;
+  --color-blue-dim: rgba(10, 132, 255, 0.15);
+
+  /* BACKGROUNDS */
+  --bg-dark: #000000;
+  --bg-dark2: #000000;
+  --bg-dark3: #0d0f0d;
+  --bg-card: #0d0e0d;
+  --bg-white: #ffffff;
+  --bg-light: #f4f7f4;
+  --bg-light2: #e8ede8;
+
+  /* TEXT */
+  --text-primary: #ffffff;
+  --text-secondary: #c8d4c8;
+  --text-muted: #7a8f7a;
+  --text-dark: #0d1a0d;
+  --text-dark2: #3a4a3a;
+  --text-placeholder: #aabcaa;
+
+  /* BORDER */
+  --border-dark: rgba(255, 255, 255, 0.08);
+  --border-dark2: rgba(255, 255, 255, 0.15);
+  --border-light: #dce8dc;
+  --border-light2: #b0c8b0;
+
+  /* TYPOGRAPHY */
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-body: "Barlow", sans-serif;
+
+  /* FONT SIZES */
+  --fs-xs: 0.72rem;
+  --fs-sm: 0.82rem;
+  --fs-base: 0.92rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.2rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 2.8rem;
+  --fs-4xl: 4rem;
+
+  /* SPACES */
+  --space-xs: 0.4rem;
+  --space-sm: 0.8rem;
+  --space-md: 1.2rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+
+  /* BORDER RADIUS */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* SHADOWS */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.18);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.24);
+  --shadow-green: 0 6px 24px rgba(46, 204, 80, 0.3);
+
+  /* NAVBAR HEIGHT */
+  --nav-h: 68px;
+
+  /* TRANSITION */
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-dark);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-body);
+  border: none;
+  background: none;
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ── GLOBAL UTLITY ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* ── BASE SHARED BUTTONS── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-base);
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--color-green);
+  color: #000;
+}
+.btn-primary:hover {
+  background: var(--color-green-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-green);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--border-dark2);
+  color: var(--text-primary);
+}
+.btn-outline:hover {
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+/* ── BASE ANIMATIONS ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
