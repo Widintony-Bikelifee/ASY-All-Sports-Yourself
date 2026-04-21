@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - All Sports Yourself</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/navbar.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div id="navbar"></div>
+
+<!-- LOGIN -->
+<div class="auth-page">
+
+  <!-- LEFT -->
+  <div class="auth__left">
+    <div class="auth__left-bg"></div>
+    <div class="auth__spotlight"></div>
+    <div class="auth__spotlight-2"></div>
+
+    <div class="auth__players">
+    </div>
+
+    <div class="auth__left-content">
+      <div class="auth__logo">
+        <div class="auth__logo-icon">
+          <img src="/assets/img/Logo-ASY.png" alt="Logo All Sports Yourself">
+        </div>
+      </div>
+
+      
+
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="auth__right">
+    <div class="auth__right-inner">
+
+      <!-- TABS -->
+      <div class="auth__tabs">
+        <button class="auth__tab active">Iniciar Sesión</button>
+        <a href="register.html" class="auth__tab">Registrarse</a>
+      </div>
+
+      <h1 class="auth__heading">Bienvenido de Vuelta</h1>
+      <p class="auth__subheading">Ingresa tus credenciales para acceder a tu cuenta.</p>
+
+      <!-- EMAIL -->
+      <div class="form__group">
+        <label class="form__label" for="login-email">Correo Electrónico</label>
+        <div class="form__input-wrap">
+          <span class="form__input-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M2 7l10 7 10-7"/>
+            </svg>
+          </span>
+          <input
+            class="form__input"
+            type="email"
+            id="login-email"
+            name="email"
+            placeholder="correo@ejemplo.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="form__group">
+        <label class="form__label" for="login-password">Contraseña</label>
+        <div class="form__input-wrap">
+          <span class="form__input-icon">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+          </span>
+
+          <input
+            class="form__input"
+            type="password"
+            id="login-password"
+            name="password"
+            placeholder="Tu contraseña"
+            autocomplete="current-password"
+            required
+          >
+
+          <button
+            class="form__input-eye"
+            type="button"
+            onclick="togglePassword('login-password')">
+            👁
+          </button>
+        </div>
+
+        <div class="form__forgot">
+          <a href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+      </div>
+
+      <!-- BUTTON -->
+      <button
+        class="auth__btn-submit"
+        type="button"
+        onclick="Login.handleSubmit()">
+        Iniciar Sesión
+      </button>
+
+      <!-- SWITCH -->
+      <p class="auth__switch">
+        ¿No tienes cuenta?
+        <a href="register.html">Regístrate</a>
+      </p>
+
+      <!-- BACK -->
+      <div class="auth__back">
+        <a href="../index.html">← Volver al inicio</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="module">
+  import { loadNavbar } from './assets/js/navbar.js';
+  loadNavbar();
+</script>
+
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/auth.js"></script>
+
+<script>
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+
+</body>
+</html>
