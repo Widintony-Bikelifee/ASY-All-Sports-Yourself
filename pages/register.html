@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - ASY</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/navbar.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+</head>
+
+<body>
+
+<!-- RECORD -->
+<div class="auth-page">
+
+  <!-- LEFT PANEL -->
+  <div class="auth__left">
+    <div class="auth__left-bg"></div>
+    <div class="auth__spotlight"></div>
+    <div class="auth__spotlight-2"></div>
+
+    <div class="auth__players">
+      <!-- (PAGE BACKGROUND) -->
+    </div>
+
+    <div class="auth__left-content">
+      <div class="auth__logo">
+        <div class="auth__logo-icon">
+          <img src="/assets/img/Logo-ASY.png" alt="Logo All Sports Yourself">
+        </div>
+      </div>
+
+      <p class="auth__brand-name">All Sports Yourself</p>
+
+      <p class="auth__brand-desc">
+        La plataforma líder para reservar espacios deportivos en
+        <strong>Ipiales</strong>.
+      </p>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="auth__right">
+    <div class="auth__right-inner">
+
+      <!-- TABS -->
+      <div class="auth__tabs">
+        <a href="login.html" class="auth__tab">Iniciar Sesión</a>
+        <button class="auth__tab active">Registrarse</button>
+      </div>
+
+      <h1 class="auth__heading">Crea tu Cuenta</h1>
+      <p class="auth__subheading">Únete a la comunidad deportiva de Ipiales.</p>
+
+      <!-- NAME -->
+      <div class="form__row-2">
+        <div class="form__group">
+          <label class="form__label" for="reg-name">Nombre</label>
+          <input class="form__input no-icon" type="text" id="reg-name" required>
+        </div>
+        <div class="form__group">
+          <label class="form__label" for="reg-lastname">Apellido</label>
+          <input class="form__input no-icon" type="text" id="reg-lastname" required>
+        </div>
+      </div>
+
+      <!-- PHONE -->
+      <div class="form__group">
+        <label class="form__label" for="reg-phone">Teléfono</label>
+        <div class="form__input-wrap">
+          <span class="form__input-icon">
+          </span>
+          <input class="form__input" type="tel" id="reg-phone">
+        </div>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="form__group">
+        <label class="form__label" for="reg-email">Correo Electrónico</label>
+        <div class="form__input-wrap">
+          <span class="form__input-icon">
+          </span>
+          <input class="form__input" type="email" id="reg-email" required>
+        </div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="form__group">
+        <label class="form__label" for="reg-password">Contraseña</label>
+        <div class="form__input-wrap">
+          <span class="form__input-icon"></span>
+          <input class="form__input" type="password" id="reg-password" required>
+          <button class="form__input-eye" type="button"
+                  onclick="togglePassword('reg-password')">👁</button>
+        </div>
+      </div>
+
+      <!-- CONFIRM PASSWORD -->
+      <div class="form__group">
+        <label class="form__label" for="reg-password2">Confirmar Contraseña</label>
+        <div class="form__input-wrap">
+          <span class="form__input-icon"></span>
+          <input class="form__input" type="password" id="reg-password2" required>
+          <button class="form__input-eye" type="button"
+                  onclick="togglePassword('reg-password2')">👁</button>
+        </div>
+      </div>
+
+      <!-- CHECKBOX -->
+      <div class="form__check">
+        <input type="checkbox" id="reg-terms" required>
+        <label for="reg-terms">
+          Acepto los términos y condiciones
+        </label>
+      </div>
+
+      <!-- BUTTON -->
+      <button class="auth__btn-submit" type="button"
+              onclick="Register.handleSubmit()">
+        Crear Cuenta
+      </button>
+
+      <!-- SWITCH -->
+      <p class="auth__switch">
+        ¿Ya tienes cuenta?
+        <a href="login.html">Inicia sesión</a>
+      </p>
+
+      <!-- BACK -->
+      <div class="auth__back">
+        <a href="../index.html">← Volver al inicio</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script type="module">
+  import { loadNavbar } from '../assets/js/navbar.js';
+  loadNavbar();
+</script>
+
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/auth.js"></script>
+
+</body>
+</html>
