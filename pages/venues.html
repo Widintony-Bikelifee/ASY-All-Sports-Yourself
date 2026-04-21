@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Escenarios Deportivos – All Sports Yourself</title>
+    <meta
+      name="description"
+      content="Explora y reserva escenarios deportivos en Ipiales."
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/navbar.css" />
+    <link rel="stylesheet" href="../assets/css/venues.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <div id="navbar"></div>
+
+    <!-- main -->
+    <section class="page-venues" aria-label="Catálogo de escenarios deportivos">
+      <!-- venues header -->
+      <div class="venues__header">
+        <div class="venues__header-inner">
+          <div>
+            <span class="venues__section-tag">🏟️ Catálogo</span>
+            <h2 class="venues__title">Escenarios Deportivos</h2>
+          </div>
+
+          <p class="venues__count" id="venues-count">
+            Mostrando <strong>0 espacios</strong> en Ipiales
+          </p>
+        </div>
+
+        <!-- Filters -->
+        <div class="venues__filters" id="venues-filters" role="group">
+          <button
+            class="venues__filter-chip active"
+            onclick="Venues.applyFilter('todos', this)"
+          >
+            Todos
+          </button>
+
+          <button
+            class="venues__filter-chip"
+            onclick="Venues.applyFilter('futbol', this)"
+          >
+            Futbol
+          </button>
+
+          <button
+            class="venues__filter-chip"
+            onclick="Venues.applyFilter('baloncesto', this)"
+          >
+            Baloncesto
+          </button>
+
+          <button
+            class="venues__filter-chip"
+            onclick="Venues.applyFilter('tenis', this)"
+          >
+            Tenis
+          </button>
+
+          <button
+            class="venues__filter-chip"
+            onclick="Venues.applyFilter('voleibol', this)"
+          >
+            Voleibol
+          </button>
+
+          <button
+            class="venues__filter-chip"
+            onclick="Venues.applyFilter('gimnasio', this)"
+          >
+            Gimnasio
+          </button>
+
+          <button
+            class="venues__filter-chip"
+            onclick="Venues.applyFilter('natacion', this)"
+          >
+            Natación
+          </button>
+        </div>
+      </div>
+
+      <!-- GRID -->
+      <div class="venues__grid" id="venues-grid"></div>
+    </section>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- JAVASCRIPT -->
+    <script type="module">
+      import { loadNavbar } from "../assets/js/navbar.js";
+      loadNavbar();
+    </script>
+
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/venues.js"></script>
+  </body>
+</html>
