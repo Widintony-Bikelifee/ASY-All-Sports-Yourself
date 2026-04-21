@@ -1,0 +1,276 @@
+/* ── Venues Page ── */
+.page-venues {
+  background: var(--bg-dark);
+  padding-top: var(--nav-h);
+  min-height: 100vh;
+}
+
+/* ── Section Header ── */
+.venues__header {
+  background: var(--bg-dark2);
+  border-bottom: 1px solid var(--border-dark);
+  padding: 2rem 2.5rem;
+}
+
+.venues__header-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.2rem;
+}
+
+.venues__section-tag {
+  display: inline-block;
+  background: var(--color-green-dim);
+  color: var(--color-green);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0.28rem 0.8rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.5rem;
+}
+
+.venues__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.venues__count {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.venues__count strong {
+  color: var(--text-primary);
+}
+
+/* ── Filter Chips ── */
+.venues__filters {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.venues__filter-chip {
+  background: var(--bg-dark3);
+  border: 1px solid var(--border-dark);
+  color: var(--text-muted);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.venues__filter-chip:hover {
+  background: var(--color-green-dim);
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+.venues__filter-chip.active {
+  background: var(--color-green-dim);
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+/* ── Card Grid ── */
+.venues__grid {
+  max-width: 1140px;
+  margin: 2rem auto;
+  padding: 0 2.5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ── Venue Card ── */
+.venue-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.venue-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(46, 204, 80, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Image / Banner */
+.venue-card__img {
+  height: 190px;
+  overflow: hidden;
+}
+
+/* Card Body */
+.venue-card__body {
+  padding: 1.2rem;
+}
+
+.venue-card__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.venue-card__location {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+
+/* Feature Tags */
+.venue-card__tags {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.venue-card__tag {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  padding: 0.18rem 0.6rem;
+  border-radius: 4px;
+}
+
+.venue-card__tag--green {
+  background: var(--color-green-dim);
+  color: var(--color-green);
+}
+.venue-card__tag--orange {
+  background: var(--color-orange-dim);
+  color: var(--color-orange);
+}
+.venue-card__tag--blue {
+  background: var(--color-blue-dim);
+  color: var(--color-blue);
+}
+
+/* Bottom Row: Price & Availability */
+.venue-card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.venue-card__price {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--color-green);
+  line-height: 1;
+}
+
+.venue-card__price-unit {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.venue-card__avail {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.venue-card__avail.available {
+  color: var(--color-green);
+}
+.venue-card__avail.busy {
+  color: var(--color-orange);
+}
+.venue-card__avail.full {
+  color: #e24b4a;
+}
+
+/* Reserve Button */
+.venue-card__btn {
+  width: 100%;
+  margin-top: 0.9rem;
+  background: var(--color-green-dim);
+  color: var(--color-green);
+  border: 1px solid rgba(46, 204, 80, 0.3);
+  padding: 0.55rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+.venue-card__btn:hover {
+  background: var(--color-green);
+  color: #000;
+}
+
+/* ── Empty State (No Results) ── */
+.venues__empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+}
+
+.venues__empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.venues__empty h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  color: var(--text-secondary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .venues__grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    padding: 0 1.5rem 2rem;
+  }
+
+  .venues__header {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .venues__grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem 2rem;
+  }
+
+  .venues__header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
