@@ -247,18 +247,18 @@
   letter-spacing: 0.8px;
   text-transform: uppercase;
   color: var(--text-dark2);
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.70rem;
 }
 
 .form__input-wrap {
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  position: relative; /* 🔥 clave */
 }
 
 .form__input-icon {
-  position: absolute;
-  left: 0.95rem;
-  top: 50%;
-  transform: translateY(-50%);
+  flex-shrink: 0;
   color: var(--text-muted);
   display: flex;
   align-items: center;
@@ -266,17 +266,14 @@
 }
 
 .form__input-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   stroke: currentColor;
   fill: none;
 }
 
 .form__input-eye {
-  position: absolute;
-  right: 0.95rem;
-  top: 50%;
-  transform: translateY(-50%);
+  flex-shrink: 0;
   color: var(--text-muted);
   cursor: pointer;
   display: flex;
@@ -303,13 +300,11 @@
   border-radius: var(--radius-sm);
   color: var(--text-dark);
   font-size: var(--fs-base);
-  padding: 0.75rem 1rem 0.75rem 2.7rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 1rem;
   outline: none;
   transition: border-color var(--transition), box-shadow var(--transition);
-}
-
-.form__input.no-icon {
-  padding-left: 1rem;
 }
 
 .form__input::placeholder {
@@ -519,4 +514,30 @@
   .auth__social-btns {
     grid-template-columns: 1fr;
   }
+}
+
+/* ─────────────────────────────────────────
+   VALIDACIÓN INLINE
+───────────────────────────────────────── */
+.input--error {
+  border-color: #e53935 !important;
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.12) !important;
+}
+
+.input--ok {
+  border-color: var(--color-green) !important;
+  box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.10) !important;
+}
+
+.form__field-hint {
+  position: absolute;
+  top: -14px; /* ajusta según tu diseño */
+  left:25px; /* ajusta según tu diseño */
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e53935;
+  letter-spacing: 0.2px;
+  background: var(--bg-white);
+  padding: 0 4px;
 }
