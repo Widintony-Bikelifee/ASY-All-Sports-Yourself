@@ -12,8 +12,9 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="./assets/css/main.css" />
+    <link rel="stylesheet" href="./assets/css/hero.css" />
+
     <link rel="stylesheet" href="./assets/css/navbar.css" />
-    
   </head>
 
   <body>
@@ -21,13 +22,78 @@
     <div id="navbar"></div>
 
     <!--HERO-->
+    <section class="page-home" aria-label="Página de inicio">
+      <div class="hero" role="banner">
+        <div class="hero__bg"></div>
+        <div class="hero__noise"></div>
+
+        <div class="hero__stadium">
+          <!-- PAGE BACKGROUND -->
+        </div>
+
+        <!-- CONTENTS -->
+        <div class="hero__content">
+          <div class="hero__location">Ipiales, Nariño — Colombia</div>
+
+          <h1 class="hero__headline">
+            <span class="line1">Reserva tu</span>
+            <span class="line2">Espacio Ideal</span>
+          </h1>
+
+          <p class="hero__desc">
+            La plataforma más completa para reservar canchas de fútbol,
+            baloncesto, tenis, gimnasios y más en Ipiales. Disponibilidad en
+            tiempo real, pagos seguros y sin complicaciones.
+          </p>
+
+          <div class="hero__cta">
+            <a href="#" class="hero__btn-primary">
+              Explorar Espacios
+            </a>
+
+            <a href="#" class="hero__btn-secondary"> Cómo Funciona </a>
+          </div>
+
+          <!-- STATISTICS -->
+          <div class="hero__stats">
+            <div class="hero__stat">
+              <span class="hero__stat-value">50+</span>
+              <span class="hero__stat-label">Espacios</span>
+            </div>
+            <div class="hero__stat">
+              <span class="hero__stat-value">2.4K+</span>
+              <span class="hero__stat-label">Reservas</span>
+            </div>
+            <div class="hero__stat">
+              <span class="hero__stat-value">1.2K+</span>
+              <span class="hero__stat-label">Usuarios</span>
+            </div>
+            <div class="hero__stat">
+              <span class="hero__stat-value">98%</span>
+              <span class="hero__stat-label">Satisfacción</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCROLL -->
+        <div class="hero__scroll-hint">SCROLL</div>
+
+        <!-- DOTS -->
+        <div class="hero__dots">
+          <div class="hero__dot active"></div>
+          <div class="hero__dot"></div>
+          <div class="hero__dot"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOAST GLOBAL -->
+    <div class="toast" id="toast"></div>
 
     <!-- JAVASCRIPT -->
     <script type="module">
       import { loadNavbar } from "./assets/js/navbar.js";
       loadNavbar();
     </script>
-
-
   </body>
 </html>
