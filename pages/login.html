@@ -7,14 +7,10 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="../assets/css/main.css">
-  <link rel="stylesheet" href="../assets/css/navbar.css">
   <link rel="stylesheet" href="../assets/css/auth.css">
 </head>
 
 <body>
-
-<!-- NAVBAR -->
-<div id="navbar"></div>
 
 <!-- LOGIN -->
 <div class="auth-page">
@@ -25,18 +21,14 @@
     <div class="auth__spotlight"></div>
     <div class="auth__spotlight-2"></div>
 
-    <div class="auth__players">
-    </div>
+    <div class="auth__players"></div>
 
     <div class="auth__left-content">
       <div class="auth__logo">
         <div class="auth__logo-icon">
-          <img src="/assets/img/Logo-ASY.png" alt="Logo All Sports Yourself">
+          <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself">
         </div>
       </div>
-
-      
-
     </div>
   </div>
 
@@ -70,7 +62,6 @@
             name="email"
             placeholder="correo@ejemplo.com"
             autocomplete="email"
-            required
           >
         </div>
       </div>
@@ -93,14 +84,17 @@
             name="password"
             placeholder="Tu contraseña"
             autocomplete="current-password"
-            required
           >
 
           <button
             class="form__input-eye"
             type="button"
-            onclick="togglePassword('login-password')">
-            👁
+            onclick="togglePassword('login-password', this)">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
           </button>
         </div>
 
@@ -133,21 +127,13 @@
 
 </div>
 
-<!-- JAVASCRIPT -->
-<script type="module">
-  import { loadNavbar } from './assets/js/navbar.js';
-  loadNavbar();
-</script>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
+<!-- JAVASCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../assets/js/app.js"></script>
 <script src="../assets/js/auth.js"></script>
-
-<script>
-function togglePassword(id) {
-  const input = document.getElementById(id);
-  input.type = input.type === "password" ? "text" : "password";
-}
-</script>
 
 </body>
 </html>
