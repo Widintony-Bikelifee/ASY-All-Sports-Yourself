@@ -1,286 +1,269 @@
 "use strict";
 
-const VENUES_DATA = [
-  {
-    id: 1,
-    name: "Cancha 11 – Estadio Municipal",
-    type: "futbol",
-    location: "Av. Panamericana, Ipiales",
-    price: 35000,
-    priceUnit: "/hora",
-    rating: 5,
-    slots: 3,
-    tags: ["Pasto sintético", "Iluminación", "Vestidores"],
-    img: "../assets/img/venues/Estadio_Ipiales.jpg",
-  },
-  {
-    id: 2,
-    name: "Cancha Baloncesto El Rosario",
-    type: "baloncesto",
-    location: "Barrio El Rosario, Ipiales",
-    price: 25000,
-    priceUnit: "/hora",
-    rating: 4,
-    slots: 1,
-    tags: ["Techada", "Cancha dura", "Marcador digital"],
-    img: "../assets/img/venues/Balconcesto_1.jpg",
-  },
-  {
-    id: 3,
-    name: "Cancha de Tenis #1",
-    type: "tenis",
-    location: "Estadio Municipal, Ipiales",
-    price: 40000,
-    priceUnit: "/hora",
-    rating: 5,
-    slots: 2,
-    tags: ["Arcilla", "Alumbrado", "Juez de línea"],
-    img: "../assets/img/venues/Tenis_1.jpg",
-  },
-  {
-    id: 4,
-    name: "Cancha Voleibol La Merced",
-    type: "voleibol",
-    location: "Barrio La Merced, Ipiales",
-    price: 20000,
-    priceUnit: "/hora",
-    rating: 4,
-    slots: 4,
-    tags: ["Arena fina", "Vista panorámica", "Red profesional"],
-    img: "../assets/img/venues/Voleivol_1.jpg",
-  },
-  {
-    id: 5,
-    name: "Gimnasio FuerZa Total",
-    type: "gimnasio",
-    location: "Calle 6 Centro, Ipiales",
-    price: 80000,
-    priceUnit: "/mes",
-    rating: 5,
-    slots: 99,
-    tags: ["Equipos modernos", "Personal trainer", "Vestuarios"],
-    img: "../assets/img/venues/Gimancio_1.jpg",
-  },
-  {
-    id: 6,
-    name: "Cancha Fútbol 5 – Norte",
-    type: "futbol",
-    location: "Zona Norte, Ipiales",
-    price: 28000,
-    priceUnit: "/hora",
-    rating: 3,
-    slots: 0,
-    tags: ["Grama natural", "Sin techado", "Parqueadero"],
-    img: "../assets/img/venues/futbol-5_1.jpg",
-  },
-  {
-    id: 7,
-    name: "Cancha Microfútbol – Centro",
-    type: "futbol",
-    location: "Centro Ipiales",
-    price: 22000,
-    priceUnit: "/hora",
-    rating: 4,
-    slots: 5,
-    tags: ["Techada", "Piso laminado", "Gradería"],
-    img: "../assets/img/venues/Microfutbol_1.jpg",
-  },
-  {
-    id: 8,
-    name: "Piscina Municipal",
-    type: "natacion",
-    location: "Av. Colombia, Ipiales",
-    price: 15000,
-    priceUnit: "/hora",
-    rating: 4,
-    slots: 8,
-    tags: ["Temperatura controlada", "Instructores", "Carril olímpico"],
-    img: "../assets/img/venues/Piscina_1.jpg",
-  },
-  {
-    id: 9,
-    name: "Cancha Básquet Panamericana",
-    type: "baloncesto",
-    location: "Vía Panamericana, Ipiales",
-    price: 22000,
-    priceUnit: "/hora",
-    rating: 3,
-    slots: 3,
-    tags: ["Descubierta", "Cancha dura", "Cerca vial"],
-    img: "../assets/img/venues/Baloncesto_2.jpg",
-  },
-];
+/* ═══════════════════════════════════════
+   venues.js - Venues page UI logic
+   Handles rendering venue cards, filters, and reservation modal.
+   All database operations are delegated to services/venuesService.js.
+   ═══════════════════════════════════════ */
 
-/* STATE */
-let currentFilter = "todos";
+/* ═══════════════════════════════════════
+   LOCAL STATE - Module-level variables
+   ═══════════════════════════════════════ */
+let allVenues     = [];      // All venues fetched from database
+let currentFilter = "todos"; // Current active filter type
+let selectedVenue = null;    // Venue selected for reservation
 
-/* RENDER UTILITIES */
+/* ═══════════════════════════════════════
+   RENDER UTILITIES - Helper functions for UI
+   ═══════════════════════════════════════ */
 
-/**
- * Returns rotating tag colors.
- */
-const TAG_COLORS = [
-  "venue-card__tag--green",
-  "venue-card__tag--orange",
-  "venue-card__tag--blue",
-];
-
-/**
- * Formats a price number as Colombian currency.
- * @param {number} price
- * @returns {string}
- */
+/* Formats price with Colombian locale currency symbol
+   @param {number} price - Price value to format
+   @returns {string} - Formatted price like "$50.000" */
 function formatPrice(price) {
-  return "$" + price.toLocaleString("es-CO");
+  return "$" + Number(price).toLocaleString("es-CO");
 }
 
-/**
- * Generates star rating display.
- * @param {number} rating — 1 to 5
- * @returns {string}
- */
-function renderStars(rating) {
-  return "★".repeat(rating) + "☆".repeat(5 - rating);
+/* Renders star rating as text (e.g., "★★★★☆")
+   @param {number} n - Rating value (default 4)
+   @returns {string} - Star string */
+function renderStars(n = 4) {
+  const r = Math.round(n);
+  return "★".repeat(r) + "☆".repeat(5 - r);
 }
 
-/**
- * Generates availability HTML.
- * @param {number} slots
- * @returns {string}
- */
-function renderAvailability(slots) {
-  if (slots === 0)
-    return `<span class="venue-card__avail full">● Sin disponibilidad</span>`;
-  if (slots === 1)
-    return `<span class="venue-card__avail busy">● ${slots} turno disponible</span>`;
-  if (slots <= 3)
-    return `<span class="venue-card__avail busy">● ${slots} turnos disponibles</span>`;
-  return `<span class="venue-card__avail available">● ${slots} turnos disponibles</span>`;
-}
-
-/**
- * Generates venue card HTML.
- * @param {Object} venue
- * @returns {string}
- */
+/* Generates HTML for a single venue card
+   @param {object} venue - Venue object from database
+   @returns {string} - HTML string for the card */
 function renderVenueCard(venue) {
-  const tags = venue.tags
-    .map(
-      (tag, i) =>
-        `<span class="venue-card__tag ${TAG_COLORS[i % 3]}">${tag}</span>`,
-    )
-    .join("");
+  // Determine image source - use full URL or construct path
+  const imgSrc = venue.imagen_url?.startsWith("http")
+    ? venue.imagen_url
+    : `../assets/img/venues/${venue.imagen_url}`;
 
   return `
     <article class="venue-card" data-id="${venue.id}">
       <div class="venue-card__img">
-        <img src="${venue.img}" alt="${venue.name}" style="width:100%;height:100%;object-fit:cover" />
+        <img src="${imgSrc}" alt="${venue.nombre}"
+             style="width:100%;height:100%;object-fit:cover"
+             onerror="this.src='../assets/img/venues/Estadio_Ipiales.jpg'"/>
       </div>
       <div class="venue-card__body">
-        <h3 class="venue-card__name">${venue.name}</h3>
-        <p class="venue-card__location">📍 ${venue.location}</p>
-        <div class="venue-card__tags">${tags}</div>
+        <h3 class="venue-card__name">${venue.nombre}</h3>
+        <p class="venue-card__location">📍 ${venue.ubicacion ?? "Ipiales"}</p>
+        <div class="venue-card__tags">
+          <span class="venue-card__tag venue-card__tag--green">${venue.tipo}</span>
+        </div>
         <div class="venue-card__footer">
           <div>
             <div style="font-size:0.8rem;color:var(--color-orange);margin-bottom:0.3rem">
-              ${renderStars(venue.rating)}
+              ${renderStars(4)}
             </div>
             <div class="venue-card__price">
-              ${formatPrice(venue.price)}
-              <span class="venue-card__price-unit">${venue.priceUnit}</span>
+              ${formatPrice(venue.precio)}
+              <span class="venue-card__price-unit">/hora</span>
             </div>
           </div>
-          <div style="text-align:right">
-            ${renderAvailability(venue.slots)}
-          </div>
         </div>
-        <button class="venue-card__btn" onclick="Venues.selectVenue(${venue.id})">
-          ${venue.slots > 0 ? "Reservar ahora" : "Ver más info"}
+        <button class="venue-card__btn" onclick="Venues.openModal(${venue.id})">
+          Reservar ahora
         </button>
       </div>
-    </article>
-  `;
+    </article>`;
 }
 
-/* VENUES MODULE */
+/* ═══════════════════════════════════════
+   VENUES MODULE - Main UI logic
+   ═══════════════════════════════════════
+   Uses IIFE pattern to encapsulate venues functionality
+   */
 const Venues = (() => {
-  const gridEl = document.getElementById("venues-grid");
+  // Cache DOM elements
+  const gridEl  = document.getElementById("venues-grid");
   const countEl = document.getElementById("venues-count");
 
-  /**
-   * Renders venues based on the active filter.
-   * @param {string} filter — 'todos' | 'futbol' | 'baloncesto' | ...
-   */
+  /* Loads all venues from service and renders them
+     @returns {Promise<void>}
+     @description - Shows loading state, fetches from VenuesService, handles errors */
+  async function load() {
+    // Show loading state
+    if (gridEl) {
+      gridEl.innerHTML = `
+        <div class="venues__empty">
+          <div class="venues__empty-icon">⏳</div>
+          <h3>Cargando escenarios...</h3>
+        </div>`;
+    }
+
+    // Fetch venues from service layer
+    const { data, error } = await VenuesService.getEscenarios();
+
+    // Handle errors
+    if (error) {
+      console.error("Error cargando escenarios:", error);
+      if (gridEl) gridEl.innerHTML = `
+        <div class="venues__empty">
+          <div class="venues__empty-icon">❌</div>
+          <h3>Error al cargar</h3>
+          <p>${error.message}</p>
+        </div>`;
+      return;
+    }
+
+    // Store data and render with current filter
+    allVenues = data;
+    render(currentFilter);
+  }
+
+  /* Renders venue cards with optional filter
+     @param {string} filter - Filter type: "todos" or specific sport type
+     @returns {void}
+     @description - Filters venues and updates the grid HTML */
   function render(filter = "todos") {
     currentFilter = filter;
     if (!gridEl) return;
 
-    const filtered =
-      filter === "todos"
-        ? VENUES_DATA
-        : VENUES_DATA.filter((v) => v.type === filter);
+    // Apply filter or show all
+    const filtered = filter === "todos"
+      ? allVenues
+      : allVenues.filter(v => v.tipo?.toLowerCase() === filter);
 
-    if (filtered.length === 0) {
-      gridEl.innerHTML = `
-        <div class="venues__empty">
-          <div class="venues__empty-icon">🔍</div>
-          <h3>Sin resultados</h3>
-          <p>No hay escenarios disponibles con ese filtro.</p>
-        </div>`;
-    } else {
-      gridEl.innerHTML = filtered.map(renderVenueCard).join("");
-    }
+    // Show empty state or render cards
+    gridEl.innerHTML = filtered.length === 0
+      ? `<div class="venues__empty">
+           <div class="venues__empty-icon">🔍</div>
+           <h3>Sin resultados</h3>
+           <p>No hay escenarios disponibles con ese filtro.</p>
+         </div>`
+      : filtered.map(renderVenueCard).join("");
 
+    // Update count display
     if (countEl) {
-      countEl.innerHTML = `Mostrando <strong>${filtered.length} espacio${filtered.length !== 1 ? "s" : ""}</strong> en Ipiales`;
+      const n = filtered.length;
+      countEl.innerHTML = `Mostrando <strong>${n} espacio${n !== 1 ? "s" : ""}</strong> en Ipiales`;
     }
   }
 
-  /**
-   * Applies a filter and updates active chips.
-   * @param {string} type
-   * @param {HTMLElement} chipEl
-   */
+  /* Applies a filter chip selection
+     @param {string} type - Filter type to apply
+     @param {HTMLElement} chipEl - The clicked chip element
+     @returns {void} */
   function applyFilter(type, chipEl) {
-    document
-      .querySelectorAll(".venues__filter-chip")
-      .forEach((c) => c.classList.remove("active"));
+    // Remove active class from all chips
+    document.querySelectorAll(".venues__filter-chip").forEach(c => c.classList.remove("active"));
+    // Add active class to clicked chip
     if (chipEl) chipEl.classList.add("active");
+    // Re-render with new filter
     render(type);
   }
 
-  /**
-   * Selects a venue and navigates to the booking page.
-   * @param {number} id
-   */
-  function selectVenue(id) {
-    const venue = VENUES_DATA.find((v) => v.id === id);
-    if (!venue) return;
+  /* Opens reservation modal for a venue
+     @param {number} venueId - ID of the venue to reserve
+     @returns {Promise<void>}
+     @description - Checks auth, populates modal, shows reservation form */
+  async function openModal(venueId) {
+    // Check if user is logged in via service
+    const usuario = await VenuesService.getUsuarioActual();
+    if (!usuario) {
+      App.showToast("⚠️ Debes iniciar sesión para reservar");
+      setTimeout(() => window.location.href = "./login.html", 1500);
+      return;
+    }
 
-    // Save selection for booking.js
-    window.selectedVenue = venue;
+    // Find venue in local data
+    selectedVenue = allVenues.find(v => v.id === venueId);
+    if (!selectedVenue) return;
 
-    // Update booking summary
-    const nameEl = document.getElementById("book-venue-name");
-    const emojiEl = document.getElementById("book-venue-emoji");
-    const priceEl = document.getElementById("sum-price");
-    const totalEl = document.getElementById("sum-total");
-    const sumName = document.getElementById("sum-venue");
-    const sumEmoji = document.getElementById("sum-emoji");
+    // Populate modal with venue details
+    document.getElementById("modal-venue-name").textContent  = selectedVenue.nombre;
+    document.getElementById("modal-venue-tipo").textContent  = selectedVenue.tipo;
+    document.getElementById("modal-venue-precio").textContent = formatPrice(selectedVenue.precio) + " /hora";
 
-    if (nameEl) nameEl.textContent = venue.name;
-    if (emojiEl) emojiEl.textContent = venue.emoji;
-    if (sumEmoji) sumEmoji.textContent = venue.emoji;
-    if (sumName) sumName.textContent = venue.name;
-    if (priceEl) priceEl.textContent = formatPrice(venue.price);
-    if (totalEl) totalEl.textContent = formatPrice(venue.price);
+    // Reset form fields with today's date as minimum
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("modal-fecha").min   = today;
+    document.getElementById("modal-fecha").value = "";
+    document.getElementById("modal-hora-inicio").value = "";
+    document.getElementById("modal-hora-fin").value    = "";
+    document.getElementById("modal-error").textContent = "";
 
-    App.showPage("venues"); // go to booking when ready
-    App.showToast(`🏟️ Seleccionado: ${venue.name}`);
+    // Show modal and disable background scroll
+    document.getElementById("reserva-modal").classList.add("open");
+    document.body.style.overflow = "hidden";
   }
 
-  return { render, applyFilter, selectVenue };
+  /* Closes the reservation modal
+     @returns {void}
+     @description - Hides modal, re-enables scroll, clears selected venue */
+  function closeModal() {
+    document.getElementById("reserva-modal").classList.remove("open");
+    document.body.style.overflow = "";
+    selectedVenue = null;
+  }
+
+  /* Confirms and saves a reservation
+     @returns {Promise<void>}
+     @description - Validates form, calls VenuesService.insertReserva, shows result */
+  async function confirmarReserva() {
+    // Get form values
+    const fecha      = document.getElementById("modal-fecha").value;
+    const horaInicio = document.getElementById("modal-hora-inicio").value;
+    const horaFin    = document.getElementById("modal-hora-fin").value;
+    const errorEl    = document.getElementById("modal-error");
+    const btnEl      = document.getElementById("modal-btn-confirmar");
+
+    // Validate all fields are filled
+    if (!fecha || !horaInicio || !horaFin) {
+      errorEl.textContent = "Por favor completa todos los campos.";
+      return;
+    }
+    // Validate end time is after start time
+    if (horaFin <= horaInicio) {
+      errorEl.textContent = "La hora de fin debe ser después de la hora de inicio.";
+      return;
+    }
+
+    // Clear errors, disable button, show loading
+    errorEl.textContent  = "";
+    btnEl.disabled       = true;
+    btnEl.textContent    = "Guardando...";
+
+    // Delegate insert to service layer
+    const { error } = await VenuesService.insertReserva({
+      escenario_id: selectedVenue.id,
+      fecha,
+      hora_inicio:  horaInicio,
+      hora_fin:     horaFin,
+    });
+
+    // Restore button state
+    btnEl.disabled    = false;
+    btnEl.textContent = "Confirmar Reserva";
+
+    // Handle error or success
+    if (error) {
+      console.error("Error al reservar:", error);
+      errorEl.textContent = "Error al guardar la reserva: " + error.message;
+      return;
+    }
+
+    // Close modal and show success
+    closeModal();
+    App.showToast(`✅ ¡Reserva confirmada en ${selectedVenue.nombre}!`);
+  }
+
+  // Public API - expose these functions externally
+  return { load, render, applyFilter, openModal, closeModal, confirmarReserva };
 })();
 
-/* GLOBAL EXPORT */
+// Expose globally for inline onclick handlers
 window.Venues = Venues;
+
+/* ═══════════════════════════════════════
+   INITIALIZATION - Load venues on page load
+   ═══════════════════════════════════════
+   @description - Initializes Venues module when DOM is ready
+   */
+document.addEventListener("DOMContentLoaded", () => {
+  Venues.load();
+});
