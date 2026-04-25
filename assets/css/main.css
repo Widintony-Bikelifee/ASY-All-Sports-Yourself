@@ -1,103 +1,112 @@
+/* Google Fonts import - Barlow Condensed for headings, Barlow for body text */
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap");
 
-/* ── GLOBAL VARIABLES── */
+/* 
+   GLOBAL CSS VARIABLES - Design tokens
+   All colors, spacing, typography, and
+   reusable values defined here for consistency.
+ */
 :root {
-  /* Colores principales */
-  --color-green: #2ecc50;
-  --color-green-dark: #1db53e;
-  --color-green-dim: rgba(46, 204, 80, 0.15);
-  --color-green-glow: rgba(46, 204, 80, 0.35);
-  --color-orange: #ff6b2b;
-  --color-orange-dim: rgba(255, 107, 43, 0.15);
-  --color-blue: #0a84ff;
-  --color-blue-dim: rgba(10, 132, 255, 0.15);
+  /* ── Primary Colors ───────────────────────────────────────────────── */
+  --color-green: #2ecc50;       /* Main green - buttons, highlights */
+  --color-green-dark: #1db53e;  /* Darker green - hover states */
+  --color-green-dim: rgba(46, 204, 80, 0.15);  /* Transparent green - backgrounds */
+  --color-green-glow: rgba(46, 204, 80, 0.35); /* Green glow effect */
+  --color-orange: #ff6b2b;      /* Accent orange - prices, alerts */
+  --color-orange-dim: rgba(255, 107, 43, 0.15); /* Transparent orange */
+  --color-blue: #0a84ff;        /* Link blue - interactive elements */
+  --color-blue-dim: rgba(10, 132, 255, 0.15);   /* Transparent blue */
 
-  /* BACKGROUNDS */
-  --bg-dark: #000000;
-  --bg-dark2: #000000;
-  --bg-dark3: #0d0f0d;
-  --bg-card: #0d0e0d;
-  --bg-white: #ffffff;
-  --bg-light: #f4f7f4;
-  --bg-light2: #e8ede8;
+  /* ── Background Colors ────────────────────────────────────────────── */
+  --bg-dark: #000000;     /* Primary dark background */
+  --bg-dark2: #000000;    /* Secondary dark background */
+  --bg-dark3: #0d0f0d;    /* Tertiary dark background */
+  --bg-card: #0d0e0d;     /* Card background */
+  --bg-white: #ffffff;    /* White background */
+  --bg-light: #f4f7f4;    /* Light background */
+  --bg-light2: #e8ede8;   /* Slightly darker light */
 
-  /* TEXT */
-  --text-primary: #ffffff;
-  --text-secondary: #c8d4c8;
-  --text-muted: #7a8f7a;
-  --text-dark: #0d1a0d;
-  --text-dark2: #3a4a3a;
-  --text-placeholder: #aabcaa;
+  /* ── Text Colors ──────────────────────────────────────────────────── */
+  --text-primary: #ffffff;    /* Primary text - white */
+  --text-secondary: #c8d4c8;  /* Secondary text - light gray-green */
+  --text-muted: #7a8f7a;      /* Muted text - gray-green */
+  --text-dark: #0d1a0d;       /* Dark text on light backgrounds */
+  --text-dark2: #3a4a3a;      /* Secondary dark text */
+  --text-placeholder: #aabcaa; /* Placeholder text color */
 
-  /* BORDER */
-  --border-dark: rgba(255, 255, 255, 0.08);
-  --border-dark2: rgba(255, 255, 255, 0.15);
-  --border-light: #dce8dc;
-  --border-light2: #b0c8b0;
+  /* ── Border Colors ────────────────────────────────────────────────── */
+  --border-dark: rgba(255, 255, 255, 0.08);   /* Subtle dark border */
+  --border-dark2: rgba(255, 255, 255, 0.15);  /* More visible dark border */
+  --border-light: #dce8dc;    /* Light border */
+  --border-light2: #b0c8b0;   /* Secondary light border */
 
-  /* TYPOGRAPHY */
-  --font-display: "Barlow Condensed", sans-serif;
-  --font-body: "Barlow", sans-serif;
+  /* ── Typography ───────────────────────────────────────────────────── */
+  --font-display: "Barlow Condensed", sans-serif; /* Headings - condensed bold */
+  --font-body: "Barlow", sans-serif;              /* Body text - regular */
 
-  /* FONT SIZES */
-  --fs-xs: 0.72rem;
-  --fs-sm: 0.82rem;
-  --fs-base: 0.92rem;
-  --fs-md: 1rem;
-  --fs-lg: 1.2rem;
-  --fs-xl: 1.5rem;
-  --fs-2xl: 2rem;
-  --fs-3xl: 2.8rem;
-  --fs-4xl: 4rem;
+  /* ── Font Sizes ────────────────────────────────────────────────────── */
+  --fs-xs: 0.72rem;    /* Extra small - tags, labels */
+  --fs-sm: 0.82rem;    /* Small - secondary text */
+  --fs-base: 0.92rem;  /* Base size */
+  --fs-md: 1rem;       /* Medium - body text */
+  --fs-lg: 1.2rem;     /* Large - emphasized text */
+  --fs-xl: 1.5rem;     /* Extra large - subheadings */
+  --fs-2xl: 2rem;      /* 2x large - section titles */
+  --fs-3xl: 2.8rem;    /* 3x large - page titles */
+  --fs-4xl: 4rem;      /* 4x large - hero text */
 
-  /* SPACES */
-  --space-xs: 0.4rem;
-  --space-sm: 0.8rem;
-  --space-md: 1.2rem;
-  --space-lg: 2rem;
-  --space-xl: 3rem;
-  --space-2xl: 4rem;
+  /* ── Spacing ──────────────────────────────────────────────────────── */
+  --space-xs: 0.4rem;  /* Extra small spacing */
+  --space-sm: 0.8rem;  /* Small spacing */
+  --space-md: 1.2rem;  /* Medium spacing */
+  --space-lg: 2rem;    /* Large spacing */
+  --space-xl: 3rem;    /* Extra large spacing */
+  --space-2xl: 4rem;   /* 2x extra large */
 
-  /* BORDER RADIUS */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
-  --radius-full: 9999px;
+  /* ── Border Radius ────────────────────────────────────────────────── */
+  --radius-sm: 6px;    /* Small radius - buttons */
+  --radius-md: 10px;   /* Medium radius - cards */
+  --radius-lg: 14px;   /* Large radius - modals */
+  --radius-xl: 20px;   /* Extra large radius */
+  --radius-full: 9999px; /* Full radius - pills, circles */
 
-  /* SHADOWS */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.18);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.24);
-  --shadow-green: 0 6px 24px rgba(46, 204, 80, 0.3);
+  /* ── Shadows ──────────────────────────────────────────────────────── */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);      /* Small shadow */
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.18);     /* Medium shadow */
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.24);     /* Large shadow */
+  --shadow-green: 0 6px 24px rgba(46, 204, 80, 0.3); /* Green glow shadow */
 
-  /* NAVBAR HEIGHT */
-  --nav-h: 68px;
+  /* ── Layout ───────────────────────────────────────────────────────── */
+  --nav-h: 68px;       /* Navbar height - used for top padding */
 
-  /* TRANSITION */
-  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  /* ── Transitions ──────────────────────────────────────────────────── */
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth easing */
 }
 
-/* ── Reset ── */
+/* 
+   CSS RESET - Normalize browser defaults
+    */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box; /* Include padding/border in element width */
+  margin: 0;              /* Remove default margins */
+  padding: 0;             /* Remove default padding */
 }
 
+/* Base HTML styles */
 html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
+  font-size: 16px;                    /* Base font size */
+  scroll-behavior: smooth;            /* Smooth scroll to anchors */
+  -webkit-text-size-adjust: 100%;     /* Prevent font scaling on rotation */
 }
 
+/* Base body styles */
 body {
-  font-family: var(--font-body);
-  font-size: var(--fs-md);
-  line-height: 1.6;
-  color: var(--text-primary);
+  font-family: var(--font-body);      /* Body font family */
+  font-size: var(--fs-md);             /* Base font size */
+  line-height: 1.6;                   /* Comfortable line height */
+  color: var(--text-primary);          /* Primary text color */
   background-color: var(--bg-dark);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;

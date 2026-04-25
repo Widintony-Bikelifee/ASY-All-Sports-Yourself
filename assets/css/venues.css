@@ -1,102 +1,108 @@
-/* ── Venues Page ── */
+/* Venues page container - dark background with top padding for navbar */
 .page-venues {
-  background: var(--bg-dark);
-  padding-top: var(--nav-h);
-  min-height: 100vh;
+  background: var(--bg-dark); /* Dark background */
+  padding-top: var(--nav-h); /* Space for fixed navbar */
+  min-height: 100vh; /* Full viewport height */
 }
 
-/* ── Section Header ── */
+/* Section header - contains title and count */
 .venues__header {
-  background: var(--bg-dark2);
-  border-bottom: 1px solid var(--border-dark);
-  padding: 2rem 2.5rem;
+  background: var(--bg-dark2); /* Slightly lighter dark */
+  border-bottom: 1px solid var(--border-dark); /* Bottom border */
+  padding: 2rem 2.5rem; /* Internal spacing */
 }
 
 .venues__header-inner {
-  max-width: 1140px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 1.2rem;
+  max-width: 1140px; /* Max container width */
+  margin: 0 auto; /* Center horizontally */
+  display: flex; /* Horizontal layout */
+  justify-content: space-between; /* Spread items */
+  align-items: flex-end; /* Align to bottom */
+  margin-bottom: 1.2rem; /* Space below */
 }
 
+/* Section tag - small label above title */
 .venues__section-tag {
-  display: inline-block;
-  background: var(--color-green-dim);
-  color: var(--color-green);
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding: 0.28rem 0.8rem;
-  border-radius: var(--radius-full);
-  margin-bottom: 0.5rem;
+  display: inline-block; /* Inline block for sizing */
+  background: var(--color-green-dim); /* Dark green background */
+  color: var(--color-green); /* Green text */
+  font-size: var(--fs-xs); /* Extra small font */
+  font-weight: 700; /* Bold */
+  letter-spacing: 0.5px; /* Slight letter spacing */
+  text-transform: uppercase; /* ALL CAPS */
+  padding: 0.28rem 0.8rem; /* Internal spacing */
+  border-radius: var(--radius-full); /* Pill shape */
+  margin-bottom: 0.5rem; /* Space below */
 }
 
+/* Page title - large display text */
 .venues__title {
-  font-family: var(--font-display);
-  font-size: var(--fs-2xl);
-  font-weight: 900;
-  text-transform: uppercase;
-  color: var(--text-primary);
+  font-family: var(--font-display); /* Display font */
+  font-size: var(--fs-2xl); /* Extra large */
+  font-weight: 900; /* Extra bold */
+  text-transform: uppercase; /* ALL CAPS */
+  color: var(--text-primary); /* White text */
 }
 
+/* Results count - shows number of venues */
 .venues__count {
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
+  font-size: var(--fs-sm); /* Small font */
+  color: var(--text-muted); /* Muted text color */
 }
 
 .venues__count strong {
-  color: var(--text-primary);
+  color: var(--text-primary); /* White for number */
 }
 
-/* ── Filter Chips ── */
+/* Filter chips container - horizontal scrollable filters */
 .venues__filters {
-  max-width: 1140px;
-  margin: 0 auto;
-  display: flex;
-  gap: 0.65rem;
-  flex-wrap: wrap;
+  max-width: 1140px; /* Max container width */
+  margin: 0 auto; /* Center horizontally */
+  display: flex; /* Horizontal layout */
+  gap: 0.65rem; /* Space between chips */
+  flex-wrap: wrap; /* Wrap on mobile */
 }
 
+/* Individual filter chip - clickable sport type filter */
 .venues__filter-chip {
-  background: var(--bg-dark3);
-  border: 1px solid var(--border-dark);
-  color: var(--text-muted);
-  padding: 0.4rem 1rem;
-  border-radius: var(--radius-full);
-  font-size: var(--fs-sm);
-  font-weight: 600;
+  background: var(--bg-dark3); /* Dark background */
+  border: 1px solid var(--border-dark); /* Subtle border */
+  color: var(--text-muted); /* Muted text */
+  padding: 0.4rem 1rem; /* Internal spacing */
+  border-radius: var(--radius-full); /* Pill shape */
+  font-size: var(--fs-sm); /* Small font */
+  font-weight: 600; /* Semi-bold */
   transition:
-    background var(--transition),
-    border-color var(--transition),
-    color var(--transition);
+    background var(--transition), /* Smooth bg change */
+    border-color var(--transition), /* Smooth border change */
+    color var(--transition); /* Smooth color change */
 }
 
+/* Filter chip hover - green highlight */
 .venues__filter-chip:hover {
-  background: var(--color-green-dim);
-  border-color: var(--color-green);
-  color: var(--color-green);
+  background: var(--color-green-dim); /* Green tint */
+  border-color: var(--color-green); /* Green border */
+  color: var(--color-green); /* Green text */
 }
 
+/* Active filter chip - currently selected filter */
 .venues__filter-chip.active {
-  background: var(--color-green-dim);
-  border-color: var(--color-green);
-  color: var(--color-green);
+  background: var(--color-green-dim); /* Green tint */
+  border-color: var(--color-green); /* Green border */
+  color: var(--color-green); /* Green text */
 }
 
-/* ── Card Grid ── */
+/* Card grid container - responsive grid layout */
 .venues__grid {
-  max-width: 1140px;
-  margin: 2rem auto;
-  padding: 0 2.5rem 3rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  max-width: 1140px; /* Max container width */
+  margin: 2rem auto; /* Center with vertical margin */
+  padding: 0 2.5rem 3rem; /* Side padding, bottom spacing */
+  display: grid; /* CSS Grid layout */
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Responsive columns */
+  gap: 1.5rem; /* Space between cards */
 }
 
-/* ── Venue Card ── */
+/* Venue card - individual venue display */
 .venue-card {
   background: var(--bg-card);
   border: 1px solid var(--border-dark);

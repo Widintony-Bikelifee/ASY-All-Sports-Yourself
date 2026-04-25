@@ -1,201 +1,340 @@
-/* ── Navbar contenedor ── */
+/* Navbar container - fixed at top, full width, glass effect */
 .navbar {
-  position: fixed;
-  top: 0;
+  position: fixed; /* Stays visible on scroll */
+  top: 0; /* Anchored to top */
   left: 0;
   right: 0;
-  z-index: 500;
-  height: var(--nav-h);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2.5rem;
-  background: rgba(10, 14, 10, 0.8);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border-dark);
-  transition: background var(--transition);
+  z-index: 500; /* Above most content */
+  height: var(--nav-h); /* Variable height */
+  display: flex; /* Horizontal layout */
+  align-items: center; /* Vertically centered */
+  justify-content: space-between; /* Spread items */
+  padding: 0 2.5rem; /* Side padding */
+  background: rgba(10, 14, 10, 0.8); /* Semi-transparent dark */
+  backdrop-filter: blur(14px); /* Frosted glass effect */
+  -webkit-backdrop-filter: blur(14px); /* Safari support */
+  border-bottom: 1px solid var(--border-dark); /* Bottom border */
+  transition: background var(--transition); /* Smooth bg change */
 }
 
-/* ── Logo / marca ── */
+/* Logo / brand - left side of navbar */
 .navbar__brand {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  text-decoration: none;
+  display: flex; /* Icon + text side by side */
+  align-items: center; /* Vertically aligned */
+  gap: 0.65rem; /* Space between icon and text */
+  text-decoration: none; /* Remove link underline */
 }
 
+/* Logo image - 95x95px, maintains aspect ratio */
 .navbar__logo-icon img {
   width: 95px;
   height: 95px;
-  object-fit: contain;
+  object-fit: contain; /* Don't distort image */
 }
 
+/* Brand text - uppercase, bold, display font */
 .navbar__brand-text {
-  font-family: var(--font-display);
+  font-family: var(--font-display); /* Special heading font */
   font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-primary);
+  font-weight: 800; /* Extra bold */
+  letter-spacing: 1.5px; /* Wide letter spacing */
+  text-transform: uppercase; /* ALL CAPS */
+  color: var(--text-primary); /* Primary text color */
 }
 
-/* ── Links de navegación ── */
+/* Navigation links container - center of navbar */
 .navbar__links {
-  display: flex;
-  align-items: center;
-  gap: 2.2rem;
+  display: flex; /* Horizontal list */
+  align-items: center; /* Vertically centered */
+  gap: 2.2rem; /* Space between links */
 }
 
+/* Individual nav link - secondary color, relative for ::after */
 .navbar__link {
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: var(--text-secondary);
-  text-decoration: none;
-  letter-spacing: 0.3px;
-  transition: color var(--transition);
-  position: relative;
-  padding-bottom: 2px;
+  font-size: var(--fs-sm); /* Small font size */
+  font-weight: 600; /* Semi-bold */
+  color: var(--text-secondary); /* Secondary text color */
+  text-decoration: none; /* No underline */
+  letter-spacing: 0.3px; /* Slight letter spacing */
+  transition: color var(--transition); /* Smooth color change */
+  position: relative; /* For ::after positioning */
+  padding-bottom: 2px; /* Space for underline */
 }
 
+/* Link hover - brighter color */
 .navbar__link:hover {
   color: var(--text-primary);
 }
 
+/* Active link - green color indicates current page */
 .navbar__link.active {
   color: var(--color-green);
 }
 
+/* Active link underline - green line below text */
 .navbar__link.active::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
+  content: ""; /* Empty pseudo-element */
+  position: absolute; /* Positioned relative to link */
+  bottom: -4px; /* Below the text */
   left: 0;
   right: 0;
-  height: 2px;
-  background: var(--color-green);
-  border-radius: 2px;
+  height: 2px; /* Line thickness */
+  background: var(--color-green); /* Green line */
+  border-radius: 2px; /* Rounded ends */
 }
 
-/* ── Botones de acción ── */
+/* Action buttons container - right side of navbar */
 .navbar__actions {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  display: flex; /* Horizontal buttons */
+  align-items: center; /* Vertically centered */
+  gap: 0.8rem; /* Space between buttons */
 }
 
+/* Login button - outline style, transparent background */
 .navbar__btn-login {
-  background: transparent;
-  border: 1.5px solid var(--border-dark2);
-  color: var(--text-primary);
-  padding: 0.45rem 1.2rem;
-  border-radius: var(--radius-full);
+  background: transparent; /* No background */
+  border: 1.5px solid var(--border-dark2); /* Subtle border */
+  color: var(--text-primary); /* Text color */
+  padding: 0.45rem 1.2rem; /* Internal spacing */
+  border-radius: var(--radius-full); /* Pill shape */
   font-size: var(--fs-sm);
   font-weight: 600;
   transition:
     border-color var(--transition),
-    color var(--transition);
+    color var(--transition); /* Smooth transitions */
 }
 
+/* Login hover - green border and text */
 .navbar__btn-login:hover {
   border-color: var(--color-green);
   color: var(--color-green);
 }
 
+/* Register button - solid green, prominent */
 .navbar__btn-register {
-  background: var(--color-green);
-  color: #000;
+  background: var(--color-green); /* Green background */
+  color: #000; /* Black text */
   padding: 0.48rem 1.3rem;
   border-radius: var(--radius-full);
   font-size: var(--fs-sm);
-  font-weight: 700;
+  font-weight: 700; /* Bold */
   transition:
     background var(--transition),
-    transform var(--transition);
+    transform var(--transition); /* Background + lift effect */
 }
 
+/* Register hover - darker green, slight lift */
 .navbar__btn-register:hover {
   background: var(--color-green-dark);
-  transform: translateY(-1px);
+  transform: translateY(-1px); /* Move up slightly */
 }
 
+/* Admin button - text only, subtle */
 .navbar__btn-admin {
   background: transparent;
-  color: var(--text-muted);
+  color: var(--text-muted); /* Muted/dim color */
   font-size: var(--fs-sm);
   font-weight: 600;
   transition: color var(--transition);
   letter-spacing: 0.3px;
 }
 
+/* Admin hover - brighter text */
 .navbar__btn-admin:hover {
   color: var(--text-primary);
 }
 
-/* ── Hamburger ── */
+/* Hamburger menu - hidden on desktop, shown on mobile */
 .navbar__hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
+  display: none; /* Hidden by default */
+  flex-direction: column; /* Stacked lines */
+  gap: 5px; /* Space between lines */
   padding: 4px;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: pointer; /* Clickable */
 }
 
+/* Hamburger lines - 3 horizontal bars */
 .navbar__hamburger span {
   display: block;
-  width: 24px;
-  height: 2px;
+  width: 24px; /* Line width */
+  height: 2px; /* Line height */
   background: var(--text-primary);
-  border-radius: 2px;
+  border-radius: 2px; /* Rounded corners */
   transition:
     transform var(--transition),
-    opacity var(--transition);
+    opacity var(--transition); /* Animation support */
 }
 
-/* ── Menú móvil ── */
+/* Mobile menu - hidden by default, slides down on mobile */
 .navbar__mobile-menu {
-  display: none;
-  position: fixed;
-  top: var(--nav-h);
+  display: none; /* Hidden on desktop */
+  position: fixed; /* Fixed position */
+  top: var(--nav-h); /* Below navbar */
   left: 0;
   right: 0;
-  background: var(--bg-dark2);
+  background: var(--bg-dark2); /* Dark background */
   border-bottom: 1px solid var(--border-dark);
   padding: 1.2rem 2rem;
-  flex-direction: column;
+  flex-direction: column; /* Vertical links */
   gap: 1rem;
-  z-index: 499;
+  z-index: 499; /* Below navbar */
 }
 
+/* Mobile menu open state - shown when toggled */
 .navbar__mobile-menu.open {
   display: flex;
 }
 
+/* Mobile menu links - larger, with bottom border */
 .navbar__mobile-menu .navbar__link {
-  font-size: var(--fs-base);
+  font-size: var(--fs-base); /* Larger font */
   padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border-dark);
+  border-bottom: 1px solid var(--border-dark); /* Separator */
 }
 
-/* ── Responsive ── */
+/* Responsive - tablet breakpoint (900px) */
 @media (max-width: 900px) {
   .navbar__links {
-    display: none;
+    display: none; /* Hide desktop links */
   }
 
   .navbar__hamburger {
-    display: flex;
+    display: flex; /* Show hamburger */
   }
 }
 
+/* Responsive - mobile breakpoint (640px) */
 @media (max-width: 640px) {
   .navbar {
-    padding: 0 1.2rem;
+    padding: 0 1.2rem; /* Reduced side padding */
   }
 
   .navbar__actions .navbar__btn-login {
-    display: none;
+    display: none; /* Hide login button */
   }
+}
+
+/* User menu - dropdown container for logged-in users */
+.navbar__user-menu {
+  position: relative; /* For dropdown positioning */
+}
+
+/* User trigger button - avatar + name + chevron */
+.navbar__user-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  border-radius: 999px; /* Pill shape */
+  padding: 6px 12px 6px 6px;
+  cursor: pointer;
+  color: inherit;
+  font-size: 0.875rem;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+/* User trigger hover/active - lighter background */
+.navbar__user-trigger:hover,
+.navbar__user-trigger.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* User avatar - circular, blue background */
+.navbar__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%; /* Circle */
+  background: #4f9cf9; /* Blue background */
+  color: #fff; /* White text */
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Don't shrink */
+}
+
+/* Username - truncated if too long */
+.navbar__username {
+  max-width: 120px; /* Max width */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Show "..." */
+  white-space: nowrap; /* Single line */
+}
+
+/* Chevron icon - rotates when menu open */
+.navbar__chevron {
+  opacity: 0.6; /* Semi-transparent */
+  transition: transform 0.2s;
+}
+
+/* Chevron rotated - points up when open */
+.navbar__user-trigger.active .navbar__chevron {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu - white, appears below user trigger */
+.navbar__dropdown {
+  display: none; /* Hidden by default */
+  position: absolute; /* Positioned relative to parent */
+  top: calc(100% + 10px); /* Below trigger + gap */
+  right: 0;
+  min-width: 190px; /* Minimum width */
+  background: #fff; /* White background */
+  border: 1px solid #e5e7eb;
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* Drop shadow */
+  padding: 6px;
+  z-index: 1000; /* Above everything */
+}
+
+/* Dropdown open state - shown when triggered */
+.navbar__dropdown.open {
+  display: block;
+}
+
+/* Dropdown item - clickable row */
+.navbar__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 7px;
+  font-size: 0.875rem;
+  color: #374151; /* Dark gray text */
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+/* Dropdown item hover - light gray background */
+.navbar__dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+/* Dropdown divider - horizontal line separator */
+.navbar__dropdown-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 4px 0;
+}
+
+/* Logout item - red text for danger action */
+.navbar__dropdown-logout {
+  color: #dc2626; /* Red color */
+}
+
+/* Logout hover - light red background */
+.navbar__dropdown-logout:hover {
+  background: #fef2f2;
 }

@@ -1,0 +1,576 @@
+/* ═══════════════════════════════════════
+   register.css - Registration page styles
+   ═══════════════════════════════════════ */
+
+/* Page container - full viewport height, 2-column grid */
+.auth-page {
+  min-height: 100vh;        /* Full viewport height */
+  display: grid;            /* CSS Grid layout */
+  grid-template-columns: 52% 1fr;  /* Left 52%, right fills rest */
+  background: var(--bg-white);     /* White background */
+}
+
+/* Left panel - dark background with imagery */
+.auth__left {
+  position: relative;       /* For absolute children */
+  overflow: hidden;         /* Hide overflow content */
+  background: #060e06;      /* Very dark green */
+  display: flex;            /* Vertical layout */
+  flex-direction: column;   /* Stack items vertically */
+  justify-content: flex-end; /* Content at bottom */
+  padding: 2.8rem;          /* Internal spacing */
+  min-height: 100vh;        /* Full height */
+}
+
+/* Background overlay - gradient layers */
+.auth__left-bg {
+  position: absolute;       /* Covers entire parent */
+  inset: 0;                 /* top/right/bottom/left: 0 */
+  background:
+    linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(0,40,10,0.30) 40%, rgba(0,60,10,0.50) 100%),  /* Diagonal dark gradient */
+    radial-gradient(ellipse 80% 60% at 60% 45%, rgba(80,200,60,0.12) 0%, transparent 70%),  /* Green glow */
+    radial-gradient(ellipse 60% 80% at 30% 60%, rgba(200,160,0,0.08) 0%, transparent 60%);  /* Gold glow */
+  background-color: #071007;  /* Fallback color */
+}
+
+/* Players background image */
+.auth__players {
+  position: absolute;       /* Full coverage */
+  inset: 0;
+  z-index: 1;               /* Above bg, below content */
+  overflow: hidden;
+  background-image: linear-gradient(
+      rgba(0,0,0,0.5),      /* Dark overlay */
+      rgba(0,0,0,0.5)
+    ),
+    url("../img/fondo.jpg");  /* Background image */
+  background-size: cover;      /* Fill container */
+  background-position: center; /* Center image */
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+/* Spotlight effect - green glow from top */
+.auth__spotlight {
+  position: absolute;
+  top: -10%;                /* Above visible area */
+  left: 40%;                /* Offset from left */
+  width: 60%;               /* Wide ellipse */
+  height: 80%;              /* Tall ellipse */
+  background: radial-gradient(ellipse, rgba(46,204,80,0.18) 0%, transparent 65%);  /* Green glow */
+  z-index: 2;               /* Above players layer */
+  pointer-events: none;     /* Let clicks pass through */
+}
+
+/* Spotlight 2 - gold glow from bottom right */
+.auth__spotlight-2 {
+  position: absolute;
+  bottom: 0;                /* At bottom */
+  right: 0;                 /* At right */
+  width: 50%;               /* Half width */
+  height: 60%;              /* Medium height */
+  background: radial-gradient(ellipse at bottom right, rgba(180,120,0,0.12) 0%, transparent 65%);  /* Gold glow */
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Left panel content - above backgrounds */
+.auth__left-content {
+  position: relative;       /* Stacks above absolute elements */
+  z-index: 5;               /* Top layer */
+}
+
+/* Logo section */
+.auth__logo {
+  display: flex;            /* Icon + text side by side */
+  align-items: center;      /* Vertically aligned */
+  gap: 0.7rem;              /* Space between */
+  margin-bottom: 1.6rem;    /* Space below */
+}
+
+/* Logo icon - green SVG */
+.auth__logo-icon svg {
+  width: 26px;              /* Icon width */
+  height: 26px;             /* Icon height */
+  fill: var(--color-green); /* Green fill color */
+}
+
+/* Logo text - white, uppercase */
+.auth__logo-text {
+  font-family: var(--font-display);  /* Display font */
+  font-size: 1rem;
+  font-weight: 800;         /* Extra bold */
+  letter-spacing: 1.5px;    /* Wide spacing */
+  text-transform: uppercase;  /* ALL CAPS */
+  color: rgba(255, 255, 255, 0.90);  /* White with slight transparency */
+}
+
+/* Brand name - large heading */
+.auth__brand-name {
+  font-family: var(--font-display);
+  font-size: 2rem;          /* Large text */
+  font-weight: 900;         /* Boldest */
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-primary); /* Primary text color */
+  margin-bottom: 0.9rem;    /* Space below */
+}
+
+/* Brand description - paragraph text */
+.auth__brand-desc {
+  font-size: var(--fs-base); /* Base font size */
+  line-height: 1.65;        /* Tall line height */
+  color: rgba(255, 255, 255, 0.65);  /* Dimmed white */
+  margin-bottom: 2rem;      /* Space below */
+  max-width: 320px;         /* Limit width */
+}
+
+/* Highlighted text in description */
+.auth__brand-desc strong {
+  color: var(--color-green); /* Green color */
+  font-weight: 700;         /* Bold */
+}
+
+/* Stats section - numbers with labels */
+.auth__stats {
+  display: flex;            /* Horizontal layout */
+  gap: 2rem;                /* Space between stats */
+  margin-bottom: 2rem;
+}
+
+/* Stat number - large green number */
+.auth__stat-value {
+  display: block;           /* Block element */
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: var(--color-green);
+  line-height: 1;           /* Tight line height */
+}
+
+/* Stat label - small uppercase text */
+.auth__stat-label {
+  display: block;
+  font-size: var(--fs-xs);  /* Extra small */
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.50);  /* Very dim */
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-top: 0.15rem;      /* Space above */
+}
+
+/* Sports icons row */
+.auth__sports-icons {
+  display: flex;
+  gap: 1.2rem;              /* Space between icons */
+  align-items: center;      /* Vertically centered */
+  border-top: 1px solid rgba(255, 255, 255, 0.10);  /* Top border */
+  padding-top: 1.4rem;      /* Space below border */
+}
+
+/* Individual sport icon - circular badge */
+.auth__sport-icon {
+  width: 36px;              /* Square size */
+  height: 36px;
+  border-radius: 50%;       /* Circle */
+  background: rgba(255, 255, 255, 0.07);  /* Very transparent white */
+  border: 1px solid rgba(255, 255, 255, 0.12);  /* Subtle border */
+  display: flex;
+  align-items: center;      /* Center icon */
+  justify-content: center;
+  font-size: 1rem;
+  transition: background var(--transition);  /* Smooth hover */
+}
+
+/* Sport icon hover - green tint */
+.auth__sport-icon:hover {
+  background: var(--color-green-dim);  /* Dim green */
+}
+
+/* Right panel - form area */
+.auth__right {
+  display: flex;
+  flex-direction: column;   /* Vertical layout */
+  justify-content: center;  /* Center vertically */
+  align-items: center;      /* Center horizontally */
+  padding: 3rem 3.5rem;     /* Internal spacing */
+  background: var(--bg-white);  /* White background */
+  min-height: 100vh;        /* Full height */
+  overflow-y: auto;         /* Scroll if needed */
+}
+
+/* Inner container - limits form width */
+.auth__right-inner {
+  width: 100%;
+  max-width: 420px;         /* Maximum width */
+}
+
+/* Tab switcher - login/register tabs */
+.auth__tabs {
+  display: flex;            /* Horizontal tabs */
+  background: #f1f5f1;      /* Light gray bg */
+  border-radius: var(--radius-full);  /* Pill shape */
+  padding: 0.28rem;         /* Inner padding */
+  margin-bottom: 2.4rem;    /* Space below */
+}
+
+/* Individual tab */
+.auth__tab {
+  flex: 1;                  /* Equal width */
+  padding: 0.6rem 1.2rem;   /* Internal spacing */
+  border-radius: var(--radius-full);  /* Rounded */
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: #6b7c6b;          /* Gray text */
+  background: transparent;  /* No background */
+  transition: all var(--transition);  /* Smooth transition */
+  text-align: center;
+}
+
+/* Active tab - white bg, dark text */
+.auth__tab.active {
+  background: var(--bg-white);
+  color: var(--text-dark);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);  /* Subtle shadow */
+}
+
+/* Form heading */
+.auth__heading {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  margin-bottom: 0.35rem;
+}
+
+/* Form subheading */
+.auth__subheading {
+  font-size: var(--fs-base);
+  color: #6b7c6b;          /* Gray text */
+  margin-bottom: 1.8rem;
+  line-height: 1.5;
+}
+
+/* Form group - label + input */
+.form__group {
+  margin-bottom: 1.15rem;  /* Space below group */
+}
+
+/* Two column row */
+.form__row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Two equal columns */
+  gap: 1rem;                /* Space between */
+}
+
+/* Form label */
+.form__label {
+  display: block;           /* Block element */
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-dark2);
+  margin-bottom: 0.70rem;
+}
+
+/* Input wrapper - icon + input side by side */
+.form__input-wrap {
+  display: flex;
+  align-items: center;      /* Vertically centered */
+  gap: 0.7rem;              /* Space between icon and input */
+  position: relative;       /* For absolute positioned elements */
+}
+
+/* Input icon - left side icon */
+.form__input-icon {
+  flex-shrink: 0;           /* Don't shrink */
+  color: var(--text-muted); /* Muted color */
+  display: flex;
+  align-items: center;
+  pointer-events: none;     /* Let clicks pass to input */
+}
+
+/* Input icon SVG */
+.form__input-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;     /* Use text color */
+  fill: none;               /* No fill */
+}
+
+/* Password toggle eye icon */
+.form__input-eye {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  cursor: pointer;          /* Clickable */
+  display: flex;
+  align-items: center;
+  transition: color var(--transition);
+}
+
+/* Eye icon hover */
+.form__input-eye:hover {
+  color: var(--text-dark2);
+}
+
+/* Eye icon SVG */
+.form__input-eye svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+}
+
+/* Form input field */
+.form__input {
+  width: 100%;              /* Full width */
+  background: var(--bg-white);
+  border: 1.5px solid var(--border-light);  /* Light border */
+  border-radius: var(--radius-sm);  /* Small radius */
+  color: var(--text-dark);
+  font-size: var(--fs-base);
+  flex: 1;                  /* Grow to fill space */
+  min-width: 0;             /* Allow shrinking */
+  padding: 0.75rem 1rem;    /* Internal spacing */
+  outline: none;            /* Remove default outline */
+  transition: border-color var(--transition), box-shadow var(--transition);  /* Smooth focus */
+}
+
+/* Input placeholder text */
+.form__input::placeholder {
+  color: var(--text-placeholder);  /* Placeholder color */
+}
+
+/* Input focus state - green border + glow */
+.form__input:focus {
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.12);  /* Green glow */
+}
+
+/* Submit button - full width, green */
+.auth__btn-submit {
+  width: 100%;              /* Full width */
+  background: var(--color-green);  /* Green background */
+  color: #000;              /* Black text */
+  padding: 0.92rem;         /* Internal spacing */
+  border-radius: var(--radius-full);  /* Pill shape */
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 1.4rem;       /* Space above */
+  margin-bottom: 1.4rem;    /* Space below */
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);  /* Smooth hover */
+}
+
+/* Submit button hover - darker green, lift effect */
+.auth__btn-submit:hover {
+  background: var(--color-green-dark);
+  transform: translateY(-1px);   /* Move up slightly */
+  box-shadow: var(--shadow-green);  /* Green shadow */
+}
+
+/* Divider - "or" between sections */
+.auth__divider {
+  display: flex;
+  align-items: center;      /* Center vertically */
+  gap: 0.9rem;              /* Space around text */
+  margin-bottom: 1.2rem;
+}
+
+/* Divider lines - left and right */
+.auth__divider::before,
+.auth__divider::after {
+  content: '';              /* Empty pseudo-element */
+  flex: 1;                  /* Grow to fill space */
+  height: 1px;              /* Thin line */
+  background: #e2eae2;      /* Light gray */
+}
+
+/* Divider text - "or" */
+.auth__divider span {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  white-space: nowrap;      /* Don't wrap */
+}
+
+/* Social login buttons */
+.auth__social-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* Two columns */
+  gap: 0.8rem;              /* Space between */
+}
+
+/* Individual social button */
+.auth__social-btn {
+  display: flex;
+  align-items: center;      /* Center vertically */
+  justify-content: center;  /* Center horizontally */
+  gap: 0.6rem;              /* Space between icon and text */
+  background: var(--bg-white);
+  border: 1.5px solid var(--border-light);  /* Light border */
+  border-radius: var(--radius-sm);
+  padding: 0.7rem;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text-dark2);
+  transition: background var(--transition), border-color var(--transition);  /* Smooth hover */
+}
+
+/* Social button hover */
+.auth__social-btn:hover {
+  background: var(--bg-light);
+  border-color: var(--border-light2);
+}
+
+/* Social button icon */
+.auth__social-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Checkbox group */
+.form__check {
+  display: flex;
+  align-items: flex-start;  /* Align to top */
+  gap: 0.65rem;              /* Space between checkbox and label */
+  margin-bottom: 0.4rem;
+}
+
+/* Checkbox input */
+.form__check input[type="checkbox"] {
+  width: 16px;              /* Square size */
+  height: 16px;
+  accent-color: var(--color-green);  /* Green check */
+  margin-top: 0.15rem;      /* Align with text */
+  flex-shrink: 0;           /* Don't shrink */
+  cursor: pointer;          /* Clickable */
+}
+
+/* Checkbox label */
+.form__check label {
+  font-size: var(--fs-sm);
+  color: #4a5a4a;          /* Dark gray text */
+  line-height: 1.5;        /* Line height */
+  cursor: pointer;          /* Clickable */
+}
+
+/* Link inside label */
+.form__check label a {
+  color: var(--color-green-dark);  /* Green link */
+  font-weight: 600;
+}
+
+/* Link hover */
+.form__check label a:hover {
+  text-decoration: underline;
+}
+
+/* Switch text - "already have account" */
+.auth__switch {
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: #6b7c6b;
+  margin-top: 1.2rem;
+}
+
+/* Switch link */
+.auth__switch a {
+  color: var(--color-green-dark);
+  font-weight: 700;
+}
+
+/* Switch link hover */
+.auth__switch a:hover {
+  text-decoration: underline;
+}
+
+/* Back link section */
+.auth__back {
+  text-align: center;
+  margin-top: 1.4rem;
+}
+
+/* Back link */
+.auth__back a {
+  display: inline-flex;     /* Inline with flex */
+  align-items: center;      /* Center icon + text */
+  gap: 0.3rem;              /* Space between */
+  font-size: var(--fs-sm);
+  color: #4a5a4a;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+/* Back link hover */
+.auth__back a:hover {
+  color: var(--color-green-dark);
+}
+
+/* Error state - red border + glow */
+.input--error {
+  border-color: #e53935 !important;
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.12) !important;
+}
+
+/* OK state - green border + glow */
+.input--ok {
+  border-color: var(--color-green) !important;
+  box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.10) !important;
+}
+
+/* Field hint - error message */
+.form__field-hint {
+  position: absolute;       /* Positioned relative to input wrap */
+  top: -14px;              /* Above input */
+  left: 25px;              /* Offset from left */
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e53935;          /* Red error color */
+  letter-spacing: 0.2px;
+  background: var(--bg-white);  /* White bg to hide content behind */
+  padding: 0 4px;          /* Small padding */
+}
+
+/* Responsive - tablet (1024px) */
+@media (max-width: 1024px) {
+  .auth-page {
+    grid-template-columns: 45% 1fr;  /* Narrower left panel */
+  }
+}
+
+/* Responsive - mobile (768px) */
+@media (max-width: 768px) {
+  .auth-page {
+    grid-template-columns: 1fr;  /* Single column */
+  }
+
+  .auth__left {
+    min-height: 300px;      /* Shorter left panel */
+    padding: 2rem;
+  }
+
+  .auth__right {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* Responsive - small mobile (480px) */
+@media (max-width: 480px) {
+  .auth__right {
+    padding: 1.5rem 1rem;
+  }
+
+  .form__row-2 {
+    grid-template-columns: 1fr;  /* Stack columns */
+  }
+
+  .auth__social-btns {
+    grid-template-columns: 1fr;  /* Stack buttons */
+  }
+}

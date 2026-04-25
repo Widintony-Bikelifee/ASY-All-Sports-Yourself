@@ -17,8 +17,126 @@
   </head>
 
   <body>
-    <!-- NAVBAR -->
-    <div id="navbar"></div>
+    <!-- 
+         NAVBAR GUEST —  -->
+    <div id="navbar-guest" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <!-- LOGO -->
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <!-- LINKS -->
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
+          <li><a class="navbar__link active" href="./venues.html">Espacios Deportivos</a></li>
+          <li><a class="navbar__link" href="#">Reservas</a></li>
+        </ul>
+
+        <!-- Actions -->
+        <div class="navbar__actions">
+          <a href="./login.html" class="navbar__btn-login">Iniciar Sesión</a>
+          <a href="./register.html" class="navbar__btn-register">Registrarse</a>
+          <button class="navbar__hamburger" id="guest-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <!-- MENÚ MÓVIL -->
+        <div class="navbar__mobile-menu" id="guest-mobile-menu">
+          <a href="../index.html" class="navbar__link">Inicio</a>
+          <a href="./venues.html" class="navbar__link">Espacios</a>
+          <a href="./login.html" class="navbar__link">Iniciar Sesión</a>
+          <a href="./register.html" class="navbar__link">Registrarse</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- 
+         NAVBAR USER — ═ -->
+    <div id="navbar-user" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <!-- LOGO -->
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <!-- LINKS -->
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
+          <li><a class="navbar__link active" href="./venues.html">Espacios Deportivos</a></li>
+          <li><a class="navbar__link" href="#">Reservas</a></li>
+          <li><a class="navbar__link" href="#">Mi Perfil</a></li>
+        </ul>
+
+        <!-- Accions user profile-->
+        <div class="navbar__actions">
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="user-trigger">
+              <span class="navbar__avatar" id="user-avatar">U</span>
+              <span class="navbar__username" id="user-name">Usuario</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14"
+                   fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="user-dropdown">
+              <a href="./profile.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+                Mi Perfil
+              </a>
+              <a href="./reservas.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Mis Reservas
+              </a>
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+
+          <button class="navbar__hamburger" id="user-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <!--User-Menu-movil -->
+        <div class="navbar__mobile-menu" id="user-mobile-menu">
+          <a href="../index.html" class="navbar__link">Inicio</a>
+          <a href="./venues.html" class="navbar__link">Espacios</a>
+          <a href="./profile.html" class="navbar__link">Mi Perfil</a>
+          <a href="./reservas.html" class="navbar__link">Mis Reservas</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile">
+            Cerrar Sesión
+          </button>
+        </div>
+      </nav>
+    </div>
+
 
     <!-- main -->
     <section class="page-venues" aria-label="Catálogo de escenarios deportivos">
@@ -95,13 +213,16 @@
     <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
-    <!-- JAVASCRIPT -->
-    <script type="module">
-      import { loadNavbar } from "../assets/js/navbar.js";
-      loadNavbar();
-    </script>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="../assets/js/services/supabaseClient.js"></script>
 
+    <!-- JAVASCRIPT -->
     <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/services/venuesService.js"></script>
     <script src="../assets/js/venues.js"></script>
+
+    <!-- Navbar con doble estado (guest / usuario) -->
+    <script src="../assets/js/navbar.js"></script>
   </body>
 </html>
