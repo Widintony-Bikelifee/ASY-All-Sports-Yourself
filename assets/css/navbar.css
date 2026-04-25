@@ -1,17 +1,17 @@
 /* Navbar container - fixed at top, full width, glass effect */
 .navbar {
-  position: fixed;           /* Stays visible on scroll */
-  top: 0;                    /* Anchored to top */
+  position: fixed; /* Stays visible on scroll */
+  top: 0; /* Anchored to top */
   left: 0;
   right: 0;
-  z-index: 500;              /* Above most content */
-  height: var(--nav-h);      /* Variable height */
-  display: flex;             /* Horizontal layout */
-  align-items: center;       /* Vertically centered */
+  z-index: 500; /* Above most content */
+  height: var(--nav-h); /* Variable height */
+  display: flex; /* Horizontal layout */
+  align-items: center; /* Vertically centered */
   justify-content: space-between; /* Spread items */
-  padding: 0 2.5rem;         /* Side padding */
+  padding: 0 2.5rem; /* Side padding */
   background: rgba(10, 14, 10, 0.8); /* Semi-transparent dark */
-  backdrop-filter: blur(14px);       /* Frosted glass effect */
+  backdrop-filter: blur(14px); /* Frosted glass effect */
   -webkit-backdrop-filter: blur(14px); /* Safari support */
   border-bottom: 1px solid var(--border-dark); /* Bottom border */
   transition: background var(--transition); /* Smooth bg change */
@@ -19,46 +19,46 @@
 
 /* Logo / brand - left side of navbar */
 .navbar__brand {
-  display: flex;             /* Icon + text side by side */
-  align-items: center;       /* Vertically aligned */
-  gap: 0.65rem;              /* Space between icon and text */
-  text-decoration: none;     /* Remove link underline */
+  display: flex; /* Icon + text side by side */
+  align-items: center; /* Vertically aligned */
+  gap: 0.65rem; /* Space between icon and text */
+  text-decoration: none; /* Remove link underline */
 }
 
 /* Logo image - 95x95px, maintains aspect ratio */
 .navbar__logo-icon img {
   width: 95px;
   height: 95px;
-  object-fit: contain;       /* Don't distort image */
+  object-fit: contain; /* Don't distort image */
 }
 
 /* Brand text - uppercase, bold, display font */
 .navbar__brand-text {
   font-family: var(--font-display); /* Special heading font */
   font-size: 1rem;
-  font-weight: 800;          /* Extra bold */
-  letter-spacing: 1.5px;     /* Wide letter spacing */
+  font-weight: 800; /* Extra bold */
+  letter-spacing: 1.5px; /* Wide letter spacing */
   text-transform: uppercase; /* ALL CAPS */
   color: var(--text-primary); /* Primary text color */
 }
 
 /* Navigation links container - center of navbar */
 .navbar__links {
-  display: flex;             /* Horizontal list */
-  align-items: center;       /* Vertically centered */
-  gap: 2.2rem;               /* Space between links */
+  display: flex; /* Horizontal list */
+  align-items: center; /* Vertically centered */
+  gap: 2.2rem; /* Space between links */
 }
 
 /* Individual nav link - secondary color, relative for ::after */
 .navbar__link {
-  font-size: var(--fs-sm);   /* Small font size */
-  font-weight: 600;          /* Semi-bold */
+  font-size: var(--fs-sm); /* Small font size */
+  font-weight: 600; /* Semi-bold */
   color: var(--text-secondary); /* Secondary text color */
-  text-decoration: none;     /* No underline */
-  letter-spacing: 0.3px;     /* Slight letter spacing */
+  text-decoration: none; /* No underline */
+  letter-spacing: 0.3px; /* Slight letter spacing */
   transition: color var(--transition); /* Smooth color change */
-  position: relative;        /* For ::after positioning */
-  padding-bottom: 2px;       /* Space for underline */
+  position: relative; /* For ::after positioning */
+  padding-bottom: 2px; /* Space for underline */
 }
 
 /* Link hover - brighter color */
@@ -73,29 +73,29 @@
 
 /* Active link underline - green line below text */
 .navbar__link.active::after {
-  content: "";               /* Empty pseudo-element */
-  position: absolute;        /* Positioned relative to link */
-  bottom: -4px;              /* Below the text */
+  content: ""; /* Empty pseudo-element */
+  position: absolute; /* Positioned relative to link */
+  bottom: -4px; /* Below the text */
   left: 0;
   right: 0;
-  height: 2px;               /* Line thickness */
+  height: 2px; /* Line thickness */
   background: var(--color-green); /* Green line */
-  border-radius: 2px;        /* Rounded ends */
+  border-radius: 2px; /* Rounded ends */
 }
 
 /* Action buttons container - right side of navbar */
 .navbar__actions {
-  display: flex;             /* Horizontal buttons */
-  align-items: center;       /* Vertically centered */
-  gap: 0.8rem;               /* Space between buttons */
+  display: flex; /* Horizontal buttons */
+  align-items: center; /* Vertically centered */
+  gap: 0.8rem; /* Space between buttons */
 }
 
 /* Login button - outline style, transparent background */
 .navbar__btn-login {
-  background: transparent;   /* No background */
+  background: transparent; /* No background */
   border: 1.5px solid var(--border-dark2); /* Subtle border */
   color: var(--text-primary); /* Text color */
-  padding: 0.45rem 1.2rem;   /* Internal spacing */
+  padding: 0.45rem 1.2rem; /* Internal spacing */
   border-radius: var(--radius-full); /* Pill shape */
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -113,26 +113,26 @@
 /* Register button - solid green, prominent */
 .navbar__btn-register {
   background: var(--color-green); /* Green background */
-  color: #000;                    /* Black text */
+  color: #000; /* Black text */
   padding: 0.48rem 1.3rem;
   border-radius: var(--radius-full);
   font-size: var(--fs-sm);
-  font-weight: 700;               /* Bold */
+  font-weight: 700; /* Bold */
   transition:
     background var(--transition),
-    transform var(--transition);  /* Background + lift effect */
+    transform var(--transition); /* Background + lift effect */
 }
 
 /* Register hover - darker green, slight lift */
 .navbar__btn-register:hover {
   background: var(--color-green-dark);
-  transform: translateY(-1px);   /* Move up slightly */
+  transform: translateY(-1px); /* Move up slightly */
 }
 
 /* Admin button - text only, subtle */
 .navbar__btn-admin {
   background: transparent;
-  color: var(--text-muted);      /* Muted/dim color */
+  color: var(--text-muted); /* Muted/dim color */
   font-size: var(--fs-sm);
   font-weight: 600;
   transition: color var(--transition);
@@ -146,22 +146,22 @@
 
 /* Hamburger menu - hidden on desktop, shown on mobile */
 .navbar__hamburger {
-  display: none;           /* Hidden by default */
-  flex-direction: column;  /* Stacked lines */
-  gap: 5px;                /* Space between lines */
+  display: none; /* Hidden by default */
+  flex-direction: column; /* Stacked lines */
+  gap: 5px; /* Space between lines */
   padding: 4px;
   background: none;
   border: none;
-  cursor: pointer;         /* Clickable */
+  cursor: pointer; /* Clickable */
 }
 
 /* Hamburger lines - 3 horizontal bars */
 .navbar__hamburger span {
   display: block;
-  width: 24px;             /* Line width */
-  height: 2px;             /* Line height */
+  width: 24px; /* Line width */
+  height: 2px; /* Line height */
   background: var(--text-primary);
-  border-radius: 2px;      /* Rounded corners */
+  border-radius: 2px; /* Rounded corners */
   transition:
     transform var(--transition),
     opacity var(--transition); /* Animation support */
@@ -169,17 +169,17 @@
 
 /* Mobile menu - hidden by default, slides down on mobile */
 .navbar__mobile-menu {
-  display: none;           /* Hidden on desktop */
-  position: fixed;         /* Fixed position */
-  top: var(--nav-h);       /* Below navbar */
+  display: none; /* Hidden on desktop */
+  position: fixed; /* Fixed position */
+  top: var(--nav-h); /* Below navbar */
   left: 0;
   right: 0;
   background: var(--bg-dark2); /* Dark background */
   border-bottom: 1px solid var(--border-dark);
   padding: 1.2rem 2rem;
-  flex-direction: column;  /* Vertical links */
+  flex-direction: column; /* Vertical links */
   gap: 1rem;
-  z-index: 499;            /* Below navbar */
+  z-index: 499; /* Below navbar */
 }
 
 /* Mobile menu open state - shown when toggled */
@@ -197,28 +197,28 @@
 /* Responsive - tablet breakpoint (900px) */
 @media (max-width: 900px) {
   .navbar__links {
-    display: none;         /* Hide desktop links */
+    display: none; /* Hide desktop links */
   }
 
   .navbar__hamburger {
-    display: flex;         /* Show hamburger */
+    display: flex; /* Show hamburger */
   }
 }
 
 /* Responsive - mobile breakpoint (640px) */
 @media (max-width: 640px) {
   .navbar {
-    padding: 0 1.2rem;     /* Reduced side padding */
+    padding: 0 1.2rem; /* Reduced side padding */
   }
 
   .navbar__actions .navbar__btn-login {
-    display: none;         /* Hide login button */
+    display: none; /* Hide login button */
   }
 }
 
 /* User menu - dropdown container for logged-in users */
 .navbar__user-menu {
-  position: relative;      /* For dropdown positioning */
+  position: relative; /* For dropdown positioning */
 }
 
 /* User trigger button - avatar + name + chevron */
@@ -228,12 +228,14 @@
   gap: 8px;
   background: none;
   border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
-  border-radius: 999px;    /* Pill shape */
+  border-radius: 999px; /* Pill shape */
   padding: 6px 12px 6px 6px;
   cursor: pointer;
   color: inherit;
   font-size: 0.875rem;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 /* User trigger hover/active - lighter background */
@@ -247,28 +249,28 @@
 .navbar__avatar {
   width: 28px;
   height: 28px;
-  border-radius: 50%;      /* Circle */
-  background: #4f9cf9;     /* Blue background */
-  color: #fff;             /* White text */
+  border-radius: 50%; /* Circle */
+  background: #4f9cf9; /* Blue background */
+  color: #fff; /* White text */
   font-weight: 700;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;          /* Don't shrink */
+  flex-shrink: 0; /* Don't shrink */
 }
 
 /* Username - truncated if too long */
 .navbar__username {
-  max-width: 120px;        /* Max width */
-  overflow: hidden;        /* Hide overflow */
+  max-width: 120px; /* Max width */
+  overflow: hidden; /* Hide overflow */
   text-overflow: ellipsis; /* Show "..." */
-  white-space: nowrap;     /* Single line */
+  white-space: nowrap; /* Single line */
 }
 
 /* Chevron icon - rotates when menu open */
 .navbar__chevron {
-  opacity: 0.6;            /* Semi-transparent */
+  opacity: 0.6; /* Semi-transparent */
   transition: transform 0.2s;
 }
 
@@ -279,17 +281,17 @@
 
 /* Dropdown menu - white, appears below user trigger */
 .navbar__dropdown {
-  display: none;           /* Hidden by default */
-  position: absolute;      /* Positioned relative to parent */
-  top: calc(100% + 10px);  /* Below trigger + gap */
+  display: none; /* Hidden by default */
+  position: absolute; /* Positioned relative to parent */
+  top: calc(100% + 10px); /* Below trigger + gap */
   right: 0;
-  min-width: 190px;        /* Minimum width */
-  background: #fff;        /* White background */
+  min-width: 190px; /* Minimum width */
+  background: #fff; /* White background */
   border: 1px solid #e5e7eb;
-  border-radius: 10px;     /* Rounded corners */
+  border-radius: 10px; /* Rounded corners */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); /* Drop shadow */
   padding: 6px;
-  z-index: 1000;           /* Above everything */
+  z-index: 1000; /* Above everything */
 }
 
 /* Dropdown open state - shown when triggered */
@@ -306,7 +308,7 @@
   padding: 9px 12px;
   border-radius: 7px;
   font-size: 0.875rem;
-  color: #374151;          /* Dark gray text */
+  color: #374151; /* Dark gray text */
   text-decoration: none;
   background: none;
   border: none;
@@ -329,7 +331,7 @@
 
 /* Logout item - red text for danger action */
 .navbar__dropdown-logout {
-  color: #dc2626;          /* Red color */
+  color: #dc2626; /* Red color */
 }
 
 /* Logout hover - light red background */

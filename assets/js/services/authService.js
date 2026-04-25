@@ -1,12 +1,12 @@
 
-/* ═══════════════════════════════════════
+/* 
    authService.js - Authentication service
    Handles login, registration, and user profile operations with Supabase
-   ═══════════════════════════════════════ */
+    */
 
-/* ═══════════════════════════════════════
+/* 
    LOGIN - Authenticate user with email/password
-   ═══════════════════════════════════════
+ 
    @param {string} email    - User's email address
    @param {string} password - User's password
    @returns {object}        - User data (nombre, apellido)
@@ -38,9 +38,8 @@ async function loginUser(email, password) {
   return usuario;
 }
 
-/* ═══════════════════════════════════════
+/* 
    REGISTER - Create new user account
-   ═══════════════════════════════════════
    @param {string} email    - User's email address
    @param {string} password - User's chosen password
    @param {string} nombre   - User's first name
@@ -66,9 +65,9 @@ async function registerUserAuth(email, password, nombre, apellido) {
   return data.user;
 }
 
-/* ═══════════════════════════════════════
+/* 
    INSERT PROFILE - Create user profile in database
-   ═══════════════════════════════════════
+   
    @param {string} userId - The authenticated user's ID
    @param {object} data   - Profile data { name, lastname, phone, email }
    @returns {void}

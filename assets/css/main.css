@@ -1,11 +1,11 @@
 /* Google Fonts import - Barlow Condensed for headings, Barlow for body text */
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap");
 
-/* ═══════════════════════════════════════
+/* 
    GLOBAL CSS VARIABLES - Design tokens
    All colors, spacing, typography, and
    reusable values defined here for consistency.
-   ═══════════════════════════════════════ */
+ */
 :root {
   /* ── Primary Colors ───────────────────────────────────────────────── */
   --color-green: #2ecc50;       /* Main green - buttons, highlights */
@@ -83,9 +83,9 @@
   --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth easing */
 }
 
-/* ═══════════════════════════════════════
+/* 
    CSS RESET - Normalize browser defaults
-   ═══════════════════════════════════════ */
+    */
 *,
 *::before,
 *::after {

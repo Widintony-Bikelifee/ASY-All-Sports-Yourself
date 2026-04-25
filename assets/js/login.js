@@ -1,12 +1,12 @@
-/* ═══════════════════════════════════════
+/* 
    login.js - Login page functionality
    Handles form validation, password visibility toggle,
    and user authentication via Supabase.
-   ═══════════════════════════════════════ */
+    */
 
-/* ═══════════════════════════════════════
+/* 
    TOGGLE PASSWORD - Show/hide password field
-   ═══════════════════════════════════════
+   
    @param {string} inputId - ID of the password input element
    @param {HTMLElement} eyeEl - Eye icon element to update
    @returns {void}
@@ -39,9 +39,9 @@ function togglePassword(inputId, eyeEl) {
   }
 }
 
-/* ═══════════════════════════════════════
+/* 
    VALIDATION HELPERS - Email and password validation
-   ═══════════════════════════════════════ */
+    */
 
 /* Validates email format using regex pattern
    @param {string} email - Email address to validate
@@ -99,9 +99,9 @@ function setFieldOk(fieldId) {
   if (hint) hint.style.display = 'none';
 }
 
-/* ═══════════════════════════════════════
+/* 
    Login Module - Main login form logic
-   ═══════════════════════════════════════
+   
    Uses IIFE pattern to encapsulate login functionality
    */
 const Login = (() => {
@@ -225,9 +225,9 @@ const Login = (() => {
   return { handleSubmit, init };
 })();
 
-/* ═══════════════════════════════════════
+/* 
    INITIALIZATION - Set up login on page load
-   ═══════════════════════════════════════
+  
    @description - Initializes Login module when DOM is ready
    */
 document.addEventListener('DOMContentLoaded', () => {

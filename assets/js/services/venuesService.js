@@ -8,9 +8,9 @@
 
 const VenuesService = (() => {
 
-  /* ═══════════════════════════════════════
+  /* 
      GET SCENARIOS - Fetch all venues/sports facilities
-     ═══════════════════════════════════════
+     
      @returns {object} - { data: Array, error: object|null }
      @description - Returns all scenarios ordered by ID
      */
@@ -25,9 +25,9 @@ const VenuesService = (() => {
     return { data: data ?? [], error };
   }
 
-  /* ═══════════════════════════════════════
+  /* 
      GET CURRENT USER - Get authenticated user
-     ═══════════════════════════════════════
+     
      @returns {object|null} - User object or null if not logged in
      @description - Returns the currently authenticated user or null
      */
@@ -38,9 +38,9 @@ const VenuesService = (() => {
     return data?.session?.user ?? null;
   }
 
-  /* ═══════════════════════════════════════
+  /* 
      INSERT RESERVATION - Create new booking
-     ═══════════════════════════════════════
+     
      @param {object} reserva - { escenario_id, fecha, hora_inicio, hora_fin }
      @returns {object} - { error: object|null }
      @description - Inserts a new reservation for the current user
@@ -70,9 +70,9 @@ const VenuesService = (() => {
     return { error };
   }
 
-  /* ═══════════════════════════════════════
+  /* 
      GET MY RESERVATIONS - Fetch user's bookings
-     ═══════════════════════════════════════
+    
      @returns {object} - { data: Array, error: object|null }
      @description - Returns all reservations for logged-in user with venue info
      */
