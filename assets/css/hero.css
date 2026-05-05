@@ -10,10 +10,10 @@
   display: flex; /* Flexbox for centering */
   align-items: center; /* Vertically centered */
   overflow: hidden; /* Hide overflow content */
-  background-color: #0d1208; /* Dark green-black background */
+  background-color: var(--bg-light); /* Light background */
 }
 
-/* Background overlay - dark gradient for text readability */
+/* Background overlay - light gradient for text readability */
 .hero__bg {
   position: absolute; /* Covers entire hero */
   inset: 0; /* top/right/bottom/left: 0 */
@@ -21,18 +21,18 @@
   background:
     linear-gradient(
       105deg,
-      rgba(0, 0, 0, 0.9) 0%,    /* Dark left side */
-      rgba(0, 0, 0, 0.7) 42%,   /* Slightly lighter center */
-      rgba(0, 0, 0, 0.25) 70%,  /* Transparent right */
-      rgba(0, 0, 0, 0.15) 100%  /* Very transparent far right */
+      rgba(255, 255, 255, 0.95) 0%,    /* Light left side */
+      rgba(255, 255, 255, 0.8) 42%,   /* Slightly lighter center */
+      rgba(255, 255, 255, 0.35) 70%,  /* Transparent right */
+      rgba(255, 255, 255, 0.15) 100%  /* Very transparent far right */
     ),
     linear-gradient(
       180deg, /* Vertical gradient */
-      rgba(40, 20, 5, 0.55) 0%, /* Brown tint top */
-      rgba(60, 30, 5, 0.3) 45%,  /* Lighter brown middle */
-      rgba(0, 0, 0, 0.65) 100%  /* Dark bottom */
+      rgba(255, 255, 255, 0.55) 0%, /* White tint top */
+      rgba(255, 255, 255, 0.3) 45%,  /* Lighter white middle */
+      rgba(240, 245, 240, 0.75) 100%  /* Light bottom */
     );
-  background-color: #13180d; /* Fallback color */
+  background-color: var(--bg-light); /* Fallback color */
 }
 
 /* Stadium background image container */
@@ -129,7 +129,7 @@
 .hero__desc {
   font-size: var(--fs-md); /* Medium font size */
   line-height: 1.68; /* Relaxed line height */
-  color: rgba(255, 255, 255, 0.72); /* Semi-transparent white */
+  color: var(--text-secondary); /* Dark text for contrast */
   max-width: 460px; /* Limit width for readability */
   margin-bottom: 2.2rem; /* Space below */
   animation: fadeUp 0.6s 0.25s both; /* Entrance animation */
@@ -176,22 +176,21 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: var(--bg-white);
+  border: 1px solid var(--border-dark2);
   color: var(--text-primary);
   padding: 0.88rem 1.8rem;
   border-radius: var(--radius-full);
   font-weight: 600;
   font-size: var(--fs-base);
-  backdrop-filter: blur(6px);
   transition:
     background var(--transition),
     border-color var(--transition);
 }
 
 .hero__btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.17);
-  border-color: rgba(255, 255, 255, 0.45);
+  background: var(--bg-light);
+  border-color: var(--border-dark);
 }
 
 .hero__btn-secondary svg {
@@ -204,7 +203,7 @@
   display: flex;
   gap: 2.5rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-dark);
   animation: fadeUp 0.6s 0.45s both;
 }
 
@@ -223,8 +222,8 @@
 .hero__stat-label {
   display: block;
   font-size: var(--fs-xs);
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.8px;
   margin-top: 0.2rem;
@@ -240,7 +239,7 @@
   font-size: var(--fs-xs);
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.38);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -252,7 +251,7 @@
   height: 46px;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.38),
+    var(--text-muted),
     transparent
   );
 }
@@ -272,7 +271,7 @@
   width: 28px;
   height: 4px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.28);
+  background: var(--border-dark2);
   transition: background 0.3s;
 }
 

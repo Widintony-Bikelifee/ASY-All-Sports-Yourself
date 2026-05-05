@@ -19,14 +19,27 @@
   const session  = data?.session ?? null;
 
   /* Step 2: Show the appropriate navbar based on session
-     @description - Unhides guest or user navbar and sets up event handlers */
+     @description - Unhides guest, user, or admin navbar and sets up event handlers */
   const guestNav = document.getElementById("navbar-guest");
   const userNav  = document.getElementById("navbar-user");
+  const adminNav = document.getElementById("navbar-admin");
 
   if (session) {
-    // User is logged in - show user navbar
-    userNav?.classList.remove("navbar-wrapper--hidden");
-    setupUserNavbar(session.user);
+    // Get user role
+    let role = 'user';
+    if (window.getUserRole) {
+      role = await window.getUserRole();
+    }
+
+    if (role === 'admin_cancha' && adminNav) {
+      // Admin is logged in - show admin navbar
+      adminNav.classList.remove("navbar-wrapper--hidden");
+      setupUserNavbar(session.user, "admin-");
+    } else {
+      // User is logged in - show user navbar
+      userNav?.classList.remove("navbar-wrapper--hidden");
+      setupUserNavbar(session.user, "user-");
+    }
   } else {
     // User is not logged in - show guest navbar
     guestNav?.classList.remove("navbar-wrapper--hidden");
@@ -69,7 +82,7 @@ function setupGuestNavbar() {
    @returns {void}
    @description - Sets up user display, mobile menu, and profile dropdown
    */
-function setupUserNavbar(user) {
+function setupUserNavbar(user, prefix = "user-") {
 
   /* ── Display Name ─────────────────────────────────────────────────────
      @description - Get user's name from metadata or fall back to email prefix
@@ -83,8 +96,8 @@ function setupUserNavbar(user) {
   /* ── Avatar and Name Display ─────────────────────────────────────────
      @description - Populate user avatar (first letter) and name in navbar
      */
-  const avatarEl = document.getElementById("user-avatar");
-  const nameEl   = document.getElementById("user-name");
+  const avatarEl = document.getElementById(`${prefix}avatar`);
+  const nameEl   = document.getElementById(`${prefix}name`);
 
   if (avatarEl) avatarEl.textContent = displayName.charAt(0).toUpperCase();
   if (nameEl)   nameEl.textContent   = displayName;
@@ -92,8 +105,8 @@ function setupUserNavbar(user) {
   /* ── Mobile Hamburger Menu ───────────────────────────────────────────
      @description - Same toggle behavior as guest navbar
      */
-  const hamburger  = document.getElementById("user-hamburger");
-  const mobileMenu = document.getElementById("user-mobile-menu");
+  const hamburger  = document.getElementById(`${prefix}hamburger`);
+  const mobileMenu = document.getElementById(`${prefix}mobile-menu`);
 
   if (hamburger && mobileMenu) {
     hamburger.addEventListener("click", () =>
@@ -109,8 +122,8 @@ function setupUserNavbar(user) {
   /* ── Profile Dropdown ─────────────────────────────────────────────────
      @description - Toggle dropdown menu on profile trigger click
      */
-  const trigger  = document.getElementById("user-trigger");
-  const dropdown = document.getElementById("user-dropdown");
+  const trigger  = document.getElementById(`${prefix}trigger`);
+  const dropdown = document.getElementById(`${prefix}dropdown`);
 
   if (trigger && dropdown) {
     trigger.addEventListener("click", (e) => {
@@ -128,8 +141,11 @@ function setupUserNavbar(user) {
   /* ── Logout Buttons ───────────────────────────────────────────────────
      @description - Attach click handlers to both desktop and mobile logout buttons
      */
-  document.getElementById("btn-logout")?.addEventListener("click", logout);
-  document.getElementById("btn-logout-mobile")?.addEventListener("click", logout);
+  const desktopLogout = document.getElementById(prefix === "admin-" ? "btn-logout-admin" : "btn-logout");
+  const mobileLogout  = document.getElementById(prefix === "admin-" ? "btn-logout-mobile-admin" : "btn-logout-mobile");
+  
+  desktopLogout?.addEventListener("click", logout);
+  mobileLogout?.addEventListener("click", logout);
 }
 
 /* ═══════════════════════════════════════

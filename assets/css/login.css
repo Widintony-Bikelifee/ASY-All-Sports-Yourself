@@ -14,7 +14,7 @@
 .auth__left {
   position: relative;       /* For absolute children */
   overflow: hidden;         /* Hide overflow content */
-  background: #060e06;      /* Very dark green */
+  background: var(--bg-light);      /* Light green-gray */
   display: flex;            /* Vertical layout */
   flex-direction: column;   /* Stack items vertically */
   justify-content: flex-end; /* Content at bottom */
@@ -27,10 +27,9 @@
   position: absolute;       /* Covers entire parent */
   inset: 0;                 /* top/right/bottom/left: 0 */
   background:
-    linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(0,40,10,0.30) 40%, rgba(0,60,10,0.50) 100%),  /* Diagonal dark gradient */
-    radial-gradient(ellipse 80% 60% at 60% 45%, rgba(80,200,60,0.12) 0%, transparent 70%),  /* Green glow */
-    radial-gradient(ellipse 60% 80% at 30% 60%, rgba(200,160,0,0.08) 0%, transparent 60%);  /* Gold glow */
-  background-color: #071007;  /* Fallback color */
+    linear-gradient(160deg, rgba(255,255,255,0.7) 0%, rgba(240,250,240,0.85) 40%, rgba(255,255,255,0.9) 100%),  /* Diagonal light gradient */
+    radial-gradient(ellipse 80% 60% at 60% 45%, rgba(80,200,60,0.12) 0%, transparent 70%);  /* Green glow */
+  background-color: var(--bg-light);  /* Fallback color */
 }
 
 /* Players background image */
@@ -40,8 +39,8 @@
   z-index: 1;               /* Above bg, below content */
   overflow: hidden;
   background-image: linear-gradient(
-      rgba(0,0,0,0.5),      /* Dark overlay */
-      rgba(0,0,0,0.5)
+      rgba(255,255,255,0.5),      /* Light overlay */
+      rgba(255,255,255,0.8)
     ),
     url("../img/fondo.jpg");  /* Background image */
   background-size: cover;      /* Fill container */
@@ -95,14 +94,14 @@
   fill: var(--color-green); /* Green fill color */
 }
 
-/* Logo text - white, uppercase */
+/* Logo text - dark, uppercase */
 .auth__logo-text {
   font-family: var(--font-display);  /* Display font */
   font-size: 1rem;
   font-weight: 800;         /* Extra bold */
   letter-spacing: 1.5px;    /* Wide spacing */
   text-transform: uppercase;  /* ALL CAPS */
-  color: rgba(255, 255, 255, 0.90);  /* White with slight transparency */
+  color: var(--text-primary);  /* Dark text */
 }
 
 /* Brand name - large heading */
@@ -120,7 +119,7 @@
 .auth__brand-desc {
   font-size: var(--fs-base); /* Base font size */
   line-height: 1.65;        /* Tall line height */
-  color: rgba(255, 255, 255, 0.65);  /* Dimmed white */
+  color: var(--text-secondary);  /* Dimmed text */
   margin-bottom: 2rem;      /* Space below */
   max-width: 320px;         /* Limit width */
 }
@@ -152,8 +151,8 @@
 .auth__stat-label {
   display: block;
   font-size: var(--fs-xs);  /* Extra small */
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.50);  /* Very dim */
+  font-weight: 600;
+  color: var(--text-muted);  /* Very dim */
   text-transform: uppercase;
   letter-spacing: 0.7px;
   margin-top: 0.15rem;      /* Space above */
@@ -164,7 +163,7 @@
   display: flex;
   gap: 1.2rem;              /* Space between icons */
   align-items: center;      /* Vertically centered */
-  border-top: 1px solid rgba(255, 255, 255, 0.10);  /* Top border */
+  border-top: 1px solid var(--border-dark);  /* Top border */
   padding-top: 1.4rem;      /* Space below border */
 }
 
@@ -173,8 +172,9 @@
   width: 36px;              /* Square size */
   height: 36px;
   border-radius: 50%;       /* Circle */
-  background: rgba(255, 255, 255, 0.07);  /* Very transparent white */
-  border: 1px solid rgba(255, 255, 255, 0.12);  /* Subtle border */
+  background: var(--bg-white);  /* Very transparent white */
+  border: 1px solid var(--border-dark2);  /* Subtle border */
+  color: var(--text-dark);
   display: flex;
   align-items: center;      /* Center icon */
   justify-content: center;

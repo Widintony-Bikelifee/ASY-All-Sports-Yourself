@@ -180,10 +180,16 @@ const Login = (() => {
       // Call authentication service
       const usuario = await loginUser(email, password);
 
-      // Show welcome message and redirect to venues page
+      // Show welcome message and redirect based on role
+      const rol = usuario.rol || 'user';
       App.showToast('Bienvenido, ' + usuario.nombre + '!');
+      
       setTimeout(() => {
-        window.location.href = '../pages/venues.html';
+        if (rol === 'admin_cancha') {
+          window.location.href = '../pages/admin-dashboard.html';
+        } else {
+          window.location.href = '../pages/user-dashboard.html';
+        }
       }, 1500);
 
     } catch (err) {
