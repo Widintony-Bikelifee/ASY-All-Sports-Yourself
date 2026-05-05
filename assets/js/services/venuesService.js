@@ -103,12 +103,84 @@ const VenuesService = (() => {
     return { data: data ?? [], error };
   }
 
+  /* 
+     GET MIS ESCENARIOS - Fetch venues owned by the current admin
+     
+     @returns {object} - { data: Array, error: object|null }
+     @description - Returns only scenarios where propietario_id matches current user
+     */
+  async function getMisEscenarios() {
+    const usuario = await getUsuarioActual();
+    if (!usuario) {
+      return { data: [], error: { message: "No hay sesión activa." } };
+    }
+
+    const { data, error } = await supabaseClient
+      .from("escenarios")
+      .select("*")
+      .eq("propietario_id", usuario.id)
+      .order("id");
+
+    return { data: data ?? [], error };
+  }
+
+  /* 
+     INSERT ESCENARIO - Create a new venue
+     @param {object} escenario - Venue details
+     @returns {object} - { data, error }
+     */
+  async function insertEscenario(escenario) {
+    const usuario = await getUsuarioActual();
+    if (!usuario) return { data: null, error: { message: "No hay sesión activa." } };
+
+    // Attach the current user's ID as the owner of this venue
+    const payload = { ...escenario, propietario_id: usuario.id };
+
+    const { data, error } = await supabaseClient
+      .from("escenarios")
+      .insert([payload])
+      .select();
+    return { data, error };
+  }
+
+  /* 
+     UPDATE ESCENARIO - Update an existing venue
+     @param {number|string} id - Venue ID
+     @param {object} updates - Venue fields to update
+     @returns {object} - { data, error }
+     */
+  async function updateEscenario(id, updates) {
+    const { data, error } = await supabaseClient
+      .from("escenarios")
+      .update(updates)
+      .eq("id", id)
+      .select();
+    return { data, error };
+  }
+
+  /* 
+     DELETE ESCENARIO - Delete a venue
+     @param {number|string} id - Venue ID
+     @returns {object} - { error }
+     */
+  async function deleteEscenario(id) {
+    const { error } = await supabaseClient
+      .from("escenarios")
+      .delete()
+      .eq("id", id);
+    return { error };
+  }
+
   // Public API - expose these functions externally
   return {
     getEscenarios,      // Get all venues
+    getMisEscenarios,   // Get current admin's venues
     getUsuarioActual,   // Get current user
     insertReserva,      // Create reservation
     getMisReservas,     // Get user's reservations
+    insertEscenario,    // Create venue
+    updateEscenario,    // Update venue
+    deleteEscenario,    // Delete venue
   };
 
 })();

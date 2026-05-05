@@ -56,6 +56,7 @@ const App = (() => {
       login: "login.html",
       register: "register.html",
       venues: "venues.html",
+      admin: "admin-dashboard.html",
     };
 
     // Check if we're in the root directory (not /pages/)
@@ -67,6 +68,7 @@ const App = (() => {
       login: "pages/login.html",
       register: "pages/register.html",
       venues: "pages/venues.html",
+      admin: "pages/admin-dashboard.html",
     };
 
     // Choose correct route based on current location
