@@ -117,6 +117,7 @@ const Register = (() => {
       password: document.getElementById('reg-password')?.value || '',
       password2: document.getElementById('reg-password2')?.value || '',
       terms: document.getElementById('reg-terms')?.checked || false,
+      rol: document.querySelector('input[name="rol"]:checked')?.value || 'user',
     };
   }
 

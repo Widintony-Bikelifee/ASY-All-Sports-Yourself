@@ -2,6 +2,7 @@
 /* 
    authService.js - Authentication service
    Handles login, registration, and user profile operations with Supabase
+   Supports two user roles: 'user' (deportista) and 'admin_cancha' (administrador)
     */
 
 /* 
@@ -9,7 +10,7 @@
  
    @param {string} email    - User's email address
    @param {string} password - User's password
-   @returns {object}        - User data (nombre, apellido)
+   @returns {object}        - User data (nombre, apellido, rol)
    @throws {Error}          - If authentication fails
    */
 async function loginUser(email, password) {
@@ -23,18 +24,18 @@ async function loginUser(email, password) {
   // If there's an error, throw it to be handled by the caller
   if (error) throw error;
 
-  // Fetch additional user data from the 'usuarios' table
+  // Fetch additional user data from the 'usuarios' table — include rol
   const { data: usuario, error: dbError } =
     await supabaseClient
-      .from('usuarios')           // Select from usuarios table
-      .select('nombre, apellido') // Only get name fields
-      .eq('id', sessionData.user.id)  // Match user ID
-      .single();                  // Get single row
+      .from('usuarios')
+      .select('nombre, apellido, rol')  // Include rol for redirect logic
+      .eq('id', sessionData.user.id)
+      .single();
 
   // If database error, throw custom error message
   if (dbError) throw new Error('No se encontraron datos del usuario.');
 
-  // Return user profile data
+  // Return user profile data (includes rol)
   return usuario;
 }
 
@@ -78,18 +79,43 @@ async function insertUserProfile(userId, data) {
   const { error } = await supabaseClient
     .from('usuarios')
     .insert([{
-      id: userId,                    // Link to auth user ID
-      nombre: data.name,             // First name
-      apellido: data.lastname,       // Last name
-      telefono: data.phone || null,  // Phone (optional)
-      correo_electronico: data.email, // Email
+      id: userId,                         // Link to auth user ID
+      nombre: data.name,                  // First name
+      apellido: data.lastname,            // Last name
+      telefono: data.phone || null,       // Phone (optional)
+      correo_electronico: data.email,     // Email
+      rol: data.rol || 'user',            // Role: 'user' | 'admin_cancha'
     }]);
 
   // If there's an error, throw it
   if (error) throw error;
 }
 
+/* 
+   GET USER ROLE - Fetch the current authenticated user's role
+
+   @returns {string} - 'user' | 'admin_cancha' | null
+   @description - Queries usuarios table for the role of the active session user
+   */
+async function getUserRole() {
+  // Get current session
+  const { data } = await supabaseClient.auth.getSession();
+  const userId = data?.session?.user?.id;
+  if (!userId) return null;
+
+  // Query rol from usuarios table
+  const { data: row, error } = await supabaseClient
+    .from('usuarios')
+    .select('rol')
+    .eq('id', userId)
+    .single();
+
+  if (error) return null;
+  return row?.rol ?? 'user';
+}
+
 // Expose functions globally for use in other scripts
-window.loginUser = loginUser;
-window.registerUserAuth = registerUserAuth;
+window.loginUser         = loginUser;
+window.registerUserAuth  = registerUserAuth;
 window.insertUserProfile = insertUserProfile;
+window.getUserRole       = getUserRole;

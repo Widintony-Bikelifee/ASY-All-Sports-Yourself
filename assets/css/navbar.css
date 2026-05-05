@@ -1,3 +1,5 @@
+.navbar-wrapper--hidden { display: none !important; }
+
 /* Navbar container - fixed at top, full width, glass effect */
 .navbar {
   position: fixed; /* Stays visible on scroll */
@@ -9,8 +11,8 @@
   display: flex; /* Horizontal layout */
   align-items: center; /* Vertically centered */
   justify-content: space-between; /* Spread items */
-  padding: 0 2.5rem; /* Side padding */
-  background: rgba(10, 14, 10, 0.8); /* Semi-transparent dark */
+  padding: 0 max(1.5rem, calc(50vw - 600px + 1.5rem)); /* Aligns with 1200px containers perfectly */
+  background: rgba(255, 255, 255, 0.85); /* Semi-transparent light */
   backdrop-filter: blur(14px); /* Frosted glass effect */
   -webkit-backdrop-filter: blur(14px); /* Safari support */
   border-bottom: 1px solid var(--border-dark); /* Bottom border */
@@ -30,6 +32,7 @@
   width: 95px;
   height: 95px;
   object-fit: contain; /* Don't distort image */
+  filter: brightness(0) opacity(0.85); /* Make logo dark to be visible on white navbar */
 }
 
 /* Brand text - uppercase, bold, display font */
@@ -227,7 +230,7 @@
   align-items: center;
   gap: 8px;
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border */
   border-radius: 999px; /* Pill shape */
   padding: 6px 12px 6px 6px;
   cursor: pointer;
@@ -241,8 +244,8 @@
 /* User trigger hover/active - lighter background */
 .navbar__user-trigger:hover,
 .navbar__user-trigger.active {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 /* User avatar - circular, blue background */
@@ -271,6 +274,7 @@
 /* Chevron icon - rotates when menu open */
 .navbar__chevron {
   opacity: 0.6; /* Semi-transparent */
+  color: var(--text-muted);
   transition: transform 0.2s;
 }
 

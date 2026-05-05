@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Usuario – All Sports Yourself</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/navbar.css" />
+    <link rel="stylesheet" href="../assets/css/admin-dashboard.css" />
+    
+    <style>
+      .user-header {
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .user-tag {
+        display: inline-block;
+        padding: 0.3rem 0.8rem;
+        background: rgba(100, 255, 100, 0.1);
+        color: var(--color-green);
+        border-radius: 99px;
+        font-size: var(--fs-xs);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.8rem;
+      }
+      .user-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 2.8rem);
+        color: var(--text-primary);
+        line-height: 1.1;
+      }
+      .user-subtitle {
+        color: var(--text-secondary);
+        font-size: var(--fs-base);
+        margin-top: 0.5rem;
+      }
+      .user-btn-primary {
+        background: var(--color-green);
+        color: #000;
+        padding: 0.8rem 1.5rem;
+        border-radius: var(--radius-md);
+        font-weight: 700;
+        font-size: var(--fs-sm);
+        border: none;
+        cursor: pointer;
+        transition: transform var(--transition), background var(--transition);
+      }
+      .user-btn-primary:hover {
+        background: var(--color-green-dark);
+        transform: translateY(-2px);
+      }
+      .reservas-list {
+        background: var(--bg-dark2);
+        border: 1px solid var(--border-dark);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- NAVBAR USER -->
+    <div id="navbar-user" class="navbar-wrapper">
+      <nav class="navbar" role="navigation">
+        <!-- LOGO -->
+        <a class="navbar__brand" href="./user-dashboard.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <!-- LINKS -->
+        <ul class="navbar__links">
+          <li><a class="navbar__link active" href="./user-dashboard.html">Panel Principal</a></li>
+          <li><a class="navbar__link" href="./venues.html">Reservar Cancha</a></li>
+        </ul>
+
+        <!-- Accions user profile-->
+        <div class="navbar__actions">
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="user-trigger">
+              <span class="navbar__avatar" id="user-avatar">U</span>
+              <span class="navbar__username" id="user-name">Usuario</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="user-dropdown">
+              <a href="./profile.html" class="navbar__dropdown-item">Mi Perfil</a>
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout">Cerrar Sesión</button>
+            </div>
+          </div>
+          
+          <button class="navbar__hamburger" id="user-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <!--User-Menu-movil -->
+        <div class="navbar__mobile-menu" id="user-mobile-menu">
+          <a href="./user-dashboard.html" class="navbar__link">Panel Principal</a>
+          <a href="./venues.html" class="navbar__link">Reservar Cancha</a>
+          <a href="./profile.html" class="navbar__link">Mi Perfil</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile">Cerrar Sesión</button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- MAIN USER DASHBOARD -->
+    <section class="page-admin">
+      <div class="container">
+        
+        <!-- Header -->
+        <header class="user-header">
+          <div class="user-header__content">
+            <span class="user-tag">🏅 Deportista</span>
+            <h1 class="user-title">Mi Actividad</h1>
+            <p class="user-subtitle">Revisa tus próximas reservas y tu historial de juego.</p>
+          </div>
+          <div class="user-header__action">
+            <button class="user-btn-primary" onclick="window.location.href='./venues.html'">
+              Ir a Reservar
+            </button>
+          </div>
+        </header>
+
+        <!-- Stats Grid (Reusing admin-dashboard CSS for cards) -->
+        <div class="admin-stats">
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Próximos Partidos</span>
+              <span class="stat-card__value" id="stat-proximos">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Partidos Jugados</span>
+              <span class="stat-card__value" id="stat-jugados">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reservas-list">
+          <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 1rem; color: white;">Mis Reservas</h2>
+          <p style="color: var(--text-secondary);">Próximamente verás tu lista de reservas aquí.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="../assets/js/services/supabaseClient.js"></script>
+    <script src="../assets/js/services/authService.js"></script>
+
+    <!-- JAVASCRIPT -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/navbar.js"></script>
+    <script src="../assets/js/user-dashboard.js"></script>
+  </body>
+</html>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Panel de Administración – All Sports Yourself</title>
+    <meta name="description" content="Panel de administración de canchas para ASY." />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/navbar.css" />
+    <link rel="stylesheet" href="../assets/css/admin-dashboard.css" />
+  </head>
+
+  <body>
+    <!-- 
+         NAVBAR ADMIN — ═ -->
+    <div id="navbar-admin" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <ul class="navbar__links">
+          <li><a class="navbar__link active" href="./admin-dashboard.html">Panel Admin</a></li>
+          <li><a class="navbar__link" href="./venues.html">Ver Catálogo</a></li>
+        </ul>
+
+        <div class="navbar__actions">
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="admin-trigger">
+              <span class="navbar__avatar" id="admin-avatar">A</span>
+              <span class="navbar__username" id="admin-name">Admin</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="admin-dropdown">
+              <a href="./admin-dashboard.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                Dashboard
+              </a>
+              <a href="./admin-venues.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                Mis Canchas
+              </a>
+
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout-admin">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+
+          <button class="navbar__hamburger" id="admin-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <div class="navbar__mobile-menu" id="admin-mobile-menu">
+          <a href="./admin-dashboard.html" class="navbar__link">Panel Admin</a>
+          <a href="./venues.html" class="navbar__link">Catálogo</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile-admin">
+            Cerrar Sesión
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- MAIN ADMIN DASHBOARD -->
+    <section class="page-admin">
+      <div class="container">
+        
+        <!-- Header -->
+        <header class="admin-header">
+          <div class="admin-header__content">
+            <span class="admin-tag">🏟️ Dashboard</span>
+            <h1 class="admin-title">Mis Canchas y Reservas</h1>
+            <p class="admin-subtitle">Gestiona tus espacios deportivos y revisa las reservas pendientes.</p>
+          </div>
+          <div class="admin-header__action">
+            <button class="admin-btn-primary" onclick="AdminDashboard.openModal()">
+              + Añadir Cancha
+            </button>
+          </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="admin-stats">
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Mis Canchas</span>
+              <span class="stat-card__value" id="stat-canchas-count">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--yellow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Reservas Pendientes</span>
+              <span class="stat-card__value">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Reservas Confirmadas</span>
+              <span class="stat-card__value">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Venues List -->
+        <div id="dashboard-venues-container" style="display: none; margin-top: 2.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--text-primary);">Mis Canchas Publicadas</h2>
+          </div>
+          <div id="dashboard-venues-list" style="display: grid; gap: 1rem;">
+             <!-- Venue cards injected here via JS -->
+          </div>
+        </div>
+
+        <!-- Placeholder Content -->
+        <div class="admin-empty-state" id="admin-empty-state">
+          <div class="admin-empty-state__icon">🏟️</div>
+          <h3>Aún no tienes canchas registradas</h3>
+          <p>Añade tu primer espacio deportivo para empezar a recibir reservas.</p>
+          <button class="admin-btn-primary" onclick="AdminDashboard.openModal()">Crear mi primera cancha</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL (Create/Edit) -->
+    <div class="admin-modal" id="venue-modal">
+      <div class="admin-modal__content">
+        <div class="admin-modal__header">
+          <h2 id="modal-title">Añadir Cancha</h2>
+          <button class="admin-modal__close" onclick="AdminDashboard.closeModal()">&times;</button>
+        </div>
+        <div class="admin-modal__body">
+          <input type="hidden" id="venue-id">
+          
+          <div class="admin-form-group">
+            <label for="venue-nombre">Nombre de la Cancha *</label>
+            <input type="text" id="venue-nombre" class="admin-form-control" placeholder="Ej. Cancha Sintética El Golazo" required>
+          </div>
+          
+          <div class="admin-form-group">
+            <label for="venue-tipo">Tipo de Deporte *</label>
+            <select id="venue-tipo" class="admin-form-control" required>
+              <option value="">Selecciona un deporte</option>
+              <option value="Fútbol">Fútbol</option>
+              <option value="Baloncesto">Baloncesto</option>
+              <option value="Tenis">Tenis</option>
+              <option value="Voleibol">Voleibol</option>
+              <option value="Natación">Natación</option>
+            </select>
+          </div>
+          
+          <div class="admin-form-group">
+            <label for="venue-ubicacion">Ubicación</label>
+            <input type="text" id="venue-ubicacion" class="admin-form-control" placeholder="Ej. Centro de Ipiales">
+          </div>
+          
+          <div class="admin-form-group">
+            <label for="venue-precio">Precio por Hora ($) *</label>
+            <input type="number" id="venue-precio" class="admin-form-control" placeholder="Ej. 40000" min="0" step="1000" required>
+          </div>
+          
+          <div class="admin-form-group">
+            <label for="venue-imagen">URL de la Imagen (opcional)</label>
+            <input type="text" id="venue-imagen" class="admin-form-control" placeholder="Ej. https://mis-imagenes.com/cancha.jpg">
+          </div>
+
+          <p id="modal-error" style="color: var(--color-red); font-size: var(--fs-sm); margin-top: 1rem;"></p>
+        </div>
+        <div class="admin-modal__footer">
+          <button class="admin-btn-secondary" onclick="AdminDashboard.closeModal()">Cancelar</button>
+          <button class="admin-btn-primary" id="modal-btn-save" onclick="AdminDashboard.saveVenue()">Guardar Cancha</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="../assets/js/services/supabaseClient.js"></script>
+    <script src="../assets/js/services/authService.js"></script>
+    <script src="../assets/js/services/venuesService.js"></script>
+
+    <!-- JAVASCRIPT -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/navbar.js"></script>
+    <script src="../assets/js/admin-dashboard.js"></script>
+  </body>
+</html>
