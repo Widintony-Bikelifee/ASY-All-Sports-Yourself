@@ -2,41 +2,61 @@
 
 /* ═══════════════════════════════════════
    venues.js - Venues page UI logic
-   Handles rendering venue cards, filters, and reservation modal.
-   All database operations are delegated to services/venuesService.js.
+   2-Step reservation modal: date/time → summary + payment.
+   All database calls go through VenuesService.
    ═══════════════════════════════════════ */
 
-/* ═══════════════════════════════════════
-   LOCAL STATE - Module-level variables
-   ═══════════════════════════════════════ */
-let allVenues     = [];      // All venues fetched from database
-let currentFilter = "todos"; // Current active filter type
-let selectedVenue = null;    // Venue selected for reservation
+/* ─── Module state ─────────────────────────────────────────────────── */
+let allVenues     = [];
+let currentFilter = "todos";
+let selectedVenue = null;
+let _modalStep    = 1;   // 1 or 2
 
-/* ═══════════════════════════════════════
-   RENDER UTILITIES - Helper functions for UI
-   ═══════════════════════════════════════ */
+/* ─── Sport icon map ───────────────────────────────────────────────── */
+const SPORT_ICONS = {
+  futbol: "⚽", baloncesto: "🏀", tenis: "🎾",
+  voleibol: "🏐", natacion: "🏊", gimnasio: "🏋️",
+  padel: "🏸", beisbol: "⚾", default: "🏟️",
+};
 
-/* Formats price with Colombian locale currency symbol
-   @param {number} price - Price value to format
-   @returns {string} - Formatted price like "$50.000" */
-function formatPrice(price) {
-  return "$" + Number(price).toLocaleString("es-CO");
+function getSportIcon(tipo = "") {
+  const lower = tipo.toLowerCase();
+  for (const [k, v] of Object.entries(SPORT_ICONS)) {
+    if (k !== "default" && lower.includes(k)) return v;
+  }
+  return SPORT_ICONS.default;
 }
 
-/* Renders star rating as text (e.g., "★★★★☆")
-   @param {number} n - Rating value (default 4)
-   @returns {string} - Star string */
+/* ─── Formatting helpers ───────────────────────────────────────────── */
+function formatPrice(price) {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency", currency: "COP", minimumFractionDigits: 0,
+  }).format(Number(price));
+}
+
+function formatDateLong(isoDate) {
+  const [y, m, d] = isoDate.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("es-CO", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
+  });
+}
+
+function fmtTime(t) { return t ? t.slice(0, 5) : "–"; }
+
+/** Compute hours between two "HH:MM" strings, rounded to 2 decimals */
+function diffHours(inicio, fin) {
+  const [h1, m1] = inicio.split(":").map(Number);
+  const [h2, m2] = fin.split(":").map(Number);
+  return Math.round(((h2 * 60 + m2) - (h1 * 60 + m1)) / 60 * 100) / 100;
+}
+
 function renderStars(n = 4) {
   const r = Math.round(n);
   return "★".repeat(r) + "☆".repeat(5 - r);
 }
 
-/* Generates HTML for a single venue card
-   @param {object} venue - Venue object from database
-   @returns {string} - HTML string for the card */
+/* ─── Venue card renderer ──────────────────────────────────────────── */
 function renderVenueCard(venue) {
-  // Determine image source - use full URL or construct path
   const imgSrc = venue.imagen_url?.startsWith("http")
     ? venue.imagen_url
     : `../assets/img/venues/${venue.imagen_url}`;
@@ -73,34 +93,23 @@ function renderVenueCard(venue) {
 }
 
 /* ═══════════════════════════════════════
-   VENUES MODULE - Main UI logic
-   ═══════════════════════════════════════
-   Uses IIFE pattern to encapsulate venues functionality
-   */
+   VENUES MODULE
+   ═══════════════════════════════════════ */
 const Venues = (() => {
-  // Cache DOM elements
   const gridEl  = document.getElementById("venues-grid");
   const countEl = document.getElementById("venues-count");
 
-  /* Loads all venues from service and renders them
-     @returns {Promise<void>}
-     @description - Shows loading state, fetches from VenuesService, handles errors */
+  /* ─── Load venues from DB ─── */
   async function load() {
-    // Show loading state
-    if (gridEl) {
-      gridEl.innerHTML = `
-        <div class="venues__empty">
-          <div class="venues__empty-icon">⏳</div>
-          <h3>Cargando escenarios...</h3>
-        </div>`;
-    }
+    if (gridEl) gridEl.innerHTML = `
+      <div class="venues__empty">
+        <div class="venues__empty-icon">⏳</div>
+        <h3>Cargando escenarios...</h3>
+      </div>`;
 
-    // Fetch venues from service layer
     const { data, error } = await VenuesService.getEscenarios();
 
-    // Handle errors
     if (error) {
-      console.error("Error cargando escenarios:", error);
       if (gridEl) gridEl.innerHTML = `
         <div class="venues__empty">
           <div class="venues__empty-icon">❌</div>
@@ -110,25 +119,19 @@ const Venues = (() => {
       return;
     }
 
-    // Store data and render with current filter
     allVenues = data;
     render(currentFilter);
   }
 
-  /* Renders venue cards with optional filter
-     @param {string} filter - Filter type: "todos" or specific sport type
-     @returns {void}
-     @description - Filters venues and updates the grid HTML */
+  /* ─── Render filtered cards ─── */
   function render(filter = "todos") {
     currentFilter = filter;
     if (!gridEl) return;
 
-    // Apply filter or show all
     const filtered = filter === "todos"
       ? allVenues
-      : allVenues.filter(v => v.tipo?.toLowerCase() === filter);
+      : allVenues.filter(v => v.tipo?.toLowerCase().includes(filter));
 
-    // Show empty state or render cards
     gridEl.innerHTML = filtered.length === 0
       ? `<div class="venues__empty">
            <div class="venues__empty-icon">🔍</div>
@@ -137,49 +140,42 @@ const Venues = (() => {
          </div>`
       : filtered.map(renderVenueCard).join("");
 
-    // Update count display
     if (countEl) {
       const n = filtered.length;
       countEl.innerHTML = `Mostrando <strong>${n} espacio${n !== 1 ? "s" : ""}</strong> en Ipiales`;
     }
   }
 
-  /* Applies a filter chip selection
-     @param {string} type - Filter type to apply
-     @param {HTMLElement} chipEl - The clicked chip element
-     @returns {void} */
+  /* ─── Filter chip ─── */
   function applyFilter(type, chipEl) {
-    // Remove active class from all chips
     document.querySelectorAll(".venues__filter-chip").forEach(c => c.classList.remove("active"));
-    // Add active class to clicked chip
     if (chipEl) chipEl.classList.add("active");
-    // Re-render with new filter
     render(type);
   }
 
-  /* Opens reservation modal for a venue
-     @param {number} venueId - ID of the venue to reserve
-     @returns {Promise<void>}
-     @description - Checks auth, populates modal, shows reservation form */
+  /* ──────────────────────────────────────────────────────────────────
+     MODAL — 2-Step flow
+  ────────────────────────────────────────────────────────────────── */
+
+  /* Open the modal (step 1) */
   async function openModal(venueId) {
-    // Check if user is logged in via service
     const usuario = await VenuesService.getUsuarioActual();
     if (!usuario) {
       App.showToast("⚠️ Debes iniciar sesión para reservar");
-      setTimeout(() => window.location.href = "./login.html", 1500);
+      setTimeout(() => (window.location.href = "./login.html"), 1400);
       return;
     }
 
-    // Find venue in local data
     selectedVenue = allVenues.find(v => v.id === venueId);
     if (!selectedVenue) return;
 
-    // Populate modal with venue details
-    document.getElementById("modal-venue-name").textContent  = selectedVenue.nombre;
-    document.getElementById("modal-venue-tipo").textContent  = selectedVenue.tipo;
-    document.getElementById("modal-venue-precio").textContent = formatPrice(selectedVenue.precio) + " /hora";
+    // Populate venue info strip
+    document.getElementById("modal-venue-name").textContent = selectedVenue.nombre;
+    document.getElementById("modal-venue-tipo-precio").textContent =
+      `${selectedVenue.tipo} · ${formatPrice(selectedVenue.precio)}/hora`;
+    document.getElementById("rmodal-venue-icon").textContent = getSportIcon(selectedVenue.tipo);
 
-    // Reset form fields with today's date as minimum
+    // Reset form
     const today = new Date().toISOString().split("T")[0];
     document.getElementById("modal-fecha").min   = today;
     document.getElementById("modal-fecha").value = "";
@@ -187,83 +183,186 @@ const Venues = (() => {
     document.getElementById("modal-hora-fin").value    = "";
     document.getElementById("modal-error").textContent = "";
 
-    // Show modal and disable background scroll
+    // Reset payment to efectivo
+    _selectPayment("efectivo");
+
+    // Go to step 1
+    _goToStep(1);
+
+    // Show overlay
     document.getElementById("reserva-modal").classList.add("open");
     document.body.style.overflow = "hidden";
+
+    // Attach payment click listeners (fresh each open)
+    document.querySelectorAll(".rmodal-payment-opt").forEach(opt => {
+      opt.addEventListener("click", () => _selectPayment(opt.dataset.value));
+    });
   }
 
-  /* Closes the reservation modal
-     @returns {void}
-     @description - Hides modal, re-enables scroll, clears selected venue */
+  /* Close modal */
   function closeModal() {
     document.getElementById("reserva-modal").classList.remove("open");
     document.body.style.overflow = "";
     selectedVenue = null;
+    _modalStep = 1;
   }
 
-  /* Confirms and saves a reservation
-     @returns {Promise<void>}
-     @description - Validates form, calls VenuesService.insertReserva, shows result */
-  async function confirmarReserva() {
-    // Get form values
+  /* ─── Step navigation ─── */
+
+  function nextStep() {
+    if (_modalStep === 1) _validateAndGoStep2();
+    else if (_modalStep === 2) confirmarReserva();
+  }
+
+  function prevStep() {
+    if (_modalStep === 2) _goToStep(1);
+  }
+
+  function _goToStep(step) {
+    _modalStep = step;
+
+    // Steps visibility
+    document.getElementById("rmodal-step-1").classList.toggle("active", step === 1);
+    document.getElementById("rmodal-step-2").classList.toggle("active", step === 2);
+    document.getElementById("rmodal-success").classList.remove("active");
+
+    // Header labels
+    document.getElementById("rmodal-step-label").textContent = `Paso ${step} de 2`;
+    document.getElementById("rmodal-title").textContent = step === 1
+      ? "Elige fecha y horario"
+      : "Resumen y pago";
+
+    // Progress bar
+    document.getElementById("rmodal-progress-bar").style.width = step === 1 ? "50%" : "100%";
+
+    // Footer buttons
+    const btnBack = document.getElementById("rmodal-btn-back");
+    const btnNext = document.getElementById("rmodal-btn-next");
+    btnBack.style.display = step === 2 ? "block" : "none";
+    btnNext.innerHTML = step === 1
+      ? `Siguiente <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`
+      : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Confirmar Reserva`;
+
+    // Footer visible
+    document.getElementById("rmodal-footer").style.display = "flex";
+  }
+
+  /* ─── Step 1 validation → populate step 2 ─── */
+  function _validateAndGoStep2() {
     const fecha      = document.getElementById("modal-fecha").value;
     const horaInicio = document.getElementById("modal-hora-inicio").value;
     const horaFin    = document.getElementById("modal-hora-fin").value;
     const errorEl    = document.getElementById("modal-error");
-    const btnEl      = document.getElementById("modal-btn-confirmar");
 
-    // Validate all fields are filled
     if (!fecha || !horaInicio || !horaFin) {
       errorEl.textContent = "Por favor completa todos los campos.";
       return;
     }
-    // Validate end time is after start time
     if (horaFin <= horaInicio) {
       errorEl.textContent = "La hora de fin debe ser después de la hora de inicio.";
       return;
     }
+    errorEl.textContent = "";
 
-    // Clear errors, disable button, show loading
-    errorEl.textContent  = "";
-    btnEl.disabled       = true;
-    btnEl.textContent    = "Guardando...";
+    // Populate summary
+    const hours = diffHours(horaInicio, horaFin);
+    const total = (selectedVenue.precio ?? 0) * hours;
 
-    // Delegate insert to service layer
+    document.getElementById("sum-venue").textContent    = selectedVenue.nombre;
+    document.getElementById("sum-date").textContent     = formatDateLong(fecha);
+    document.getElementById("sum-time").textContent     = `${fmtTime(horaInicio)} – ${fmtTime(horaFin)}`;
+    document.getElementById("sum-duration").textContent = `${hours} hora${hours !== 1 ? "s" : ""}`;
+    document.getElementById("sum-total").textContent    = formatPrice(total);
+
+    _goToStep(2);
+  }
+
+  /* ─── Payment selector ─── */
+  function _selectPayment(value) {
+    document.querySelectorAll(".rmodal-payment-opt").forEach(opt => {
+      const isSelected = opt.dataset.value === value;
+      opt.classList.toggle("selected", isSelected);
+      const radio = opt.querySelector("input[type=radio]");
+      if (radio) radio.checked = isSelected;
+    });
+  }
+
+  function _getSelectedPayment() {
+    const checked = document.querySelector("input[name=metodo_pago]:checked");
+    return checked ? checked.value : "efectivo";
+  }
+
+  /* ─── Step 2: confirm & save ─── */
+  async function confirmarReserva() {
+    const fecha      = document.getElementById("modal-fecha").value;
+    const horaInicio = document.getElementById("modal-hora-inicio").value;
+    const horaFin    = document.getElementById("modal-hora-fin").value;
+    const metodoPago = _getSelectedPayment();
+    const errorEl    = document.getElementById("modal-error-2");
+    const btnNext    = document.getElementById("rmodal-btn-next");
+
+    errorEl.textContent = "";
+    btnNext.disabled    = true;
+    btnNext.textContent = "Guardando…";
+
     const { error } = await VenuesService.insertReserva({
       escenario_id: selectedVenue.id,
       fecha,
       hora_inicio:  horaInicio,
       hora_fin:     horaFin,
+      metodo_pago:  metodoPago,
     });
 
-    // Restore button state
-    btnEl.disabled    = false;
-    btnEl.textContent = "Confirmar Reserva";
+    btnNext.disabled = false;
+    btnNext.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Confirmar Reserva`;
 
-    // Handle error or success
     if (error) {
-      console.error("Error al reservar:", error);
-      errorEl.textContent = "Error al guardar la reserva: " + error.message;
+      errorEl.textContent = "Error al guardar: " + (error.message ?? "inténtalo de nuevo.");
       return;
     }
 
-    // Close modal and show success
-    closeModal();
-    App.showToast(`✅ ¡Reserva confirmada en ${selectedVenue.nombre}!`);
+    // Show success state
+    _showSuccess(fecha, horaInicio, horaFin);
   }
 
-  // Public API - expose these functions externally
-  return { load, render, applyFilter, openModal, closeModal, confirmarReserva };
+  function _showSuccess(fecha, inicio, fin) {
+    // Hide steps and footer
+    document.getElementById("rmodal-step-1").classList.remove("active");
+    document.getElementById("rmodal-step-2").classList.remove("active");
+    document.getElementById("rmodal-footer").style.display = "none";
+
+    // Update header
+    document.getElementById("rmodal-step-label").textContent = "✅ Completado";
+    document.getElementById("rmodal-title").textContent      = "¡Reserva Confirmada!";
+    document.getElementById("rmodal-progress-bar").style.width = "100%";
+
+    // Success message
+    document.getElementById("success-text").textContent =
+      `Tu reserva en ${selectedVenue.nombre} para el ${formatDateLong(fecha)} ` +
+      `(${fmtTime(inicio)} – ${fmtTime(fin)}) ha sido registrada exitosamente.`;
+
+    document.getElementById("rmodal-success").classList.add("active");
+  }
+
+  // Public API
+  return { load, render, applyFilter, openModal, closeModal, nextStep, prevStep, confirmarReserva };
 })();
 
-// Expose globally for inline onclick handlers
 window.Venues = Venues;
 
-/* ═══════════════════════════════════════
-   INITIALIZATION - Load venues on page load
-   ═══════════════════════════════════════
-   @description - Initializes Venues module when DOM is ready
-   */
 document.addEventListener("DOMContentLoaded", () => {
   Venues.load();
+
+  // Close modal on overlay click
+  const overlay = document.getElementById("reserva-modal");
+  if (overlay) {
+    overlay.addEventListener("click", e => {
+      if (e.target === overlay) Venues.closeModal();
+    });
+  }
+
+  // Escape key closes modal
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && overlay?.classList.contains("open")) Venues.closeModal();
+  });
 });

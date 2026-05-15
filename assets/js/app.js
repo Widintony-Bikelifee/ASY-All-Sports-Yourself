@@ -56,6 +56,7 @@ const App = (() => {
       login: "login.html",
       register: "register.html",
       venues: "venues.html",
+      reservas: "reservas.html",
       admin: "admin-dashboard.html",
     };
 
@@ -68,6 +69,7 @@ const App = (() => {
       login: "pages/login.html",
       register: "pages/register.html",
       venues: "pages/venues.html",
+      reservas: "pages/reservas.html",
       admin: "pages/admin-dashboard.html",
     };
 

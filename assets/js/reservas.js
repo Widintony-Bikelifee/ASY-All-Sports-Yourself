@@ -1,0 +1,458 @@
+"use strict";
+
+/*
+  reservas.js – Reservations page logic
+  Handles: auth guard, data loading, rendering, filtering, and cancellation.
+*/
+
+/* ── Constants ─────────────────────────────────────────────────────── */
+
+/** Sport type emoji map for visual flair */
+const SPORT_ICONS = {
+  futbol:       "⚽",
+  baloncesto:   "🏀",
+  tenis:        "🎾",
+  voleibol:     "🏐",
+  natacion:     "🏊",
+  gimnasio:     "🏋️",
+  padel:        "🏸",
+  beisbol:      "⚾",
+  default:      "🏟️",
+};
+
+/** Human-readable status labels in Spanish */
+const STATUS_LABELS = {
+  pendiente:  "Pendiente",
+  confirmada: "Confirmada",
+  completada: "Completada",
+  cancelada:  "Cancelada",
+};
+
+/* ── State ──────────────────────────────────────────────────────────── */
+
+/** Full list fetched from Supabase */
+let _allReservas = [];
+
+/** ID of the reservation pending cancellation */
+let _pendingCancelId = null;
+
+/* ── DOM references ─────────────────────────────────────────────────── */
+
+const grid       = document.getElementById("reservas-grid");
+const countEl    = document.getElementById("reservas-count");
+const filterSts  = document.getElementById("filter-status");
+const filterFrom = document.getElementById("filter-date-from");
+const filterTo   = document.getElementById("filter-date-to");
+const btnReset   = document.getElementById("btn-reset-filters");
+
+// Stats
+const statTotal    = document.getElementById("stat-total-val");
+const statPend     = document.getElementById("stat-pendiente-val");
+const statComp     = document.getElementById("stat-completada-val");
+const statCancel   = document.getElementById("stat-cancelada-val");
+
+// Modal
+const modal          = document.getElementById("cancel-modal");
+const modalVenue     = document.getElementById("modal-venue");
+const modalDate      = document.getElementById("modal-date");
+const modalTime      = document.getElementById("modal-time");
+const modalBtnClose  = document.getElementById("modal-btn-cancel-close");
+const modalBtnConfirm= document.getElementById("modal-btn-confirm-cancel");
+
+/* ── Helpers ────────────────────────────────────────────────────────── */
+
+/**
+ * Format ISO date string (YYYY-MM-DD) to a Spanish locale long date.
+ * @param {string} isoDate - e.g. "2026-06-15"
+ * @returns {string} - e.g. "domingo, 15 de junio de 2026"
+ */
+function formatDate(isoDate) {
+  if (!isoDate) return "–";
+  const [y, m, d] = isoDate.split("-").map(Number);
+  // Use UTC to avoid timezone shifting the day
+  const date = new Date(Date.UTC(y, m - 1, d));
+  return date.toLocaleDateString("es-CO", {
+    weekday: "long",
+    year:    "numeric",
+    month:   "long",
+    day:     "numeric",
+    timeZone: "UTC",
+  });
+}
+
+/**
+ * Format time string "HH:MM:SS" → "HH:MM"
+ * @param {string} t - e.g. "14:30:00"
+ * @returns {string} - e.g. "14:30"
+ */
+function formatTime(t) {
+  if (!t) return "–";
+  return t.slice(0, 5);
+}
+
+/**
+ * Get sport emoji by type string (case-insensitive, partial match).
+ * @param {string} tipo - e.g. "Fútbol 5"
+ * @returns {string} emoji
+ */
+function getSportIcon(tipo = "") {
+  const lower = tipo.toLowerCase();
+  for (const [key, icon] of Object.entries(SPORT_ICONS)) {
+    if (key !== "default" && lower.includes(key)) return icon;
+  }
+  return SPORT_ICONS.default;
+}
+
+/**
+ * Format price in Colombian Pesos.
+ * @param {number|null} precio
+ * @returns {string}
+ */
+function formatPrice(precio) {
+  if (precio == null || precio === 0) return "Precio no especificado";
+  return new Intl.NumberFormat("es-CO", {
+    style:    "currency",
+    currency: "COP",
+    minimumFractionDigits: 0,
+  }).format(precio);
+}
+
+/* ── Auth guard ─────────────────────────────────────────────────────── */
+
+/**
+ * Redirect unauthenticated users to login.
+ * Set user name / avatar in navbar.
+ */
+async function checkAuth() {
+  const { data } = await supabaseClient.auth.getSession();
+  const session  = data?.session;
+
+  if (!session) {
+    window.location.href = "./login.html";
+    return null;
+  }
+
+  // Populate navbar user info
+  const userId = session.user.id;
+  const { data: usuario } = await supabaseClient
+    .from("usuarios")
+    .select("nombre, apellido")
+    .eq("id", userId)
+    .single();
+
+  if (usuario) {
+    const nameEl   = document.getElementById("user-name");
+    const avatarEl = document.getElementById("user-avatar");
+    const fullName = `${usuario.nombre} ${usuario.apellido}`;
+    if (nameEl)   nameEl.textContent   = fullName;
+    if (avatarEl) avatarEl.textContent = usuario.nombre.charAt(0).toUpperCase();
+  }
+
+  return session;
+}
+
+/* ── Render helpers ─────────────────────────────────────────────────── */
+
+/** Remove loading skeleton cards */
+function clearSkeletons() {
+  document.querySelectorAll(".reserva-skeleton").forEach(el => el.remove());
+}
+
+/**
+ * Build a single reservation card element.
+ * @param {object} r - Reservation row (with nested escenarios object)
+ * @returns {HTMLElement}
+ */
+function buildCard(r) {
+  const esc    = r.escenarios ?? {};
+  const status = r.estado ?? "pendiente";
+  const icon   = getSportIcon(esc.tipo);
+  const canCancel = status === "pendiente" || status === "confirmada";
+
+  const card = document.createElement("article");
+  card.className = `reserva-card reserva-card--${status}`;
+  card.setAttribute("role", "listitem");
+  card.setAttribute("data-id", r.id);
+
+  card.innerHTML = `
+    <div class="reserva-card__body">
+      <!-- Header: name + sport type -->
+      <div class="reserva-card__header">
+        <h2 class="reserva-card__venue-name">${esc.nombre ?? "Cancha sin nombre"}</h2>
+        <span class="reserva-card__type-tag">${icon} ${esc.tipo ?? "Deporte"}</span>
+      </div>
+
+      <!-- Location -->
+      ${esc.ubicacion ? `
+      <div class="reserva-card__info-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>${esc.ubicacion}</span>
+      </div>` : ""}
+
+      <!-- Date -->
+      <div class="reserva-card__info-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span><strong>${formatDate(r.fecha)}</strong></span>
+      </div>
+
+      <!-- Time -->
+      <div class="reserva-card__info-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>${formatTime(r.hora_inicio)} – ${formatTime(r.hora_fin)}</span>
+      </div>
+
+      <div class="reserva-card__divider"></div>
+
+      <!-- Price -->
+      <div class="reserva-card__info-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        <span class="reserva-card__price">${formatPrice(esc.precio)}</span>
+      </div>
+    </div>
+
+    <!-- Footer: status + cancel -->
+    <div class="reserva-card__footer">
+      <span class="status-badge status-badge--${status}">${STATUS_LABELS[status] ?? status}</span>
+      <div style="display:flex;align-items:center;gap:0.6rem;">
+        <span class="reserva-card__id">#${String(r.id).slice(0, 8)}</span>
+        ${canCancel ? `
+        <button
+          class="reserva-card__btn-cancel"
+          data-id="${r.id}"
+          data-venue="${esc.nombre ?? "Cancha"}"
+          data-date="${r.fecha}"
+          data-inicio="${r.hora_inicio}"
+          data-fin="${r.hora_fin}"
+          aria-label="Cancelar reserva en ${esc.nombre}"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Cancelar
+        </button>` : ""}
+      </div>
+    </div>
+  `;
+
+  // Attach cancel button listener
+  if (canCancel) {
+    const btn = card.querySelector(".reserva-card__btn-cancel");
+    btn.addEventListener("click", () => openCancelModal(btn.dataset));
+  }
+
+  return card;
+}
+
+/**
+ * Build empty-state element.
+ * @param {boolean} isFiltered - true if there are filters applied
+ * @returns {HTMLElement}
+ */
+function buildEmptyState(isFiltered) {
+  const div = document.createElement("div");
+  div.className = "reservas-empty";
+  div.innerHTML = `
+    <div class="reservas-empty__icon">${isFiltered ? "🔍" : "📅"}</div>
+    <h3 class="reservas-empty__title">${isFiltered ? "Sin resultados" : "Sin reservas todavía"}</h3>
+    <p class="reservas-empty__text">
+      ${isFiltered
+        ? "No se encontraron reservas con los filtros seleccionados. Prueba cambiando el estado o las fechas."
+        : "Aún no has hecho ninguna reserva. Explora los espacios disponibles y agenda tu primera sesión."
+      }
+    </p>
+    ${!isFiltered ? `<a href="./venues.html" class="reservas-btn-primary" style="margin-top:0.5rem;">Explorar Canchas</a>` : ""}
+  `;
+  return div;
+}
+
+/* ── Filtering ──────────────────────────────────────────────────────── */
+
+/**
+ * Returns the current filter values from the DOM.
+ * @returns {{ status: string, from: string, to: string }}
+ */
+function getFilters() {
+  return {
+    status: filterSts.value,
+    from:   filterFrom.value,   // "YYYY-MM-DD" or ""
+    to:     filterTo.value,
+  };
+}
+
+/**
+ * Apply active filters to _allReservas and return matching rows.
+ * @returns {object[]}
+ */
+function applyFilters() {
+  const { status, from, to } = getFilters();
+
+  return _allReservas.filter(r => {
+    if (status && r.estado !== status) return false;
+    if (from   && r.fecha < from)      return false;
+    if (to     && r.fecha > to)        return false;
+    return true;
+  });
+}
+
+/* ── Stats ──────────────────────────────────────────────────────────── */
+
+/**
+ * Compute and render stats from the full (unfiltered) data set.
+ */
+function renderStats() {
+  const total      = _allReservas.length;
+  const pendiente  = _allReservas.filter(r => r.estado === "pendiente").length;
+  const completada = _allReservas.filter(r => r.estado === "completada").length;
+  const cancelada  = _allReservas.filter(r => r.estado === "cancelada").length;
+
+  statTotal.textContent  = total;
+  statPend.textContent   = pendiente;
+  statComp.textContent   = completada;
+  statCancel.textContent = cancelada;
+}
+
+/* ── Main render ────────────────────────────────────────────────────── */
+
+/**
+ * Render the filtered reservation cards into the grid.
+ */
+function render() {
+  clearSkeletons();
+  grid.innerHTML = "";
+
+  const filtered = applyFilters();
+  const { status, from, to } = getFilters();
+  const isFiltered = !!(status || from || to);
+
+  // Update count label
+  if (countEl) {
+    if (_allReservas.length === 0) {
+      countEl.textContent = "";
+    } else {
+      countEl.innerHTML = isFiltered
+        ? `Mostrando <span>${filtered.length}</span> de <span>${_allReservas.length}</span> reservas`
+        : `<span>${filtered.length}</span> reserva${filtered.length !== 1 ? "s" : ""} en total`;
+    }
+  }
+
+  if (filtered.length === 0) {
+    grid.appendChild(buildEmptyState(isFiltered));
+    return;
+  }
+
+  filtered.forEach(r => grid.appendChild(buildCard(r)));
+}
+
+/* ── Cancel Modal ───────────────────────────────────────────────────── */
+
+/**
+ * Open the cancel confirmation modal with reservation details.
+ * @param {{ id, venue, date, inicio, fin }} dataset
+ */
+function openCancelModal({ id, venue, date, inicio, fin }) {
+  _pendingCancelId = id;
+
+  modalVenue.textContent = venue;
+  modalDate.textContent  = formatDate(date);
+  modalTime.textContent  = `${formatTime(inicio)} – ${formatTime(fin)}`;
+
+  modalBtnConfirm.disabled = false;
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+/** Close the cancel modal. */
+function closeModal() {
+  modal.classList.remove("open");
+  document.body.style.overflow = "";
+  _pendingCancelId = null;
+}
+
+/** Execute the cancellation via VenuesService. */
+async function confirmCancel() {
+  if (!_pendingCancelId) return;
+
+  modalBtnConfirm.disabled = true;
+  modalBtnConfirm.textContent = "Cancelando…";
+
+  const { error } = await VenuesService.cancelReserva(_pendingCancelId);
+
+  if (error) {
+    App.showToast("❌ No se pudo cancelar la reserva. Inténtalo de nuevo.");
+    modalBtnConfirm.disabled = false;
+    modalBtnConfirm.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      Sí, cancelar
+    `;
+    return;
+  }
+
+  // Optimistic UI: update state locally, re-render without a new fetch
+  const idx = _allReservas.findIndex(r => String(r.id) === String(_pendingCancelId));
+  if (idx !== -1) _allReservas[idx].estado = "cancelada";
+
+  closeModal();
+  renderStats();
+  render();
+  App.showToast("✅ Reserva cancelada correctamente.");
+}
+
+/* ── Event listeners ────────────────────────────────────────────────── */
+
+function attachListeners() {
+  // Filters
+  filterSts.addEventListener("change", render);
+  filterFrom.addEventListener("change", render);
+  filterTo.addEventListener("change", render);
+
+  btnReset.addEventListener("click", () => {
+    filterSts.value  = "";
+    filterFrom.value = "";
+    filterTo.value   = "";
+    render();
+  });
+
+  // Modal
+  modalBtnClose.addEventListener("click",   closeModal);
+  modalBtnConfirm.addEventListener("click", confirmCancel);
+
+  // Close modal on overlay click
+  modal.addEventListener("click", e => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Keyboard: Escape closes modal
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+}
+
+/* ── Bootstrap ──────────────────────────────────────────────────────── */
+
+async function init() {
+  // 1. Guard auth
+  const session = await checkAuth();
+  if (!session) return;
+
+  // 2. Attach all event listeners
+  attachListeners();
+
+  // 3. Fetch reservations
+  const { data, error } = await VenuesService.getMisReservas();
+
+  clearSkeletons();
+
+  if (error) {
+    App.showToast("⚠️ Error al cargar las reservas. Recarga la página.");
+    grid.innerHTML = "";
+    grid.appendChild(buildEmptyState(false));
+    return;
+  }
+
+  _allReservas = data;
+
+  // 4. Update stats and render cards
+  renderStats();
+  render();
+}
+
+// Run on DOM ready
+document.addEventListener("DOMContentLoaded", init);
