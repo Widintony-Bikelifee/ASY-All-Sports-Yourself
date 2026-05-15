@@ -11,6 +11,100 @@
     <link rel="stylesheet" href="../assets/css/main.css" />
     <link rel="stylesheet" href="../assets/css/navbar.css" />
     <link rel="stylesheet" href="../assets/css/admin-dashboard.css" />
+
+    <style>
+      /* ── Tabs ── */
+      .admin-tabs {
+        display: flex; gap: .5rem; border-bottom: 2px solid var(--border-light);
+        margin-bottom: 2rem;
+      }
+      .admin-tab {
+        padding: .7rem 1.4rem; font-weight: 700; font-size: var(--fs-sm);
+        border: none; background: none; cursor: pointer;
+        color: var(--text-muted); border-bottom: 3px solid transparent;
+        margin-bottom: -2px; transition: all .2s; border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+      }
+      .admin-tab:hover { color: var(--text-dark); background: var(--bg-light); }
+      .admin-tab.active { color: var(--color-green-dark); border-bottom-color: var(--color-green); background: rgba(46,204,80,.05); }
+
+      /* ── Reservations table ── */
+      .reservas-admin-table-wrap {
+        background: var(--bg-white); border-radius: var(--radius-md);
+        border: 1px solid var(--border-light);
+        box-shadow: 0 4px 15px rgba(0,0,0,.03);
+        overflow-x: auto; margin-top: 1.5rem;
+      }
+      .reservas-admin-table {
+        width: 100%; border-collapse: collapse; min-width: 780px;
+      }
+      .reservas-admin-table th {
+        padding: .9rem 1.2rem; text-align: left;
+        font-size: var(--fs-xs); text-transform: uppercase;
+        letter-spacing: .5px; font-weight: 700; color: var(--text-muted);
+        background: rgba(0,0,0,.02); border-bottom: 1px solid var(--border-light);
+      }
+      .reservas-admin-table td {
+        padding: .9rem 1.2rem; font-size: var(--fs-sm);
+        border-bottom: 1px solid var(--border-light); vertical-align: middle;
+      }
+      .reservas-admin-table tr:last-child td { border-bottom: none; }
+      .reservas-admin-table tbody tr:hover { background: rgba(46,204,80,.02); }
+
+      /* Status badge */
+      .res-badge {
+        display: inline-flex; align-items: center; gap: .3rem;
+        padding: .22rem .65rem; border-radius: 99px;
+        font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+      }
+      .res-badge::before {
+        content:''; width:5px; height:5px; border-radius:50%;
+      }
+      .res-badge--pendiente  { background:rgba(245,158,11,.12); color:#92400e; }
+      .res-badge--pendiente::before  { background:#f59e0b; }
+      .res-badge--confirmada { background:rgba(59,130,246,.12); color:#1e40af; }
+      .res-badge--confirmada::before { background:#3b82f6; }
+      .res-badge--completada { background:rgba(16,185,129,.12); color:#065f46; }
+      .res-badge--completada::before { background:#10b981; }
+      .res-badge--cancelada  { background:rgba(239,68,68,.1);  color:#991b1b; }
+      .res-badge--cancelada::before  { background:#ef4444; }
+
+      /* Action buttons inside table */
+      .res-act-btn {
+        padding: .28rem .75rem; border-radius: 99px;
+        font-size: .72rem; font-weight: 700; border: 1.5px solid;
+        cursor: pointer; transition: all .2s; background: transparent;
+      }
+      .res-act-btn--confirm {
+        color: #1e40af; border-color: #93c5fd;
+      }
+      .res-act-btn--confirm:hover { background: #eff6ff; }
+      .res-act-btn--complete {
+        color: #065f46; border-color: #6ee7b7;
+      }
+      .res-act-btn--complete:hover { background: #ecfdf5; }
+      .res-act-btn--cancel {
+        color: #991b1b; border-color: #fca5a5;
+      }
+      .res-act-btn--cancel:hover { background: #fef2f2; }
+
+      /* Reservas filters */
+      .res-filters {
+        display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; margin-top: 1.5rem;
+      }
+      .res-filter-select {
+        padding: .5rem 1rem; border: 1.5px solid var(--border-dark);
+        border-radius: var(--radius-md); font-family: var(--font-body);
+        font-size: var(--fs-sm); color: var(--text-dark); background: var(--bg-white);
+        appearance: none; cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a8f7a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat; background-position: right .85rem center; padding-right: 2rem;
+      }
+      .res-filter-select:focus { outline: none; border-color: var(--color-green); }
+      .res-count { font-size: var(--fs-sm); color: var(--text-muted); margin-left: auto; }
+
+      .panel-section { display: none; }
+      .panel-section.active { display: block; }
+    </style>
   </head>
 
   <body>
@@ -117,7 +211,7 @@
             </div>
             <div class="stat-card__info">
               <span class="stat-card__label">Reservas Pendientes</span>
-              <span class="stat-card__value">0</span>
+              <span class="stat-card__value" id="stat-reservas-pendientes">0</span>
             </div>
           </div>
           <div class="stat-card">
@@ -126,28 +220,109 @@
             </div>
             <div class="stat-card__info">
               <span class="stat-card__label">Reservas Confirmadas</span>
-              <span class="stat-card__value">0</span>
+              <span class="stat-card__value" id="stat-reservas-confirmadas">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon" style="background:rgba(99,102,241,.1);color:#6366f1;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Ingresos Estimados</span>
+              <span class="stat-card__value" id="stat-ingresos">$0</span>
             </div>
           </div>
         </div>
 
-        <!-- Recent Venues List -->
-        <div id="dashboard-venues-container" style="display: none; margin-top: 2.5rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--text-primary);">Mis Canchas Publicadas</h2>
+        <!-- Tabs -->
+        <div class="admin-tabs" role="tablist">
+          <button class="admin-tab active" id="tab-canchas" role="tab" aria-selected="true"
+                  onclick="AdminDashboard.switchTab('canchas')">
+            🏟️ Mis Canchas
+          </button>
+          <button class="admin-tab" id="tab-reservas" role="tab" aria-selected="false"
+                  onclick="AdminDashboard.switchTab('reservas')">
+            📅 Reservas Recibidas
+            <span id="tab-reservas-badge" style="
+              display:inline-flex;align-items:center;justify-content:center;
+              width:18px;height:18px;border-radius:50%;font-size:.65rem;
+              font-weight:800;background:var(--color-green);color:#000;margin-left:.35rem;
+            "></span>
+          </button>
+        </div>
+
+        <!-- ── PANEL: Canchas ── -->
+        <div class="panel-section active" id="panel-canchas">
+          <!-- Venues list -->
+          <div id="dashboard-venues-container" style="display:none;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+              <h2 style="font-family:var(--font-display);font-size:1.4rem;color:var(--text-primary);">Canchas Publicadas</h2>
+            </div>
+            <div id="dashboard-venues-list" style="display:grid;gap:1rem;"></div>
           </div>
-          <div id="dashboard-venues-list" style="display: grid; gap: 1rem;">
-             <!-- Venue cards injected here via JS -->
+          <!-- Empty state -->
+          <div class="admin-empty-state" id="admin-empty-state">
+            <div class="admin-empty-state__icon">🏟️</div>
+            <h3>Aún no tienes canchas registradas</h3>
+            <p>Añade tu primer espacio deportivo para empezar a recibir reservas.</p>
+            <button class="admin-btn-primary" onclick="AdminDashboard.openModal()">Crear mi primera cancha</button>
           </div>
         </div>
 
-        <!-- Placeholder Content -->
-        <div class="admin-empty-state" id="admin-empty-state">
-          <div class="admin-empty-state__icon">🏟️</div>
-          <h3>Aún no tienes canchas registradas</h3>
-          <p>Añade tu primer espacio deportivo para empezar a recibir reservas.</p>
-          <button class="admin-btn-primary" onclick="AdminDashboard.openModal()">Crear mi primera cancha</button>
+        <!-- ── PANEL: Reservas ── -->
+        <div class="panel-section" id="panel-reservas">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
+            <h2 style="font-family:var(--font-display);font-size:1.4rem;color:var(--text-primary);">Reservas Recibidas</h2>
+            <button onclick="AdminDashboard.loadReservas()" style="
+              padding:.5rem 1rem;border-radius:99px;border:1.5px solid var(--border-dark2);
+              font-size:var(--fs-sm);font-weight:600;color:var(--text-muted);
+              background:transparent;cursor:pointer;">
+              🔄 Actualizar
+            </button>
+          </div>
+
+          <!-- Filters -->
+          <div class="res-filters">
+            <label for="res-filter-status" class="sr-only">Estado</label>
+            <select id="res-filter-status" class="res-filter-select" onchange="AdminDashboard.filterReservas()">
+              <option value="">Todos los estados</option>
+              <option value="pendiente">🟡 Pendiente</option>
+              <option value="confirmada">🔵 Confirmada</option>
+              <option value="completada">🟢 Completada</option>
+              <option value="cancelada">🔴 Cancelada</option>
+            </select>
+            <label for="res-filter-venue" class="sr-only">Cancha</label>
+            <select id="res-filter-venue" class="res-filter-select" onchange="AdminDashboard.filterReservas()">
+              <option value="">Todas las canchas</option>
+            </select>
+            <span class="res-count" id="res-count"></span>
+          </div>
+
+          <!-- Table -->
+          <div class="reservas-admin-table-wrap">
+            <table class="reservas-admin-table" id="reservas-admin-table">
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Cancha</th>
+                  <th>Fecha</th>
+                  <th>Horario</th>
+                  <th>Pago</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="reservas-admin-tbody">
+                <tr>
+                  <td colspan="7" style="text-align:center;color:var(--text-muted);padding:3rem;">
+                    Cargando reservas…
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+
       </div>
     </section>
 

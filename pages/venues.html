@@ -14,6 +14,251 @@
     <link rel="stylesheet" href="../assets/css/main.css" />
     <link rel="stylesheet" href="../assets/css/navbar.css" />
     <link rel="stylesheet" href="../assets/css/venues.css" />
+
+    <style>
+      /* ── 2-Step Reservation Modal ── */
+      .reserva-modal-overlay {
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.55);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 1100;
+        opacity: 0; visibility: hidden;
+        transition: all .25s ease;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 1rem;
+      }
+      .reserva-modal-overlay.open { opacity:1; visibility:visible; }
+
+      .reserva-modal {
+        background: var(--bg-white);
+        border-radius: 18px;
+        width: 100%; max-width: 500px;
+        box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+        transform: translateY(24px) scale(.97);
+        transition: all .28s ease;
+        overflow: hidden;
+        display: flex; flex-direction: column;
+        max-height: 92vh;
+      }
+      .reserva-modal-overlay.open .reserva-modal { transform: translateY(0) scale(1); }
+
+      /* Progress bar */
+      .rmodal-progress {
+        display: flex; height: 4px; background: var(--border-light);
+      }
+      .rmodal-progress__bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--color-green), #34d399);
+        transition: width .35s ease;
+      }
+
+      .rmodal-header {
+        padding: 1.4rem 1.6rem 1rem;
+        display: flex; justify-content: space-between; align-items: flex-start;
+        border-bottom: 1px solid var(--border-light);
+      }
+      .rmodal-header__left {}
+      .rmodal-step-label {
+        font-size: .7rem; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .8px; color: var(--color-green-dark);
+        margin-bottom: .3rem;
+      }
+      .rmodal-title {
+        font-family: var(--font-display);
+        font-size: 1.35rem; font-weight: 800;
+        color: var(--text-dark); line-height: 1.2;
+      }
+      .rmodal-close {
+        background: var(--bg-light); border: none; border-radius: 50%;
+        width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+        color: var(--text-muted); cursor: pointer; font-size: 1.1rem;
+        transition: all .2s ease; flex-shrink: 0;
+      }
+      .rmodal-close:hover { background: var(--border-dark); color: var(--text-dark); }
+
+      .rmodal-venue-info {
+        display: flex; align-items: center; gap: .85rem;
+        padding: 1rem 1.6rem;
+        background: var(--bg-light);
+        border-bottom: 1px solid var(--border-light);
+      }
+      .rmodal-venue-icon {
+        width: 46px; height: 46px; border-radius: 12px;
+        background: var(--color-green-dim);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem; flex-shrink: 0;
+      }
+      .rmodal-venue-name {
+        font-family: var(--font-display); font-weight: 800;
+        font-size: 1.05rem; color: var(--text-dark); display: block;
+      }
+      .rmodal-venue-meta {
+        font-size: .78rem; color: var(--text-muted); font-weight: 500;
+      }
+
+      .rmodal-body {
+        padding: 1.4rem 1.6rem; overflow-y: auto; flex: 1;
+      }
+
+      /* Steps visibility */
+      .rmodal-step { display: none; }
+      .rmodal-step.active { display: block; }
+
+      .rmodal-form-group { margin-bottom: 1.1rem; }
+      .rmodal-form-group label {
+        display: block; font-size: .8rem; font-weight: 700;
+        color: var(--text-dark); margin-bottom: .4rem;
+      }
+      .rmodal-input, .rmodal-select {
+        width: 100%; padding: .65rem 1rem;
+        border: 1.5px solid var(--border-dark);
+        border-radius: 10px;
+        font-family: var(--font-body); font-size: .9rem;
+        color: var(--text-dark); background: var(--bg-white);
+        transition: border-color .2s, box-shadow .2s;
+      }
+      .rmodal-input:focus, .rmodal-select:focus {
+        outline: none;
+        border-color: var(--color-green);
+        box-shadow: 0 0 0 3px rgba(46,204,80,.12);
+      }
+      .rmodal-row { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+      .rmodal-error {
+        color: #dc2626; font-size: .8rem; font-weight: 600;
+        margin-top: .8rem; min-height: 1.2em;
+      }
+
+      /* Step 2 – summary */
+      .rmodal-summary {
+        background: var(--bg-light); border-radius: 12px;
+        padding: 1.1rem 1.25rem; margin-bottom: 1.25rem;
+        display: flex; flex-direction: column; gap: .55rem;
+      }
+      .rmodal-summary-row {
+        display: flex; justify-content: space-between;
+        align-items: center; font-size: .86rem;
+      }
+      .rmodal-summary-row .lbl { color: var(--text-muted); font-weight: 500; }
+      .rmodal-summary-row .val { font-weight: 700; color: var(--text-dark); }
+      .rmodal-summary-row--total .val {
+        color: var(--color-green-dark); font-size: 1.15rem;
+        font-family: var(--font-display);
+      }
+      .rmodal-summary__divider {
+        height: 1px; background: var(--border-dark); margin: .2rem 0;
+      }
+
+      /* Payment method selector */
+      .rmodal-payment-label {
+        font-size: .8rem; font-weight: 700;
+        color: var(--text-dark); margin-bottom: .7rem; display: block;
+      }
+      .rmodal-payment-options {
+        display: grid; grid-template-columns: 1fr 1fr; gap: .7rem;
+      }
+      .rmodal-payment-opt {
+        border: 2px solid var(--border-dark);
+        border-radius: 12px; padding: .85rem .9rem;
+        cursor: pointer; display: flex; align-items: center; gap: .6rem;
+        transition: all .2s ease; background: var(--bg-white);
+        position: relative;
+      }
+      .rmodal-payment-opt:hover { border-color: var(--color-green); }
+      .rmodal-payment-opt.selected {
+        border-color: var(--color-green);
+        background: rgba(46,204,80,.06);
+      }
+      .rmodal-payment-opt input[type=radio] {
+        position: absolute; opacity: 0; pointer-events: none;
+      }
+      .rmodal-payment-opt__icon { font-size: 1.4rem; line-height: 1; }
+      .rmodal-payment-opt__text {
+        display: flex; flex-direction: column;
+      }
+      .rmodal-payment-opt__name {
+        font-weight: 700; font-size: .83rem; color: var(--text-dark);
+      }
+      .rmodal-payment-opt__sub {
+        font-size: .7rem; color: var(--text-muted);
+      }
+      .rmodal-payment-check {
+        margin-left: auto; width: 18px; height: 18px;
+        border-radius: 50%; border: 2px solid var(--border-dark);
+        background: white; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        transition: all .2s;
+      }
+      .rmodal-payment-opt.selected .rmodal-payment-check {
+        background: var(--color-green);
+        border-color: var(--color-green);
+      }
+      .rmodal-payment-opt.selected .rmodal-payment-check::after {
+        content: '';
+        width: 6px; height: 6px;
+        border-radius: 50%; background: white;
+      }
+
+      .rmodal-footer {
+        padding: 1.1rem 1.6rem;
+        border-top: 1px solid var(--border-light);
+        display: flex; gap: .8rem; justify-content: flex-end;
+      }
+      .rmodal-btn-back {
+        padding: .65rem 1.3rem;
+        border: 1.5px solid var(--border-dark2); border-radius: 99px;
+        font-weight: 600; font-size: .85rem; color: var(--text-dark);
+        background: transparent; cursor: pointer;
+        transition: all .2s;
+      }
+      .rmodal-btn-back:hover { background: var(--bg-light); }
+      .rmodal-btn-next {
+        padding: .65rem 1.6rem;
+        border: none; border-radius: 99px;
+        font-family: var(--font-display); font-weight: 700;
+        font-size: .9rem; letter-spacing: .4px;
+        background: var(--color-green); color: #000;
+        cursor: pointer; transition: all .2s;
+        display: inline-flex; align-items: center; gap: .4rem;
+      }
+      .rmodal-btn-next:hover {
+        background: var(--color-green-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(46,204,80,.3);
+      }
+      .rmodal-btn-next:disabled {
+        opacity: .6; cursor: not-allowed; transform: none;
+      }
+
+      /* Success state overlay inside modal */
+      .rmodal-success {
+        display: none; flex-direction: column;
+        align-items: center; text-align: center;
+        padding: 2.5rem 1.6rem;
+        gap: 1rem;
+      }
+      .rmodal-success.active { display: flex; }
+      .rmodal-success__icon {
+        width: 72px; height: 72px; border-radius: 50%;
+        background: rgba(46,204,80,.12);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 2rem;
+      }
+      .rmodal-success__title {
+        font-family: var(--font-display);
+        font-size: 1.6rem; font-weight: 900; color: var(--text-dark);
+      }
+      .rmodal-success__text { color: var(--text-muted); font-size: .9rem; line-height: 1.6; }
+      .rmodal-success__btn {
+        padding: .75rem 2rem;
+        border: none; border-radius: 99px;
+        background: var(--color-green); color: #000;
+        font-family: var(--font-display); font-weight: 700;
+        font-size: .95rem; cursor: pointer;
+        transition: all .2s;
+      }
+      .rmodal-success__btn:hover { background: var(--color-green-dark); }
+    </style>
   </head>
 
   <body>
@@ -279,6 +524,152 @@
       <!-- GRID -->
       <div class="venues__grid" id="venues-grid"></div>
     </section>
+
+    <!-- ══ 2-STEP RESERVATION MODAL ══════════════════════════════════ -->
+    <div class="reserva-modal-overlay" id="reserva-modal" role="dialog" aria-modal="true" aria-labelledby="rmodal-title">
+      <div class="reserva-modal">
+
+        <!-- Progress bar -->
+        <div class="rmodal-progress" role="progressbar" aria-valuemin="1" aria-valuemax="2" aria-valuenow="1">
+          <div class="rmodal-progress__bar" id="rmodal-progress-bar" style="width:50%"></div>
+        </div>
+
+        <!-- Header -->
+        <div class="rmodal-header">
+          <div class="rmodal-header__left">
+            <div class="rmodal-step-label" id="rmodal-step-label">Paso 1 de 2</div>
+            <h2 class="rmodal-title" id="rmodal-title">Elige fecha y horario</h2>
+          </div>
+          <button class="rmodal-close" onclick="Venues.closeModal()" aria-label="Cerrar">&times;</button>
+        </div>
+
+        <!-- Venue info strip -->
+        <div class="rmodal-venue-info">
+          <div class="rmodal-venue-icon" id="rmodal-venue-icon">🏟️</div>
+          <div>
+            <span class="rmodal-venue-name" id="modal-venue-name">Cancha</span>
+            <span class="rmodal-venue-meta" id="modal-venue-tipo-precio">Tipo · Precio</span>
+          </div>
+        </div>
+
+        <!-- Body (steps) -->
+        <div class="rmodal-body">
+
+          <!-- ── STEP 1: date + time ── -->
+          <div class="rmodal-step active" id="rmodal-step-1">
+            <div class="rmodal-form-group">
+              <label for="modal-fecha">📅 Fecha de la reserva</label>
+              <input type="date" id="modal-fecha" class="rmodal-input" required />
+            </div>
+            <div class="rmodal-row">
+              <div class="rmodal-form-group">
+                <label for="modal-hora-inicio">🕐 Hora de inicio</label>
+                <input type="time" id="modal-hora-inicio" class="rmodal-input" required />
+              </div>
+              <div class="rmodal-form-group">
+                <label for="modal-hora-fin">🕓 Hora de fin</label>
+                <input type="time" id="modal-hora-fin" class="rmodal-input" required />
+              </div>
+            </div>
+            <p class="rmodal-error" id="modal-error"></p>
+          </div>
+
+          <!-- ── STEP 2: summary + payment ── -->
+          <div class="rmodal-step" id="rmodal-step-2">
+            <!-- Booking summary -->
+            <div class="rmodal-summary" id="rmodal-summary">
+              <div class="rmodal-summary-row">
+                <span class="lbl">Cancha</span>
+                <span class="val" id="sum-venue">–</span>
+              </div>
+              <div class="rmodal-summary-row">
+                <span class="lbl">Fecha</span>
+                <span class="val" id="sum-date">–</span>
+              </div>
+              <div class="rmodal-summary-row">
+                <span class="lbl">Horario</span>
+                <span class="val" id="sum-time">–</span>
+              </div>
+              <div class="rmodal-summary-row">
+                <span class="lbl">Duración</span>
+                <span class="val" id="sum-duration">–</span>
+              </div>
+              <div class="rmodal-summary__divider"></div>
+              <div class="rmodal-summary-row rmodal-summary-row--total">
+                <span class="lbl">Total estimado</span>
+                <span class="val" id="sum-total">–</span>
+              </div>
+            </div>
+
+            <!-- Payment method -->
+            <span class="rmodal-payment-label">💳 Método de pago</span>
+            <div class="rmodal-payment-options" id="payment-options">
+
+              <label class="rmodal-payment-opt selected" data-value="efectivo">
+                <input type="radio" name="metodo_pago" value="efectivo" checked />
+                <span class="rmodal-payment-opt__icon">💵</span>
+                <span class="rmodal-payment-opt__text">
+                  <span class="rmodal-payment-opt__name">Efectivo</span>
+                  <span class="rmodal-payment-opt__sub">Al llegar</span>
+                </span>
+                <span class="rmodal-payment-check"></span>
+              </label>
+
+              <label class="rmodal-payment-opt" data-value="transferencia">
+                <input type="radio" name="metodo_pago" value="transferencia" />
+                <span class="rmodal-payment-opt__icon">🏦</span>
+                <span class="rmodal-payment-opt__text">
+                  <span class="rmodal-payment-opt__name">Transferencia</span>
+                  <span class="rmodal-payment-opt__sub">Nequi / Bancolombia</span>
+                </span>
+                <span class="rmodal-payment-check"></span>
+              </label>
+
+              <label class="rmodal-payment-opt" data-value="tarjeta">
+                <input type="radio" name="metodo_pago" value="tarjeta" />
+                <span class="rmodal-payment-opt__icon">💳</span>
+                <span class="rmodal-payment-opt__text">
+                  <span class="rmodal-payment-opt__name">Tarjeta</span>
+                  <span class="rmodal-payment-opt__sub">Débito / Crédito</span>
+                </span>
+                <span class="rmodal-payment-check"></span>
+              </label>
+
+              <label class="rmodal-payment-opt" data-value="pse">
+                <input type="radio" name="metodo_pago" value="pse" />
+                <span class="rmodal-payment-opt__icon">🌐</span>
+                <span class="rmodal-payment-opt__text">
+                  <span class="rmodal-payment-opt__name">PSE</span>
+                  <span class="rmodal-payment-opt__sub">Pago en línea</span>
+                </span>
+                <span class="rmodal-payment-check"></span>
+              </label>
+
+            </div>
+            <p class="rmodal-error" id="modal-error-2"></p>
+          </div>
+
+          <!-- ── SUCCESS STATE ── -->
+          <div class="rmodal-success" id="rmodal-success">
+            <div class="rmodal-success__icon">✅</div>
+            <h3 class="rmodal-success__title">¡Reserva Confirmada!</h3>
+            <p class="rmodal-success__text" id="success-text">Tu reserva ha sido registrada exitosamente. El administrador de la cancha la revisará pronto.</p>
+            <a href="./reservas.html" class="rmodal-success__btn">Ver mis reservas</a>
+          </div>
+
+        </div><!-- /.rmodal-body -->
+
+        <!-- Footer (hidden during success) -->
+        <div class="rmodal-footer" id="rmodal-footer">
+          <button class="rmodal-btn-back" id="rmodal-btn-back" onclick="Venues.prevStep()" style="display:none">← Volver</button>
+          <button class="rmodal-btn-next" id="rmodal-btn-next" onclick="Venues.nextStep()">
+            Siguiente
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+      </div><!-- /.reserva-modal -->
+    </div>
 
     <!-- TOAST -->
     <div class="toast" id="toast"></div>

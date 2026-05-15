@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mis Reservas – All Sports Yourself</title>
+    <meta name="description" content="Consulta, filtra y administra todas tus reservas de canchas deportivas en All Sports Yourself. Historial completo con estados en tiempo real." />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/navbar.css" />
+    <link rel="stylesheet" href="../assets/css/admin-dashboard.css" />
+    <link rel="stylesheet" href="../assets/css/reservas.css" />
+  </head>
+
+  <body>
+
+    <!-- ══ NAVBAR ══════════════════════════════════════════════════════ -->
+    <div id="navbar-user" class="navbar-wrapper">
+      <nav class="navbar" role="navigation" aria-label="Navegación principal">
+
+        <!-- Logo -->
+        <a class="navbar__brand" href="./user-dashboard.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <!-- Desktop links -->
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="./user-dashboard.html">Panel Principal</a></li>
+          <li><a class="navbar__link active" href="./reservas.html">Mis Reservas</a></li>
+          <li><a class="navbar__link" href="./venues.html">Reservar Cancha</a></li>
+        </ul>
+
+        <!-- User profile actions -->
+        <div class="navbar__actions">
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="user-trigger" aria-haspopup="true" aria-expanded="false">
+              <span class="navbar__avatar" id="user-avatar">U</span>
+              <span class="navbar__username" id="user-name">Usuario</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="user-dropdown">
+              <a href="./profile.html" class="navbar__dropdown-item">Mi Perfil</a>
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout">Cerrar Sesión</button>
+            </div>
+          </div>
+
+          <button class="navbar__hamburger" id="user-hamburger" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="navbar__mobile-menu" id="user-mobile-menu">
+          <a href="./user-dashboard.html" class="navbar__link">Panel Principal</a>
+          <a href="./reservas.html"        class="navbar__link">Mis Reservas</a>
+          <a href="./venues.html"          class="navbar__link">Reservar Cancha</a>
+          <a href="./profile.html"         class="navbar__link">Mi Perfil</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile">Cerrar Sesión</button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- ══ MAIN ════════════════════════════════════════════════════════ -->
+    <main class="page-reservas">
+      <div class="container">
+
+        <!-- Header -->
+        <header class="reservas-header">
+          <div class="reservas-header__content">
+            <span class="reservas-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Mis Reservas
+            </span>
+            <h1 class="reservas-title">Gestión de Reservas</h1>
+            <p class="reservas-subtitle">Consulta tu historial, filtra y administra tus reservas activas.</p>
+          </div>
+          <a href="./venues.html" class="reservas-btn-primary" id="btn-nueva-reserva">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Nueva Reserva
+          </a>
+        </header>
+
+        <!-- ── Stats ── -->
+        <div class="reservas-stats" id="reservas-stats" role="region" aria-label="Resumen de reservas">
+          <!-- Skeleton while loading -->
+          <div class="stat-card" id="stat-total">
+            <div class="stat-card__icon" style="background:rgba(99,102,241,0.1);color:#6366f1;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Total Reservas</span>
+              <span class="stat-card__value" id="stat-total-val">–</span>
+            </div>
+          </div>
+
+          <div class="stat-card" id="stat-pendiente">
+            <div class="stat-card__icon stat-card__icon--yellow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Pendientes</span>
+              <span class="stat-card__value" id="stat-pendiente-val">–</span>
+            </div>
+          </div>
+
+          <div class="stat-card" id="stat-completada">
+            <div class="stat-card__icon stat-card__icon--green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Completadas</span>
+              <span class="stat-card__value" id="stat-completada-val">–</span>
+            </div>
+          </div>
+
+          <div class="stat-card" id="stat-cancelada">
+            <div class="stat-card__icon stat-card__icon--blue" style="background:rgba(239,68,68,0.1);color:#ef4444;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            </div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Canceladas</span>
+              <span class="stat-card__value" id="stat-cancelada-val">–</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Filters ── -->
+        <div class="reservas-filters" role="search" aria-label="Filtros de reservas">
+          <span class="reservas-filters__label">Filtrar por:</span>
+
+          <!-- Status filter -->
+          <div class="reservas-filter-group">
+            <label for="filter-status" class="sr-only">Estado</label>
+            <select id="filter-status" class="reservas-select" aria-label="Filtrar por estado">
+              <option value="">Todos los estados</option>
+              <option value="pendiente">🟡 Pendiente</option>
+              <option value="confirmada">🔵 Confirmada</option>
+              <option value="completada">🟢 Completada</option>
+              <option value="cancelada">🔴 Cancelada</option>
+            </select>
+          </div>
+
+          <!-- Date from -->
+          <div class="reservas-filter-group">
+            <label for="filter-date-from" class="sr-only">Desde</label>
+            <input type="date" id="filter-date-from" class="reservas-input" aria-label="Desde fecha" />
+          </div>
+
+          <!-- Date to -->
+          <div class="reservas-filter-group">
+            <label for="filter-date-to" class="sr-only">Hasta</label>
+            <input type="date" id="filter-date-to" class="reservas-input" aria-label="Hasta fecha" />
+          </div>
+
+          <!-- Reset -->
+          <button id="btn-reset-filters" class="reservas-btn-reset" aria-label="Limpiar filtros">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+            Limpiar
+          </button>
+        </div>
+
+        <!-- Results count -->
+        <p class="reservas-count" id="reservas-count" aria-live="polite"></p>
+
+        <!-- ── Reservations grid ── -->
+        <div class="reservas-grid" id="reservas-grid" role="list" aria-label="Lista de reservas">
+          <!-- Cards injected by JS -->
+          <!-- Skeleton placeholders while loading -->
+          <div class="reserva-skeleton" id="skeleton-1">
+            <div class="skeleton-strip"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--medium"></div>
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+          <div class="reserva-skeleton" id="skeleton-2" aria-hidden="true">
+            <div class="skeleton-strip"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+          <div class="reserva-skeleton" id="skeleton-3" aria-hidden="true">
+            <div class="skeleton-strip"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+              <div class="skeleton-line skeleton-line--short"></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.container -->
+    </main>
+
+    <!-- ══ CANCEL MODAL ═════════════════════════════════════════════════ -->
+    <div class="reservas-modal" id="cancel-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="reservas-modal__box">
+
+        <div class="reservas-modal__header">
+          <div class="reservas-modal__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <h2 class="reservas-modal__title" id="modal-title">Cancelar Reserva</h2>
+          <p class="reservas-modal__subtitle">Esta acción no se puede deshacer. ¿Estás seguro de que deseas cancelar esta reserva?</p>
+        </div>
+
+        <div class="reservas-modal__body">
+          <div class="reservas-modal__detail" id="modal-detail">
+            <div class="reservas-modal__detail-row">
+              <span class="label">Cancha</span>
+              <span class="value" id="modal-venue">–</span>
+            </div>
+            <div class="reservas-modal__detail-row">
+              <span class="label">Fecha</span>
+              <span class="value" id="modal-date">–</span>
+            </div>
+            <div class="reservas-modal__detail-row">
+              <span class="label">Horario</span>
+              <span class="value" id="modal-time">–</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reservas-modal__footer">
+          <button class="modal-btn-secondary" id="modal-btn-cancel-close">Volver</button>
+          <button class="modal-btn-danger" id="modal-btn-confirm-cancel" aria-describedby="modal-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Sí, cancelar
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ TOAST ════════════════════════════════════════════════════════ -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- ══ SCRIPTS ══════════════════════════════════════════════════════ -->
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="../assets/js/services/supabaseClient.js"></script>
+    <script src="../assets/js/services/authService.js"></script>
+    <script src="../assets/js/services/venuesService.js"></script>
+
+    <!-- App utilities -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/navbar.js"></script>
+
+    <!-- Page logic -->
+    <script src="../assets/js/reservas.js"></script>
+  </body>
+</html>
