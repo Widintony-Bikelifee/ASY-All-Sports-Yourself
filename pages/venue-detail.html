@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Detalle del Escenario – All Sports Yourself</title>
+    <meta
+      name="description"
+      content="Información completa y reserva de escenarios deportivos en Ipiales."
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/navbar.css" />
+    <link rel="stylesheet" href="../assets/css/venue-detail.css" />
+  </head>
+
+  <body>
+    <!--
+         NAVBAR GUEST —  -->
+    <div id="navbar-guest" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
+          <li><a class="navbar__link" href="./venues.html">Espacios Deportivos</a></li>
+          <li><a class="navbar__link" href="#">Reservas</a></li>
+        </ul>
+
+        <div class="navbar__actions">
+          <a href="./login.html" class="navbar__btn-login">Iniciar Sesión</a>
+          <a href="./register.html" class="navbar__btn-register">Registrarse</a>
+          <button class="navbar__hamburger" id="guest-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <div class="navbar__mobile-menu" id="guest-mobile-menu">
+          <a href="../index.html" class="navbar__link">Inicio</a>
+          <a href="./venues.html" class="navbar__link">Espacios</a>
+          <a href="./login.html" class="navbar__link">Iniciar Sesión</a>
+          <a href="./register.html" class="navbar__link">Registrarse</a>
+        </div>
+      </nav>
+    </div>
+
+    <!--
+         NAVBAR USER —  -->
+    <div id="navbar-user" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
+          <li><a class="navbar__link" href="./venues.html">Espacios Deportivos</a></li>
+          <li><a class="navbar__link" href="#">Reservas</a></li>
+          <li><a class="navbar__link" href="#">Mi Perfil</a></li>
+        </ul>
+
+        <div class="navbar__actions">
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="user-trigger">
+              <span class="navbar__avatar" id="user-avatar">U</span>
+              <span class="navbar__username" id="user-name">Usuario</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14"
+                   fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="user-dropdown">
+              <a href="./profile.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+                Mi Perfil
+              </a>
+              <a href="./reservas.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Mis Reservas
+              </a>
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+
+          <button class="navbar__hamburger" id="user-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <div class="navbar__mobile-menu" id="user-mobile-menu">
+          <a href="../index.html" class="navbar__link">Inicio</a>
+          <a href="./venues.html" class="navbar__link">Espacios</a>
+          <a href="./profile.html" class="navbar__link">Mi Perfil</a>
+          <a href="./reservas.html" class="navbar__link">Mis Reservas</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile">
+            Cerrar Sesión
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!--
+         NAVBAR ADMIN —  -->
+    <div id="navbar-admin" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="./admin-dashboard.html">Panel Admin</a></li>
+          <li><a class="navbar__link" href="./venues.html">Ver Catálogo</a></li>
+        </ul>
+
+        <div class="navbar__actions">
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="admin-trigger">
+              <span class="navbar__avatar" id="admin-avatar">A</span>
+              <span class="navbar__username" id="admin-name">Admin</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14"
+                   fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="admin-dropdown">
+              <a href="./admin-dashboard.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                Dashboard
+              </a>
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout-admin">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+
+          <button class="navbar__hamburger" id="admin-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <div class="navbar__mobile-menu" id="admin-mobile-menu">
+          <a href="./admin-dashboard.html" class="navbar__link">Panel Admin</a>
+          <a href="./venues.html" class="navbar__link">Catálogo</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile-admin">
+            Cerrar Sesión
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- main -->
+    <main class="page-venue-detail" id="page-venue-detail">
+      <!-- Loading state -->
+      <div class="detail-loading" id="detail-loading">
+        <div class="detail-loading__spinner">⏳</div>
+        <h3>Cargando información...</h3>
+      </div>
+
+      <!-- Error state -->
+      <div class="detail-error hidden" id="detail-error">
+        <div class="detail-error__icon">❌</div>
+        <h3>No se encontró el escenario</h3>
+        <p id="detail-error-msg">El escenario que buscas no existe o fue eliminado.</p>
+        <a href="./venues.html" class="detail-error__btn">← Volver al catálogo</a>
+      </div>
+
+      <!-- Content -->
+      <div class="detail-content hidden" id="detail-content">
+        <!-- Hero Image -->
+        <div class="detail-hero">
+          <img
+            class="detail-hero__img"
+            id="detail-hero-img"
+            src="../assets/img/venues/Estadio_Ipiales.jpg"
+            alt=""
+          />
+          <div class="detail-hero__overlay">
+            <a href="./venues.html" class="detail-hero__back">
+              ← Volver al catálogo
+            </a>
+          </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="detail-info">
+          <div class="detail-info__main">
+            <span class="detail-info__tag" id="detail-tipo">Cancha</span>
+            <h1 class="detail-info__title" id="detail-nombre">Cargando...</h1>
+            <p class="detail-info__location">
+              <span class="detail-info__location-icon">📍</span>
+              <span id="detail-ubicacion">Ipiales</span>
+            </p>
+
+            <!-- Description -->
+            <div class="detail-info__description" id="detail-descripcion-container">
+              <h4>Descripción</h4>
+              <p id="detail-descripcion">Sin descripción disponible.</p>
+            </div>
+
+            <!-- Features -->
+            <div class="detail-info__features" id="detail-features">
+              <h4>Características</h4>
+              <ul class="detail-features__list" id="detail-features-list">
+                <!-- Populated by JS -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- Booking Card -->
+          <aside class="detail-booking">
+            <div class="detail-booking__price" id="detail-precio-container">
+              <span class="detail-booking__price-value" id="detail-precio">$0</span>
+              <span class="detail-booking__price-unit">/hora</span>
+            </div>
+
+            <div class="detail-booking__rating" id="detail-rating">
+              <span class="detail-rating__stars">★★★★★</span>
+              <span class="detail-rating__text">4.0 (0 reseñas)</span>
+            </div>
+
+            <button class="detail-booking__btn" id="detail-btn-reservar">
+              Reservar ahora
+            </button>
+
+            <div class="detail-booking__divider">
+              <span>o</span>
+            </div>
+
+            <a href="./venues.html" class="detail-booking__secondary-btn">
+              Ver más escenarios
+            </a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- Reservation Modal -->
+    <div class="modal" id="reserva-modal">
+      <div class="modal__backdrop" onclick="VenueDetail.closeModal()"></div>
+      <div class="modal__card">
+        <button class="modal__close" id="modal-close" onclick="VenueDetail.closeModal()">✕</button>
+
+        <h2 class="modal__title">Reservar <span id="modal-venue-name">Escenario</span></h2>
+
+        <div class="modal__venue-info">
+          <span class="modal__venue-tag" id="modal-venue-tipo">--</span>
+          <span class="modal__venue-price" id="modal-venue-precio">--</span>
+        </div>
+
+        <form class="modal__form" id="modal-form">
+          <div class="modal__field">
+            <label for="modal-fecha">Fecha</label>
+            <input type="date" id="modal-fecha" required />
+          </div>
+
+          <div class="modal__row">
+            <div class="modal__field">
+              <label for="modal-hora-inicio">Hora inicio</label>
+              <input type="time" id="modal-hora-inicio" required />
+            </div>
+            <div class="modal__field">
+              <label for="modal-hora-fin">Hora fin</label>
+              <input type="time" id="modal-hora-fin" required />
+            </div>
+          </div>
+
+          <p class="modal__error" id="modal-error"></p>
+
+          <button type="submit" class="modal__btn" id="modal-btn-confirmar">
+            Confirmar Reserva
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="../assets/js/services/supabaseClient.js"></script>
+    <script src="../assets/js/services/authService.js"></script>
+
+    <!-- JS -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/services/venuesService.js"></script>
+    <script src="../assets/js/navbar.js"></script>
+    <script src="../assets/js/venue-detail.js"></script>
+  </body>
+</html>

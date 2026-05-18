@@ -8,9 +8,23 @@
 
 const VenuesService = (() => {
 
-  /* 
+/*
+     GET ESCENARIO BY ID - Fetch single venue by ID
+     @param {number|string} id - Venue ID
+     @returns {object} - { data: object|null, error: object|null }
+     */
+  async function getEscenarioById(id) {
+    const { data, error } = await supabaseClient
+      .from("escenarios")
+      .select("*")
+      .eq("id", id)
+      .single();
+    return { data, error };
+  }
+
+  /*
      GET SCENARIOS - Fetch all venues/sports facilities
-     
+
      @returns {object} - { data: Array, error: object|null }
      @description - Returns all scenarios ordered by ID
      */
@@ -173,6 +187,7 @@ const VenuesService = (() => {
 
   // Public API - expose these functions externally
   return {
+    getEscenarioById,   // Get single venue by ID
     getEscenarios,      // Get all venues
     getMisEscenarios,   // Get current admin's venues
     getUsuarioActual,   // Get current user

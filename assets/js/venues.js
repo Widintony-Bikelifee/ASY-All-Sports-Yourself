@@ -42,7 +42,7 @@ function renderVenueCard(venue) {
     : `../assets/img/venues/${venue.imagen_url}`;
 
   return `
-    <article class="venue-card" data-id="${venue.id}">
+    <article class="venue-card" data-id="${venue.id}" onclick="window.location.href='./venue-detail.html?id=${venue.id}'">
       <div class="venue-card__img">
         <img src="${imgSrc}" alt="${venue.nombre}"
              style="width:100%;height:100%;object-fit:cover"
@@ -65,7 +65,7 @@ function renderVenueCard(venue) {
             </div>
           </div>
         </div>
-        <button class="venue-card__btn" onclick="Venues.openModal(${venue.id})">
+        <button class="venue-card__btn" onclick="event.stopPropagation(); Venues.openModal(${venue.id})">
           Reservar ahora
         </button>
       </div>
