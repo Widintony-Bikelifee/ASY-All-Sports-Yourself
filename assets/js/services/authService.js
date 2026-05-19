@@ -114,8 +114,46 @@ async function getUserRole() {
   return row?.rol ?? 'user';
 }
 
+/* 
+   GET USER PROFILE - Fetch the user's profile details
+
+   @param {string} userId - The authenticated user's ID
+   @returns {object} - The user's profile data
+   */
+async function getUserProfile(userId) {
+  const { data, error } = await supabaseClient
+    .from('usuarios')
+    .select('*')
+    .eq('id', userId)
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+/* 
+   UPDATE USER PROFILE - Update user details
+
+   @param {string} userId - The authenticated user's ID
+   @param {object} data - The updated profile data { nombre, apellido, telefono }
+   */
+async function updateUserProfile(userId, data) {
+  const { error } = await supabaseClient
+    .from('usuarios')
+    .update({
+      nombre: data.nombre,
+      apellido: data.apellido,
+      telefono: data.telefono
+    })
+    .eq('id', userId);
+
+  if (error) throw error;
+}
+
 // Expose functions globally for use in other scripts
 window.loginUser         = loginUser;
 window.registerUserAuth  = registerUserAuth;
 window.insertUserProfile = insertUserProfile;
 window.getUserRole       = getUserRole;
+window.getUserProfile    = getUserProfile;
+window.updateUserProfile = updateUserProfile;
