@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Perfil – All Sports Yourself</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/navbar.css" />
+    <link rel="stylesheet" href="../assets/css/profile.css" />
+  </head>
+  <body>
+
+    <!-- 
+         NAVBAR ADMIN — ═ -->
+    <div id="navbar-admin" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="./admin-dashboard.html">Panel Admin</a></li>
+          <li><a class="navbar__link" href="./admin-venues.html">Canchas</a></li>
+          <li><a class="navbar__link" href="./venues.html">Ver Catálogo</a></li>
+        </ul>
+
+        <div class="navbar__actions">
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="admin-trigger">
+              <span class="navbar__avatar" id="admin-avatar">A</span>
+              <span class="navbar__username" id="admin-name">Admin</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="admin-dropdown">
+              <a href="./profile.html" class="navbar__dropdown-item active">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                Mi Perfil
+              </a>
+              <a href="./admin-dashboard.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                Dashboard
+              </a>
+              <a href="./admin-venues.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                Mis Canchas
+              </a>
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout-admin">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/>
+                  <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+
+          <button class="navbar__hamburger" id="admin-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <div class="navbar__mobile-menu" id="admin-mobile-menu">
+          <a href="./admin-dashboard.html" class="navbar__link">Panel Admin</a>
+          <a href="./admin-venues.html" class="navbar__link">Mis Canchas</a>
+          <a href="./venues.html" class="navbar__link">Catálogo</a>
+          <a href="./profile.html" class="navbar__link active">Mi Perfil</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile-admin">
+            Cerrar Sesión
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- NAVBAR USER -->
+    <div id="navbar-user" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <!-- LOGO -->
+        <a class="navbar__brand" href="./user-dashboard.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <!-- LINKS -->
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="./user-dashboard.html">Panel Principal</a></li>
+          <li><a class="navbar__link" href="./reservas.html">Mis Reservas</a></li>
+          <li><a class="navbar__link" href="./venues.html">Reservar Cancha</a></li>
+        </ul>
+
+        <!-- Accions user profile-->
+        <div class="navbar__actions">
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="user-trigger">
+              <span class="navbar__avatar" id="user-avatar">U</span>
+              <span class="navbar__username" id="user-name">Usuario</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="user-dropdown">
+              <a href="./profile.html" class="navbar__dropdown-item active">Mi Perfil</a>
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout">Cerrar Sesión</button>
+            </div>
+          </div>
+          
+          <button class="navbar__hamburger" id="user-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <!--User-Menu-movil -->
+        <div class="navbar__mobile-menu" id="user-mobile-menu">
+          <a href="./user-dashboard.html" class="navbar__link">Panel Principal</a>
+          <a href="./reservas.html"       class="navbar__link">Mis Reservas</a>
+          <a href="./venues.html"         class="navbar__link">Reservar Cancha</a>
+          <a href="./profile.html"        class="navbar__link active">Mi Perfil</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile">Cerrar Sesión</button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- MAIN PROFILE SECTION -->
+    <section class="page-profile animate-fade-up">
+      <div class="container">
+        <header class="profile-header">
+          <h1 class="profile-title">Mi Perfil</h1>
+          <p class="profile-subtitle">Gestiona tu información personal y de contacto.</p>
+        </header>
+
+        <div class="profile-content">
+          <!-- Avatar Card -->
+          <div class="profile-sidebar">
+            <div class="avatar-card">
+              <div class="avatar-circle" id="profile-avatar">U</div>
+              <h2 class="avatar-name" id="profile-display-name">Cargando...</h2>
+              <span class="avatar-role" id="profile-role">...</span>
+            </div>
+          </div>
+
+          <!-- Edit Form -->
+          <div class="profile-main">
+            <form id="profile-form" class="profile-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="profile-name">Nombre</label>
+                  <input type="text" id="profile-name" placeholder="Tu nombre" required />
+                </div>
+                <div class="form-group">
+                  <label for="profile-lastname">Apellido</label>
+                  <input type="text" id="profile-lastname" placeholder="Tu apellido" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="profile-email">Correo Electrónico <span style="font-weight:400;opacity:.6">(No editable)</span></label>
+                <input type="email" id="profile-email" placeholder="correo@ejemplo.com" disabled />
+              </div>
+
+              <div class="form-group">
+                <label for="profile-phone">Teléfono</label>
+                <input type="tel" id="profile-phone" placeholder="300 123 4567" />
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn-outline" id="btn-cancel" onclick="window.history.back()">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="btn-save">
+                  Guardar Cambios
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="../assets/js/services/supabaseClient.js"></script>
+    <script src="../assets/js/services/authService.js"></script>
+
+    <!-- JAVASCRIPT -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/navbar.js"></script>
+    <script src="../assets/js/profile.js"></script>
+  </body>
+</html>
