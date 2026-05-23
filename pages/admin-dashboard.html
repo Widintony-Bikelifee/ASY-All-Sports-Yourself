@@ -108,10 +108,10 @@
   </head>
 
   <body>
-    <!-- 
-         NAVBAR ADMIN — ═ -->
-    <div id="navbar-admin" class="navbar-wrapper navbar-wrapper--hidden">
+    <!-- NAVBAR GUEST -->
+    <div id="navbar-guest" class="navbar-wrapper navbar-wrapper--hidden">
       <nav class="navbar" role="navigation">
+        <!-- LOGO -->
         <a class="navbar__brand" href="../index.html">
           <div class="navbar__logo-icon">
             <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
@@ -119,12 +119,172 @@
           <span class="navbar__brand-text">All Sports Yourself</span>
         </a>
 
+        <!-- LINKS -->
         <ul class="navbar__links">
-          <li><a class="navbar__link active" href="./admin-dashboard.html">Panel Admin</a></li>
-          <li><a class="navbar__link" href="./venues.html">Ver Catálogo</a></li>
+          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
+          <li><a class="navbar__link" href="./venues.html">Espacios Deportivos</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Cómo Funciona" data-icon="❓" data-desc="Aprende cómo buscar canchas, seleccionar horarios y realizar pagos seguros en Ipiales en menos de 2 minutos.">Cómo Funciona</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Torneos Deportivos" data-icon="🏆" data-desc="Inscríbete en torneos locales de fútbol, baloncesto y tenis en Ipiales. ¡Organiza tus llaves y compite por premios!">Torneos</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Beneficios Club ASY" data-icon="🎁" data-desc="Acumula puntos con cada reserva y canjéalos por horas gratis, bebidas y artículos deportivos.">Beneficios</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Soporte y Contacto" data-icon="📞" data-desc="¿Tienes alguna duda o inconveniente? Chatea con nuestro equipo de soporte disponible 24/7 en Ipiales.">Soporte</a></li>
         </ul>
 
+        <!-- Actions -->
         <div class="navbar__actions">
+          <a href="./login.html" class="navbar__btn-login">Iniciar Sesión</a>
+          <a href="./register.html" class="navbar__btn-register">Registrarse</a>
+          <button class="navbar__hamburger" id="guest-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <!-- MOBILE MENU -->
+        <div class="navbar__mobile-menu" id="guest-mobile-menu">
+          <a href="../index.html" class="navbar__link">Inicio</a>
+          <a href="./venues.html" class="navbar__link">Espacios Deportivos</a>
+          <a href="#" class="navbar__link navbar__link--mock" data-feature="Cómo Funciona" data-icon="❓" data-desc="Aprende cómo buscar canchas, seleccionar horarios y realizar pagos en Ipiales en menos de 2 minutos.">Cómo Funciona</a>
+          <a href="#" class="navbar__link navbar__link--mock" data-feature="Torneos Deportivos" data-icon="🏆" data-desc="Inscríbete en torneos locales de fútbol, baloncesto y tenis en Ipiales. ¡Organiza tus llaves y compite por premios!">Torneos</a>
+          <a href="./login.html" class="navbar__link">Iniciar Sesión</a>
+          <a href="./register.html" class="navbar__link">Registrarse</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- NAVBAR USER -->
+    <div id="navbar-user" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <!-- LOGO -->
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <!-- LINKS -->
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
+          <li><a class="navbar__link" href="./user-dashboard.html">Panel Principal</a></li>
+          <li><a class="navbar__link" href="./venues.html">Reservar Cancha</a></li>
+          <li><a class="navbar__link" href="./reservas.html">Mis Reservas</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Mis Estadísticas" data-icon="📈" data-desc="Visualiza tus partidos jugados, horas activas, deportes preferidos y tu rendimiento de juego en Ipiales.">Mis Estadísticas</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Buscar Compañeros" data-icon="🤝" data-desc="¿Te falta un jugador? Conéctate con otros deportistas en Ipiales, únete a partidos abiertos o arma tu equipo.">Buscar Compañeros</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Retos y Desafíos" data-icon="🎯" data-desc="Cumple metas de reserva semanales o mensuales y gana medallas exclusivas además de descuentos en tus canchas.">Retos</a></li>
+        </ul>
+
+        <!-- Actions -->
+        <div class="navbar__actions">
+          <!-- Notification Bell -->
+          <div class="navbar__noti-container">
+            <button class="navbar__noti-btn" id="user-noti-trigger" aria-label="Notificaciones">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+              <span class="navbar__noti-badge" id="user-noti-badge" style="display: none;">0</span>
+            </button>
+            <div class="navbar__noti-dropdown" id="user-noti-dropdown">
+              <div class="navbar__noti-header">
+                <span class="navbar__noti-title">Notificaciones</span>
+                <button class="navbar__noti-clear" id="user-noti-clear">Marcar leídas</button>
+              </div>
+              <div class="navbar__noti-list" id="user-noti-list"></div>
+            </div>
+          </div>
+
+          <!-- User Profile Dropdown -->
+          <div class="navbar__user-menu">
+            <button class="navbar__user-trigger" id="user-trigger">
+              <span class="navbar__avatar" id="user-avatar">U</span>
+              <span class="navbar__username" id="user-name">Usuario</span>
+              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+
+            <div class="navbar__dropdown" id="user-dropdown">
+              <a href="./profile.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                </svg>
+                Mi Perfil
+              </a>
+              <a href="./reservas.html" class="navbar__dropdown-item">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                Mis Reservas
+              </a>
+              <hr class="navbar__dropdown-divider"/>
+              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Cerrar Sesión
+              </button>
+            </div>
+          </div>
+
+          <button class="navbar__hamburger" id="user-hamburger">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+
+        <!-- MOBILE MENU -->
+        <div class="navbar__mobile-menu" id="user-mobile-menu">
+          <a href="../index.html" class="navbar__link">Inicio</a>
+          <a href="./user-dashboard.html" class="navbar__link">Panel Principal</a>
+          <a href="./venues.html" class="navbar__link">Reservar Cancha</a>
+          <a href="./reservas.html" class="navbar__link">Mis Reservas</a>
+          <a href="#" class="navbar__link navbar__link--mock" data-feature="Mis Estadísticas" data-icon="📈" data-desc="Visualiza tus partidos jugados, horas activas, deportes preferidos y tu rendimiento de juego en Ipiales.">Mis Estadísticas</a>
+          <a href="./profile.html" class="navbar__link">Mi Perfil</a>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile">Cerrar Sesión</button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- NAVBAR ADMIN -->
+    <div id="navbar-admin" class="navbar-wrapper navbar-wrapper--hidden">
+      <nav class="navbar" role="navigation">
+        <!-- LOGO -->
+        <a class="navbar__brand" href="../index.html">
+          <div class="navbar__logo-icon">
+            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+          </div>
+          <span class="navbar__brand-text">All Sports Yourself</span>
+        </a>
+
+        <!-- LINKS -->
+        <ul class="navbar__links">
+          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
+          <li><a class="navbar__link active" href="./admin-dashboard.html">Panel Admin</a></li>
+          <li><a class="navbar__link" href="./admin-venues.html">Mis Canchas</a></li>
+          <li><a class="navbar__link" href="./venues.html">Ver Catálogo</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Historial Completo" data-icon="📋" data-desc="Accede a un registro histórico detallado de todas las reservas, cancelaciones e ingresos de tus escenarios.">Historial Completo</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Gestión de Clientes" data-icon="👥" data-desc="Ver listado de deportistas que reservan en tu club, datos de contacto, historial individual y bloqueos.">Gestión de Clientes</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Torneos y Eventos Admin" data-icon="🏅" data-desc="Crea campeonatos en tus canchas, administra llaves de eliminación, tablas de posiciones y calendarios de juego.">Torneos y Eventos</a></li>
+          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Reportes y Ventas" data-icon="📊" data-desc="Visualiza gráficos de facturación mensual, horas de mayor ocupación y deportes más rentables para tu club.">Reportes y Ventas</a></li>
+        </ul>
+
+        <!-- Actions -->
+        <div class="navbar__actions">
+          <!-- Notification Bell -->
+          <div class="navbar__noti-container">
+            <button class="navbar__noti-btn" id="admin-noti-trigger" aria-label="Notificaciones">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+              <span class="navbar__noti-badge" id="admin-noti-badge" style="display: none;">0</span>
+            </button>
+            <div class="navbar__noti-dropdown" id="admin-noti-dropdown">
+              <div class="navbar__noti-header">
+                <span class="navbar__noti-title">Notificaciones</span>
+                <button class="navbar__noti-clear" id="admin-noti-clear">Marcar leídas</button>
+              </div>
+              <div class="navbar__noti-list" id="admin-noti-list"></div>
+            </div>
+          </div>
+
+          <!-- Admin Profile Dropdown -->
           <div class="navbar__user-menu">
             <button class="navbar__user-trigger" id="admin-trigger">
               <span class="navbar__avatar" id="admin-avatar">A</span>
@@ -143,24 +303,14 @@
               </a>
               <a href="./admin-dashboard.html" class="navbar__dropdown-item">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                  <polyline points="9 22 9 12 15 12 15 22"/>
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
                 </svg>
                 Dashboard
               </a>
-              <a href="./admin-venues.html" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-                </svg>
-                Mis Canchas
-              </a>
-
               <hr class="navbar__dropdown-divider"/>
               <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout-admin">
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                  <polyline points="16 17 21 12 16 7"/>
-                  <line x1="21" y1="12" x2="9" y2="12"/>
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
                 </svg>
                 Cerrar Sesión
               </button>
@@ -172,13 +322,14 @@
           </button>
         </div>
 
+        <!-- MOBILE MENU -->
         <div class="navbar__mobile-menu" id="admin-mobile-menu">
-          <a href="./admin-dashboard.html" class="navbar__link">Panel Admin</a>
+          <a href="../index.html" class="navbar__link">Inicio</a>
+          <a href="./admin-dashboard.html" class="navbar__link active">Panel Admin</a>
+          <a href="./admin-venues.html" class="navbar__link">Mis Canchas</a>
           <a href="./venues.html" class="navbar__link">Catálogo</a>
           <a href="./profile.html" class="navbar__link">Mi Perfil</a>
-          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile-admin">
-            Cerrar Sesión
-          </button>
+          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile-admin">Cerrar Sesión</button>
         </div>
       </nav>
     </div>
