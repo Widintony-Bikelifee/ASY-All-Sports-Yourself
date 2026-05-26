@@ -84,13 +84,11 @@ const DEFAULT_ADMIN_NOTIS = [
     }
   }
 
-  // Setup listeners for mock features
-  setupMockLinks();
-
-  // On the home page: intercept logo/home clicks when logged in
   if (session) {
     setupHomePageLogoutInterception();
   }
+
+  setupMockLinks();
 
 })();
 
@@ -113,9 +111,6 @@ function setupGuestNavbar() {
       }
     });
   }
-
-  // Build mega panel for guest navbar
-  buildMegaPanel(document.getElementById('navbar-guest'));
 }
 
 
@@ -184,12 +179,6 @@ function setupUserNavbar(user, prefix = "user-") {
   
   desktopLogout?.addEventListener("click", logout);
   mobileLogout?.addEventListener("click", logout);
-
-  // Build mega panel for this navbar
-  const navbarEl = prefix === 'admin-'
-    ? document.getElementById('navbar-admin')
-    : document.getElementById('navbar-user');
-  buildMegaPanel(navbarEl);
 }
 
 /* ═══════════════════════════════════════
@@ -201,145 +190,12 @@ async function logout() {
     await supabaseClient.auth.signOut();
   }
   // Redirect to login page. We might need to adjust relative path depending on where we are.
-  const isSubPage = window.location.pathname.includes('/pages/');
-  window.location.href = isSubPage ? "login.html" : "pages/login.html";
+  const path = window.location.pathname;
+  const isNested = path.includes('/pages/user/') || path.includes('/pages/admin/');
+  const isSubPage = path.includes('/pages/') && !isNested;
+  window.location.href = isNested ? "../login.html" : (isSubPage ? "login.html" : "pages/login.html");
 }
 
-/* ═══════════════════════════════════════
-   MEGA PANEL BUILDER
-   Reads the <ul class="navbar__links"> from the given navbar wrapper,
-   injects a "Menú" button inside .navbar__actions, and creates a
-   full-width panel beneath the navbar with rich icon items.
-   ═══════════════════════════════════════
-   */
-function buildMegaPanel(navbarWrapper) {
-  if (!navbarWrapper) return;
-
-  const nav    = navbarWrapper.querySelector('.navbar');
-  const linksUl = navbarWrapper.querySelector('.navbar__links');
-  if (!nav || !linksUl) return;
-
-  // Gather link data from the <ul> items
-  const linkItems = [];
-  linksUl.querySelectorAll('li a').forEach(a => {
-    linkItems.push({
-      label:   a.textContent.trim(),
-      href:    a.getAttribute('href'),
-      isMock:  a.classList.contains('navbar__link--mock'),
-      isActive: a.classList.contains('active'),
-      feature: a.dataset.feature || '',
-      icon:    a.dataset.icon    || '',
-      desc:    a.dataset.desc    || '',
-    });
-  });
-
-  if (linkItems.length === 0) return;
-
-  // Map labels to descriptive sub-texts and icons for mega panel
-  const META = {
-    'Inicio':             { icon: '🏠', sub: 'Página principal' },
-    'Panel Principal':    { icon: '📊', sub: 'Tu dashboard personal' },
-    'Panel Admin':        { icon: '⚙️', sub: 'Gestión del club' },
-    'Reservar Cancha':    { icon: '📅', sub: 'Busca y reserva' },
-    'Mis Reservas':       { icon: '🗓️', sub: 'Historial y próximas' },
-    'Mis Canchas':        { icon: '🏟️', sub: 'Administra tus espacios' },
-    'Ver Catálogo':       { icon: '🔍', sub: 'Todos los escenarios' },
-    'Espacios Deportivos':{ icon: '🏟️', sub: 'Explora el catálogo' },
-    'Mis Estadísticas':   { icon: '📈', sub: 'Tu rendimiento' },
-    'Buscar Compañeros':  { icon: '🤝', sub: 'Red deportiva' },
-    'Retos':              { icon: '🎯', sub: 'Logros y descuentos' },
-    'Historial Completo': { icon: '📋', sub: 'Reservas históricas' },
-    'Gestión de Clientes':{ icon: '👥', sub: 'Lista de deportistas' },
-    'Torneos y Eventos':  { icon: '🏅', sub: 'Competencias' },
-    'Reportes y Ventas':  { icon: '📊', sub: 'Ingresos y estadísticas' },
-    'Cómo Funciona':      { icon: '❓', sub: 'Guía de reservas' },
-    'Torneos':            { icon: '🏆', sub: 'Próximos campeonatos' },
-    'Beneficios':         { icon: '🎁', sub: 'Puntos y recompensas' },
-    'Soporte':            { icon: '📞', sub: 'Ayuda 24/7' },
-  };
-
-  // Build the panel HTML
-  const panelId = `mega-panel-${Math.random().toString(36).slice(2, 7)}`;
-
-  const itemsHTML = linkItems.map(item => {
-    const meta    = META[item.label] || {};
-    const icon    = item.icon || meta.icon || '→';
-    const sub     = meta.sub  || '';
-    const mockBadge = item.isMock
-      ? `<span class="navbar__mega-badge">Próx.</span>`
-      : '';
-    const activeClass = item.isActive ? 'active' : '';
-    const mockClass   = item.isMock   ? 'navbar__link--mock' : '';
-
-    return `
-      <a
-        href="${item.isMock ? '#' : item.href}"
-        class="navbar__mega-item ${activeClass} ${mockClass}"
-        ${item.isMock ? `data-feature="${item.feature}" data-icon="${icon}" data-desc="${item.desc}"` : ''}
-      >
-        <span class="navbar__mega-icon">${icon}</span>
-        <span class="navbar__mega-item-text">
-          <span class="navbar__mega-item-label">${item.label}</span>
-          ${sub ? `<span class="navbar__mega-item-sub">${sub}</span>` : ''}
-        </span>
-        ${mockBadge}
-      </a>`;
-  }).join('');
-
-  // Create the mega panel element (appended after .navbar)
-  const panel = document.createElement('div');
-  panel.className = 'navbar__mega-panel';
-  panel.id = panelId;
-  panel.innerHTML = `<div class="navbar__mega-inner">${itemsHTML}</div>`;
-  navbarWrapper.appendChild(panel);
-
-  // Create the Menú button and inject it into .navbar__actions
-  const actions = nav.querySelector('.navbar__actions');
-  if (!actions) return;
-
-  const menuBtn = document.createElement('button');
-  menuBtn.className = 'navbar__menu-btn';
-  menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-  menuBtn.innerHTML = `
-    Menú
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <polyline points="6 9 12 15 18 9"/>
-    </svg>
-  `;
-  // Insert menu button as the FIRST child of actions
-  actions.insertBefore(menuBtn, actions.firstChild);
-
-  // Toggle panel on button click
-  menuBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isOpen = panel.classList.toggle('open');
-    menuBtn.classList.toggle('active', isOpen);
-
-    // Close other panels and dropdowns
-    document.querySelectorAll('.navbar__mega-panel').forEach(p => {
-      if (p !== panel) p.classList.remove('open');
-    });
-    document.querySelectorAll('.navbar__menu-btn').forEach(b => {
-      if (b !== menuBtn) b.classList.remove('active');
-    });
-  });
-
-  // Close panel on outside click
-  document.addEventListener('click', (e) => {
-    if (!panel.contains(e.target) && !menuBtn.contains(e.target)) {
-      panel.classList.remove('open');
-      menuBtn.classList.remove('active');
-    }
-  });
-
-  // Close panel when a non-mock link is clicked
-  panel.querySelectorAll('.navbar__mega-item:not(.navbar__link--mock)').forEach(link => {
-    link.addEventListener('click', () => {
-      panel.classList.remove('open');
-      menuBtn.classList.remove('active');
-    });
-  });
-}
 
 /* ═══════════════════════════════════════
    NOTIFICATIONS MANAGEMENT

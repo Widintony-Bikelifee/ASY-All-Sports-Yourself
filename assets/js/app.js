@@ -57,7 +57,8 @@ const App = (() => {
       register: "register.html",
       venues: "venues.html",
       reservas: "reservas.html",
-      admin: "admin-dashboard.html",
+      dashboard: "user/user-dashboard.html",
+      admin: "admin/admin-dashboard.html",
     };
 
     // Check if we're in the root directory (not /pages/)
@@ -70,7 +71,8 @@ const App = (() => {
       register: "pages/register.html",
       venues: "pages/venues.html",
       reservas: "pages/reservas.html",
-      admin: "pages/admin-dashboard.html",
+      dashboard: "pages/user/user-dashboard.html",
+      admin: "pages/admin/admin-dashboard.html",
     };
 
     // Choose correct route based on current location
@@ -91,3 +93,4 @@ const App = (() => {
 
 // Expose App globally so it can be used in inline event handlers or other scripts
 window.App = App;
+

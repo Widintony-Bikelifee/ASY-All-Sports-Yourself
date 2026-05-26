@@ -186,9 +186,9 @@ const Login = (() => {
       
       setTimeout(() => {
         if (rol === 'admin_cancha') {
-          window.location.href = '../pages/admin-dashboard.html';
+          window.location.href = '../pages/admin/admin-dashboard.html';
         } else {
-          window.location.href = '../pages/user-dashboard.html';
+          window.location.href = '../pages/user/user-dashboard.html';
         }
       }, 1500);
 

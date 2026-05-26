@@ -45,9 +45,15 @@
   color: var(--text-primary); /* Primary text color */
 }
 
-/* Navigation links list - always hidden; links live inside the mega-panel */
+/* Navigation links list - now visible and centered */
 .navbar__links {
-  display: none;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  list-style: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* Individual nav link - used both inside mega-panel and mobile menu */
@@ -386,8 +392,8 @@
 
 /* Responsive - tablet breakpoint (900px) */
 @media (max-width: 900px) {
-  /* Hide the mega menu button on mobile - use hamburger instead */
-  .navbar__menu-btn {
+  /* Hide desktop links on mobile */
+  .navbar__links {
     display: none;
   }
 
