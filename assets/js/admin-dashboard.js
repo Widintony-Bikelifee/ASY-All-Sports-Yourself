@@ -27,34 +27,102 @@ const AdminDashboard = (() => {
   async function init() {
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
-      if (!session) { window.location.href = "./login.html"; return; }
+      if (!session) { window.location.href = "../login.html"; return; }
 
       const role = await window.getUserRole();
       if (role !== "admin_cancha") {
         App.showToast("Acceso denegado. No tienes permisos de administrador.");
-        setTimeout(() => { window.location.href = "./venues.html"; }, 1500);
+        setTimeout(() => { window.location.href = "../venues.html"; }, 1500);
         return;
       }
 
-      // Set admin name in navbar
-      const { data: usuario } = await supabaseClient
-        .from("usuarios")
-        .select("nombre, apellido")
-        .eq("id", session.user.id)
-        .single();
-      if (usuario) {
-        const nameEl   = document.getElementById("admin-name");
-        const avatarEl = document.getElementById("admin-avatar");
-        if (nameEl)   nameEl.textContent   = `${usuario.nombre} ${usuario.apellido}`;
-        if (avatarEl) avatarEl.textContent = usuario.nombre.charAt(0).toUpperCase();
+      // Set admin profile in sidebar
+      const profile = await window.getUserProfile(session.user.id);
+      if (profile) {
+        const fullName = `${profile.nombre} ${profile.apellido}`;
+        const email = profile.correo_electronico || session.user.email;
+        
+        const nameEl = document.getElementById("sidebar-user-name");
+        const emailEl = document.getElementById("sidebar-user-email");
+        const avatarImg = document.getElementById("sidebar-avatar-img");
+        
+        if (nameEl) nameEl.textContent = fullName;
+        if (emailEl) emailEl.textContent = email;
+        if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+
+        // Populate Profile Form (edit inputs)
+        const profileName = document.getElementById('profile-name');
+        const profileLastname = document.getElementById('profile-lastname');
+        const profileEmail = document.getElementById('profile-email');
+        const profilePhone = document.getElementById('profile-phone');
+        if (profileName) profileName.value = profile.nombre;
+        if (profileLastname) profileLastname.value = profile.apellido;
+        if (profileEmail) profileEmail.value = email;
+        if (profilePhone) profilePhone.value = profile.telefono || '';
+
+        // Populate hero + view-mode fields
+        _refreshProfileView(profile, email, session.user);
+      }
+
+      // Setup Profile Save
+      const profileForm = document.getElementById('profile-form');
+      if (profileForm) {
+        profileForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const btnSave = document.getElementById('btn-save');
+          btnSave.textContent = 'Guardando...';
+          btnSave.disabled = true;
+
+          const updatedData = {
+            nombre: document.getElementById('profile-name').value.trim(),
+            apellido: document.getElementById('profile-lastname').value.trim(),
+            telefono: document.getElementById('profile-phone').value.trim()
+          };
+
+          try {
+            await window.updateUserProfile(session.user.id, updatedData);
+            App.showToast('✅ Perfil actualizado correctamente');
+            const newFullName = `${updatedData.nombre} ${updatedData.apellido}`;
+            // Update sidebar
+            document.getElementById('sidebar-user-name').textContent = newFullName;
+            document.getElementById('sidebar-avatar-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
+            // Refresh view-mode fields & hero
+            _refreshProfileView({ nombre: updatedData.nombre, apellido: updatedData.apellido, telefono: updatedData.telefono }, email, session.user);
+            // Switch back to view mode
+            _setProfileEditMode(false);
+          } catch (err) {
+            App.showToast('❌ Error al actualizar el perfil');
+          } finally {
+            btnSave.textContent = 'Guardar Cambios';
+            btnSave.disabled = false;
+          }
+        });
+      }
+      
+      // Setup Logout Button for sidebar
+      const logoutBtn = document.getElementById('btn-logout');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          await supabaseClient.auth.signOut();
+          window.location.href = "../../index.html";
+        });
       }
 
       await loadDashboardData();
       await loadReservas();
+
+      // SPA Tab parameter routing
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get('tab');
+      if (tabParam && ['canchas', 'reservas', 'profile'].includes(tabParam)) {
+        switchTab(tabParam);
+      } else {
+        switchTab('canchas');
+      }
     } catch (err) {
       console.error("Error loading admin dashboard:", err);
       App.showToast("Error de autenticación.");
-      setTimeout(() => { window.location.href = "./login.html"; }, 1500);
+      setTimeout(() => { window.location.href = "../login.html"; }, 1500);
     }
   }
 
@@ -64,13 +132,31 @@ const AdminDashboard = (() => {
   function switchTab(tab) {
     _activeTab = tab;
 
-    // Toggle tab buttons
-    document.getElementById("tab-canchas").classList.toggle("active", tab === "canchas");
-    document.getElementById("tab-reservas").classList.toggle("active", tab === "reservas");
+    const ALL_TABS = ["canchas", "reservas", "clientes", "reportes", "profile"];
 
-    // Toggle panels
-    document.getElementById("panel-canchas").classList.toggle("active", tab === "canchas");
-    document.getElementById("panel-reservas").classList.toggle("active", tab === "reservas");
+    // Update sidebar active state
+    ALL_TABS.forEach(t => {
+      document.getElementById(`sidebar-tab-${t}`)?.classList.toggle("active", tab === t);
+    });
+
+    // Show only the active panel, hide the rest
+    ALL_TABS.forEach(t => {
+      document.getElementById(`panel-${t}`)?.classList.toggle("active", tab === t);
+    });
+
+    // Scroll main content to top on every tab change
+    document.querySelector(".main-content")?.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Update sidebar badge visibility
+    const badge = document.getElementById("sidebar-badge-reservas");
+    if (badge) {
+      const pending = parseInt(badge.textContent) || 0;
+      badge.style.display = pending > 0 ? "inline-flex" : "none";
+    }
+
+    // Auto-load data when entering each section
+    if (tab === "clientes") loadClientes();
+    if (tab === "reportes") loadReportes();
   }
 
   /* ─────────────────────────────────────────────────────────────────
@@ -159,6 +245,8 @@ const AdminDashboard = (() => {
       return;
     }
 
+    allReservas = data ?? [];
+
     if (!data || data.length === 0) {
       if (tbody) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:3rem;">
         📭 No hay reservas para tus canchas aún.
@@ -184,10 +272,10 @@ const AdminDashboard = (() => {
     const elInc = document.getElementById("stat-ingresos");
     if (elInc) elInc.textContent = _formatCOP(income);
 
-    // Badge count (pending)
-    const badge = document.getElementById("tab-reservas-badge");
+    // Badge count (pending) — update sidebar badge
+    const badge = document.getElementById("sidebar-badge-reservas");
     if (badge) {
-      badge.textContent = pendientes > 0 ? pendientes : "";
+      badge.textContent = pendientes > 0 ? String(pendientes) : "";
       badge.style.display = pendientes > 0 ? "inline-flex" : "none";
     }
 
@@ -410,7 +498,309 @@ const AdminDashboard = (() => {
     return `<span style="font-size:.82rem;">${icons[m] ?? (m ?? "–")}</span>`;
   }
 
-  return { init, switchTab, openModal, closeModal, saveVenue, deleteVenue, loadReservas, filterReservas, changeEstado };
+
+  /* ─────────────────────────────────────────────────────────────────
+     CLIENTES
+  ───────────────────────────────────────────────────────────────── */
+  let _allClientes = [];
+
+  async function loadClientes() {
+    const tbody = document.getElementById("clientes-tbody");
+    if (tbody) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando clientes…</td></tr>`;
+    }
+
+    // Build client list from existing reservations data
+    const { data, error } = await window.VenuesService.getReservasAdmin();
+    if (error || !data) {
+      if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#dc2626;padding:3rem;">❌ Error al cargar clientes.</td></tr>`;
+      return;
+    }
+
+    // Group by user
+    const clientMap = {};
+    data.forEach(r => {
+      const uid = r.usuario_id;
+      if (!uid) return;
+      const u = r.usuarios ?? {};
+      if (!clientMap[uid]) {
+        clientMap[uid] = {
+          nombre: `${u.nombre ?? "–"} ${u.apellido ?? ""}`.trim(),
+          correo: u.correo_electronico ?? "–",
+          telefono: u.telefono ?? "–",
+          reservas: [],
+        };
+      }
+      clientMap[uid].reservas.push(r);
+    });
+
+    _allClientes = Object.values(clientMap).map(c => {
+      const sorted = [...c.reservas].sort((a, b) => b.fecha?.localeCompare(a.fecha));
+      const ultima = sorted[0];
+      // Most used venue
+      const venueCounts = {};
+      c.reservas.forEach(r => {
+        const n = r.escenarios?.nombre ?? "–";
+        venueCounts[n] = (venueCounts[n] ?? 0) + 1;
+      });
+      const favorita = Object.entries(venueCounts).sort((a,b) => b[1]-a[1])[0]?.[0] ?? "–";
+      return { ...c, ultimaFecha: ultima?.fecha, ultimaCancha: ultima?.escenarios?.nombre ?? "–", favorita };
+    });
+
+    _renderClientes(_allClientes);
+  }
+
+  function _renderClientes(list) {
+    const tbody = document.getElementById("clientes-tbody");
+    if (!tbody) return;
+
+    if (list.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:3rem;">Sin clientes registrados aún.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(c => {
+      const initials = c.nombre.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+      const fechaStr = c.ultimaFecha ? _formatDateShort(c.ultimaFecha) : "–";
+      return `
+        <tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:.75rem;">
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(46,204,80,.15);
+                          color:var(--color-green-dark);font-weight:800;font-size:.8rem;
+                          display:flex;align-items:center;justify-content:center;flex-shrink:0;">${initials}</div>
+              <div>
+                <strong style="display:block;color:var(--text-dark);">${c.nombre}</strong>
+                <span style="font-size:.75rem;color:var(--text-muted);">${c.correo}</span>
+              </div>
+            </div>
+          </td>
+          <td style="color:var(--text-muted);font-size:.85rem;">${c.telefono}</td>
+          <td>
+            <span style="font-weight:700;color:var(--text-dark);">${c.reservas.length}</span>
+            <span style="font-size:.75rem;color:var(--text-muted);margin-left:.25rem;">reserva${c.reservas.length !== 1 ? "s" : ""}</span>
+          </td>
+          <td style="font-size:.85rem;color:var(--text-muted);">${fechaStr}</td>
+          <td>
+            <span style="background:rgba(46,204,80,.1);color:#065f46;padding:.2rem .6rem;
+                         border-radius:99px;font-size:.75rem;font-weight:700;">${c.favorita}</span>
+          </td>
+        </tr>`;
+    }).join("");
+  }
+
+  function filterClientes() {
+    const q = document.getElementById("clientes-search")?.value.toLowerCase() ?? "";
+    if (!q) { _renderClientes(_allClientes); return; }
+    const filtered = _allClientes.filter(c =>
+      c.nombre.toLowerCase().includes(q) || c.correo.toLowerCase().includes(q)
+    );
+    _renderClientes(filtered);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     REPORTES
+  ───────────────────────────────────────────────────────────────── */
+  async function loadReportes() {
+    // Use existing allReservas if loaded, otherwise fetch
+    const reservas = allReservas.length > 0 ? allReservas : (await window.VenuesService.getReservasAdmin()).data ?? [];
+
+    // ── KPIs ──
+    const total      = reservas.length;
+    const pendientes = reservas.filter(r => r.estado === "pendiente").length;
+    const confirmadas= reservas.filter(r => r.estado === "confirmada").length;
+    const completadas= reservas.filter(r => r.estado === "completada").length;
+    const canceladas = reservas.filter(r => r.estado === "cancelada").length;
+
+    const ingresos = reservas
+      .filter(r => r.estado === "confirmada" || r.estado === "completada")
+      .reduce((acc, r) => acc + (r.escenarios?.precio ?? 0) * _diffHours(r.hora_inicio, r.hora_fin), 0);
+
+    const kpiEl = document.getElementById("reportes-kpis");
+    if (kpiEl) {
+      const kpis = [
+        { label: "Total Reservas",   value: total,      color: "#6366f1", icon: "📅" },
+        { label: "Completadas",      value: completadas, color: "#10b981", icon: "✅" },
+        { label: "Pendientes",       value: pendientes,  color: "#f59e0b", icon: "⏳" },
+        { label: "Canceladas",       value: canceladas,  color: "#ef4444", icon: "❌" },
+        { label: "Ingresos Est.",    value: _formatCOP(ingresos), color: "#2ecc50", icon: "💰" },
+      ];
+      kpiEl.innerHTML = kpis.map(k => `
+        <div style="background:var(--bg-white);border:1px solid var(--border-light);
+                    border-radius:var(--radius-md);padding:1.25rem;
+                    box-shadow:0 4px 15px rgba(0,0,0,.03);text-align:center;">
+          <div style="font-size:1.6rem;margin-bottom:.35rem;">${k.icon}</div>
+          <div style="font-size:1.5rem;font-weight:800;color:${k.color};font-family:var(--font-display);">${k.value}</div>
+          <div style="font-size:.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${k.label}</div>
+        </div>`).join("");
+    }
+
+    // ── Reservas por cancha ──
+    const byCanchaEl = document.getElementById("reportes-por-cancha");
+    if (byCanchaEl) {
+      const counts = {};
+      reservas.forEach(r => {
+        const n = r.escenarios?.nombre ?? "Sin nombre";
+        counts[n] = (counts[n] ?? 0) + 1;
+      });
+      const entries = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+      const maxVal  = entries[0]?.[1] ?? 1;
+
+      if (entries.length === 0) {
+        byCanchaEl.innerHTML = `<p style="color:var(--text-muted);font-size:.9rem;">Sin datos.</p>`;
+      } else {
+        byCanchaEl.innerHTML = entries.map(([name, count]) => {
+          const pct = Math.round((count / maxVal) * 100);
+          return `
+            <div style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+                <span style="font-size:.88rem;font-weight:600;color:var(--text-dark);">${name}</span>
+                <span style="font-size:.85rem;color:var(--text-muted);">${count} reserva${count!==1?"s":""}</span>
+              </div>
+              <div style="background:rgba(0,0,0,.06);border-radius:99px;height:10px;overflow:hidden;">
+                <div style="width:${pct}%;height:100%;border-radius:99px;
+                            background:linear-gradient(90deg,var(--color-green),var(--color-green-dark));
+                            transition:width .5s ease;"></div>
+              </div>
+            </div>`;
+        }).join("");
+      }
+    }
+
+    // ── Ingresos por mes ──
+    const ingMesEl = document.getElementById("reportes-ingresos-mes");
+    if (ingMesEl) {
+      const byMonth = {};
+      reservas
+        .filter(r => r.estado === "confirmada" || r.estado === "completada")
+        .forEach(r => {
+          if (!r.fecha) return;
+          const [y, m] = r.fecha.split("-");
+          const key = `${y}-${m}`;
+          byMonth[key] = (byMonth[key] ?? 0) + (r.escenarios?.precio ?? 0) * _diffHours(r.hora_inicio, r.hora_fin);
+        });
+
+      const entries = Object.entries(byMonth).sort((a,b) => a[0].localeCompare(b[0]));
+      const maxIng  = Math.max(...entries.map(e => e[1]), 1);
+
+      if (entries.length === 0) {
+        ingMesEl.innerHTML = `<p style="color:var(--text-muted);font-size:.9rem;">Sin ingresos registrados aún.</p>`;
+      } else {
+        const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+        ingMesEl.innerHTML = `
+          <div style="display:flex;align-items:flex-end;gap:.6rem;height:140px;padding-bottom:.5rem;overflow-x:auto;">
+            ${entries.map(([key, val]) => {
+              const [y, m] = key.split("-");
+              const label = `${MESES[parseInt(m)-1]} ${y}`;
+              const pct   = Math.round((val / maxIng) * 100);
+              const barH  = Math.max(pct * 1.2, 8);
+              return `
+                <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;min-width:52px;flex:1;">
+                  <span style="font-size:.62rem;color:var(--text-muted);font-weight:600;">${_formatCOP(val).replace("COP","").trim()}</span>
+                  <div style="width:100%;height:${barH}px;border-radius:6px 6px 0 0;
+                              background:linear-gradient(180deg,var(--color-green),var(--color-green-dark));
+                              transition:height .4s ease;"></div>
+                  <span style="font-size:.65rem;color:var(--text-muted);text-align:center;white-space:nowrap;">${label}</span>
+                </div>`;
+            }).join("")}
+          </div>`;
+      }
+    }
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────────
+     PROFILE UI HELPERS
+  ───────────────────────────────────────────────────────────────── */
+
+  function _refreshProfileView(profile, email, user) {
+    const fullName = `${profile.nombre ?? ""} ${profile.apellido ?? ""}`.trim();
+    email = email || user?.email || "";
+
+    // Hero card
+    const heroName  = document.getElementById("prf-hero-name");
+    const heroEmail = document.getElementById("prf-hero-email");
+    const heroSince = document.getElementById("prf-hero-since");
+    const avatarImg = document.getElementById("prf-avatar-img");
+    if (heroName)  heroName.textContent  = fullName || "—";
+    if (heroEmail) heroEmail.textContent = email;
+    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`;
+
+    // "Miembro desde" — parse created_at from user metadata or fallback
+    if (heroSince) {
+      const raw = user?.created_at || user?.user_metadata?.created_at;
+      if (raw) {
+        const d = new Date(raw);
+        const mes = d.toLocaleDateString("es-CO", { month: "long", year: "numeric" });
+        heroSince.textContent = `Miembro desde ${mes.charAt(0).toUpperCase() + mes.slice(1)}`;
+      } else {
+        heroSince.textContent = "Miembro ASY";
+      }
+    }
+
+    // View-mode fields
+    const vName  = document.getElementById("prf-view-name");
+    const vEmail = document.getElementById("prf-view-email");
+    const vPhone = document.getElementById("prf-view-phone");
+    if (vName)  vName.textContent  = fullName || "—";
+    if (vEmail) vEmail.textContent = email || "—";
+    if (vPhone) vPhone.textContent = profile.telefono || "—";
+  }
+
+  function _setProfileEditMode(editing) {
+    const view = document.getElementById("prf-view-mode");
+    const edit = document.getElementById("prf-edit-mode");
+    const btn  = document.getElementById("prf-edit-toggle");
+    if (view) view.style.display = editing ? "none"  : "block";
+    if (edit) edit.style.display = editing ? "block" : "none";
+    if (btn)  btn.innerHTML = editing
+      ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Cancelar`
+      : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar`;
+  }
+
+  function toggleProfileEdit() {
+    const editMode = document.getElementById("prf-edit-mode");
+    const isEditing = editMode && editMode.style.display !== "none";
+    _setProfileEditMode(!isEditing);
+  }
+
+  function openChangePassword() {
+    const modal = document.getElementById("prf-password-modal");
+    if (modal) {
+      document.getElementById("prf-new-password").value = "";
+      document.getElementById("prf-confirm-password").value = "";
+      document.getElementById("prf-password-error").textContent = "";
+      modal.classList.add("open");
+    }
+  }
+
+  function closeChangePassword() {
+    document.getElementById("prf-password-modal")?.classList.remove("open");
+  }
+
+  async function saveNewPassword() {
+    const pw1 = document.getElementById("prf-new-password")?.value || "";
+    const pw2 = document.getElementById("prf-confirm-password")?.value || "";
+    const errEl = document.getElementById("prf-password-error");
+
+    if (pw1.length < 8) { errEl.textContent = "La contraseña debe tener al menos 8 caracteres."; return; }
+    if (pw1 !== pw2)    { errEl.textContent = "Las contraseñas no coinciden."; return; }
+
+    errEl.textContent = "";
+    const { error } = await supabaseClient.auth.updateUser({ password: pw1 });
+    if (error) { errEl.textContent = "Error: " + error.message; return; }
+
+    closeChangePassword();
+    App.showToast("✅ Contraseña actualizada correctamente.");
+  }
+
+  async function signOutAll() {
+    if (!confirm("¿Cerrar sesión en todos los dispositivos?")) return;
+    await supabaseClient.auth.signOut({ scope: "global" });
+    window.location.href = "../index.html";
+  }
+
+  return { init, switchTab, openModal, closeModal, saveVenue, deleteVenue, loadReservas, filterReservas, changeEstado, loadClientes, filterClientes, loadReportes, toggleProfileEdit, openChangePassword, closeChangePassword, saveNewPassword, signOutAll };
 })();
 
 window.AdminDashboard = AdminDashboard;
