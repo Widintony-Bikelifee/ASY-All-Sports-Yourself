@@ -1,524 +1,78 @@
-/* Venues page container - dark background with top padding for navbar */
-.page-venues {
-  background: var(--bg-dark); /* Dark background */
-  padding-top: var(--nav-h); /* Space for fixed navbar */
-  min-height: 100vh; /* Full viewport height */
-}
-
-/* Section header - contains title and count */
-.venues__header {
-  background: var(--bg-dark2); /* Slightly lighter dark */
-  border-bottom: 1px solid var(--border-dark); /* Bottom border */
-  padding: 2rem 2.5rem; /* Internal spacing */
-}
-
-.venues__header-inner {
-  max-width: 1140px; /* Max container width */
-  margin: 0 auto; /* Center horizontally */
-  display: flex; /* Horizontal layout */
-  justify-content: space-between; /* Spread items */
-  align-items: flex-end; /* Align to bottom */
-  margin-bottom: 1.2rem; /* Space below */
-}
-
-/* Section tag - small label above title */
-.venues__section-tag {
-  display: inline-block; /* Inline block for sizing */
-  background: var(--color-green-dim); /* Dark green background */
-  color: var(--color-green); /* Green text */
-  font-size: var(--fs-xs); /* Extra small font */
-  font-weight: 700; /* Bold */
-  letter-spacing: 0.5px; /* Slight letter spacing */
-  text-transform: uppercase; /* ALL CAPS */
-  padding: 0.28rem 0.8rem; /* Internal spacing */
-  border-radius: var(--radius-full); /* Pill shape */
-  margin-bottom: 0.5rem; /* Space below */
-}
-
-/* Page title - large display text */
-.venues__title {
-  font-family: var(--font-display); /* Display font */
-  font-size: var(--fs-2xl); /* Extra large */
-  font-weight: 900; /* Extra bold */
-  text-transform: uppercase; /* ALL CAPS */
-  color: var(--text-primary); /* White text */
-}
-
-/* Results count - shows number of venues */
-.venues__count {
-  font-size: var(--fs-sm); /* Small font */
-  color: var(--text-muted); /* Muted text color */
-}
-
-.venues__count strong {
-  color: var(--text-primary); /* White for number */
-}
-
-/* Filter chips container - horizontal scrollable filters */
-.venues__filters {
-  max-width: 1140px; /* Max container width */
-  margin: 0 auto; /* Center horizontally */
-  display: flex; /* Horizontal layout */
-  gap: 0.65rem; /* Space between chips */
-  flex-wrap: wrap; /* Wrap on mobile */
-}
-
-/* Individual filter chip - clickable sport type filter */
-.venues__filter-chip {
-  background: var(--bg-dark3); /* Dark background */
-  border: 1px solid var(--border-dark); /* Subtle border */
-  color: var(--text-muted); /* Muted text */
-  padding: 0.4rem 1rem; /* Internal spacing */
-  border-radius: var(--radius-full); /* Pill shape */
-  font-size: var(--fs-sm); /* Small font */
-  font-weight: 600; /* Semi-bold */
-  transition:
-    background var(--transition), /* Smooth bg change */
-    border-color var(--transition), /* Smooth border change */
-    color var(--transition); /* Smooth color change */
-}
-
-/* Filter chip hover - green highlight */
-.venues__filter-chip:hover {
-  background: var(--color-green-dim); /* Green tint */
-  border-color: var(--color-green); /* Green border */
-  color: var(--color-green); /* Green text */
-}
-
-/* Active filter chip - currently selected filter */
-.venues__filter-chip.active {
-  background: var(--color-green-dim); /* Green tint */
-  border-color: var(--color-green); /* Green border */
-  color: var(--color-green); /* Green text */
-}
-
-/* Card grid container - responsive grid layout */
 .venues__grid {
-  max-width: 1140px; /* Max container width */
-  margin: 2rem auto; /* Center with vertical margin */
-  padding: 0 2.5rem 3rem; /* Side padding, bottom spacing */
-  display: grid; /* CSS Grid layout */
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Responsive columns */
-  gap: 1.5rem; /* Space between cards */
+  margin-top: var(--space-lg);
 }
 
-/* Venue card - individual venue display */
 .venue-card {
-  background: var(--bg-card);
   border: 1px solid var(--border-dark);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   overflow: hidden;
-  cursor: pointer;
-  transition:
-    transform var(--transition),
-    border-color var(--transition),
-    box-shadow var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  background: var(--bg-card);
 }
 
 .venue-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(46, 204, 80, 0.4);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Card Image / Banner */
 .venue-card__img {
-  height: 190px;
+  min-height: 220px;
   overflow: hidden;
+  background: var(--bg-light);
 }
 
-/* Card Body */
-.venue-card__body {
-  padding: 1.2rem;
+.venue-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .venue-card__name {
-  font-family: var(--font-display);
   font-size: var(--fs-lg);
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  margin-bottom: 0.25rem;
-}
-
-.venue-card__location {
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-  margin-bottom: 0.8rem;
-}
-
-/* Feature Tags */
-.venue-card__tags {
-  display: flex;
-  gap: 0.45rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-
-.venue-card__tag {
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  padding: 0.18rem 0.6rem;
-  border-radius: 4px;
-}
-
-.venue-card__tag--green {
-  background: var(--color-green-dim);
-  color: var(--color-green);
-}
-.venue-card__tag--orange {
-  background: var(--color-orange-dim);
-  color: var(--color-orange);
-}
-.venue-card__tag--blue {
-  background: var(--color-blue-dim);
-  color: var(--color-blue);
-}
-
-/* Bottom Row: Price & Availability */
-.venue-card__footer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  margin-bottom: 0.35rem;
+  color: var(--text-dark);
 }
 
 .venue-card__price {
-  font-family: var(--font-display);
-  font-size: 1.7rem;
-  font-weight: 900;
-  color: var(--color-green);
-  line-height: 1;
-}
-
-.venue-card__price-unit {
-  font-family: var(--font-body);
-  font-size: var(--fs-xs);
-  color: var(--text-muted);
-  font-weight: 400;
-}
-
-.venue-card__avail {
-  font-size: var(--fs-xs);
+  font-size: var(--fs-md);
   font-weight: 700;
-  margin-bottom: 0.4rem;
+  color: var(--text-primary);
 }
 
-.venue-card__avail.available {
-  color: var(--color-green);
-}
-.venue-card__avail.busy {
-  color: var(--color-orange);
-}
-.venue-card__avail.full {
-  color: #e24b4a;
-}
-
-/* Reserve Button */
-.venue-card__btn {
-  width: 100%;
-  margin-top: 0.9rem;
-  background: var(--color-green-dim);
-  color: var(--color-green);
-  border: 1px solid rgba(46, 204, 80, 0.3);
-  padding: 0.55rem;
-  border-radius: var(--radius-sm);
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  transition:
-    background var(--transition),
-    color var(--transition);
-}
-
-.venue-card__btn:hover {
-  background: var(--color-green);
-  color: #000;
-}
-
-/* ── Empty State (No Results) ── */
-.venues__empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 4rem 2rem;
-  color: var(--text-muted);
-}
-
-.venues__empty-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.venues__empty h3 {
-  font-family: var(--font-display);
-  font-size: var(--fs-xl);
-  font-weight: 800;
-  text-transform: uppercase;
-  margin-bottom: 0.4rem;
+.venue-card__price small {
   color: var(--text-secondary);
 }
 
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .venues__grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    padding: 0 1.5rem 2rem;
-  }
-
-  .venues__header {
-    padding: 1.5rem;
-  }
+.venue-card .btn-success {
+  background-color: var(--color-green) !important;
+  border-color: var(--color-green) !important;
+  color: #000 !important;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
 }
 
-@media (max-width: 640px) {
-  .venues__grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem 2rem;
-  }
-
-  .venues__header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
+.venue-card .btn-success:hover,
+.venue-card .btn-success:focus {
+  background-color: var(--color-green-dark) !important;
+  border-color: var(--color-green-dark) !important;
 }
-      /* ── 2-Step Reservation Modal ── */
-      .reserva-modal-overlay {
-        position: fixed; inset: 0;
-        background: rgba(0,0,0,0.55);
-        display: flex; align-items: center; justify-content: center;
-        z-index: 1100;
-        opacity: 0; visibility: hidden;
-        transition: all .25s ease;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        padding: 1rem;
-      }
-      .reserva-modal-overlay.open { opacity:1; visibility:visible; }
 
-      .reserva-modal {
-        background: var(--bg-white);
-        border-radius: 18px;
-        width: 100%; max-width: 500px;
-        box-shadow: 0 24px 60px rgba(0,0,0,0.18);
-        transform: translateY(24px) scale(.97);
-        transition: all .28s ease;
-        overflow: hidden;
-        display: flex; flex-direction: column;
-        max-height: 92vh;
-      }
-      .reserva-modal-overlay.open .reserva-modal { transform: translateY(0) scale(1); }
+.venue-card--highlight {
+  border-color: var(--color-green);
+  box-shadow: var(--shadow-green);
+}
 
-      /* Progress bar */
-      .rmodal-progress {
-        display: flex; height: 4px; background: var(--border-light);
-      }
-      .rmodal-progress__bar {
-        height: 100%;
-        background: linear-gradient(90deg, var(--color-green), #34d399);
-        transition: width .35s ease;
-      }
+.venues__empty {
+  padding: var(--space-2xl) var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--bg-white);
+  color: var(--text-secondary);
+  text-align: center;
+}
 
-      .rmodal-header {
-        padding: 1.4rem 1.6rem 1rem;
-        display: flex; justify-content: space-between; align-items: flex-start;
-        border-bottom: 1px solid var(--border-light);
-      }
-      .rmodal-header__left {}
-      .rmodal-step-label {
-        font-size: .7rem; font-weight: 700; text-transform: uppercase;
-        letter-spacing: .8px; color: var(--color-green-dark);
-        margin-bottom: .3rem;
-      }
-      .rmodal-title {
-        font-family: var(--font-display);
-        font-size: 1.35rem; font-weight: 800;
-        color: var(--text-dark); line-height: 1.2;
-      }
-      .rmodal-close {
-        background: var(--bg-light); border: none; border-radius: 50%;
-        width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-        color: var(--text-muted); cursor: pointer; font-size: 1.1rem;
-        transition: all .2s ease; flex-shrink: 0;
-      }
-      .rmodal-close:hover { background: var(--border-dark); color: var(--text-dark); }
-
-      .rmodal-venue-info {
-        display: flex; align-items: center; gap: .85rem;
-        padding: 1rem 1.6rem;
-        background: var(--bg-light);
-        border-bottom: 1px solid var(--border-light);
-      }
-      .rmodal-venue-icon {
-        width: 46px; height: 46px; border-radius: 12px;
-        background: var(--color-green-dim);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.4rem; flex-shrink: 0;
-      }
-      .rmodal-venue-name {
-        font-family: var(--font-display); font-weight: 800;
-        font-size: 1.05rem; color: var(--text-dark); display: block;
-      }
-      .rmodal-venue-meta {
-        font-size: .78rem; color: var(--text-muted); font-weight: 500;
-      }
-
-      .rmodal-body {
-        padding: 1.4rem 1.6rem; overflow-y: auto; flex: 1;
-      }
-
-      /* Steps visibility */
-      .rmodal-step { display: none; }
-      .rmodal-step.active { display: block; }
-
-      .rmodal-form-group { margin-bottom: 1.1rem; }
-      .rmodal-form-group label {
-        display: block; font-size: .8rem; font-weight: 700;
-        color: var(--text-dark); margin-bottom: .4rem;
-      }
-      .rmodal-input, .rmodal-select {
-        width: 100%; padding: .65rem 1rem;
-        border: 1.5px solid var(--border-dark);
-        border-radius: 10px;
-        font-family: var(--font-body); font-size: .9rem;
-        color: var(--text-dark); background: var(--bg-white);
-        transition: border-color .2s, box-shadow .2s;
-      }
-      .rmodal-input:focus, .rmodal-select:focus {
-        outline: none;
-        border-color: var(--color-green);
-        box-shadow: 0 0 0 3px rgba(46,204,80,.12);
-      }
-      .rmodal-row { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
-      .rmodal-error {
-        color: #dc2626; font-size: .8rem; font-weight: 600;
-        margin-top: .8rem; min-height: 1.2em;
-      }
-
-      /* Step 2 – summary */
-      .rmodal-summary {
-        background: var(--bg-light); border-radius: 12px;
-        padding: 1.1rem 1.25rem; margin-bottom: 1.25rem;
-        display: flex; flex-direction: column; gap: .55rem;
-      }
-      .rmodal-summary-row {
-        display: flex; justify-content: space-between;
-        align-items: center; font-size: .86rem;
-      }
-      .rmodal-summary-row .lbl { color: var(--text-muted); font-weight: 500; }
-      .rmodal-summary-row .val { font-weight: 700; color: var(--text-dark); }
-      .rmodal-summary-row--total .val {
-        color: var(--color-green-dark); font-size: 1.15rem;
-        font-family: var(--font-display);
-      }
-      .rmodal-summary__divider {
-        height: 1px; background: var(--border-dark); margin: .2rem 0;
-      }
-
-      /* Payment method selector */
-      .rmodal-payment-label {
-        font-size: .8rem; font-weight: 700;
-        color: var(--text-dark); margin-bottom: .7rem; display: block;
-      }
-      .rmodal-payment-options {
-        display: grid; grid-template-columns: 1fr 1fr; gap: .7rem;
-      }
-      .rmodal-payment-opt {
-        border: 2px solid var(--border-dark);
-        border-radius: 12px; padding: .85rem .9rem;
-        cursor: pointer; display: flex; align-items: center; gap: .6rem;
-        transition: all .2s ease; background: var(--bg-white);
-        position: relative;
-      }
-      .rmodal-payment-opt:hover { border-color: var(--color-green); }
-      .rmodal-payment-opt.selected {
-        border-color: var(--color-green);
-        background: rgba(46,204,80,.06);
-      }
-      .rmodal-payment-opt input[type=radio] {
-        position: absolute; opacity: 0; pointer-events: none;
-      }
-      .rmodal-payment-opt__icon { font-size: 1.4rem; line-height: 1; }
-      .rmodal-payment-opt__text {
-        display: flex; flex-direction: column;
-      }
-      .rmodal-payment-opt__name {
-        font-weight: 700; font-size: .83rem; color: var(--text-dark);
-      }
-      .rmodal-payment-opt__sub {
-        font-size: .7rem; color: var(--text-muted);
-      }
-      .rmodal-payment-check {
-        margin-left: auto; width: 18px; height: 18px;
-        border-radius: 50%; border: 2px solid var(--border-dark);
-        background: white; flex-shrink: 0;
-        display: flex; align-items: center; justify-content: center;
-        transition: all .2s;
-      }
-      .rmodal-payment-opt.selected .rmodal-payment-check {
-        background: var(--color-green);
-        border-color: var(--color-green);
-      }
-      .rmodal-payment-opt.selected .rmodal-payment-check::after {
-        content: '';
-        width: 6px; height: 6px;
-        border-radius: 50%; background: white;
-      }
-
-      .rmodal-footer {
-        padding: 1.1rem 1.6rem;
-        border-top: 1px solid var(--border-light);
-        display: flex; gap: .8rem; justify-content: flex-end;
-      }
-      .rmodal-btn-back {
-        padding: .65rem 1.3rem;
-        border: 1.5px solid var(--border-dark2); border-radius: 99px;
-        font-weight: 600; font-size: .85rem; color: var(--text-dark);
-        background: transparent; cursor: pointer;
-        transition: all .2s;
-      }
-      .rmodal-btn-back:hover { background: var(--bg-light); }
-      .rmodal-btn-next {
-        padding: .65rem 1.6rem;
-        border: none; border-radius: 99px;
-        font-family: var(--font-display); font-weight: 700;
-        font-size: .9rem; letter-spacing: .4px;
-        background: var(--color-green); color: #000;
-        cursor: pointer; transition: all .2s;
-        display: inline-flex; align-items: center; gap: .4rem;
-      }
-      .rmodal-btn-next:hover {
-        background: var(--color-green-dark);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 16px rgba(46,204,80,.3);
-      }
-      .rmodal-btn-next:disabled {
-        opacity: .6; cursor: not-allowed; transform: none;
-      }
-
-      /* Success state overlay inside modal */
-      .rmodal-success {
-        display: none; flex-direction: column;
-        align-items: center; text-align: center;
-        padding: 2.5rem 1.6rem;
-        gap: 1rem;
-      }
-      .rmodal-success.active { display: flex; }
-      .rmodal-success__icon {
-        width: 72px; height: 72px; border-radius: 50%;
-        background: rgba(46,204,80,.12);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 2rem;
-      }
-      .rmodal-success__title {
-        font-family: var(--font-display);
-        font-size: 1.6rem; font-weight: 900; color: var(--text-dark);
-      }
-      .rmodal-success__text { color: var(--text-muted); font-size: .9rem; line-height: 1.6; }
-      .rmodal-success__btn {
-        padding: .75rem 2rem;
-        border: none; border-radius: 99px;
-        background: var(--color-green); color: #000;
-        font-family: var(--font-display); font-weight: 700;
-        font-size: .95rem; cursor: pointer;
-        transition: all .2s;
-      }
-      .rmodal-success__btn:hover { background: var(--color-green-dark); }
+.venues__empty-icon {
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+}

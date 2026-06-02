@@ -3,18 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Panel de Administración – All Sports Yourself</title>
-    <meta name="description" content="Panel de administración de canchas para ASY." />
-
+    <title>Mis Canchas – All Sports Yourself</title>
+    
     <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/sidebar-layout.css" />
-    <link rel="stylesheet" href="../../assets/css/profile/user_dashboard.css" />
+    <link rel="stylesheet" href="../../assets/css/profile/courts_admin.css" />
   </head>
-
   <body class="sidebar-layout">
     
     <!-- LEFT SIDEBAR -->
@@ -40,10 +37,10 @@
       </div>
 
       <nav class="nav nav-pills flex-column p-3 gap-1 flex-grow-1">
-        <a href="./admin-dashboard.html" class="nav-link active text-start" id="tab-inicio">
+        <a href="./admin-dashboard.html" class="nav-link text-start" id="tab-inicio">
           <i class="bi bi-house-door me-2"></i>Inicio
         </a>
-        <a href="./courts_admin.html" class="nav-link text-start" id="tab-canchas">
+        <a href="./courts_admin.html" class="nav-link active text-start" id="tab-canchas">
           <i class="bi bi-geo-alt me-2"></i>Mis Canchas
         </a>
         <a href="./reservations_admin.html" class="nav-link text-start" id="tab-venues">
@@ -69,101 +66,33 @@
 
     <!-- MAIN CONTENT -->
     <main class="main-content p-4">
-
-      <!-- ══════════════════════════════════════════
-           PANEL: Dashboard Inicio
-      ══════════════════════════════════════════ -->
       <div class="panel-section active" id="panel-canchas">
-
+        
         <!-- Header -->
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
           <div>
             <span class="badge rounded-pill py-2 px-3 mb-3" style="background: rgba(46,204,80,.1); color: #2ecc50;">
-              <i class="bi bi-speedometer2 me-1"></i> Dashboard
+              <i class="bi bi-geo-alt me-1"></i> Gestión
             </span>
             <h1 class="fw-bold mb-1" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.1; color: var(--text-primary);">
-              Panel de Administración
+              Mis Canchas
             </h1>
-            <p class="text-secondary mb-0">Gestiona tus espacios deportivos y monitorea tu actividad en tiempo real.</p>
+            <p class="text-secondary mb-0">Gestiona tus espacios deportivos y actualiza su información.</p>
           </div>
           <button class="btn btn-success px-4 py-2 fw-semibold shadow-sm" onclick="AdminDashboard.openModal()">
             <i class="bi bi-plus-lg me-2"></i>Añadir Cancha
           </button>
         </div>
 
-        <!-- Stats Cards -->
-        <div class="row g-4 mb-5">
-          <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                  <div class="rounded-3 p-2" style="background: rgba(13,110,253,.1);">
-                    <i class="bi bi-building fs-4 text-primary"></i>
-                  </div>
-                </div>
-                <h2 class="fw-bold mb-1" id="stat-canchas-count">0</h2>
-                <p class="text-muted small mb-0">Mis Canchas</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                  <div class="rounded-3 p-2" style="background: rgba(255,152,0,.1);">
-                    <i class="bi bi-clock-history fs-4 text-warning"></i>
-                  </div>
-                </div>
-                <h2 class="fw-bold mb-1" id="stat-reservas-pendientes">0</h2>
-                <p class="text-muted small mb-0">Reservas Pendientes</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                  <div class="rounded-3 p-2" style="background: rgba(46,204,80,.1);">
-                    <i class="bi bi-check-circle fs-4 text-success"></i>
-                  </div>
-                </div>
-                <h2 class="fw-bold mb-1" id="stat-reservas-confirmadas">0</h2>
-                <p class="text-muted small mb-0">Reservas Confirmadas</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-12 col-sm-6 col-xl-3">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                  <div class="rounded-3 p-2" style="background: rgba(99,102,241,.1);">
-                    <i class="bi bi-cash-stack fs-4 text-indigo" style="color: #6366f1;"></i>
-                  </div>
-                </div>
-                <h2 class="fw-bold mb-1" id="stat-ingresos">$0</h2>
-                <p class="text-muted small mb-0">Ingresos Estimados</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Venues list -->
-        <div id="dashboard-venues-container" style="display:none;">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h4 fw-bold mb-0" style="font-family: var(--font-display); color: var(--text-primary);">
-              <i class="bi bi-geo-alt me-2"></i>Canchas Publicadas
-            </h2>
-          </div>
+        <!-- Contenedor de canchas -->
+        <div id="dashboard-venues-container" class="mb-5" style="display:none;">
           <div id="dashboard-venues-list" class="row g-4">
-            <!-- Las canchas se generarán dinámicamente -->
+            <!-- Las canchas se generarán dinámicamente aquí -->
           </div>
         </div>
 
-        <!-- Empty state -->
-        <div id="admin-empty-state" class="text-center py-5">
+        <!-- Estado vacío -->
+        <div id="admin-empty-state" class="text-center py-5" style="display:none;">
           <div class="card shadow-sm border-0 p-5">
             <div class="mb-4">
               <i class="bi bi-geo-alt display-1 text-muted"></i>
@@ -179,11 +108,11 @@
             </div>
           </div>
         </div>
-      </div>
 
+      </div>
     </main>
 
-    <!-- MODAL (Create/Edit Venue) -->
+    <!-- MODAL para Añadir/Editar Cancha -->
     <div class="modal fade" id="venue-modal" tabindex="-1" aria-labelledby="venueModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -200,7 +129,7 @@
               <label for="venue-nombre" class="form-label fw-semibold">
                 Nombre de la Cancha <span class="text-danger">*</span>
               </label>
-              <input type="text" id="venue-nombre" class="form-control" placeholder="Ej. Cancha Sintética El Golazo" required />
+              <input type="text" id="venue-nombre" class="form-control" placeholder="Ej: Cancha Principal" required />
             </div>
             
             <div class="mb-3">
@@ -208,18 +137,15 @@
                 Tipo de Deporte <span class="text-danger">*</span>
               </label>
               <select id="venue-tipo" class="form-select" required>
-                <option value="">Selecciona un deporte</option>
+                <option value="">Seleccionar deporte...</option>
                 <option value="Fútbol">⚽ Fútbol</option>
                 <option value="Baloncesto">🏀 Baloncesto</option>
                 <option value="Tenis">🎾 Tenis</option>
                 <option value="Voleibol">🏐 Voleibol</option>
+                <option value="Béisbol">⚾ Béisbol</option>
                 <option value="Natación">🏊 Natación</option>
+                <option value="Gimnasio">💪 Gimnasio</option>
               </select>
-            </div>
-            
-            <div class="mb-3">
-              <label for="venue-ubicacion" class="form-label fw-semibold">Ubicación</label>
-              <input type="text" id="venue-ubicacion" class="form-control" placeholder="Ej. Centro de Ipiales" />
             </div>
             
             <div class="mb-3">
@@ -228,24 +154,17 @@
               </label>
               <div class="input-group">
                 <span class="input-group-text">$</span>
-                <input type="number" id="venue-precio" class="form-control" placeholder="40,000" min="0" step="1000" required />
+                <input type="number" id="venue-precio" class="form-control" placeholder="0.00" min="0" step="0.01" required />
                 <span class="input-group-text">COP</span>
               </div>
             </div>
-            
-            <div class="mb-3">
-              <label for="venue-imagen" class="form-label fw-semibold">URL de la Imagen (opcional)</label>
-              <input type="text" id="venue-imagen" class="form-control" placeholder="https://mis-imagenes.com/cancha.jpg" />
-            </div>
-            
-            <div id="modal-error" class="alert alert-danger d-none mt-3"></div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="AdminDashboard.closeModal()">
               Cancelar
             </button>
             <button type="button" class="btn btn-success px-4" id="modal-btn-save" onclick="AdminDashboard.saveVenue()">
-              <i class="bi bi-check-lg me-2"></i>Guardar Cancha
+              <i class="bi bi-check-lg me-2"></i>Guardar
             </button>
           </div>
         </div>
@@ -271,9 +190,14 @@
     <script src="../../assets/js/services/supabaseClient.js"></script>
     <script src="../../assets/js/services/authService.js"></script>
     <script src="../../assets/js/services/venuesService.js"></script>
-
-    <!-- JAVASCRIPT -->
     <script src="../../assets/js/app.js"></script>
     <script src="../../assets/js/admin-dashboard.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.AdminDashboard && typeof AdminDashboard.loadDashboardData === 'function') {
+          AdminDashboard.loadDashboardData();
+        }
+      });
+    </script>
   </body>
 </html>

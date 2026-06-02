@@ -50,23 +50,8 @@ const App = (() => {
      @description - Redirects to the specified page within the application
      */
   function showPage(page) {
-    // Routes for pages in /pages/ directory
     const routes = {
-      home: "./index.html",
-      login: "login.html",
-      register: "register.html",
-      venues: "venues.html",
-      reservas: "reservas.html",
-      dashboard: "user/user-dashboard.html",
-      admin: "admin/admin-dashboard.html",
-    };
-
-    // Check if we're in the root directory (not /pages/)
-    const isRoot = !window.location.pathname.includes("/pages/");
-    
-    // Routes for pages at root level
-    const rootRoutes = {
-      home: "index.html",
+      home: "pages/index.html",
       login: "pages/login.html",
       register: "pages/register.html",
       venues: "pages/venues.html",
@@ -75,16 +60,25 @@ const App = (() => {
       admin: "pages/admin/admin-dashboard.html",
     };
 
-    // Choose correct route based on current location
-    const target = isRoot ? rootRoutes[page] : routes[page];
-    
-    // Navigate to target page if valid
-    if (target) {
-      window.location.href = target;
-    } else {
-      // Log warning for unknown page
+    const targetPath = routes[page];
+    if (!targetPath) {
       console.warn(`[App.showPage] Página desconocida: "${page}"`);
+      return;
     }
+
+    const currentPath = window.location.pathname;
+    const isRoot = !currentPath.includes("/pages/");
+    if (isRoot) {
+      window.location.href = targetPath;
+      return;
+    }
+
+    const currentSubPath = currentPath.split("/pages/")[1] || "";
+    const currentDepth = currentSubPath.split("/").length - 1;
+    const base = currentDepth > 0 ? "../".repeat(currentDepth) : "";
+    const relativeTarget = targetPath.replace(/^pages\//, "");
+
+    window.location.href = base + relativeTarget;
   }
 
   // Public API - expose these functions externally

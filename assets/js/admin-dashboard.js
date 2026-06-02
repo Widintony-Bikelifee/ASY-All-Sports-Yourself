@@ -50,75 +50,17 @@ const AdminDashboard = (() => {
         if (emailEl) emailEl.textContent = email;
         if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
 
-        // Populate Profile Form (edit inputs)
-        const profileName = document.getElementById('profile-name');
-        const profileLastname = document.getElementById('profile-lastname');
-        const profileEmail = document.getElementById('profile-email');
-        const profilePhone = document.getElementById('profile-phone');
-        if (profileName) profileName.value = profile.nombre;
-        if (profileLastname) profileLastname.value = profile.apellido;
-        if (profileEmail) profileEmail.value = email;
-        if (profilePhone) profilePhone.value = profile.telefono || '';
-
-        // Populate hero + view-mode fields
-        _refreshProfileView(profile, email, session.user);
+        // Solo poblamos el Sidebar, la lógica de edición está en profile.js
+        _populateSidebar(fullName, email);
       }
 
-      // Setup Profile Save
-      const profileForm = document.getElementById('profile-form');
-      if (profileForm) {
-        profileForm.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const btnSave = document.getElementById('btn-save');
-          btnSave.textContent = 'Guardando...';
-          btnSave.disabled = true;
-
-          const updatedData = {
-            nombre: document.getElementById('profile-name').value.trim(),
-            apellido: document.getElementById('profile-lastname').value.trim(),
-            telefono: document.getElementById('profile-phone').value.trim()
-          };
-
-          try {
-            await window.updateUserProfile(session.user.id, updatedData);
-            App.showToast('✅ Perfil actualizado correctamente');
-            const newFullName = `${updatedData.nombre} ${updatedData.apellido}`;
-            // Update sidebar
-            document.getElementById('sidebar-user-name').textContent = newFullName;
-            document.getElementById('sidebar-avatar-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
-            // Refresh view-mode fields & hero
-            _refreshProfileView({ nombre: updatedData.nombre, apellido: updatedData.apellido, telefono: updatedData.telefono }, email, session.user);
-            // Switch back to view mode
-            _setProfileEditMode(false);
-          } catch (err) {
-            App.showToast('❌ Error al actualizar el perfil');
-          } finally {
-            btnSave.textContent = 'Guardar Cambios';
-            btnSave.disabled = false;
-          }
-        });
-      }
-      
-      // Setup Logout Button for sidebar
-      const logoutBtn = document.getElementById('btn-logout');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
+      // Setup Logout Button for sidebar (assuming it's on all admin pages)
+      document.getElementById('btn-logout')?.addEventListener('click', async () => {
           await supabaseClient.auth.signOut();
           window.location.href = "../../index.html";
         });
-      }
 
       await loadDashboardData();
-      await loadReservas();
-
-      // SPA Tab parameter routing
-      const urlParams = new URLSearchParams(window.location.search);
-      const tabParam = urlParams.get('tab');
-      if (tabParam && ['canchas', 'reservas', 'profile'].includes(tabParam)) {
-        switchTab(tabParam);
-      } else {
-        switchTab('canchas');
-      }
     } catch (err) {
       console.error("Error loading admin dashboard:", err);
       App.showToast("Error de autenticación.");
@@ -126,37 +68,13 @@ const AdminDashboard = (() => {
     }
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     TAB SWITCHING
-  ───────────────────────────────────────────────────────────────── */
-  function switchTab(tab) {
-    _activeTab = tab;
-
-    const ALL_TABS = ["canchas", "reservas", "clientes", "reportes", "profile"];
-
-    // Update sidebar active state
-    ALL_TABS.forEach(t => {
-      document.getElementById(`sidebar-tab-${t}`)?.classList.toggle("active", tab === t);
-    });
-
-    // Show only the active panel, hide the rest
-    ALL_TABS.forEach(t => {
-      document.getElementById(`panel-${t}`)?.classList.toggle("active", tab === t);
-    });
-
-    // Scroll main content to top on every tab change
-    document.querySelector(".main-content")?.scrollTo({ top: 0, behavior: "smooth" });
-
-    // Update sidebar badge visibility
-    const badge = document.getElementById("sidebar-badge-reservas");
-    if (badge) {
-      const pending = parseInt(badge.textContent) || 0;
-      badge.style.display = pending > 0 ? "inline-flex" : "none";
-    }
-
-    // Auto-load data when entering each section
-    if (tab === "clientes") loadClientes();
-    if (tab === "reportes") loadReportes();
+  function _populateSidebar(fullName, email) {
+    const nameEl = document.getElementById("sidebar-user-name");
+    const emailEl = document.getElementById("sidebar-user-email");
+    const avatarImg = document.getElementById("sidebar-avatar-img");
+    if (nameEl) nameEl.textContent = fullName;
+    if (emailEl) emailEl.textContent = email;
+    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
   }
 
   /* ─────────────────────────────────────────────────────────────────
@@ -169,10 +87,10 @@ const AdminDashboard = (() => {
     if (error) { App.showToast("Error al cargar las canchas."); return; }
 
     allVenues = canchas ?? [];
+    
+    // Update stat for "Mis Canchas" on the dashboard
+    document.getElementById("stat-canchas-count")?.textContent = allVenues.length;
 
-    // Update stat
-    const countEl = document.getElementById("stat-canchas-count");
-    if (countEl) countEl.textContent = allVenues.length;
 
     const emptyState = document.getElementById("admin-empty-state");
     const container  = document.getElementById("dashboard-venues-container");
@@ -186,14 +104,16 @@ const AdminDashboard = (() => {
         list.innerHTML = allVenues.map(c => {
           const precioStr = c.precio ? Number(c.precio).toLocaleString("es-CO") : "0";
           return `
-          <div class="dashboard-venue-card">
-            <div class="dashboard-venue-info">
-              <span class="dashboard-venue-title">${c.nombre}</span>
-              <span class="dashboard-venue-meta">📍 ${c.ubicacion || "Sin ubicación"} &nbsp;•&nbsp; 💰 $${precioStr}/hr</span>
-            </div>
-            <div style="display:flex;gap:.5rem;">
-              <button onclick="AdminDashboard.openModal(${c.id})" class="dashboard-venue-action">Editar</button>
-              <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger">Eliminar</button>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="dashboard-venue-card h-100">
+              <div class="dashboard-venue-info">
+                <span class="dashboard-venue-title">${c.nombre}</span>
+                <span class="dashboard-venue-meta">📍 ${c.ubicacion || "Sin ubicación"} &nbsp;•&nbsp; 💰 $${precioStr}/hr</span>
+              </div>
+              <div class="d-flex gap-2">
+                <button onclick="AdminDashboard.openModal(${c.id})" class="dashboard-venue-action">Editar</button>
+                <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger">Eliminar</button>
+              </div>
             </div>
           </div>`;
         }).join("");
@@ -202,6 +122,10 @@ const AdminDashboard = (() => {
       if (emptyState) emptyState.style.display = "flex";
       if (container)  container.style.display  = "none";
     }
+
+    // Also load reservations to update related KPIs
+    await loadReservas();
+
   }
 
   /* ─────────────────────────────────────────────────────────────────
@@ -330,34 +254,43 @@ const AdminDashboard = (() => {
       const pago = _paymentLabel(r.metodo_pago);
       const estado = r.estado ?? "pendiente";
 
+      let statusBadgeClass = "";
+      switch (estado) {
+        case "pendiente": statusBadgeClass = "bg-warning-subtle text-warning"; break;
+        case "confirmada": statusBadgeClass = "bg-primary-subtle text-primary"; break;
+        case "completada": statusBadgeClass = "bg-success-subtle text-success"; break;
+        case "cancelada": statusBadgeClass = "bg-danger-subtle text-danger"; break;
+        default: statusBadgeClass = "bg-secondary-subtle text-secondary"; break;
+      }
+
       const actions = _buildActions(r.id, estado);
 
       return `
         <tr>
-          <td>
-            <strong style="display:block;font-weight:700;color:var(--text-dark);">${userName}</strong>
-            <span style="font-size:.75rem;color:var(--text-muted);">${userSub}</span>
+          <td class="py-3 px-4">
+            <strong class="d-block text-dark fw-bold">${userName}</strong>
+            <span class="text-muted small">${userSub}</span>
           </td>
-          <td><strong>${venueName}</strong>${esc?.tipo ? `<br><span style="font-size:.75rem;color:var(--text-muted);">${esc.tipo}</span>` : ""}</td>
-          <td>${fecha}</td>
-          <td>${horario}</td>
-          <td>${pago}</td>
-          <td><span class="res-badge res-badge--${estado}">${_statusLabel(estado)}</span></td>
-          <td><div style="display:flex;gap:.4rem;flex-wrap:wrap;">${actions}</div></td>
+          <td class="py-3 px-4"><strong>${venueName}</strong>${esc?.tipo ? `<br><span class="text-muted small">${esc.tipo}</span>` : ""}</td>
+          <td class="py-3 px-4">${fecha}</td>
+          <td class="py-3 px-4">${horario}</td>
+          <td class="py-3 px-4">${pago}</td>
+          <td class="py-3 px-4"><span class="badge ${statusBadgeClass}">${_statusLabel(estado)}</span></td>
+          <td class="py-3 px-4"><div class="d-flex gap-2 flex-wrap">${actions}</div></td>
         </tr>`;
     }).join("");
   }
 
   function _buildActions(id, estado) {
     const btns = [];
-    if (estado === "pendiente") {
-      btns.push(`<button class="res-act-btn res-act-btn--confirm"   onclick="AdminDashboard.changeEstado('${id}','confirmada')">Confirmar</button>`);
-      btns.push(`<button class="res-act-btn res-act-btn--cancel"    onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
-    } else if (estado === "confirmada") {
-      btns.push(`<button class="res-act-btn res-act-btn--complete"  onclick="AdminDashboard.changeEstado('${id}','completada')">Completar</button>`);
-      btns.push(`<button class="res-act-btn res-act-btn--cancel"    onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
+    if (estado === "pendiente") { // Bootstrap buttons
+      btns.push(`<button class="btn btn-sm btn-outline-primary" onclick="AdminDashboard.changeEstado('${id}','confirmada')">Confirmar</button>`);
+      btns.push(`<button class="btn btn-sm btn-outline-danger"  onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
+    } else if (estado === "confirmada") { // Bootstrap buttons
+      btns.push(`<button class="btn btn-sm btn-outline-success" onclick="AdminDashboard.changeEstado('${id}','completada')">Completar</button>`);
+      btns.push(`<button class="btn btn-sm btn-outline-danger"  onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
     } else {
-      btns.push(`<span style="font-size:.75rem;color:var(--text-muted);">Sin acciones</span>`);
+      btns.push(`<span class="text-muted small">Sin acciones</span>`);
     }
     return btns.join("");
   }
@@ -626,10 +559,8 @@ const AdminDashboard = (() => {
         { label: "Ingresos Est.",    value: _formatCOP(ingresos), color: "#2ecc50", icon: "💰" },
       ];
       kpiEl.innerHTML = kpis.map(k => `
-        <div style="background:var(--bg-white);border:1px solid var(--border-light);
-                    border-radius:var(--radius-md);padding:1.25rem;
-                    box-shadow:0 4px 15px rgba(0,0,0,.03);text-align:center;">
-          <div style="font-size:1.6rem;margin-bottom:.35rem;">${k.icon}</div>
+        <div class="prf-card" style="text-align:center; margin-bottom: 0;">
+          <div style="font-size:2rem;margin-bottom:.5rem;">${k.icon}</div>
           <div style="font-size:1.5rem;font-weight:800;color:${k.color};font-family:var(--font-display);">${k.value}</div>
           <div style="font-size:.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${k.label}</div>
         </div>`).join("");
@@ -708,99 +639,7 @@ const AdminDashboard = (() => {
     }
   }
 
-
-  /* ─────────────────────────────────────────────────────────────────
-     PROFILE UI HELPERS
-  ───────────────────────────────────────────────────────────────── */
-
-  function _refreshProfileView(profile, email, user) {
-    const fullName = `${profile.nombre ?? ""} ${profile.apellido ?? ""}`.trim();
-    email = email || user?.email || "";
-
-    // Hero card
-    const heroName  = document.getElementById("prf-hero-name");
-    const heroEmail = document.getElementById("prf-hero-email");
-    const heroSince = document.getElementById("prf-hero-since");
-    const avatarImg = document.getElementById("prf-avatar-img");
-    if (heroName)  heroName.textContent  = fullName || "—";
-    if (heroEmail) heroEmail.textContent = email;
-    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`;
-
-    // "Miembro desde" — parse created_at from user metadata or fallback
-    if (heroSince) {
-      const raw = user?.created_at || user?.user_metadata?.created_at;
-      if (raw) {
-        const d = new Date(raw);
-        const mes = d.toLocaleDateString("es-CO", { month: "long", year: "numeric" });
-        heroSince.textContent = `Miembro desde ${mes.charAt(0).toUpperCase() + mes.slice(1)}`;
-      } else {
-        heroSince.textContent = "Miembro ASY";
-      }
-    }
-
-    // View-mode fields
-    const vName  = document.getElementById("prf-view-name");
-    const vEmail = document.getElementById("prf-view-email");
-    const vPhone = document.getElementById("prf-view-phone");
-    if (vName)  vName.textContent  = fullName || "—";
-    if (vEmail) vEmail.textContent = email || "—";
-    if (vPhone) vPhone.textContent = profile.telefono || "—";
-  }
-
-  function _setProfileEditMode(editing) {
-    const view = document.getElementById("prf-view-mode");
-    const edit = document.getElementById("prf-edit-mode");
-    const btn  = document.getElementById("prf-edit-toggle");
-    if (view) view.style.display = editing ? "none"  : "block";
-    if (edit) edit.style.display = editing ? "block" : "none";
-    if (btn)  btn.innerHTML = editing
-      ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Cancelar`
-      : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar`;
-  }
-
-  function toggleProfileEdit() {
-    const editMode = document.getElementById("prf-edit-mode");
-    const isEditing = editMode && editMode.style.display !== "none";
-    _setProfileEditMode(!isEditing);
-  }
-
-  function openChangePassword() {
-    const modal = document.getElementById("prf-password-modal");
-    if (modal) {
-      document.getElementById("prf-new-password").value = "";
-      document.getElementById("prf-confirm-password").value = "";
-      document.getElementById("prf-password-error").textContent = "";
-      modal.classList.add("open");
-    }
-  }
-
-  function closeChangePassword() {
-    document.getElementById("prf-password-modal")?.classList.remove("open");
-  }
-
-  async function saveNewPassword() {
-    const pw1 = document.getElementById("prf-new-password")?.value || "";
-    const pw2 = document.getElementById("prf-confirm-password")?.value || "";
-    const errEl = document.getElementById("prf-password-error");
-
-    if (pw1.length < 8) { errEl.textContent = "La contraseña debe tener al menos 8 caracteres."; return; }
-    if (pw1 !== pw2)    { errEl.textContent = "Las contraseñas no coinciden."; return; }
-
-    errEl.textContent = "";
-    const { error } = await supabaseClient.auth.updateUser({ password: pw1 });
-    if (error) { errEl.textContent = "Error: " + error.message; return; }
-
-    closeChangePassword();
-    App.showToast("✅ Contraseña actualizada correctamente.");
-  }
-
-  async function signOutAll() {
-    if (!confirm("¿Cerrar sesión en todos los dispositivos?")) return;
-    await supabaseClient.auth.signOut({ scope: "global" });
-    window.location.href = "../index.html";
-  }
-
-  return { init, switchTab, openModal, closeModal, saveVenue, deleteVenue, loadReservas, filterReservas, changeEstado, loadClientes, filterClientes, loadReportes, toggleProfileEdit, openChangePassword, closeChangePassword, saveNewPassword, signOutAll };
+  return { init, openModal, closeModal, saveVenue, deleteVenue, loadReservas, filterReservas, changeEstado, loadClientes, filterClientes, loadReportes };
 })();
 
 window.AdminDashboard = AdminDashboard;

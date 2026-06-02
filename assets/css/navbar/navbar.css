@@ -1,0 +1,263 @@
+/* ==========================================================================
+   ESTILOS PERSONALIZADOS REUTILIZADOS EN EL NAVBAR DE BOOTSTRAP
+   ========================================================================== */
+
+/* Logo image - mantiene el tamaño y su aspecto */
+.navbar__logo-icon img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+}
+
+.navbar {
+  color: var(--text-primary);
+}
+
+/* Brand text - mantiene la fuente tipográfica pesada de la marca */
+.navbar__brand-text {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+/* Individual nav link - efectos hover y línea inferior activa */
+.navbar__link {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: inherit;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: color var(--transition);
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.navbar__link:hover {
+  color: var(--text-primary);
+}
+
+.navbar__link.active {
+  color: var(--color-green);
+}
+
+.navbar__link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-green);
+  border-radius: 2px;
+}
+
+/* Login button - estilo delineado original */
+.navbar__btn-login {
+  background: transparent;
+  border: 1.5px solid currentColor;
+  color: inherit;
+  padding: 0.45rem 1.2rem;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.navbar__btn-login:hover {
+  border-color: var(--color-green);
+  color: var(--color-green);
+}
+
+/* Register button - estilo sólido llamativo */
+.navbar__btn-register {
+  background: var(--color-green);
+  color: #000;
+  padding: 0.48rem 1.3rem;
+  border-radius: var(--radius-full);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.navbar__btn-register:hover {
+  background: var(--color-green-dark);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   PROVISIONAL FEATURE PREVIEW MODAL (Se mantiene intacto para alertas JS)
+   ========================================================================== */
+.navbar-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 26, 13, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1.5rem;
+}
+
+.navbar-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.navbar-modal {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  transform: scale(0.92) translateY(10px);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  position: relative;
+  padding: 2.2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.navbar-modal-overlay.open .navbar-modal {
+  transform: scale(1) translateY(0);
+}
+
+.navbar-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.navbar-modal__close:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--text-primary);
+  transform: rotate(90deg);
+}
+
+.navbar-modal__icon-container {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--color-green-dim) 0%, rgba(46, 204, 80, 0.05) 100%);
+  border: 1px solid rgba(46, 204, 80, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(46, 204, 80, 0.08);
+}
+
+.navbar-modal__badge {
+  background: var(--color-orange);
+  color: white;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 99px;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 4px 8px rgba(255, 107, 43, 0.2);
+}
+
+.navbar-modal__title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
+}
+
+.navbar-modal__desc {
+  font-size: var(--fs-base);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.6rem;
+  font-weight: 500;
+}
+
+.navbar-modal__btn {
+  background: var(--color-green);
+  color: #000;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-base);
+  letter-spacing: 0.5px;
+  padding: 0.75rem 2.2rem;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+}
+
+.navbar-modal__btn:hover {
+  background: var(--color-green-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-green);
+}
+
+.navbar-modal__actions-wrap {
+  display: flex;
+  gap: 0.85rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.navbar-modal__btn--secondary {
+  background: transparent;
+  border: 1.5px solid var(--border-dark2, rgba(0, 0, 0, 0.15));
+  color: var(--text-secondary);
+}
+
+.navbar-modal__btn--secondary:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: none;
+}
+
+.navbar-modal__btn--danger {
+  background: #e53e3e;
+  color: #fff;
+  border: none;
+}
+
+.navbar-modal__btn--danger:hover {
+  background: #c53030;
+  box-shadow: 0 6px 20px rgba(229, 62, 62, 0.35);
+  transform: translateY(-2px);
+}
+
+.navbar-modal__btn--danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}

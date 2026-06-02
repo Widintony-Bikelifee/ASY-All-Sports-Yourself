@@ -83,146 +83,47 @@
   --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth easing */
 }
 
-/* 
-   CSS RESET - Normalize browser defaults
-    */
-*,
-*::before,
-*::after {
-  box-sizing: border-box; /* Include padding/border in element width */
-  margin: 0;              /* Remove default margins */
-  padding: 0;             /* Remove default padding */
-}
 
-/* Base HTML styles */
-html {
-  font-size: 16px;                    /* Base font size */
-  scroll-behavior: smooth;            /* Smooth scroll to anchors */
-  -webkit-text-size-adjust: 100%;     /* Prevent font scaling on rotation */
-}
-
-/* Base body styles */
-body {
-  font-family: var(--font-body);      /* Body font family */
-  font-size: var(--fs-md);             /* Base font size */
-  line-height: 1.6;                   /* Comfortable line height */
-  color: var(--text-primary);          /* Primary text color */
-  background-color: var(--bg-dark);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-  font-family: var(--font-body);
-  border: none;
-  background: none;
-}
-
-input,
-select,
-textarea {
-  font-family: var(--font-body);
-  font-size: var(--fs-base);
-}
-
-ul,
-ol {
-  list-style: none;
-}
-
-/* ── GLOBAL UTLITY ── */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-/* ── BASE SHARED BUTTONS── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.6rem;
-  border-radius: var(--radius-full);
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: var(--fs-base);
-  transition:
-    background var(--transition),
-    transform var(--transition),
-    box-shadow var(--transition),
-    border-color var(--transition);
-  white-space: nowrap;
-}
-
-.btn-primary {
-  background: var(--color-green);
-  color: #000;
-}
-.btn-primary:hover {
-  background: var(--color-green-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-green);
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1.5px solid var(--border-dark2);
-  color: var(--text-primary);
-}
-.btn-outline:hover {
-  border-color: var(--color-green);
-  color: var(--color-green);
-}
-
-/* ── BASE ANIMATIONS ── */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.animate-fade-up {
-  animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
+      /* Nuevas secciones - manteniendo tu paleta de colores */
+      .section-local {
+        padding: 5rem 0;
+      }
+      
+      .stat-number-local {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--bs-primary, #0d6efd);
+        margin-bottom: 0.25rem;
+      }
+      
+      .check-local {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .check-local i {
+        color: var(--bs-primary, #0d6efd);
+        font-size: 1.25rem;
+        margin-top: 0.125rem;
+      }
+      
+      .card-espacio {
+        transition: transform 0.3s ease;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      }
+      
+      .card-espacio:hover {
+        transform: translateY(-5px);
+      }
+      
+      .badge-deporte {
+        background-color: #e9ecef;
+        color: #495057;
+        padding: 0.25rem 0.75rem;
+        border-radius: 2rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+   

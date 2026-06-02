@@ -41,6 +41,58 @@ function formatDateLong(isoDate) {
   });
 }
 
+const PENDING_VENUE_KEY = "pendingVenue";
+
+function savePendingVenue(venue) {
+  if (!venue || !venue.id) return;
+  sessionStorage.setItem(PENDING_VENUE_KEY, JSON.stringify({
+    id: venue.id,
+    nombre: venue.nombre,
+  }));
+}
+
+function getStoredPendingVenue() {
+  try {
+    return JSON.parse(sessionStorage.getItem(PENDING_VENUE_KEY));
+  } catch {
+    return null;
+  }
+}
+
+function clearStoredPendingVenue() {
+  sessionStorage.removeItem(PENDING_VENUE_KEY);
+}
+
+function highlightVenueCard(venueId) {
+  if (!venueId) return;
+  const card = document.querySelector(`.venue-card[data-id="${venueId}"]`);
+  if (!card) return;
+
+  document.querySelectorAll(".venue-card--highlight").forEach(el => el.classList.remove("venue-card--highlight"));
+  card.classList.add("venue-card--highlight");
+  card.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function restorePendingVenue() {
+  const params = new URLSearchParams(window.location.search);
+  const pendingParam = params.get("pendingVenueId");
+  const stored = getStoredPendingVenue();
+  const venueId = pendingParam || stored?.id;
+
+  if (!venueId) return;
+
+  highlightVenueCard(venueId);
+
+  if (stored) clearStoredPendingVenue();
+  if (pendingParam) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("pendingVenueId");
+    window.history.replaceState({}, "", url.toString());
+  }
+
+  App.showToast("Has regresado a la cancha que seleccionaste.");
+}
+
 function fmtTime(t) { return t ? t.slice(0, 5) : "–"; }
 
 /** Compute hours between two "HH:MM" strings, rounded to 2 decimals */
@@ -57,39 +109,39 @@ function renderStars(n = 4) {
 
 /* ─── Venue card renderer ──────────────────────────────────────────── */
 function renderVenueCard(venue) {
-  const imgSrc = venue.imagen_url?.startsWith("http")
+  // Resolve correct assets path depending on current page depth
+  const isUserPage = window.location.pathname.includes('/pages/user/');
+  const assetsBase = isUserPage ? '../../assets' : '../assets';
+  const imgSrc = venue.imagen_url?.startsWith('http')
     ? venue.imagen_url
-    : `../assets/img/venues/${venue.imagen_url}`;
+    : `${assetsBase}/img/venues/${venue.imagen_url}`;
 
   return `
-    <article class="venue-card" data-id="${venue.id}">
-      <div class="venue-card__img">
-        <img src="${imgSrc}" alt="${venue.nombre}"
-             style="width:100%;height:100%;object-fit:cover"
-             onerror="this.src='../assets/img/venues/Estadio_Ipiales.jpg'"/>
-      </div>
-      <div class="venue-card__body">
-        <h3 class="venue-card__name">${venue.nombre}</h3>
-        <p class="venue-card__location">📍 ${venue.ubicacion ?? "Ipiales"}</p>
-        <div class="venue-card__tags">
-          <span class="venue-card__tag venue-card__tag--green">${venue.tipo}</span>
+    <div class="col">
+      <article class="card h-100 venue-card" data-id="${venue.id}">
+        <div class="venue-card__img">
+          <img src="${imgSrc}" alt="${venue.nombre}"
+               onerror="this.src='../assets/img/venues/Estadio_Ipiales.jpg'" />
         </div>
-        <div class="venue-card__footer">
-          <div>
-            <div style="font-size:0.8rem;color:var(--color-orange);margin-bottom:0.3rem">
-              ${renderStars(4)}
-            </div>
+        <div class="card-body d-flex flex-column">
+          <h3 class="venue-card__name">${venue.nombre}</h3>
+          <p class="text-muted mb-3">📍 ${venue.ubicacion ?? "Ipiales"}</p>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <span class="badge rounded-pill bg-success text-white">${venue.tipo}</span>
+          </div>
+          <div class="mb-3">
+            <div class="text-warning mb-2" style="font-size:0.9rem;">${renderStars(4)}</div>
             <div class="venue-card__price">
               ${formatPrice(venue.precio)}
-              <span class="venue-card__price-unit">/hora</span>
+              <small class="text-muted">/hora</small>
             </div>
           </div>
+          <button class="btn btn-success mt-auto w-100" onclick="Venues.openModal(${venue.id})">
+            Reservar ahora
+          </button>
         </div>
-        <button class="venue-card__btn" onclick="Venues.openModal(${venue.id})">
-          Reservar ahora
-        </button>
-      </div>
-    </article>`;
+      </article>
+    </div>`;
 }
 
 /* ═══════════════════════════════════════
@@ -102,19 +154,23 @@ const Venues = (() => {
   /* ─── Load venues from DB ─── */
   async function load() {
     if (gridEl) gridEl.innerHTML = `
-      <div class="venues__empty">
-        <div class="venues__empty-icon">⏳</div>
-        <h3>Cargando escenarios...</h3>
+      <div class="col-12">
+        <div class="venues__empty">
+          <div class="venues__empty-icon">⏳</div>
+          <h3>Cargando escenarios...</h3>
+        </div>
       </div>`;
 
     const { data, error } = await VenuesService.getEscenarios();
 
     if (error) {
       if (gridEl) gridEl.innerHTML = `
-        <div class="venues__empty">
-          <div class="venues__empty-icon">❌</div>
-          <h3>Error al cargar</h3>
-          <p>${error.message}</p>
+        <div class="col-12">
+          <div class="venues__empty">
+            <div class="venues__empty-icon">❌</div>
+            <h3>Error al cargar</h3>
+            <p>${error.message}</p>
+          </div>
         </div>`;
       return;
     }
@@ -133,10 +189,12 @@ const Venues = (() => {
       : allVenues.filter(v => v.tipo?.toLowerCase().includes(filter));
 
     gridEl.innerHTML = filtered.length === 0
-      ? `<div class="venues__empty">
-           <div class="venues__empty-icon">🔍</div>
-           <h3>Sin resultados</h3>
-           <p>No hay escenarios disponibles con ese filtro.</p>
+      ? `<div class="col-12">
+           <div class="venues__empty">
+             <div class="venues__empty-icon">🔍</div>
+             <h3>Sin resultados</h3>
+             <p>No hay escenarios disponibles con ese filtro.</p>
+           </div>
          </div>`
       : filtered.map(renderVenueCard).join("");
 
@@ -159,6 +217,11 @@ const Venues = (() => {
 
   /* Open the modal (step 1) */
   async function openModal(venueId) {
+    selectedVenue = allVenues.find(v => v.id === venueId);
+    if (!selectedVenue) return;
+
+    savePendingVenue(selectedVenue);
+
     const usuario = await VenuesService.getUsuarioActual();
     if (!usuario) {
       App.showToast("⚠️ Debes iniciar sesión para reservar");
@@ -166,37 +229,9 @@ const Venues = (() => {
       return;
     }
 
-    selectedVenue = allVenues.find(v => v.id === venueId);
-    if (!selectedVenue) return;
-
-    // Populate venue info strip
-    document.getElementById("modal-venue-name").textContent = selectedVenue.nombre;
-    document.getElementById("modal-venue-tipo-precio").textContent =
-      `${selectedVenue.tipo} · ${formatPrice(selectedVenue.precio)}/hora`;
-    document.getElementById("rmodal-venue-icon").textContent = getSportIcon(selectedVenue.tipo);
-
-    // Reset form
-    const today = new Date().toISOString().split("T")[0];
-    document.getElementById("modal-fecha").min   = today;
-    document.getElementById("modal-fecha").value = "";
-    document.getElementById("modal-hora-inicio").value = "";
-    document.getElementById("modal-hora-fin").value    = "";
-    document.getElementById("modal-error").textContent = "";
-
-    // Reset payment to efectivo
-    _selectPayment("efectivo");
-
-    // Go to step 1
-    _goToStep(1);
-
-    // Show overlay
-    document.getElementById("reserva-modal").classList.add("open");
-    document.body.style.overflow = "hidden";
-
-    // Attach payment click listeners (fresh each open)
-    document.querySelectorAll(".rmodal-payment-opt").forEach(opt => {
-      opt.addEventListener("click", () => _selectPayment(opt.dataset.value));
-    });
+    highlightVenueCard(venueId);
+    clearStoredPendingVenue();
+    App.showToast(`Cancha "${selectedVenue.nombre}" guardada. Continúa desde el listado.`);
   }
 
   /* Close modal */
@@ -350,8 +385,9 @@ const Venues = (() => {
 
 window.Venues = Venues;
 
-document.addEventListener("DOMContentLoaded", () => {
-  Venues.load();
+document.addEventListener("DOMContentLoaded", async () => {
+  await Venues.load();
+  restorePendingVenue();
 
   // Close modal on overlay click
   const overlay = document.getElementById("reserva-modal");

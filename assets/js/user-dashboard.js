@@ -35,7 +35,10 @@ const UserDashboard = (() => {
       // Populate Sidebar
       document.getElementById('sidebar-user-name').textContent = fullName;
       document.getElementById('sidebar-user-email').textContent = email;
-      document.getElementById('sidebar-avatar-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+      const avatarImg = document.getElementById('sidebar-avatar-img');
+      if (avatarImg) {
+        avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+      }
 
       // Populate Banner
       document.getElementById('banner-welcome-name').textContent = `HOLA, ${firstName.toUpperCase()}!`;
@@ -72,7 +75,10 @@ const UserDashboard = (() => {
           const newFullName = `${updatedData.nombre} ${updatedData.apellido}`;
           document.getElementById('sidebar-user-name').textContent = newFullName;
           document.getElementById('banner-welcome-name').textContent = `HOLA, ${updatedData.nombre.split(' ')[0].toUpperCase()}!`;
-          document.getElementById('sidebar-avatar-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
+          const avatarImg = document.getElementById('sidebar-avatar-img');
+          if (avatarImg) {
+            avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
+          }
           
           _refreshProfileView({ nombre: updatedData.nombre, apellido: updatedData.apellido, telefono: updatedData.telefono }, email, session.user);
           _setProfileEditMode(false);
@@ -99,7 +105,7 @@ const UserDashboard = (() => {
       // 5. Soporte de routing SPA por parámetro ?tab=...
       const urlParams = new URLSearchParams(window.location.search);
       const tabParam = urlParams.get('tab');
-      if (tabParam && ['inicio', 'reservas', 'venues', 'profile', 'pagos'].includes(tabParam)) {
+      if (tabParam && ['inicio', 'reservas', 'venues', 'profile'].includes(tabParam)) {
         switchTab(tabParam);
       } else {
         switchTab('inicio');
@@ -107,10 +113,13 @@ const UserDashboard = (() => {
 
     } catch (error) {
       console.error('Error loading user dashboard:', error);
-      App.showToast('Error de autenticación.', 'error');
-      setTimeout(() => {
-        window.location.href = '../login.html';
-      }, 1500);
+      App.showToast('Error al cargar el panel. Por favor intenta de nuevo.', 'error');
+      const message = error?.message?.toString().toLowerCase() || '';
+      if (message.includes('session') || message.includes('auth') || message.includes('jwt') || message.includes('not authenticated')) {
+        setTimeout(() => {
+          window.location.href = '../login.html';
+        }, 1500);
+      }
     }
   }
 
@@ -119,14 +128,12 @@ const UserDashboard = (() => {
     document.getElementById('tab-inicio')?.classList.toggle('active', tab === 'inicio');
     document.getElementById('tab-reservas')?.classList.toggle('active', tab === 'reservas');
     document.getElementById('tab-venues')?.classList.toggle('active', tab === 'venues');
-    document.getElementById('tab-pagos')?.classList.toggle('active', tab === 'pagos');
     document.getElementById('tab-profile')?.classList.toggle('active', tab === 'profile');
 
     // Update main content panels
     document.getElementById('panel-inicio')?.classList.toggle('active', tab === 'inicio');
     document.getElementById('panel-reservas')?.classList.toggle('active', tab === 'reservas');
     document.getElementById('panel-venues')?.classList.toggle('active', tab === 'venues');
-    document.getElementById('panel-pagos')?.classList.toggle('active', tab === 'pagos');
     document.getElementById('panel-profile')?.classList.toggle('active', tab === 'profile');
 
     // Trigger re-fetches or loads on entering tabs
@@ -138,9 +145,6 @@ const UserDashboard = (() => {
     }
     if (tab === 'inicio') {
       loadRealReservations();
-    }
-    if (tab === 'pagos') {
-      loadPagos();
     }
   }
 
@@ -222,80 +226,6 @@ const UserDashboard = (() => {
       timeZone: "UTC"
     });
     return str.replace(/\./g, "");
-  }
-
-  /* ─────────────────────────────────────────────────────────────────
-     PAGOS (Mis Pagos)
-  ───────────────────────────────────────────────────────────────── */
-  async function loadPagos() {
-    const tbody = document.getElementById('pagos-tbody');
-    if (tbody) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando pagos...</td></tr>`;
-    }
-
-    try {
-      const { data, error } = await window.VenuesService.getMisReservas();
-      if (error) throw error;
-      
-      const pagos = data.filter(r => r.estado === 'confirmada' || r.estado === 'completada');
-      
-      if (pagos.length === 0) {
-        if (tbody) tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem;">Aún no tienes pagos registrados de reservas confirmadas o completadas.</td></tr>`;
-        return;
-      }
-      
-      if (tbody) {
-        tbody.innerHTML = pagos.map(r => {
-          const esc = r.escenarios ?? {};
-          const venueName = esc.nombre ?? '–';
-          const fecha = formatShortDate(r.fecha);
-          const horario = `${r.hora_inicio.slice(0, 5)} - ${r.hora_fin.slice(0, 5)}`;
-          
-          // Calculate total
-          const hrs = _diffHours(r.hora_inicio, r.hora_fin);
-          const total = hrs * (esc.precio ?? 0);
-          
-          const pagoStr = r.metodo_pago ? _paymentLabel(r.metodo_pago) : '–';
-          
-          return `
-            <tr>
-              <td>${fecha}</td>
-              <td><strong>${venueName}</strong></td>
-              <td>${horario} (${hrs}h)</td>
-              <td>${pagoStr}</td>
-              <td><span class="res-badge res-badge--${r.estado}">${_statusLabel(r.estado)}</span></td>
-              <td style="font-weight:700; color:var(--color-green-dark);">${_formatCOP(total)}</td>
-            </tr>
-          `;
-        }).join('');
-      }
-      
-    } catch (err) {
-      console.error('Error fetching pagos:', err);
-      if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#dc2626;padding:3rem;">Error al cargar los pagos.</td></tr>`;
-      }
-    }
-  }
-
-  function _diffHours(inicio, fin) {
-    if (!inicio || !fin) return 0;
-    const [h1, m1] = inicio.split(":").map(Number);
-    const [h2, m2] = fin.split(":").map(Number);
-    return Math.max(0, Math.round(((h2 * 60 + m2) - (h1 * 60 + m1)) / 60 * 100) / 100);
-  }
-
-  function _formatCOP(n) {
-    return new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n);
-  }
-
-  function _statusLabel(s) {
-    return { pendiente: "Pendiente", confirmada: "Confirmada", completada: "Completada", cancelada: "Cancelada" }[s] ?? s;
-  }
-
-  function _paymentLabel(m) {
-    const icons = { efectivo: "💵 Efectivo", transferencia: "🏦 Transferencia", tarjeta: "💳 Tarjeta", pse: "🌐 PSE" };
-    return `<span style="font-size:.82rem;">${icons[m] ?? (m ?? "–")}</span>`;
   }
 
   /* ─────────────────────────────────────────────────────────────────

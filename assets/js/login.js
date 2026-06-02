@@ -57,6 +57,20 @@ function isValidPassword(pass) {
   return pass.length >= 8;
 }
 
+/* Returns or creates a Bootstrap invalid-feedback element for a field */
+function getInvalidFeedback(input) {
+  const wrap = input.closest('.form__input-wrap') || input.parentElement;
+  if (!wrap) return null;
+
+  let feedback = wrap.querySelector('.invalid-feedback');
+  if (!feedback) {
+    feedback = document.createElement('div');
+    feedback.className = 'invalid-feedback';
+    wrap.parentNode.insertBefore(feedback, wrap.nextSibling);
+  }
+  return feedback;
+}
+
 /* Shows error message for a form field
    @param {string} fieldId - ID of the input element
    @param {string} message - Error message to display
@@ -65,21 +79,15 @@ function setFieldError(fieldId, message) {
   const input = document.getElementById(fieldId);
   if (!input) return;
 
-  // Add error class, remove success class
-  input.classList.add('input--error');
-  input.classList.remove('input--ok');
+  // Add Bootstrap invalid state, remove success classes
+  input.classList.add('is-invalid');
+  input.classList.remove('is-valid', 'input--error', 'input--ok');
 
-  // Find or create hint element for error message
-  const wrap = input.closest('.form__input-wrap') || input.parentElement;
-  let hint = wrap.querySelector('.form__field-hint');
-  if (!hint) {
-    hint = document.createElement('p');
-    hint.className = 'form__field-hint';
-    wrap.appendChild(hint);
+  const feedback = getInvalidFeedback(input);
+  if (feedback) {
+    feedback.textContent = message;
+    feedback.classList.add('d-block');
   }
-  // Display the error message
-  hint.textContent = message;
-  hint.style.display = 'block';
 }
 
 /* Shows success state for a form field
@@ -89,14 +97,15 @@ function setFieldOk(fieldId) {
   const input = document.getElementById(fieldId);
   if (!input) return;
 
-  // Remove error class, add success class
-  input.classList.remove('input--error');
-  input.classList.add('input--ok');
+  input.classList.remove('is-invalid', 'input--error', 'input--ok');
+  input.classList.add('is-valid');
 
-  // Hide any existing hint message
   const wrap = input.closest('.form__input-wrap') || input.parentElement;
-  const hint = wrap.querySelector('.form__field-hint');
-  if (hint) hint.style.display = 'none';
+  const feedback = wrap?.querySelector('.invalid-feedback');
+  if (feedback) {
+    feedback.textContent = '';
+    feedback.classList.remove('d-block');
+  }
 }
 
 /* 
@@ -183,12 +192,26 @@ const Login = (() => {
       // Show welcome message and redirect based on role
       const rol = usuario.rol || 'user';
       App.showToast('Bienvenido, ' + usuario.nombre + '!');
-      
+
+      const pendingVenue = (() => {
+        try {
+          return JSON.parse(sessionStorage.getItem('pendingVenue'));
+        } catch {
+          return null;
+        }
+      })();
+
       setTimeout(() => {
+        if (pendingVenue && rol !== 'admin_cancha') {
+          sessionStorage.removeItem('pendingVenue');
+          window.location.href = `venues.html?pendingVenueId=${encodeURIComponent(pendingVenue.id)}`;
+          return;
+        }
+
         if (rol === 'admin_cancha') {
-          window.location.href = '../pages/admin/admin-dashboard.html';
+          window.location.href = 'admin/admin-dashboard.html';
         } else {
-          window.location.href = '../pages/user/user-dashboard.html';
+          window.location.href = 'user/user-dashboard.html';
         }
       }, 1500);
 
@@ -223,7 +246,7 @@ const Login = (() => {
       // Validate on blur (when user leaves field)
       el.addEventListener('blur',  () => validateField(id));
       // Re-validate on input if field has error
-      el.addEventListener('input', () => { if (el.classList.contains('input--error')) validateField(id); });
+      el.addEventListener('input', () => { if (el.classList.contains('is-invalid')) validateField(id); });
     });
   }
 

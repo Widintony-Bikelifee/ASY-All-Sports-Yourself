@@ -117,6 +117,11 @@ function formatPrice(precio) {
   }).format(precio);
 }
 
+function getRelativePagePath(fileName) {
+  const isUserPage = window.location.pathname.includes('/pages/user/');
+  return `${isUserPage ? '../' : './'}${fileName}`;
+}
+
 /* ── Auth guard ─────────────────────────────────────────────────────── */
 
 /**
@@ -128,7 +133,7 @@ async function checkAuth() {
   const session  = data?.session;
 
   if (!session) {
-    window.location.href = "./login.html";
+    window.location.href = getRelativePagePath('login.html');
     return null;
   }
 
@@ -258,7 +263,7 @@ function buildEmptyState(isFiltered) {
         : "Aún no has hecho ninguna reserva. Explora los espacios disponibles y agenda tu primera sesión."
       }
     </p>
-    ${!isFiltered ? `<a href="./venues.html" class="reservas-btn-primary" style="margin-top:0.5rem;">Explorar Canchas</a>` : ""}
+    ${!isFiltered ? `<a href="${getRelativePagePath('venues.html')}" class="reservas-btn-primary" style="margin-top:0.5rem;">Explorar Canchas</a>` : ""}
   `;
   return div;
 }

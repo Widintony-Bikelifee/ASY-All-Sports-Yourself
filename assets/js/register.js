@@ -57,46 +57,46 @@ function isValidPassword(pass) {
   return pass.length >= 8;
 }
 
-/* Shows error message for a form field
-   @param {string} fieldId - ID of the input element
-   @param {string} message - Error message to display
-   @returns {void} */
+function getInvalidFeedback(input) {
+  const wrap = input.closest('.form__input-wrap') || input.parentElement;
+  if (!wrap) return null;
+
+  let feedback = wrap.querySelector('.invalid-feedback');
+  if (!feedback) {
+    feedback = document.createElement('div');
+    feedback.className = 'invalid-feedback';
+    wrap.parentNode.insertBefore(feedback, wrap.nextSibling);
+  }
+  return feedback;
+}
+
 function setFieldError(fieldId, message) {
   const input = document.getElementById(fieldId);
   if (!input) return;
 
-  // Add error class, remove success class
-  input.classList.add('input--error');
-  input.classList.remove('input--ok');
+  input.classList.add('is-invalid');
+  input.classList.remove('is-valid', 'input--error', 'input--ok');
 
-  // Find or create hint element for error message
-  const wrap = input.closest('.form__input-wrap') || input.parentElement;
-  let hint = wrap.querySelector('.form__field-hint');
-  if (!hint) {
-    hint = document.createElement('p');
-    hint.className = 'form__field-hint';
-    wrap.appendChild(hint);
+  const feedback = getInvalidFeedback(input);
+  if (feedback) {
+    feedback.textContent = message;
+    feedback.classList.add('d-block');
   }
-  // Display the error message
-  hint.textContent = message;
-  hint.style.display = 'block';
 }
 
-/* Shows success state for a form field
-   @param {string} fieldId - ID of the input element
-   @returns {void} */
 function setFieldOk(fieldId) {
   const input = document.getElementById(fieldId);
   if (!input) return;
 
-  // Remove error class, add success class
-  input.classList.remove('input--error');
-  input.classList.add('input--ok');
+  input.classList.remove('is-invalid', 'input--error', 'input--ok');
+  input.classList.add('is-valid');
 
-  // Hide any existing hint message
   const wrap = input.closest('.form__input-wrap') || input.parentElement;
-  const hint = wrap.querySelector('.form__field-hint');
-  if (hint) hint.style.display = 'none';
+  const feedback = wrap?.querySelector('.invalid-feedback');
+  if (feedback) {
+    feedback.textContent = '';
+    feedback.classList.remove('d-block');
+  }
 }
 
 /* ═══════════════════════════════════════
@@ -199,19 +199,27 @@ const Register = (() => {
     } else { setFieldOk('reg-password2'); }
 
     // Terms checkbox validation
+    const termsInput = document.getElementById('reg-terms');
+    const termsWrap = termsInput?.closest('.form__check');
+    let termsFeedback = termsWrap?.querySelector('.invalid-feedback');
+
     if (!data.terms) {
-      const termsWrap = document.getElementById('reg-terms')?.closest('.form__check');
-      let hint = termsWrap?.querySelector('.form__field-hint');
-      if (termsWrap && !hint) {
-        hint = document.createElement('p');
-        hint.className = 'form__field-hint';
-        termsWrap.appendChild(hint);
+      if (!termsFeedback && termsWrap) {
+        termsFeedback = document.createElement('div');
+        termsFeedback.className = 'invalid-feedback d-block';
+        termsWrap.appendChild(termsFeedback);
       }
-      if (hint) { hint.textContent = 'Debes aceptar los terminos y condiciones.'; hint.style.display = 'block'; }
+      if (termsFeedback) {
+        termsFeedback.textContent = 'Debes aceptar los terminos y condiciones.';
+      }
+      termsInput?.classList.add('is-invalid');
       ok = false;
     } else {
-      const hint = document.getElementById('reg-terms')?.closest('.form__check')?.querySelector('.form__field-hint');
-      if (hint) hint.style.display = 'none';
+      termsInput?.classList.remove('is-invalid');
+      if (termsFeedback) {
+        termsFeedback.textContent = '';
+        termsFeedback.classList.remove('d-block');
+      }
     }
 
     return ok;
@@ -291,7 +299,7 @@ const Register = (() => {
         el.addEventListener('blur', () => validateField(id));
         // Re-validate on input if field has error
         el.addEventListener('input', () => {
-          if (el.classList.contains('input--error')) {
+          if (el.classList.contains('is-invalid')) {
             validateField(id);
           }
         });
@@ -300,11 +308,16 @@ const Register = (() => {
     // Handle terms checkbox change
     document.getElementById('reg-terms')
       ?.addEventListener('change', () => {
-        const hint = document.getElementById('reg-terms')
+        const termsInput = document.getElementById('reg-terms');
+        termsInput.classList.remove('is-invalid');
+        const feedback = termsInput
           ?.closest('.form__check')
-          ?.querySelector('.form__field-hint');
+          ?.querySelector('.invalid-feedback');
 
-        if (hint) hint.style.display = 'none';
+        if (feedback) {
+          feedback.textContent = '';
+          feedback.classList.remove('d-block');
+        }
       });
 
     // Attach submit button click handler
@@ -313,8 +326,8 @@ const Register = (() => {
       ?.addEventListener('click', handleSubmit);
   }
 
-  // Public API - expose init function externally
-  return { init };
+  // Public API - expose init and submit function externally
+  return { init, handleSubmit };
 })();
 
 /* ═══════════════════════════════════════

@@ -1,0 +1,548 @@
+/* ═══════════════════════════════════════
+   admin-dashboard.css - Estilos personalizados para panel de administrador
+   ═══════════════════════════════════════ */
+
+/* ========== 1. LAYOUT PRINCIPAL ========== */
+.sidebar-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-soft, #f5f7f5);
+}
+
+.sidebar {
+  width: 280px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 100;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  width: calc(100% - 280px);
+  min-height: 100vh;
+  background: var(--bg-soft, #f5f7f5);
+}
+
+/* Scroll personalizado para sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: var(--border-light, #e8ede8);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--primary-green, #2ecc50);
+  border-radius: 4px;
+}
+
+/* Scroll personalizado para contenido principal */
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main-content::-webkit-scrollbar-track {
+  background: var(--border-light, #e8ede8);
+  border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  background: var(--primary-green, #2ecc50);
+  border-radius: 4px;
+}
+
+.main-content::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-green-dark, #27b545);
+}
+
+/* ========== 2. TIPOGRAFÍA ========== */
+h1, h2, h3, h4, h5, h6,
+.fw-bold,
+.navbar-brand span,
+.card-header h5 {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+}
+
+body, .form-label, .text-muted, .list-group-item,
+.card-text, .badge, .small {
+  font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', sans-serif);
+}
+
+/* ========== 3. SIDEBAR STYLES ========== */
+.sidebar .nav-link {
+  border-radius: var(--radius-md, 10px);
+  padding: 0.7rem 1rem;
+  color: var(--text-secondary, #1a1a1a);
+  transition: all var(--transition, 0.2s ease);
+  position: relative;
+}
+
+.sidebar .nav-link i {
+  font-size: 1.1rem;
+  transition: all var(--transition, 0.2s ease);
+  display: inline-block;
+}
+
+/* Solo el ícono tiene efecto hover */
+.sidebar .nav-link:hover i {
+  transform: scale(1.1);
+  color: var(--primary-green, #2ecc50);
+}
+
+.sidebar .nav-link:hover .nav-text {
+  color: var(--primary-green, #2ecc50);
+}
+
+/* El texto no cambia de fondo, solo el ícono */
+.sidebar .nav-link:hover {
+  background: transparent;
+}
+
+/* Estado activo: solo el ícono se marca */
+.sidebar .nav-link.active {
+  background: transparent !important;
+  color: var(--text-secondary, #1a1a1a);
+}
+
+/* Ícono activo con borde blanco y fondo verde */
+.sidebar .nav-link.active i {
+  background: var(--primary-green, #2ecc50);
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(46, 204, 80, 0.3);
+}
+
+/* Estilo del ícono base para permitir borde blanco */
+.sidebar .nav-link i {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md, 10px);
+  transition: all var(--transition, 0.2s ease);
+  margin-right: 0.75rem;
+}
+
+/* Texto del nav */
+.sidebar .nav-link .nav-text {
+  transition: color var(--transition, 0.2s ease);
+}
+
+/* Sidebar user info */
+.sidebar-user {
+  transition: background var(--transition, 0.2s ease);
+}
+
+.sidebar-user:hover {
+  background: var(--bg-soft, #f5f7f5);
+}
+
+.sidebar-user img {
+  border: 2px solid var(--primary-green, #2ecc50);
+}
+
+/* Ajuste para los íconos dentro de la sección de usuario */
+.sidebar-user i {
+  width: auto;
+  height: auto;
+  background: transparent;
+  border: none;
+}
+
+/* ========== 4. CARDS ========== */
+.card {
+  border-radius: var(--radius-lg, 16px) !important;
+  overflow: hidden;
+  transition: transform var(--transition, 0.2s ease), box-shadow var(--transition, 0.2s ease);
+  border: none !important;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1)) !important;
+}
+
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  padding: 1.25rem 1.5rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-footer {
+  background: transparent;
+  border-top: 1px solid var(--border-light, #e8ede8);
+  padding: 1rem 1.5rem;
+}
+
+/* ========== 5. TARJETAS KPI ========== */
+.kpi-card {
+  text-align: center;
+}
+
+.kpi-card .kpi-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md, 12px);
+  margin: 0 auto 1rem;
+}
+
+.kpi-card .kpi-value {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary, #111);
+  line-height: 1.2;
+}
+
+.kpi-card .kpi-label {
+  font-size: 0.75rem;
+  color: var(--text-muted, #7a8f7a);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+/* ========== 6. TABLAS DE REPORTES ========== */
+.reportes-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.reportes-table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted, #7a8f7a);
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  padding: 1rem 0.75rem;
+  background: transparent;
+}
+
+.reportes-table tbody td {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  color: var(--text-secondary, #1a1a1a);
+  font-size: 0.9rem;
+}
+
+.reportes-table tbody tr {
+  transition: background var(--transition, 0.2s ease);
+}
+
+.reportes-table tbody tr:hover {
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.03));
+}
+
+.reportes-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Progress bar para ocupación */
+.progress-bar-custom {
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.15));
+  border-radius: var(--radius-full, 40px);
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-bar-custom .progress-fill {
+  background: var(--primary-green, #2ecc50);
+  height: 100%;
+  border-radius: var(--radius-full, 40px);
+  transition: width 0.5s ease;
+}
+
+/* ========== 7. LISTA DE INGRESOS POR MES ========== */
+.ingresos-mes-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+}
+
+.ingresos-mes-item:last-child {
+  border-bottom: none;
+}
+
+.ingresos-mes-item .mes-nombre {
+  font-weight: 600;
+  color: var(--text-primary, #111);
+  min-width: 100px;
+}
+
+.ingresos-mes-item .mes-monto {
+  font-weight: 800;
+  color: var(--primary-green, #2ecc50);
+  font-size: 1rem;
+}
+
+.ingresos-mes-item .mes-reservas {
+  font-size: 0.75rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+/* ========== 8. BOTONES ========== */
+.btn {
+  border-radius: var(--radius-md, 10px);
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  transition: all var(--transition, 0.2s ease);
+}
+
+.btn i {
+  transition: all var(--transition, 0.2s ease);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Botón outline success */
+.btn-outline-success {
+  border-color: var(--primary-green, #2ecc50);
+  color: var(--primary-green, #2ecc50);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+.btn-outline-success:hover i {
+  color: white;
+}
+
+/* Botón éxito (verde) */
+.btn-success {
+  background: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+.btn-success:hover {
+  background: var(--primary-green-dark, #27b545);
+  border-color: var(--primary-green-dark, #27b545);
+}
+
+/* Botón peligro outline */
+.btn-outline-danger {
+  border-width: 1.5px;
+}
+
+.btn-outline-danger:hover {
+  transform: translateY(-1px);
+}
+
+/* Botón pequeño */
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+/* ========== 9. BADGES ========== */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-full, 40px) !important;
+  padding: 0.4rem 0.9rem;
+}
+
+/* ========== 10. TOAST ========== */
+.toast {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-left: 4px solid var(--primary-green, #2ecc50);
+  border-radius: var(--radius-md, 10px);
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
+}
+
+/* ========== 11. SPINNER ========== */
+.spinner-border {
+  color: var(--primary-green, #2ecc50) !important;
+}
+
+/* ========== 12. ANIMACIONES ========== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card, .kpi-card, .reportes-table tbody tr {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ========== 13. RESPONSIVE ========== */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 240px;
+  }
+  
+  .main-content {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .sidebar-layout {
+    flex-direction: column;
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+  }
+  
+  .kpi-card .kpi-value {
+    font-size: 1.25rem;
+  }
+  
+  .reportes-table thead {
+    display: none;
+  }
+  
+  .reportes-table tbody tr {
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light, #e8ede8);
+  }
+  
+  .reportes-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border: none;
+  }
+  
+  .reportes-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: var(--text-muted, #7a8f7a);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .ingresos-mes-item {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-header h5 {
+    font-size: 1rem;
+  }
+  
+  .row.g-3 {
+    gap: 0.75rem;
+  }
+  
+  .kpi-card .kpi-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .kpi-card .kpi-value {
+    font-size: 1.1rem;
+  }
+  
+  .kpi-card .kpi-label {
+    font-size: 0.65rem;
+  }
+}
+
+/* ========== 14. UTILIDADES ========== */
+.rounded-3 {
+  border-radius: var(--radius-md, 10px) !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+.text-secondary {
+  color: var(--text-muted, #7a8f7a) !important;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hover effects para enlaces */
+a:not(.btn):not(.nav-link) {
+  color: var(--primary-green-dark, #27b545);
+  text-decoration: none;
+  transition: color var(--transition, 0.2s ease);
+}
+
+a:not(.btn):not(.nav-link):hover {
+  color: var(--primary-green, #2ecc50);
+  text-decoration: underline;
+}
+
+/* Estado vacío */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: var(--border-medium, #d9e2d9);
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  color: var(--text-muted, #7a8f7a);
+  margin-bottom: 0;
+}
