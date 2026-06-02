@@ -1,8 +1,6 @@
-/* ═══════════════════════════════════════
-   profile.css - Estilos personalizados para perfil de usuario
-   ═══════════════════════════════════════ */
 
-/* ========== 1. LAYOUT PRINCIPAL ========== */
+
+
 .sidebar-layout {
   display: flex;
   min-height: 100vh;
@@ -28,7 +26,7 @@
   background: var(--bg-soft, #f5f7f5);
 }
 
-/* Scroll personalizado para sidebar */
+
 .sidebar::-webkit-scrollbar {
   width: 4px;
 }
@@ -42,7 +40,7 @@
   border-radius: 4px;
 }
 
-/* Scroll personalizado para contenido principal */
+
 .main-content::-webkit-scrollbar {
   width: 8px;
 }
@@ -61,7 +59,7 @@
   background: var(--primary-green-dark, #27b545);
 }
 
-/* ========== 2. TIPOGRAFÍA ========== */
+
 h1, h2, h3, h4, h5, h6,
 .fw-bold,
 .navbar-brand span {
@@ -72,7 +70,7 @@ body, .form-label, .text-muted, .list-group-item {
   font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', sans-serif);
 }
 
-/* ========== 3. SIDEBAR STYLES ========== */
+
 .sidebar .nav-link {
   border-radius: var(--radius-md, 10px);
   padding: 0.7rem 1rem;
@@ -87,7 +85,7 @@ body, .form-label, .text-muted, .list-group-item {
   display: inline-block;
 }
 
-/* Solo el ícono tiene efecto hover */
+
 .sidebar .nav-link:hover i {
   transform: scale(1.1);
   color: var(--primary-green, #2ecc50);
@@ -97,18 +95,18 @@ body, .form-label, .text-muted, .list-group-item {
   color: var(--primary-green, #2ecc50);
 }
 
-/* El texto no cambia de fondo, solo el ícono */
+
 .sidebar .nav-link:hover {
   background: transparent;
 }
 
-/* Estado activo: solo el ícono se marca */
+
 .sidebar .nav-link.active {
   background: transparent !important;
   color: var(--text-secondary, #1a1a1a);
 }
 
-/* Ícono activo con borde blanco y fondo verde */
+
 .sidebar .nav-link.active i {
   background: var(--primary-green, #2ecc50);
   color: white;
@@ -116,7 +114,7 @@ body, .form-label, .text-muted, .list-group-item {
   box-shadow: 0 2px 8px rgba(46, 204, 80, 0.3);
 }
 
-/* Estilo del ícono base para permitir borde blanco */
+
 .sidebar .nav-link i {
   width: 32px;
   height: 32px;
@@ -128,12 +126,12 @@ body, .form-label, .text-muted, .list-group-item {
   margin-right: 0.75rem;
 }
 
-/* Texto del nav */
+
 .sidebar .nav-link .nav-text {
   transition: color var(--transition, 0.2s ease);
 }
 
-/* Sidebar user info */
+
 .sidebar-user {
   transition: background var(--transition, 0.2s ease);
 }
@@ -146,7 +144,7 @@ body, .form-label, .text-muted, .list-group-item {
   border: 2px solid var(--primary-green, #2ecc50);
 }
 
-/* Ajuste para los íconos dentro de la sección de usuario */
+
 .sidebar-user i {
   width: auto;
   height: auto;
@@ -154,7 +152,7 @@ body, .form-label, .text-muted, .list-group-item {
   border: none;
 }
 
-/* ========== 4. CARDS ========== */
+
 .card {
   border-radius: var(--radius-lg, 16px) !important;
   overflow: hidden;
@@ -170,7 +168,7 @@ body, .form-label, .text-muted, .list-group-item {
   border-bottom: 1px solid var(--border-light, #e8ede8);
 }
 
-/* ========== 5. AVATAR ========== */
+
 .rounded-circle {
   object-fit: cover;
 }
@@ -191,7 +189,7 @@ img.rounded-circle:hover {
   background-color: var(--primary-green, #2ecc50) !important;
 }
 
-/* ========== 6. BOTONES ========== */
+
 .btn {
   border-radius: var(--radius-md, 10px);
   font-weight: 600;
@@ -211,7 +209,7 @@ img.rounded-circle:hover {
   transform: translateY(0);
 }
 
-/* Botón primario outline */
+
 .btn-outline-primary {
   border-color: var(--primary-green, #2ecc50);
   color: var(--primary-green, #2ecc50);
@@ -227,7 +225,7 @@ img.rounded-circle:hover {
   color: white;
 }
 
-/* Botón éxito (verde) */
+
 .btn-success {
   background: linear-gradient(135deg, var(--primary-green, #2ecc50) 0%, var(--primary-green-dark, #27b545) 100%);
   border: none;
@@ -240,18 +238,18 @@ img.rounded-circle:hover {
   box-shadow: 0 4px 12px rgba(46, 204, 80, 0.3);
 }
 
-/* Botón peligro outline */
+
 .btn-outline-danger:hover {
   transform: translateY(-1px);
 }
 
-/* Botón pequeño */
+
 .btn-sm {
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
 }
 
-/* ========== 7. FORMULARIOS ========== */
+
 .form-label {
   font-size: 0.75rem;
   font-weight: 700;
@@ -287,7 +285,7 @@ img.rounded-circle:hover {
   padding: 0.5rem 0;
 }
 
-/* ========== 8. LIST GROUP ========== */
+
 .list-group-item {
   border: none;
   border-bottom: 1px solid var(--border-light, #e8ede8);
@@ -315,13 +313,13 @@ img.rounded-circle:hover {
   transform: translateX(2px);
 }
 
-/* ========== 9. BADGES ========== */
+
 .badge {
   font-weight: 600;
   letter-spacing: 0.5px;
 }
 
-/* Badge personalizado */
+
 .badge[style*="background: rgba(46,204,80,.1)"] {
   transition: all var(--transition, 0.2s ease);
 }
@@ -330,7 +328,7 @@ img.rounded-circle:hover {
   background: rgba(46, 204, 80, 0.2) !important;
 }
 
-/* ========== 10. MODAL ========== */
+
 .modal-content {
   border-radius: var(--radius-lg, 16px);
   border: none;
@@ -357,7 +355,7 @@ img.rounded-circle:hover {
   padding: 1rem 1.5rem;
 }
 
-/* Modal buttons */
+
 .modal-footer .btn-secondary {
   background: var(--bg-dark, #e8ede8);
   border: none;
@@ -368,7 +366,7 @@ img.rounded-circle:hover {
   background: var(--border-light, #e8ede8);
 }
 
-/* ========== 11. TOAST ========== */
+
 .toast {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -377,7 +375,7 @@ img.rounded-circle:hover {
   box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
-/* ========== 12. ZONA DE PELIGRO ========== */
+
 .border-danger-subtle {
   border-color: rgba(220, 38, 38, 0.2) !important;
 }
@@ -405,7 +403,7 @@ img.rounded-circle:hover {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* ========== 15. TRANSICIONES PARA MODO EDICIÓN ========== */
+
 #prf-view-mode,
 #prf-edit-mode {
   transition: all var(--transition, 0.2s ease);
@@ -415,7 +413,7 @@ img.rounded-circle:hover {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* ========== 16. UTILIDADES ADICIONALES ========== */
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -426,7 +424,7 @@ img.rounded-circle:hover {
   text-overflow: ellipsis;
 }
 
-/* Hover effects para enlaces */
+
 a:not(.btn):not(.nav-link) {
   color: var(--primary-green-dark, #27b545);
   text-decoration: none;
@@ -436,4 +434,25 @@ a:not(.btn):not(.nav-link) {
 a:not(.btn):not(.nav-link):hover {
   color: var(--primary-green, #2ecc50);
   text-decoration: underline;
+}
+
+
+.avatar-upload-wrapper .avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity var(--transition, 0.2s ease);
+  backdrop-filter: blur(2px);
+}
+
+.avatar-upload-wrapper:hover .avatar-overlay {
+  opacity: 1;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

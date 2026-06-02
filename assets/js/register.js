@@ -1,27 +1,16 @@
-/* ═══════════════════════════════════════
-   register.js - Registration page functionality
-   Handles form validation, password visibility toggle,
-   and user registration via Supabase.
-   ═══════════════════════════════════════ */
 
-/* ═══════════════════════════════════════
-   TOGGLE PASSWORD - Show/hide password field
-   ═══════════════════════════════════════
-   @param {string} inputId - ID of the password input element
-   @param {HTMLElement} eyeEl - Eye icon element to update
-   @returns {void}
-   @description - Toggles between password and text type for visibility
-   */
+
+
 function togglePassword(inputId, eyeEl) {
-  // Get the input element by ID
+  
   const input = document.getElementById(inputId);
   if (!input) return;
 
-  // Check current type and toggle between password/text
+  
   const isPassword = input.type === 'password';
   input.type = isPassword ? 'text' : 'password';
 
-  // Update eye icon SVG to show open/closed eye
+  
   if (eyeEl) {
     eyeEl.innerHTML = isPassword
       ? `<svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"
@@ -39,20 +28,14 @@ function togglePassword(inputId, eyeEl) {
   }
 }
 
-/* ═══════════════════════════════════════
-   VALIDATION HELPERS - Email and password validation
-   ═══════════════════════════════════════ */
 
-/* Validates email format using regex pattern
-   @param {string} email - Email address to validate
-   @returns {boolean} - True if valid email format */
+
+
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
-/* Validates password minimum length (8 characters)
-   @param {string} pass - Password to validate
-   @returns {boolean} - True if password meets minimum length */
+
 function isValidPassword(pass) {
   return pass.length >= 8;
 }
@@ -99,17 +82,13 @@ function setFieldOk(fieldId) {
   }
 }
 
-/* ═══════════════════════════════════════
-   Register Module - Main registration form logic
-   ═══════════════════════════════════════
-   Uses IIFE pattern to encapsulate registration functionality
-   */
+
 const Register = (() => {
 
-  /* Gets form data from all registration inputs
-     @returns {object} - { name, lastname, phone, email, password, password2, terms } */
+  
   function getFormData() {
     return {
+      cedula: document.getElementById('reg-cedula')?.value.trim() || '',
       name: document.getElementById('reg-name')?.value.trim() || '',
       lastname: document.getElementById('reg-lastname')?.value.trim() || '',
       phone: document.getElementById('reg-phone')?.value.trim() || '',
@@ -121,39 +100,42 @@ const Register = (() => {
     };
   }
 
-  /* Validates a single field on blur or input
-     @param {string} fieldId - ID of the field to validate
-     @returns {void} */
+  
   function validateField(fieldId) {
     const data = getFormData();
 
     switch (fieldId) {
+      case 'reg-cedula':
+        if (!data.cedula) setFieldError('reg-cedula', 'La cédula es obligatoria.');
+        else if (!/^\d{8,10}$/.test(data.cedula)) setFieldError('reg-cedula', 'La cédula debe tener entre 8 y 10 dígitos.');
+        else setFieldOk('reg-cedula');
+        break;
       case 'reg-name':
-        // Name is required
+        
         if (!data.name) setFieldError('reg-name', 'El nombre es obligatorio.');
         else setFieldOk('reg-name');
         break;
       case 'reg-lastname':
-        // Lastname is required
+        
         if (!data.lastname) setFieldError('reg-lastname', 'El apellido es obligatorio.');
         else setFieldOk('reg-lastname');
         break;
       case 'reg-email':
-        // Email required and must be valid format
+        
         if (!data.email) setFieldError('reg-email', 'El correo es obligatorio.');
         else if (!isValidEmail(data.email)) setFieldError('reg-email', 'Formato de correo invalido.');
         else setFieldOk('reg-email');
         break;
       case 'reg-password':
-        // Password required, minimum 8 chars
+        
         if (!data.password) setFieldError('reg-password', 'La contrasena es obligatoria.');
         else if (!isValidPassword(data.password)) setFieldError('reg-password', 'Minimo 8 caracteres.');
         else setFieldOk('reg-password');
-        // Also re-validate confirmation if filled
+        
         if (data.password2) validateField('reg-password2');
         break;
       case 'reg-password2':
-        // Must match password
+        
         if (!data.password2) setFieldError('reg-password2', 'Confirma tu contrasena.');
         else if (data.password !== data.password2) setFieldError('reg-password2', 'Las contrasenas no coinciden.');
         else setFieldOk('reg-password2');
@@ -161,44 +143,50 @@ const Register = (() => {
     }
   }
 
-  /* Validates entire form before submission
-     @returns {boolean} - True if all fields are valid */
+  
   function validate() {
     const data = getFormData();
     let ok = true;
 
-    // Name validation
+    
+    if (!data.cedula) {
+      setFieldError('reg-cedula', 'La cédula es obligatoria.'); ok = false;
+    } else if (!/^\d{8,10}$/.test(data.cedula)) {
+      setFieldError('reg-cedula', 'La cédula debe tener entre 8 y 10 dígitos.'); ok = false;
+    } else { setFieldOk('reg-cedula'); }
+
+    
     if (!data.name) {
       setFieldError('reg-name', 'El nombre es obligatorio.'); ok = false;
     } else { setFieldOk('reg-name'); }
 
-    // Lastname validation
+    
     if (!data.lastname) {
       setFieldError('reg-lastname', 'El apellido es obligatorio.'); ok = false;
     } else { setFieldOk('reg-lastname'); }
 
-    // Email validation
+    
     if (!data.email) {
       setFieldError('reg-email', 'El correo es obligatorio.'); ok = false;
     } else if (!isValidEmail(data.email)) {
       setFieldError('reg-email', 'Formato de correo invalido.'); ok = false;
     } else { setFieldOk('reg-email'); }
 
-    // Password validation
+    
     if (!data.password) {
       setFieldError('reg-password', 'La contrasena es obligatoria.'); ok = false;
     } else if (!isValidPassword(data.password)) {
       setFieldError('reg-password', 'Minimo 8 caracteres.'); ok = false;
     } else { setFieldOk('reg-password'); }
 
-    // Confirm password validation
+    
     if (!data.password2) {
       setFieldError('reg-password2', 'Confirma tu contrasena.'); ok = false;
     } else if (data.password !== data.password2) {
       setFieldError('reg-password2', 'Las contrasenas no coinciden.'); ok = false;
     } else { setFieldOk('reg-password2'); }
 
-    // Terms checkbox validation
+    
     const termsInput = document.getElementById('reg-terms');
     const termsWrap = termsInput?.closest('.form__check');
     let termsFeedback = termsWrap?.querySelector('.invalid-feedback');
@@ -225,40 +213,39 @@ const Register = (() => {
     return ok;
   }
 
-  /* Handles form submission - validates and registers user
-     @returns {Promise<void>}
-     @description - Calls authService to create user, then inserts profile in DB */
+  
   async function handleSubmit() {
-    // Stop if validation fails
+    
     if (!validate()) return;
 
     const data = getFormData();
     const btn = document.querySelector('.auth__btn-submit');
 
     try {
-      // Disable button and show loading state
+      
       if (btn) {
         btn.disabled = true;
         btn.textContent = 'Creando cuenta...';
       }
 
-      // Step 1: Create auth user in Supabase
+      
       const user = await registerUserAuth(
         data.email,
         data.password,
         data.name,
-        data.lastname
+        data.lastname,
+        data.cedula
       );
 
-      // Verify we got a user ID back
+      
       if (!user?.id) {
         throw new Error('No se pudo obtener el ID del usuario.');
       }
 
-      // Step 2: Insert user profile in database
+      
       await insertUserProfile(user.id, data);
 
-      // Show success message and redirect to login
+      
       App.showToast('Cuenta creada correctamente!');
       setTimeout(() => {
         window.location.href = 'login.html';
@@ -267,14 +254,14 @@ const Register = (() => {
     } catch (err) {
       console.error('Error en registro:', err);
 
-      // Map common Supabase errors to user-friendly messages
+      
       const mensajes = {
         'User already registered': 'Este correo ya esta registrado.',
         'email rate limit exceeded': 'Demasiados intentos. Espera un momento.',
         'Password should be at least 6 characters': 'La contrasena debe tener al menos 6 caracteres.',
       };
 
-      // Show error toast, restore button
+      
       const msg = mensajes[err.message] || err.message;
       App.showToast('Error: ' + msg);
 
@@ -285,19 +272,17 @@ const Register = (() => {
     }
   }
 
-  /* Initializes event listeners for form fields
-     @returns {void}
-     @description - Attaches blur and input listeners for validation */
+  
   function init() {
-    // Attach listeners to all text inputs
-    ['reg-name', 'reg-lastname', 'reg-email', 'reg-password', 'reg-password2']
+    
+    ['reg-cedula', 'reg-name', 'reg-lastname', 'reg-email', 'reg-password', 'reg-password2']
       .forEach(id => {
         const el = document.getElementById(id);
         if (!el) return;
 
-        // Validate on blur (when user leaves field)
+        
         el.addEventListener('blur', () => validateField(id));
-        // Re-validate on input if field has error
+        
         el.addEventListener('input', () => {
           if (el.classList.contains('is-invalid')) {
             validateField(id);
@@ -305,7 +290,7 @@ const Register = (() => {
         });
       });
 
-    // Handle terms checkbox change
+    
     document.getElementById('reg-terms')
       ?.addEventListener('change', () => {
         const termsInput = document.getElementById('reg-terms');
@@ -320,25 +305,21 @@ const Register = (() => {
         }
       });
 
-    // Attach submit button click handler
+    
     document
       .querySelector('.auth__btn-submit')
       ?.addEventListener('click', handleSubmit);
   }
 
-  // Public API - expose init and submit function externally
+  
   return { init, handleSubmit };
 })();
 
-/* ═══════════════════════════════════════
-   INITIALIZATION - Set up registration on page load
-   ═══════════════════════════════════════
-   @description - Initializes Register module when DOM is ready
-   */
+
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('reg-name')) Register.init();
+  if (document.getElementById('reg-cedula')) Register.init();
 });
 
-// Expose globally for inline onclick handlers
+
 window.togglePassword = togglePassword;
 window.Register         = Register;

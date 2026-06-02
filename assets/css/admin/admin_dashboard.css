@@ -1,8 +1,6 @@
-/* ═══════════════════════════════════════
-   user-dashboard.css - Estilos personalizados para panel de usuario
-   ═══════════════════════════════════════ */
 
-/* ========== 1. LAYOUT PRINCIPAL ========== */
+
+
 .sidebar-layout {
   display: flex;
   min-height: 100vh;
@@ -28,7 +26,7 @@
   background: var(--bg-soft, #f5f7f5);
 }
 
-/* Scroll personalizado para sidebar */
+
 .sidebar::-webkit-scrollbar {
   width: 4px;
 }
@@ -42,7 +40,7 @@
   border-radius: 4px;
 }
 
-/* Scroll personalizado para contenido principal */
+
 .main-content::-webkit-scrollbar {
   width: 8px;
 }
@@ -61,7 +59,7 @@
   background: var(--primary-green-dark, #27b545);
 }
 
-/* ========== 2. TIPOGRAFÍA ========== */
+
 h1, h2, h3, h4, h5, h6,
 .fw-bold,
 .navbar-brand span,
@@ -74,7 +72,7 @@ body, .form-label, .text-muted, .list-group-item,
   font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', sans-serif);
 }
 
-/* ========== 3. SIDEBAR STYLES ========== */
+
 .sidebar .nav-link {
   border-radius: var(--radius-md, 10px);
   padding: 0.7rem 1rem;
@@ -89,7 +87,7 @@ body, .form-label, .text-muted, .list-group-item,
   display: inline-block;
 }
 
-/* Solo el ícono tiene efecto hover */
+
 .sidebar .nav-link:hover i {
   transform: scale(1.1);
   color: var(--primary-green, #2ecc50);
@@ -99,18 +97,18 @@ body, .form-label, .text-muted, .list-group-item,
   color: var(--primary-green, #2ecc50);
 }
 
-/* El texto no cambia de fondo, solo el ícono */
+
 .sidebar .nav-link:hover {
   background: transparent;
 }
 
-/* Estado activo: solo el ícono se marca */
+
 .sidebar .nav-link.active {
   background: transparent !important;
   color: var(--text-secondary, #1a1a1a);
 }
 
-/* Ícono activo con borde blanco y fondo verde */
+
 .sidebar .nav-link.active i {
   background: var(--primary-green, #2ecc50);
   color: white;
@@ -118,7 +116,7 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: 0 2px 8px rgba(46, 204, 80, 0.3);
 }
 
-/* Estilo del ícono base para permitir borde blanco */
+
 .sidebar .nav-link i {
   width: 32px;
   height: 32px;
@@ -130,12 +128,12 @@ body, .form-label, .text-muted, .list-group-item,
   margin-right: 0.75rem;
 }
 
-/* Texto del nav */
+
 .sidebar .nav-link .nav-text {
   transition: color var(--transition, 0.2s ease);
 }
 
-/* Sidebar user info */
+
 .sidebar-user {
   transition: background var(--transition, 0.2s ease);
 }
@@ -148,7 +146,7 @@ body, .form-label, .text-muted, .list-group-item,
   border: 2px solid var(--primary-green, #2ecc50);
 }
 
-/* Ajuste para los íconos dentro de la sección de usuario */
+
 .sidebar-user i {
   width: auto;
   height: auto;
@@ -156,7 +154,7 @@ body, .form-label, .text-muted, .list-group-item,
   border: none;
 }
 
-/* ========== 4. CARDS ========== */
+
 .card {
   border-radius: var(--radius-lg, 16px) !important;
   overflow: hidden;
@@ -185,7 +183,7 @@ body, .form-label, .text-muted, .list-group-item,
   padding: 1rem 1.5rem;
 }
 
-/* ========== 5. BANNER DE BIENVENIDA ========== */
+
 .banner-welcome {
   position: relative;
   min-height: 250px;
@@ -236,7 +234,7 @@ body, .form-label, .text-muted, .list-group-item,
   font-weight: 700;
 }
 
-/* ========== 6. TARJETAS DE ESTADÍSTICAS ========== */
+
 #stats-container .card {
   cursor: default;
 }
@@ -251,7 +249,7 @@ body, .form-label, .text-muted, .list-group-item,
   font-size: 2rem;
 }
 
-/* ========== 7. LISTA DE RESERVAS PRÓXIMAS ========== */
+
 .reserva-item {
   display: flex;
   align-items: center;
@@ -333,7 +331,7 @@ body, .form-label, .text-muted, .list-group-item,
   color: var(--text-muted, #7a8f7a);
 }
 
-/* Estado vacío */
+
 .empty-state {
   text-align: center;
   padding: 2rem;
@@ -350,7 +348,7 @@ body, .form-label, .text-muted, .list-group-item,
   margin-bottom: 0;
 }
 
-/* ========== 8. BOTONES ========== */
+
 .btn {
   border-radius: var(--radius-md, 10px);
   font-weight: 600;
@@ -370,7 +368,7 @@ body, .form-label, .text-muted, .list-group-item,
   transform: translateY(0);
 }
 
-/* Botón primario outline */
+
 .btn-outline-primary {
   border-color: var(--primary-green, #2ecc50);
   color: var(--primary-green, #2ecc50);
@@ -386,7 +384,7 @@ body, .form-label, .text-muted, .list-group-item,
   color: white;
 }
 
-/* Botón éxito (verde) */
+
 .btn-success {
   background: var(--primary-green, #2ecc50);
   border-color: var(--primary-green, #2ecc50);
@@ -398,7 +396,7 @@ body, .form-label, .text-muted, .list-group-item,
   border-color: var(--primary-green-dark, #27b545);
 }
 
-/* Botón peligro outline */
+
 .btn-outline-danger {
   border-width: 1.5px;
 }
@@ -407,13 +405,13 @@ body, .form-label, .text-muted, .list-group-item,
   transform: translateY(-1px);
 }
 
-/* Botón pequeño */
+
 .btn-sm {
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
 }
 
-/* ========== 9. BADGES ========== */
+
 .badge {
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -437,7 +435,7 @@ body, .form-label, .text-muted, .list-group-item,
   background: #0ea5e9 !important;
 }
 
-/* ========== 10. TOAST ========== */
+
 .toast {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -446,12 +444,12 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
-/* ========== 11. SPINNER ========== */
+
 .spinner-border {
   color: var(--primary-green, #2ecc50) !important;
 }
 
-/* ========== 12. ANIMACIONES ========== */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -467,7 +465,7 @@ body, .form-label, .text-muted, .list-group-item,
   animation: fadeIn 0.3s ease-out;
 }
 
-/* ========== 13. RESPONSIVE ========== */
+
 @media (max-width: 992px) {
   .sidebar {
     width: 240px;
@@ -569,7 +567,7 @@ body, .form-label, .text-muted, .list-group-item,
   }
 }
 
-/* ========== 14. UTILIDADES ========== */
+
 .rounded-3 {
   border-radius: var(--radius-md, 10px) !important;
 }
@@ -596,7 +594,7 @@ body, .form-label, .text-muted, .list-group-item,
   text-overflow: ellipsis;
 }
 
-/* Hover effects para enlaces */
+
 a:not(.btn):not(.nav-link) {
   color: var(--primary-green-dark, #27b545);
   text-decoration: none;
@@ -606,4 +604,89 @@ a:not(.btn):not(.nav-link) {
 a:not(.btn):not(.nav-link):hover {
   color: var(--primary-green, #2ecc50);
   text-decoration: underline;
+}
+
+
+.page-title-badge {
+  background: rgba(46,204,80,.1);
+  color: #2ecc50;
+}
+
+.page-title-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  color: var(--text-primary, #111);
+}
+
+
+.dashboard-venue-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border-radius: var(--radius-lg, 16px);
+  padding: 1.1rem 1.4rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  transition: box-shadow .2s ease, transform .2s ease;
+  flex-wrap: wrap;
+}
+
+.dashboard-venue-card:hover {
+  box-shadow: 0 6px 20px rgba(46,204,80,.12);
+  transform: translateY(-2px);
+}
+
+.dashboard-venue-info {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-venue-title {
+  font-family: var(--font-display, 'Poppins', sans-serif);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary, #111);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboard-venue-meta {
+  font-size: .82rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+.dashboard-venue-action {
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem .85rem;
+  border-radius: var(--radius-md, 8px);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s ease;
+  text-decoration: none;
+  border: 1.5px solid var(--primary-green, #2ecc50);
+  color: var(--primary-green, #2ecc50);
+  background: transparent;
+}
+
+.dashboard-venue-action:hover {
+  background: var(--primary-green, #2ecc50);
+  color: #fff;
+}
+
+.dashboard-venue-action--danger {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.dashboard-venue-action--danger:hover {
+  background: #ef4444;
+  color: #fff;
 }

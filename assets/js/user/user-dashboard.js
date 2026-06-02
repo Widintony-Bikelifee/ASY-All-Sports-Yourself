@@ -1,12 +1,10 @@
-/* ═══════════════════════════════════════
-   user-dashboard.js - Logic for the deportista dashboard
-   ═══════════════════════════════════════ */
+
 
 const UserDashboard = (() => {
   let currentUserProfile = null;
 
   async function init() {
-    // 1. Verificar autenticación
+    
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
       
@@ -15,7 +13,7 @@ const UserDashboard = (() => {
         return;
       }
 
-      // 2. Verificar el rol del usuario
+      
       const role = await window.getUserRole();
       
       if (role === 'admin_cancha') {
@@ -26,24 +24,26 @@ const UserDashboard = (() => {
         return;
       }
 
-      // 3. Cargar datos del perfil en el sidebar y form
+      
       currentUserProfile = await window.getUserProfile(session.user.id);
       const email = currentUserProfile.correo_electronico || session.user.email;
       const fullName = `${currentUserProfile.nombre} ${currentUserProfile.apellido}`;
       const firstName = currentUserProfile.nombre.split(' ')[0];
 
-      // Populate Sidebar
+      
       document.getElementById('sidebar-user-name').textContent = fullName;
       document.getElementById('sidebar-user-email').textContent = email;
       const avatarImg = document.getElementById('sidebar-avatar-img');
       if (avatarImg) {
-        avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+        const avatarUrl = session.user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+        avatarImg.src = avatarUrl;
+        avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`; };
       }
 
-      // Populate Banner
+      
       document.getElementById('banner-welcome-name').textContent = `HOLA, ${firstName.toUpperCase()}!`;
 
-      // Populate Profile Form
+      
       const profileName = document.getElementById('profile-name');
       const profileLastname = document.getElementById('profile-lastname');
       const profileEmail = document.getElementById('profile-email');
@@ -55,7 +55,7 @@ const UserDashboard = (() => {
 
       _refreshProfileView(currentUserProfile, email, session.user);
 
-      // Setup Profile Save
+      
       document.getElementById('profile-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btnSave = document.getElementById('btn-save');
@@ -71,13 +71,15 @@ const UserDashboard = (() => {
         try {
           await window.updateUserProfile(session.user.id, updatedData);
           App.showToast('✅ Perfil actualizado correctamente');
-          // Update sidebar immediately
+          
           const newFullName = `${updatedData.nombre} ${updatedData.apellido}`;
           document.getElementById('sidebar-user-name').textContent = newFullName;
           document.getElementById('banner-welcome-name').textContent = `HOLA, ${updatedData.nombre.split(' ')[0].toUpperCase()}!`;
           const avatarImg = document.getElementById('sidebar-avatar-img');
           if (avatarImg) {
-            avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
+            const avatarUrl = session.user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
+            avatarImg.src = avatarUrl;
+            avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`; };
           }
           
           _refreshProfileView({ nombre: updatedData.nombre, apellido: updatedData.apellido, telefono: updatedData.telefono }, email, session.user);
@@ -90,7 +92,7 @@ const UserDashboard = (() => {
         }
       });
 
-      // Setup Logout Button
+      
       const logoutBtn = document.getElementById('btn-logout');
       if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
@@ -99,17 +101,25 @@ const UserDashboard = (() => {
         });
       }
 
-      // 4. Cargar reservas reales
+      
       await loadRealReservations();
 
-      // 5. Soporte de routing SPA por parámetro ?tab=...
+      
       const urlParams = new URLSearchParams(window.location.search);
       const tabParam = urlParams.get('tab');
-      if (tabParam && ['inicio', 'reservas', 'venues', 'profile'].includes(tabParam)) {
-        switchTab(tabParam);
-      } else {
-        switchTab('inicio');
+      if (tabParam) {
+        if (tabParam === 'reservas') {
+          window.location.href = './reservations_user.html';
+          return;
+        } else if (tabParam === 'venues') {
+          window.location.href = './venues_user.html';
+          return;
+        } else if (tabParam === 'profile') {
+          window.location.href = './perfil_user.html';
+          return;
+        }
       }
+      switchTab('inicio');
 
     } catch (error) {
       console.error('Error loading user dashboard:', error);
@@ -124,19 +134,19 @@ const UserDashboard = (() => {
   }
 
   function switchTab(tab) {
-    // Update sidebar active links
+    
     document.getElementById('tab-inicio')?.classList.toggle('active', tab === 'inicio');
     document.getElementById('tab-reservas')?.classList.toggle('active', tab === 'reservas');
     document.getElementById('tab-venues')?.classList.toggle('active', tab === 'venues');
     document.getElementById('tab-profile')?.classList.toggle('active', tab === 'profile');
 
-    // Update main content panels
+    
     document.getElementById('panel-inicio')?.classList.toggle('active', tab === 'inicio');
     document.getElementById('panel-reservas')?.classList.toggle('active', tab === 'reservas');
     document.getElementById('panel-venues')?.classList.toggle('active', tab === 'venues');
     document.getElementById('panel-profile')?.classList.toggle('active', tab === 'profile');
 
-    // Trigger re-fetches or loads on entering tabs
+    
     if (tab === 'reservas' && window.ReservasPage) {
       window.ReservasPage.init();
     }
@@ -228,9 +238,7 @@ const UserDashboard = (() => {
     return str.replace(/\./g, "");
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     PROFILE UI HELPERS
-  ───────────────────────────────────────────────────────────────── */
+  
   function _refreshProfileView(profile, email, user) {
     const fullName = `${profile.nombre ?? ""} ${profile.apellido ?? ""}`.trim();
     email = email || user?.email || "";
@@ -239,9 +247,15 @@ const UserDashboard = (() => {
     const heroEmail = document.getElementById("prf-hero-email");
     const heroSince = document.getElementById("prf-hero-since");
     const avatarImg = document.getElementById("prf-avatar-img");
+    
+    const avatarUrl = user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`;
+
     if (heroName)  heroName.textContent  = fullName || "—";
     if (heroEmail) heroEmail.textContent = email;
-    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`;
+    if (avatarImg) {
+      avatarImg.src = avatarUrl;
+      avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`; };
+    }
 
     if (heroSince) {
       const raw = user?.created_at || user?.user_metadata?.created_at;

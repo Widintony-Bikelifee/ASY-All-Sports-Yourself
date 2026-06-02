@@ -1,8 +1,6 @@
-/* ==========================================================================
-   ESTILOS PERSONALIZADOS REUTILIZADOS EN EL NAVBAR DE BOOTSTRAP
-   ========================================================================== */
 
-/* Logo image - mantiene el tamaño y su aspecto */
+
+
 .navbar__logo-icon img {
   width: 55px;
   height: 55px;
@@ -13,7 +11,7 @@
   color: var(--text-primary);
 }
 
-/* Brand text - mantiene la fuente tipográfica pesada de la marca */
+
 .navbar__brand-text {
   font-family: var(--font-display);
   font-size: 1rem;
@@ -23,7 +21,7 @@
   color: inherit;
 }
 
-/* Individual nav link - efectos hover y línea inferior activa */
+
 .navbar__link {
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -54,7 +52,7 @@
   border-radius: 2px;
 }
 
-/* Login button - estilo delineado original */
+
 .navbar__btn-login {
   background: transparent;
   border: 1.5px solid currentColor;
@@ -71,7 +69,7 @@
   color: var(--color-green);
 }
 
-/* Register button - estilo sólido llamativo */
+
 .navbar__btn-register {
   background: var(--color-green);
   color: #000;
@@ -87,9 +85,7 @@
   transform: translateY(-1px);
 }
 
-/* ==========================================================================
-   PROVISIONAL FEATURE PREVIEW MODAL (Se mantiene intacto para alertas JS)
-   ========================================================================== */
+
 .navbar-modal-overlay {
   position: fixed;
   inset: 0;

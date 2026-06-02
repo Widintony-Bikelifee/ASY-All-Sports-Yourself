@@ -1,12 +1,4 @@
-/* ── FOOTER ──────────────────────────────────────────────────────────────
-   Layout estructural delegado a Bootstrap:
-     - Contenedor → .container (Bootstrap)
-     - Grid de columnas → .row .col-* (Bootstrap)
-     - Flex helpers → .d-flex .gap-* .align-items-* (Bootstrap)
-     - Media queries de grid/flex → Bootstrap breakpoints
-     - list-style none → .list-unstyled (Bootstrap)
-   Aquí solo viven estilos de diseño/marca propios.
-   ──────────────────────────────────────────────────────────────────────── */
+
 
 .footer {
   background-color: #030712;
@@ -15,7 +7,7 @@
   border-top: 1px solid var(--border-dark);
 }
 
-/* ── Marca ── */
+
 .footer__logo-img {
   height: 40px;
   width: auto;
@@ -29,7 +21,7 @@
   color: white;
 }
 
-/* ── Descripción ── */
+
 .footer__desc {
   color: var(--text-muted);
   font-size: var(--fs-sm);
@@ -38,10 +30,10 @@
   max-width: 320px;
 }
 
-/* ── Newsletter input ── */
+
 .footer__input {
   flex: 1;
-  min-width: 0; /* evita overflow en flex */
+  min-width: 0; 
   background: #111827;
   border: 1px solid #374151;
   color: white;
@@ -59,7 +51,7 @@
   border-color: var(--color-green);
 }
 
-/* ── Newsletter botón ── */
+
 .footer__btn {
   background: var(--color-green);
   color: black;
@@ -75,7 +67,7 @@
   background: var(--color-green-dark);
 }
 
-/* ── Títulos de columna ── */
+
 .footer__title {
   color: white;
   font-size: var(--fs-sm);
@@ -84,7 +76,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* ── Links y contacto ── */
+
 .footer__link,
 .footer__contact li {
   color: var(--text-muted);
@@ -101,7 +93,7 @@
   margin-right: 0.5rem;
 }
 
-/* ── Redes sociales ── */
+
 .footer__socials-label {
   font-size: var(--fs-xs);
   color: #6b7280;
@@ -126,18 +118,18 @@
   transform: translateY(-2px);
 }
 
-/* ── Barra inferior ── */
+
 .footer__bottom {
   border-top: 1px solid #1f2937;
   padding-top: 1.5rem;
-  gap: 1rem; /* Bootstrap d-flex gap helper no cubre gap custom */
+  gap: 1rem; 
 }
 
 .footer__copy,
 .footer__legal-link {
   font-size: var(--fs-xs);
   color: #6b7280;
-  margin-bottom: 0; /* reset Bootstrap p margin */
+  margin-bottom: 0; 
 }
 
 .footer__legal-link:hover {

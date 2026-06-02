@@ -1,8 +1,6 @@
-/* ═══════════════════════════════════════
-   admin-dashboard.css - Estilos personalizados para panel de administrador
-   ═══════════════════════════════════════ */
 
-/* ========== 1. LAYOUT PRINCIPAL ========== */
+
+
 .sidebar-layout {
   display: flex;
   min-height: 100vh;
@@ -26,10 +24,9 @@
   width: calc(100% - 280px);
   min-height: 100vh;
   background: var(--bg-soft, #f5f7f5);
-  padding: 2rem;
 }
 
-/* Scroll personalizado para sidebar */
+
 .sidebar::-webkit-scrollbar {
   width: 4px;
 }
@@ -43,7 +40,7 @@
   border-radius: 4px;
 }
 
-/* Scroll personalizado para contenido principal */
+
 .main-content::-webkit-scrollbar {
   width: 8px;
 }
@@ -62,7 +59,7 @@
   background: var(--primary-green-dark, #27b545);
 }
 
-/* ========== 2. TIPOGRAFÍA ========== */
+
 h1, h2, h3, h4, h5, h6,
 .fw-bold,
 .navbar-brand span,
@@ -71,11 +68,11 @@ h1, h2, h3, h4, h5, h6,
 }
 
 body, .form-label, .text-muted, .list-group-item,
-.card-text, .badge, .small, .table, .table th, .table td {
+.card-text, .badge, .small {
   font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', sans-serif);
 }
 
-/* ========== 3. SIDEBAR STYLES ========== */
+
 .sidebar .nav-link {
   border-radius: var(--radius-md, 10px);
   padding: 0.7rem 1rem;
@@ -90,7 +87,7 @@ body, .form-label, .text-muted, .list-group-item,
   display: inline-block;
 }
 
-/* Solo el ícono tiene efecto hover */
+
 .sidebar .nav-link:hover i {
   transform: scale(1.1);
   color: var(--primary-green, #2ecc50);
@@ -100,18 +97,18 @@ body, .form-label, .text-muted, .list-group-item,
   color: var(--primary-green, #2ecc50);
 }
 
-/* El texto no cambia de fondo, solo el ícono */
+
 .sidebar .nav-link:hover {
   background: transparent;
 }
 
-/* Estado activo: solo el ícono se marca */
+
 .sidebar .nav-link.active {
   background: transparent !important;
   color: var(--text-secondary, #1a1a1a);
 }
 
-/* Ícono activo con borde blanco y fondo verde */
+
 .sidebar .nav-link.active i {
   background: var(--primary-green, #2ecc50);
   color: white;
@@ -119,7 +116,7 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: 0 2px 8px rgba(46, 204, 80, 0.3);
 }
 
-/* Estilo del ícono base para permitir borde blanco */
+
 .sidebar .nav-link i {
   width: 32px;
   height: 32px;
@@ -131,12 +128,12 @@ body, .form-label, .text-muted, .list-group-item,
   margin-right: 0.75rem;
 }
 
-/* Texto del nav */
+
 .sidebar .nav-link .nav-text {
   transition: color var(--transition, 0.2s ease);
 }
 
-/* Sidebar user info */
+
 .sidebar-user {
   transition: background var(--transition, 0.2s ease);
 }
@@ -149,7 +146,7 @@ body, .form-label, .text-muted, .list-group-item,
   border: 2px solid var(--primary-green, #2ecc50);
 }
 
-/* Ajuste para los íconos dentro de la sección de usuario */
+
 .sidebar-user i {
   width: auto;
   height: auto;
@@ -157,7 +154,7 @@ body, .form-label, .text-muted, .list-group-item,
   border: none;
 }
 
-/* ========== 4. CARDS ========== */
+
 .card {
   border-radius: var(--radius-lg, 16px) !important;
   overflow: hidden;
@@ -186,127 +183,120 @@ body, .form-label, .text-muted, .list-group-item,
   padding: 1rem 1.5rem;
 }
 
-/* ========== 5. TABLA DE CLIENTES ========== */
-.table {
+
+.kpi-card {
+  text-align: center;
+}
+
+.kpi-card .kpi-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md, 12px);
+  margin: 0 auto 1rem;
+}
+
+.kpi-card .kpi-value {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary, #111);
+  line-height: 1.2;
+}
+
+.kpi-card .kpi-label {
+  font-size: 0.75rem;
+  color: var(--text-muted, #7a8f7a);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+
+.reportes-table {
+  width: 100%;
   margin-bottom: 0;
 }
 
-.table thead th {
+.reportes-table thead th {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-muted, #7a8f7a);
-  border-bottom-width: 1px;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
   padding: 1rem 0.75rem;
   background: transparent;
 }
 
-.table tbody td {
-  padding: 1rem 0.75rem;
+.reportes-table tbody td {
+  padding: 0.75rem;
   vertical-align: middle;
   border-bottom: 1px solid var(--border-light, #e8ede8);
   color: var(--text-secondary, #1a1a1a);
   font-size: 0.9rem;
 }
 
-.table tbody tr {
+.reportes-table tbody tr {
   transition: background var(--transition, 0.2s ease);
 }
 
-.table tbody tr:hover {
+.reportes-table tbody tr:hover {
   background: var(--primary-green-dim, rgba(46, 204, 80, 0.03));
 }
 
-.table tbody tr:last-child td {
+.reportes-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* Avatar en tabla */
-.client-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--primary-green, #2ecc50);
-}
 
-.client-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.client-name {
-  font-weight: 700;
-  color: var(--text-primary, #111);
-  margin-bottom: 0.15rem;
-}
-
-.client-email {
-  font-size: 0.75rem;
-  color: var(--text-muted, #7a8f7a);
-}
-
-/* Badge de reservas */
-.reservas-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  padding: 0.25rem 0.5rem;
-  background: var(--primary-green-dim, rgba(46, 204, 80, 0.1));
-  color: var(--primary-green, #2ecc50);
+.progress-bar-custom {
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.15));
   border-radius: var(--radius-full, 40px);
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
-/* Cancha favorita */
-.favorite-venue {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.25rem 0.6rem;
-  background: rgba(255, 193, 7, 0.1);
-  color: #d97706;
-  border-radius: var(--radius-full, 40px);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.favorite-venue i {
-  font-size: 0.7rem;
-}
-
-/* ========== 6. BÚSQUEDA ========== */
-.input-group {
-  border-radius: var(--radius-md, 10px);
+  height: 8px;
   overflow: hidden;
 }
 
-.input-group-text {
-  background: white;
-  border: 1.5px solid var(--border-medium, #d9e2d9);
-  border-right: none;
+.progress-bar-custom .progress-fill {
+  background: var(--primary-green, #2ecc50);
+  height: 100%;
+  border-radius: var(--radius-full, 40px);
+  transition: width 0.5s ease;
+}
+
+
+.ingresos-mes-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+}
+
+.ingresos-mes-item:last-child {
+  border-bottom: none;
+}
+
+.ingresos-mes-item .mes-nombre {
+  font-weight: 600;
+  color: var(--text-primary, #111);
+  min-width: 100px;
+}
+
+.ingresos-mes-item .mes-monto {
+  font-weight: 800;
+  color: var(--primary-green, #2ecc50);
+  font-size: 1rem;
+}
+
+.ingresos-mes-item .mes-reservas {
+  font-size: 0.75rem;
   color: var(--text-muted, #7a8f7a);
 }
 
-.form-control {
-  border: 1.5px solid var(--border-medium, #d9e2d9);
-  border-radius: 0 var(--radius-md, 10px) var(--radius-md, 10px) 0;
-  padding: 0.7rem 1rem;
-  font-size: 0.95rem;
-  transition: all var(--transition, 0.2s ease);
-}
 
-.form-control:focus {
-  border-color: var(--primary-green, #2ecc50);
-  box-shadow: 0 0 0 3px var(--primary-green-dim, rgba(46, 204, 80, 0.12));
-  outline: none;
-}
-
-/* ========== 7. BOTONES ========== */
 .btn {
   border-radius: var(--radius-md, 10px);
   font-weight: 600;
@@ -326,23 +316,23 @@ body, .form-label, .text-muted, .list-group-item,
   transform: translateY(0);
 }
 
-/* Botón outline primary */
-.btn-outline-primary {
+
+.btn-outline-success {
   border-color: var(--primary-green, #2ecc50);
   color: var(--primary-green, #2ecc50);
 }
 
-.btn-outline-primary:hover {
+.btn-outline-success:hover {
   background-color: var(--primary-green, #2ecc50);
   border-color: var(--primary-green, #2ecc50);
   color: white;
 }
 
-.btn-outline-primary:hover i {
+.btn-outline-success:hover i {
   color: white;
 }
 
-/* Botón éxito (verde) */
+
 .btn-success {
   background: var(--primary-green, #2ecc50);
   border-color: var(--primary-green, #2ecc50);
@@ -354,7 +344,7 @@ body, .form-label, .text-muted, .list-group-item,
   border-color: var(--primary-green-dark, #27b545);
 }
 
-/* Botón peligro outline */
+
 .btn-outline-danger {
   border-width: 1.5px;
 }
@@ -363,13 +353,13 @@ body, .form-label, .text-muted, .list-group-item,
   transform: translateY(-1px);
 }
 
-/* Botón pequeño */
+
 .btn-sm {
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
 }
 
-/* ========== 8. BADGES ========== */
+
 .badge {
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -377,7 +367,7 @@ body, .form-label, .text-muted, .list-group-item,
   padding: 0.4rem 0.9rem;
 }
 
-/* ========== 9. TOAST ========== */
+
 .toast {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -386,12 +376,12 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
-/* ========== 10. SPINNER ========== */
+
 .spinner-border {
   color: var(--primary-green, #2ecc50) !important;
 }
 
-/* ========== 11. ANIMACIONES ========== */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -403,11 +393,11 @@ body, .form-label, .text-muted, .list-group-item,
   }
 }
 
-.card, .table tbody tr {
+.card, .kpi-card, .reportes-table tbody tr {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* ========== 12. RESPONSIVE ========== */
+
 @media (max-width: 992px) {
   .sidebar {
     width: 240px;
@@ -429,7 +419,6 @@ body, .form-label, .text-muted, .list-group-item,
   .main-content {
     margin-left: 0;
     width: 100%;
-    padding: 1rem;
   }
   
   .sidebar-layout {
@@ -444,26 +433,29 @@ body, .form-label, .text-muted, .list-group-item,
     padding: 0.5rem 1rem;
   }
   
-  /* Tabla responsive */
-  .table thead {
+  .kpi-card .kpi-value {
+    font-size: 1.25rem;
+  }
+  
+  .reportes-table thead {
     display: none;
   }
   
-  .table tbody tr {
+  .reportes-table tbody tr {
     display: block;
     padding: 1rem;
     border-bottom: 1px solid var(--border-light, #e8ede8);
   }
   
-  .table tbody td {
+  .reportes-table tbody td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.6rem 0;
+    padding: 0.5rem 0;
     border: none;
   }
   
-  .table tbody td::before {
+  .reportes-table tbody td::before {
     content: attr(data-label);
     font-weight: 600;
     font-size: 0.7rem;
@@ -472,12 +464,9 @@ body, .form-label, .text-muted, .list-group-item,
     letter-spacing: 0.5px;
   }
   
-  .client-info {
-    flex: 1;
-  }
-  
-  .input-group {
-    max-width: 100% !important;
+  .ingresos-mes-item {
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 }
 
@@ -486,30 +475,25 @@ body, .form-label, .text-muted, .list-group-item,
     font-size: 1rem;
   }
   
-  .client-avatar {
-    width: 32px;
-    height: 32px;
+  .row.g-3 {
+    gap: 0.75rem;
   }
   
-  .client-name {
-    font-size: 0.85rem;
+  .kpi-card .kpi-icon {
+    width: 40px;
+    height: 40px;
   }
   
-  .client-email {
-    font-size: 0.7rem;
+  .kpi-card .kpi-value {
+    font-size: 1.1rem;
   }
   
-  .reservas-count {
-    min-width: 28px;
-    font-size: 0.75rem;
-  }
-  
-  .favorite-venue {
-    font-size: 0.7rem;
+  .kpi-card .kpi-label {
+    font-size: 0.65rem;
   }
 }
 
-/* ========== 13. UTILIDADES ========== */
+
 .rounded-3 {
   border-radius: var(--radius-md, 10px) !important;
 }
@@ -532,10 +516,22 @@ body, .form-label, .text-muted, .list-group-item,
   text-overflow: ellipsis;
 }
 
-/* Estado vacío */
+
+a:not(.btn):not(.nav-link) {
+  color: var(--primary-green-dark, #27b545);
+  text-decoration: none;
+  transition: color var(--transition, 0.2s ease);
+}
+
+a:not(.btn):not(.nav-link):hover {
+  color: var(--primary-green, #2ecc50);
+  text-decoration: underline;
+}
+
+
 .empty-state {
   text-align: center;
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .empty-state i {
@@ -547,16 +543,4 @@ body, .form-label, .text-muted, .list-group-item,
 .empty-state p {
   color: var(--text-muted, #7a8f7a);
   margin-bottom: 0;
-}
-
-/* Hover effects para enlaces */
-a:not(.btn):not(.nav-link) {
-  color: var(--primary-green-dark, #27b545);
-  text-decoration: none;
-  transition: color var(--transition, 0.2s ease);
-}
-
-a:not(.btn):not(.nav-link):hover {
-  color: var(--primary-green, #2ecc50);
-  text-decoration: underline;
 }

@@ -1,8 +1,6 @@
-/* ═══════════════════════════════════════
-   venues.css - Estilos personalizados para espacios deportivos
-   ═══════════════════════════════════════ */
 
-/* ========== 1. LAYOUT PRINCIPAL ========== */
+
+
 .sidebar-layout {
   display: flex;
   min-height: 100vh;
@@ -28,7 +26,7 @@
   background: var(--bg-soft, #f5f7f5);
 }
 
-/* Scroll personalizado para sidebar */
+
 .sidebar::-webkit-scrollbar {
   width: 4px;
 }
@@ -42,7 +40,7 @@
   border-radius: 4px;
 }
 
-/* Scroll personalizado para contenido principal */
+
 .main-content::-webkit-scrollbar {
   width: 8px;
 }
@@ -61,19 +59,20 @@
   background: var(--primary-green-dark, #27b545);
 }
 
-/* ========== 2. TIPOGRAFÍA ========== */
+
 h1, h2, h3, h4, h5, h6,
 .fw-bold,
-.navbar-brand span {
+.navbar-brand span,
+.modal-title {
   font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
 }
 
 body, .form-label, .text-muted, .list-group-item,
-.card-text, .badge {
+.card-text, .badge, .small {
   font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', sans-serif);
 }
 
-/* ========== 3. SIDEBAR STYLES ========== */
+
 .sidebar .nav-link {
   border-radius: var(--radius-md, 10px);
   padding: 0.7rem 1rem;
@@ -88,7 +87,7 @@ body, .form-label, .text-muted, .list-group-item,
   display: inline-block;
 }
 
-/* Solo el ícono tiene efecto hover */
+
 .sidebar .nav-link:hover i {
   transform: scale(1.1);
   color: var(--primary-green, #2ecc50);
@@ -98,18 +97,18 @@ body, .form-label, .text-muted, .list-group-item,
   color: var(--primary-green, #2ecc50);
 }
 
-/* El texto no cambia de fondo, solo el ícono */
+
 .sidebar .nav-link:hover {
   background: transparent;
 }
 
-/* Estado activo: solo el ícono se marca */
+
 .sidebar .nav-link.active {
   background: transparent !important;
   color: var(--text-secondary, #1a1a1a);
 }
 
-/* Ícono activo con borde blanco y fondo verde */
+
 .sidebar .nav-link.active i {
   background: var(--primary-green, #2ecc50);
   color: white;
@@ -117,7 +116,7 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: 0 2px 8px rgba(46, 204, 80, 0.3);
 }
 
-/* Estilo del ícono base para permitir borde blanco */
+
 .sidebar .nav-link i {
   width: 32px;
   height: 32px;
@@ -129,12 +128,12 @@ body, .form-label, .text-muted, .list-group-item,
   margin-right: 0.75rem;
 }
 
-/* Texto del nav */
+
 .sidebar .nav-link .nav-text {
   transition: color var(--transition, 0.2s ease);
 }
 
-/* Sidebar user info */
+
 .sidebar-user {
   transition: background var(--transition, 0.2s ease);
 }
@@ -147,7 +146,7 @@ body, .form-label, .text-muted, .list-group-item,
   border: 2px solid var(--primary-green, #2ecc50);
 }
 
-/* Ajuste para los íconos dentro de la sección de usuario */
+
 .sidebar-user i {
   width: auto;
   height: auto;
@@ -155,7 +154,7 @@ body, .form-label, .text-muted, .list-group-item,
   border: none;
 }
 
-/* ========== 4. CARDS ========== */
+
 .card {
   border-radius: var(--radius-lg, 16px) !important;
   overflow: hidden;
@@ -164,8 +163,8 @@ body, .form-label, .text-muted, .list-group-item,
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md, 0 12px 28px rgba(0, 0, 0, 0.1)) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1)) !important;
 }
 
 .card-header {
@@ -184,126 +183,80 @@ body, .form-label, .text-muted, .list-group-item,
   padding: 1rem 1.5rem;
 }
 
-/* ========== 5. FILTROS (FILTER CHIPS) ========== */
-.venues__filter-chip {
-  border-radius: var(--radius-full, 40px) !important;
-  padding: 0.5rem 1.2rem;
-  font-weight: 600;
-  font-size: 0.85rem;
+
+.reserva-card {
   transition: all var(--transition, 0.2s ease);
+  height: 100%;
 }
 
-.venues__filter-chip i {
-  transition: all var(--transition, 0.2s ease);
-}
-
-.venues__filter-chip.btn-success {
-  background: var(--primary-green, #2ecc50);
-  border-color: var(--primary-green, #2ecc50);
-  color: white;
-}
-
-.venues__filter-chip.btn-outline-success {
-  border-color: var(--border-medium, #d9e2d9);
-  color: var(--text-secondary, #1a1a1a);
-  background: transparent;
-}
-
-.venues__filter-chip.btn-outline-success:hover {
-  background: var(--primary-green-dim, rgba(46, 204, 80, 0.1));
-  border-color: var(--primary-green, #2ecc50);
-  color: var(--primary-green, #2ecc50);
-  transform: translateY(-1px);
-}
-
-.venues__filter-chip.btn-outline-success:hover i {
-  color: var(--primary-green, #2ecc50);
-}
-
-/* ========== 6. TARJETAS DE CANCHAS ========== */
-.venue-card {
-  transition: all var(--transition, 0.2s ease);
-}
-
-.venue-card-img {
-  height: 180px;
-  object-fit: cover;
-  width: 100%;
-  transition: transform 0.3s ease;
-}
-
-.venue-card:hover .venue-card-img {
-  transform: scale(1.05);
-}
-
-.venue-card .card-img-wrapper {
-  overflow: hidden;
-  position: relative;
-}
-
-.venue-card .sport-badge {
+.reserva-card .reserva-status {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  border-radius: var(--radius-full, 40px);
-  padding: 0.3rem 0.8rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: white;
+  top: 16px;
+  right: 16px;
   z-index: 2;
 }
 
-.venue-card .sport-badge i {
-  margin-right: 0.3rem;
-  font-size: 0.65rem;
+.reserva-card .reserva-status .badge {
+  border-radius: var(--radius-full, 40px);
+  padding: 0.4rem 0.9rem;
+  font-weight: 600;
+  font-size: 0.7rem;
 }
 
-.venue-card .price-tag {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--primary-green, #2ecc50);
-  line-height: 1;
-}
-
-.venue-card .price-tag small {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-muted, #7a8f7a);
-}
-
-.venue-card .venue-name {
+.reserva-card .reserva-title {
   font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
   font-weight: 700;
   font-size: 1.1rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.venue-card .venue-location {
-  font-size: 0.8rem;
+.reserva-card .reserva-detail {
+  font-size: 0.85rem;
   color: var(--text-muted, #7a8f7a);
   margin-bottom: 0.5rem;
 }
 
-.venue-card .venue-location i {
-  margin-right: 0.25rem;
-  font-size: 0.75rem;
+.reserva-card .reserva-detail i {
+  width: 20px;
+  margin-right: 0.5rem;
+  color: var(--primary-green, #2ecc50);
 }
 
-.venue-card .btn-reserve {
-  width: 100%;
+.reserva-card .reserva-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--primary-green, #2ecc50);
+  margin-top: 0.5rem;
+}
+
+.reserva-card .btn-cancel {
   border-radius: var(--radius-md, 10px);
-  padding: 0.6rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
   font-weight: 600;
   transition: all var(--transition, 0.2s ease);
 }
 
-.venue-card .btn-reserve:hover {
+.reserva-card .btn-cancel:hover {
   transform: translateY(-1px);
 }
 
-/* ========== 6. BOTONES ========== */
+
+#reservas-stats .card {
+  cursor: pointer;
+  transition: all var(--transition, 0.2s ease);
+}
+
+#reservas-stats .card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1)) !important;
+}
+
+#reservas-stats .rounded-3 {
+  border-radius: var(--radius-md, 10px) !important;
+}
+
+
 .btn {
   border-radius: var(--radius-md, 10px);
   font-weight: 600;
@@ -323,48 +276,88 @@ body, .form-label, .text-muted, .list-group-item,
   transform: translateY(0);
 }
 
-/* Botón primario outline */
-.btn-outline-primary {
-  border-color: var(--primary-green, #2ecc50);
-  color: var(--primary-green, #2ecc50);
-}
 
-.btn-outline-primary:hover {
-  background-color: var(--primary-green, #2ecc50);
-  border-color: var(--primary-green, #2ecc50);
-  color: white;
-}
-
-.btn-outline-primary:hover i {
-  color: white;
-}
-
-/* Botón éxito (verde) */
-.btn-success {
+.btn-primary {
   background: var(--primary-green, #2ecc50);
   border-color: var(--primary-green, #2ecc50);
   color: white;
 }
 
-.btn-success:hover {
+.btn-primary:hover {
   background: var(--primary-green-dark, #27b545);
   border-color: var(--primary-green-dark, #27b545);
-  transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(46, 204, 80, 0.3);
 }
 
-/* Botón peligro outline */
-.btn-outline-danger:hover {
+
+.btn-outline-secondary {
+  border-color: var(--border-medium, #d9e2d9);
+  color: var(--text-muted, #7a8f7a);
+}
+
+.btn-outline-secondary:hover {
+  background: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+.btn-outline-secondary:hover i {
+  color: white;
+}
+
+
+.btn-danger {
+  background: var(--danger, #dc2626);
+  border-color: var(--danger, #dc2626);
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
   transform: translateY(-1px);
 }
 
-/* Botón pequeño */
+.btn-outline-danger {
+  border-width: 1.5px;
+}
+
+.btn-outline-danger:hover {
+  transform: translateY(-1px);
+  background-color: var(--danger, #dc2626);
+  border-color: var(--danger, #dc2626);
+}
+
+
 .btn-sm {
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
 }
 
-/* ========== 7. BADGES ========== */
+
+.form-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted, #7a8f7a);
+  margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+  border: 1.5px solid var(--border-medium, #d9e2d9);
+  border-radius: var(--radius-md, 10px);
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  transition: all var(--transition, 0.2s ease);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-green, #2ecc50);
+  box-shadow: 0 0 0 3px var(--primary-green-dim, rgba(46, 204, 80, 0.12));
+  outline: none;
+}
+
+
 .badge {
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -372,7 +365,41 @@ body, .form-label, .text-muted, .list-group-item,
   padding: 0.4rem 0.9rem;
 }
 
-/* ========== 8. TOAST ========== */
+.badge.bg-primary {
+  background: var(--primary-green, #2ecc50) !important;
+}
+
+
+.modal-content {
+  border-radius: var(--radius-lg, 16px);
+  border: none;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: transparent;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.modal-title {
+  font-weight: 700;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  border-top: none;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+
+#cancel-modal .modal-header .display-4 {
+  font-size: 3rem;
+}
+
+
 .toast {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -381,22 +408,12 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
-/* ========== 9. SPINNER ========== */
+
 .spinner-border {
   color: var(--primary-green, #2ecc50) !important;
 }
 
-/* ========== 10. EMPTY STATE ========== */
-#venues-empty-state .card {
-  border-radius: var(--radius-lg, 16px) !important;
-}
 
-#venues-empty-state .display-1 {
-  font-size: 4rem;
-  color: var(--border-medium, #d9e2d9);
-}
-
-/* ========== 11. ANIMACIONES ========== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -408,11 +425,11 @@ body, .form-label, .text-muted, .list-group-item,
   }
 }
 
-.card {
+.card, .reserva-card {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* ========== 12. RESPONSIVE ========== */
+
 @media (max-width: 992px) {
   .sidebar {
     width: 240px;
@@ -448,17 +465,12 @@ body, .form-label, .text-muted, .list-group-item,
     padding: 0.5rem 1rem;
   }
   
-  .venues__filter-chip {
-    padding: 0.4rem 1rem;
-    font-size: 0.75rem;
+  .reserva-card .reserva-price {
+    font-size: 1rem;
   }
   
-  .venue-card-img {
-    height: 150px;
-  }
-  
-  .venue-card .price-tag {
-    font-size: 1.25rem;
+  .modal-body {
+    padding: 1rem;
   }
 }
 
@@ -475,21 +487,33 @@ body, .form-label, .text-muted, .list-group-item,
     padding: 0 0.5rem;
   }
   
-  .venues__filter-chip {
-    padding: 0.3rem 0.8rem;
-    font-size: 0.7rem;
-  }
-  
-  .venue-card .venue-name {
+  .reserva-card .reserva-title {
     font-size: 0.95rem;
   }
   
-  .venue-card .price-tag {
+  .reserva-card .reserva-detail {
+    font-size: 0.75rem;
+  }
+  
+  .modal-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .modal-footer .btn {
+    width: 100%;
+  }
+  
+  #reservas-stats .fs-4 {
     font-size: 1.1rem;
+  }
+  
+  #reservas-stats .text-muted.small {
+    font-size: 0.7rem;
   }
 }
 
-/* ========== 13. UTILIDADES ========== */
+
 .rounded-3 {
   border-radius: var(--radius-md, 10px) !important;
 }
@@ -512,7 +536,7 @@ body, .form-label, .text-muted, .list-group-item,
   text-overflow: ellipsis;
 }
 
-/* Hover effects para enlaces */
+
 a:not(.btn):not(.nav-link) {
   color: var(--primary-green-dark, #27b545);
   text-decoration: none;
@@ -522,4 +546,15 @@ a:not(.btn):not(.nav-link) {
 a:not(.btn):not(.nav-link):hover {
   color: var(--primary-green, #2ecc50);
   text-decoration: underline;
+}
+
+
+#reservas-grid:empty::before {
+  content: "No tienes reservas registradas";
+  display: block;
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted, #7a8f7a);
+  background: white;
+  border-radius: var(--radius-lg, 16px);
 }

@@ -1,18 +1,14 @@
 "use strict";
 
-/* ═══════════════════════════════════════
-   venues.js - Venues page UI logic
-   2-Step reservation modal: date/time → summary + payment.
-   All database calls go through VenuesService.
-   ═══════════════════════════════════════ */
 
-/* ─── Module state ─────────────────────────────────────────────────── */
+
+
 let allVenues     = [];
 let currentFilter = "todos";
 let selectedVenue = null;
-let _modalStep    = 1;   // 1 or 2
+let _modalStep    = 1;   
 
-/* ─── Sport icon map ───────────────────────────────────────────────── */
+
 const SPORT_ICONS = {
   futbol: "⚽", baloncesto: "🏀", tenis: "🎾",
   voleibol: "🏐", natacion: "🏊", gimnasio: "🏋️",
@@ -27,7 +23,7 @@ function getSportIcon(tipo = "") {
   return SPORT_ICONS.default;
 }
 
-/* ─── Formatting helpers ───────────────────────────────────────────── */
+
 function formatPrice(price) {
   return new Intl.NumberFormat("es-CO", {
     style: "currency", currency: "COP", minimumFractionDigits: 0,
@@ -95,7 +91,7 @@ function restorePendingVenue() {
 
 function fmtTime(t) { return t ? t.slice(0, 5) : "–"; }
 
-/** Compute hours between two "HH:MM" strings, rounded to 2 decimals */
+
 function diffHours(inicio, fin) {
   const [h1, m1] = inicio.split(":").map(Number);
   const [h2, m2] = fin.split(":").map(Number);
@@ -107,9 +103,9 @@ function renderStars(n = 4) {
   return "★".repeat(r) + "☆".repeat(5 - r);
 }
 
-/* ─── Venue card renderer ──────────────────────────────────────────── */
+
 function renderVenueCard(venue) {
-  // Resolve correct assets path depending on current page depth
+  
   const isUserPage = window.location.pathname.includes('/pages/user/');
   const assetsBase = isUserPage ? '../../assets' : '../assets';
   const imgSrc = venue.imagen_url?.startsWith('http')
@@ -144,14 +140,12 @@ function renderVenueCard(venue) {
     </div>`;
 }
 
-/* ═══════════════════════════════════════
-   VENUES MODULE
-   ═══════════════════════════════════════ */
+
 const Venues = (() => {
   const gridEl  = document.getElementById("venues-grid");
   const countEl = document.getElementById("venues-count");
 
-  /* ─── Load venues from DB ─── */
+  
   async function load() {
     if (gridEl) gridEl.innerHTML = `
       <div class="col-12">
@@ -179,7 +173,7 @@ const Venues = (() => {
     render(currentFilter);
   }
 
-  /* ─── Render filtered cards ─── */
+  
   function render(filter = "todos") {
     currentFilter = filter;
     if (!gridEl) return;
@@ -204,23 +198,19 @@ const Venues = (() => {
     }
   }
 
-  /* ─── Filter chip ─── */
+  
   function applyFilter(type, chipEl) {
     document.querySelectorAll(".venues__filter-chip").forEach(c => c.classList.remove("active"));
     if (chipEl) chipEl.classList.add("active");
     render(type);
   }
 
-  /* ──────────────────────────────────────────────────────────────────
-     MODAL — 2-Step flow
-  ────────────────────────────────────────────────────────────────── */
+  
 
-  /* Open the modal (step 1) */
+  
   async function openModal(venueId) {
     selectedVenue = allVenues.find(v => v.id === venueId);
     if (!selectedVenue) return;
-
-    savePendingVenue(selectedVenue);
 
     const usuario = await VenuesService.getUsuarioActual();
     if (!usuario) {
@@ -229,12 +219,15 @@ const Venues = (() => {
       return;
     }
 
-    highlightVenueCard(venueId);
-    clearStoredPendingVenue();
-    App.showToast(`Cancha "${selectedVenue.nombre}" guardada. Continúa desde el listado.`);
+    
+    const isUserFolder = window.location.pathname.includes('/user/');
+    const targetUrl = isUserFolder ? `../reservations_page.html?venueId=${venueId}` : `./reservations_page.html?venueId=${venueId}`;
+    
+    
+    window.location.href = targetUrl;
   }
 
-  /* Close modal */
+  
   function closeModal() {
     document.getElementById("reserva-modal").classList.remove("open");
     document.body.style.overflow = "";
@@ -242,7 +235,7 @@ const Venues = (() => {
     _modalStep = 1;
   }
 
-  /* ─── Step navigation ─── */
+  
 
   function nextStep() {
     if (_modalStep === 1) _validateAndGoStep2();
@@ -256,21 +249,21 @@ const Venues = (() => {
   function _goToStep(step) {
     _modalStep = step;
 
-    // Steps visibility
+    
     document.getElementById("rmodal-step-1").classList.toggle("active", step === 1);
     document.getElementById("rmodal-step-2").classList.toggle("active", step === 2);
     document.getElementById("rmodal-success").classList.remove("active");
 
-    // Header labels
+    
     document.getElementById("rmodal-step-label").textContent = `Paso ${step} de 2`;
     document.getElementById("rmodal-title").textContent = step === 1
       ? "Elige fecha y horario"
       : "Resumen y pago";
 
-    // Progress bar
+    
     document.getElementById("rmodal-progress-bar").style.width = step === 1 ? "50%" : "100%";
 
-    // Footer buttons
+    
     const btnBack = document.getElementById("rmodal-btn-back");
     const btnNext = document.getElementById("rmodal-btn-next");
     btnBack.style.display = step === 2 ? "block" : "none";
@@ -278,11 +271,11 @@ const Venues = (() => {
       ? `Siguiente <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`
       : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Confirmar Reserva`;
 
-    // Footer visible
+    
     document.getElementById("rmodal-footer").style.display = "flex";
   }
 
-  /* ─── Step 1 validation → populate step 2 ─── */
+  
   function _validateAndGoStep2() {
     const fecha      = document.getElementById("modal-fecha").value;
     const horaInicio = document.getElementById("modal-hora-inicio").value;
@@ -299,7 +292,7 @@ const Venues = (() => {
     }
     errorEl.textContent = "";
 
-    // Populate summary
+    
     const hours = diffHours(horaInicio, horaFin);
     const total = (selectedVenue.precio ?? 0) * hours;
 
@@ -312,7 +305,7 @@ const Venues = (() => {
     _goToStep(2);
   }
 
-  /* ─── Payment selector ─── */
+  
   function _selectPayment(value) {
     document.querySelectorAll(".rmodal-payment-opt").forEach(opt => {
       const isSelected = opt.dataset.value === value;
@@ -327,7 +320,7 @@ const Venues = (() => {
     return checked ? checked.value : "efectivo";
   }
 
-  /* ─── Step 2: confirm & save ─── */
+  
   async function confirmarReserva() {
     const fecha      = document.getElementById("modal-fecha").value;
     const horaInicio = document.getElementById("modal-hora-inicio").value;
@@ -356,22 +349,22 @@ const Venues = (() => {
       return;
     }
 
-    // Show success state
+    
     _showSuccess(fecha, horaInicio, horaFin);
   }
 
   function _showSuccess(fecha, inicio, fin) {
-    // Hide steps and footer
+    
     document.getElementById("rmodal-step-1").classList.remove("active");
     document.getElementById("rmodal-step-2").classList.remove("active");
     document.getElementById("rmodal-footer").style.display = "none";
 
-    // Update header
+    
     document.getElementById("rmodal-step-label").textContent = "✅ Completado";
     document.getElementById("rmodal-title").textContent      = "¡Reserva Confirmada!";
     document.getElementById("rmodal-progress-bar").style.width = "100%";
 
-    // Success message
+    
     document.getElementById("success-text").textContent =
       `Tu reserva en ${selectedVenue.nombre} para el ${formatDateLong(fecha)} ` +
       `(${fmtTime(inicio)} – ${fmtTime(fin)}) ha sido registrada exitosamente.`;
@@ -379,17 +372,22 @@ const Venues = (() => {
     document.getElementById("rmodal-success").classList.add("active");
   }
 
-  // Public API
+  
   return { load, render, applyFilter, openModal, closeModal, nextStep, prevStep, confirmarReserva };
 })();
 
 window.Venues = Venues;
 
 document.addEventListener("DOMContentLoaded", async () => {
+  
+  if (!document.getElementById("venues-grid")) {
+    return;
+  }
+
   await Venues.load();
   restorePendingVenue();
 
-  // Close modal on overlay click
+  
   const overlay = document.getElementById("reserva-modal");
   if (overlay) {
     overlay.addEventListener("click", e => {
@@ -397,7 +395,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Escape key closes modal
+  
   document.addEventListener("keydown", e => {
     if (e.key === "Escape" && overlay?.classList.contains("open")) Venues.closeModal();
   });

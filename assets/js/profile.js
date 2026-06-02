@@ -1,10 +1,6 @@
 "use strict";
 
-/*
-  profile.js - Logic for pages/user/perfil_user.html
-  Loads the authenticated user's profile, renders the admin-style profile UI,
-  saves editable fields, changes password and handles logout actions.
-*/
+
 
 const UserProfile = (() => {
   let currentAuthUser = null;
@@ -29,7 +25,7 @@ const UserProfile = (() => {
       currentAuthUser = session.user;
 
       const role = await getRoleSafely();
-      // Solo redirigir si el admin intenta entrar a la página de perfil de usuario común (perfil_user.html)
+      
       if (role === "admin_cancha" && window.location.pathname.includes("/user/perfil_user.html")) {
         window.location.href = "../admin/admin-dashboard.html";
         return;
@@ -77,6 +73,7 @@ const UserProfile = (() => {
       passwordError: document.getElementById("prf-password-error"),
       signOutAll: document.getElementById("prf-signout-all"),
       logoutButton: document.getElementById("btn-logout"),
+      avatarInput: document.getElementById("prf-avatar-input"),
     };
   }
 
@@ -87,6 +84,7 @@ const UserProfile = (() => {
     els.passwordSave?.addEventListener("click", saveNewPassword);
     els.signOutAll?.addEventListener("click", signOutAll);
     els.logoutButton?.addEventListener("click", logout);
+    els.avatarInput?.addEventListener("change", handleAvatarUpload);
 
     document.querySelectorAll("[data-coming-soon]").forEach((button) => {
       button.addEventListener("click", () => showToast("Función disponible próximamente."));
@@ -151,7 +149,7 @@ const UserProfile = (() => {
   function renderProfile(els, profile, authUser) {
     const email = profile.correo_electronico || authUser.email || "";
     const fullName = getFullName(profile) || emailName(email) || "Usuario";
-    const avatarUrl = buildAvatarUrl(fullName || email);
+    const avatarUrl = buildAvatarUrl(fullName || email, authUser);
 
     els.name.value = profile.nombre || "";
     els.lastname.value = profile.apellido || "";
@@ -163,6 +161,7 @@ const UserProfile = (() => {
     if (els.heroSince) els.heroSince.textContent = getMemberSince(authUser);
     if (els.heroAvatar) {
       els.heroAvatar.src = avatarUrl;
+      els.heroAvatar.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`; };
       els.heroAvatar.alt = `Avatar de ${fullName}`;
     }
 
@@ -174,6 +173,7 @@ const UserProfile = (() => {
     if (els.sidebarEmail) els.sidebarEmail.textContent = email;
     if (els.sidebarAvatar) {
       els.sidebarAvatar.src = avatarUrl;
+      els.sidebarAvatar.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`; };
       els.sidebarAvatar.alt = `Avatar de ${fullName}`;
     }
   }
@@ -264,6 +264,7 @@ const UserProfile = (() => {
     els.passwordNew.value = "";
     els.passwordConfirm.value = "";
     els.passwordError.textContent = "";
+    els.passwordError.classList.add("d-none");
     els.passwordModal.classList.add("open");
   }
 
@@ -278,15 +279,18 @@ const UserProfile = (() => {
 
     if (password.length < 8) {
       els.passwordError.textContent = "La contraseña debe tener al menos 8 caracteres.";
+      els.passwordError.classList.remove("d-none");
       return;
     }
 
     if (password !== confirmation) {
       els.passwordError.textContent = "Las contraseñas no coinciden.";
+      els.passwordError.classList.remove("d-none");
       return;
     }
 
     els.passwordError.textContent = "";
+    els.passwordError.classList.add("d-none");
     els.passwordSave.disabled = true;
     els.passwordSave.textContent = "Guardando...";
 
@@ -298,6 +302,7 @@ const UserProfile = (() => {
       showToast("Contraseña actualizada correctamente.");
     } catch (error) {
       els.passwordError.textContent = `Error: ${error.message}`;
+      els.passwordError.classList.remove("d-none");
     } finally {
       els.passwordSave.disabled = false;
       els.passwordSave.textContent = "Guardar";
@@ -325,6 +330,72 @@ const UserProfile = (() => {
     window.location.href = "../../index.html";
   }
 
+  async function handleAvatarUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    
+    if (!file.type.startsWith("image/")) {
+      showToast("Por favor selecciona una imagen válida (JPG, PNG, WEBP).");
+      return;
+    }
+
+    
+    if (file.size > 2 * 1024 * 1024) { 
+      showToast("La imagen no debe superar los 2MB.");
+      return;
+    }
+
+    if (!currentAuthUser) return;
+    
+    
+    const avatarOverlay = document.querySelector(".avatar-overlay small");
+    const avatarIcon = document.querySelector(".avatar-overlay i");
+    if (avatarOverlay) avatarOverlay.textContent = "Subiendo...";
+    if (avatarIcon) avatarIcon.className = "bi bi-hourglass-split text-white fs-4";
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${currentAuthUser.id}/${Date.now()}.${fileExt}`;
+      
+      const { data, error } = await window.supabaseClient
+        .storage
+        .from('avatars')
+        .upload(fileName, file, { upsert: false });
+
+      if (error) throw error;
+
+      const { data: urlData } = window.supabaseClient
+        .storage
+        .from('avatars')
+        .getPublicUrl(fileName);
+
+      const publicUrl = urlData.publicUrl;
+
+      
+      const { error: updateError } = await window.supabaseClient.auth.updateUser({
+        data: { avatar_url: publicUrl }
+      });
+      if (updateError) throw updateError;
+      
+      
+      currentAuthUser.user_metadata = currentAuthUser.user_metadata || {};
+      currentAuthUser.user_metadata.avatar_url = publicUrl;
+      lastSavedProfile.avatar_url = publicUrl;
+
+      renderProfile(getProfileElements(), lastSavedProfile, currentAuthUser);
+      showToast("Foto de perfil actualizada.");
+    } catch (error) {
+      console.error("Error al subir foto:", error);
+      showToast("Error al subir la imagen. Verifica que el bucket 'avatars' exista y sea público.");
+    } finally {
+      
+      if (avatarOverlay) avatarOverlay.textContent = "Cambiar";
+      if (avatarIcon) avatarIcon.className = "bi bi-camera-fill text-white fs-4";
+      event.target.value = ""; 
+    }
+  }
+
   function setLoadingState(els, isLoading) {
     [els.name, els.lastname, els.phone].forEach((input) => {
       if (input) input.disabled = isLoading;
@@ -350,7 +421,10 @@ const UserProfile = (() => {
     return email ? email.split("@")[0] : "";
   }
 
-  function buildAvatarUrl(name) {
+  function buildAvatarUrl(name, user) {
+    if (user?.user_metadata?.avatar_url) {
+      return user.user_metadata.avatar_url;
+    }
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || "Usuario")}&background=2ecc50&color=fff`;
   }
 

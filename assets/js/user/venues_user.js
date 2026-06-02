@@ -1,4 +1,4 @@
-/* venues_user.js - User-mode venues page logic */
+
 const VenuesUser = (() => {
   async function init() {
     try {
@@ -25,7 +25,9 @@ const VenuesUser = (() => {
       document.getElementById('sidebar-user-email').textContent = email;
       const avatarImg = document.getElementById('sidebar-avatar-img');
       if (avatarImg) {
-        avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+        const avatarUrl = session.user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+        avatarImg.src = avatarUrl;
+        avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`; };
       }
 
       const logoutBtn = document.getElementById('btn-logout');

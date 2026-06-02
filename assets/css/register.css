@@ -1,8 +1,6 @@
-/* ═══════════════════════════════════════
-   register.css - Estilos personalizados (Bootstrap override only)
-   ═══════════════════════════════════════ */
 
-/* ========== TIPOGRAFÍA PERSONALIZADA ========== */
+
+
 .auth__logo h2,
 .auth__logo p strong,
 h1.fw-bold {
@@ -13,7 +11,7 @@ h1.fw-bold {
   font-family: var(--font-base, system-ui, -apple-system, 'Segoe UI', sans-serif);
 }
 
-/* ========== PANEL IZQUIERDO - FONDO Y EFECTOS ========== */
+
 .auth__left-bg,
 .auth__players,
 .auth__spotlight,
@@ -43,7 +41,7 @@ h1.fw-bold {
   z-index: 1;
 }
 
-/* Spotlight efecto verde (top) */
+
 .auth__spotlight {
   top: -10%;
   left: 40%;
@@ -54,7 +52,7 @@ h1.fw-bold {
   pointer-events: none;
 }
 
-/* Spotlight efecto dorado (bottom right) */
+
 .auth__spotlight-2 {
   bottom: 0;
   right: 0;
@@ -65,7 +63,7 @@ h1.fw-bold {
   pointer-events: none;
 }
 
-/* ========== BOTONES PERSONALIZADOS ========== */
+
 .btn-check:checked + .btn-outline-success {
   background: var(--color-green, #2ecc50);
   border-color: var(--color-green, #2ecc50);
@@ -84,7 +82,7 @@ h1.fw-bold {
   background: var(--color-green-dim, rgba(46, 204, 80, 0.1));
 }
 
-/* ========== INPUTS CON BORDES PERSONALIZADOS ========== */
+
 .input-group-text {
   border: 1px solid var(--border-light, #dee2e6);
   border-right: none;
@@ -101,12 +99,12 @@ h1.fw-bold {
   box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.12);
 }
 
-/* Input group focus effect */
+
 .input-group:focus-within .input-group-text {
   border-color: var(--color-green, #2ecc50);
 }
 
-/* ========== CHECKBOX PERSONALIZADO ========== */
+
 .form-check-input:checked {
   background-color: var(--color-green, #2ecc50);
   border-color: var(--color-green, #2ecc50);
@@ -117,7 +115,7 @@ h1.fw-bold {
   box-shadow: 0 0 0 0.2rem rgba(46, 204, 80, 0.15);
 }
 
-/* ========== ENLACES PERSONALIZADOS ========== */
+
 a:not(.btn):not(.nav-link) {
   color: var(--color-green-dark, #22993f);
   transition: color var(--transition, 0.2s ease);
@@ -128,7 +126,7 @@ a:not(.btn):not(.nav-link):hover {
   text-decoration: underline !important;
 }
 
-/* ========== TABS PERSONALIZADOS ========== */
+
 .nav-pills .nav-link.active {
   background-color: var(--color-green, #2ecc50);
   color: white;
@@ -143,7 +141,7 @@ a:not(.btn):not(.nav-link):hover {
   color: var(--color-green-dark, #22993f);
 }
 
-/* ========== TOAST PERSONALIZADO ========== */
+
 .toast {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -151,7 +149,7 @@ a:not(.btn):not(.nav-link):hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* ========== BOTÓN PRINCIPAL ========== */
+
 .btn-success {
   background: linear-gradient(135deg, var(--color-green, #2ecc50) 0%, var(--color-green-dark, #22993f) 100%);
   border: none;
@@ -168,14 +166,12 @@ a:not(.btn):not(.nav-link):hover {
   transform: translateY(0);
 }
 
-/* ========== RESPONSIVE AJUSTES ========== */
 
 
-/* ═══════════════════════════════════════
-   LAYOUT: Left panel STATIC (NO SCROLL) - Right panel SCROLLABLE
-   ═══════════════════════════════════════ */
 
-/* Fijar altura completa y eliminar scroll global */
+
+
+
 html, body {
   height: 100%;
   margin: 0;
@@ -194,7 +190,7 @@ html, body {
   margin: 0;
 }
 
-/* ========== PANEL IZQUIERDO - COMPLETAMENTE ESTÁTICO (SIN SCROLL) ========== */
+
 #static-register-left {
   position: fixed !important;
   left: 0;
@@ -206,7 +202,7 @@ html, body {
   flex-direction: column;
 }
 
-/* El contenido interno NO debe tener scroll */
+
 #static-register-left .position-relative {
   overflow: visible !important;
   height: 100%;
@@ -215,7 +211,7 @@ html, body {
   justify-content: space-between;
 }
 
-/* Forzar que ningún elemento interno tenga scroll */
+
 #static-register-left,
 #static-register-left * {
   overflow: visible !important;
@@ -223,13 +219,13 @@ html, body {
   overflow-x: visible !important;
 }
 
-/* Asegurar que el contenido se distribuya correctamente */
+
 #static-register-left .d-flex.flex-column.justify-content-between {
   height: 100%;
   overflow: visible;
 }
 
-/* Evitar que el contenido se comprima */
+
 #static-register-left .auth__logo {
   flex-shrink: 0;
 }
@@ -238,7 +234,7 @@ html, body {
   flex-shrink: 0;
 }
 
-/* ========== PANEL DERECHO - CON SCROLL INDEPENDIENTE ========== */
+
 main.col-md-6 {
   position: relative;
   margin-left: 50%;
@@ -250,14 +246,14 @@ main.col-md-6 {
   display: block !important;
 }
 
-/* Contenedor del formulario */
+
 #scrollable-register {
   margin: 0 auto;
   padding: 2rem 1rem;
   max-width: 520px;
 }
 
-/* Scroll personalizado para el panel derecho */
+
 main.col-md-6::-webkit-scrollbar {
   width: 8px;
 }
@@ -276,4 +272,4 @@ main.col-md-6::-webkit-scrollbar-thumb:hover {
   background: var(--color-green-dark, #22993f);
 }
 
-/* ========== RESPONSIVE: Comportamiento normal en móviles ========== */
+

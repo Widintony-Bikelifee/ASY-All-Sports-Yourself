@@ -1,10 +1,7 @@
-/* ═══════════════════════════════════════
-   admin-dashboard.js - Admin dashboard logic and CRUD
-   Handles: venues CRUD, reservations management, tab switching.
-   ═══════════════════════════════════════ */
+
 
 const AdminDashboard = (() => {
-  // ── DOM: Modal (Create/Edit Venue) ──
+  
   const modal        = document.getElementById("venue-modal");
   const modalTitle   = document.getElementById("modal-title");
   const modalBtnSave = document.getElementById("modal-btn-save");
@@ -16,14 +13,12 @@ const AdminDashboard = (() => {
   const inputPrecio    = document.getElementById("venue-precio");
   const inputImagen    = document.getElementById("venue-imagen");
 
-  // ── State ──
+  
   let allVenues   = [];
   let allReservas = [];
   let _activeTab  = "canchas";
 
-  /* ─────────────────────────────────────────────────────────────────
-     INIT
-  ───────────────────────────────────────────────────────────────── */
+  
   async function init() {
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
@@ -36,25 +31,35 @@ const AdminDashboard = (() => {
         return;
       }
 
-      // Set admin profile in sidebar
-      const profile = await window.getUserProfile(session.user.id);
-      if (profile) {
-        const fullName = `${profile.nombre} ${profile.apellido}`;
-        const email = profile.correo_electronico || session.user.email;
+      
+      try {
+        const authUser = session.user;
+        let profile = null;
+        try {
+          profile = await window.getUserProfile(authUser.id);
+        } catch (e) {
+          console.warn("No se encontró perfil en BD, usando metadatos.");
+        }
         
-        const nameEl = document.getElementById("sidebar-user-name");
-        const emailEl = document.getElementById("sidebar-user-email");
-        const avatarImg = document.getElementById("sidebar-avatar-img");
+        const metadata = authUser.user_metadata || {};
+        const emailName = (email) => email ? email.split("@")[0] : "";
         
-        if (nameEl) nameEl.textContent = fullName;
-        if (emailEl) emailEl.textContent = email;
-        if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
-
-        // Solo poblamos el Sidebar, la lógica de edición está en profile.js
-        _populateSidebar(fullName, email);
+        const dbNombre = profile?.nombre || "";
+        const dbApellido = profile?.apellido || "";
+        const fullNameFromDb = `${dbNombre} ${dbApellido}`.trim();
+        
+        const fullName = fullNameFromDb || metadata.nombre || metadata.name || emailName(authUser.email) || 'Administrador';
+        const email = profile?.correo_electronico || authUser.email || 'sin@correo.com';
+        
+        const avatarUrl = metadata.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+        
+        _populateSidebar(fullName, email, avatarUrl);
+      } catch (profileErr) {
+        console.error("Error al cargar el perfil de usuario:", profileErr);
+        _populateSidebar("Administrador", session.user.email, null);
       }
 
-      // Setup Logout Button for sidebar (assuming it's on all admin pages)
+      
       document.getElementById('btn-logout')?.addEventListener('click', async () => {
           await supabaseClient.auth.signOut();
           window.location.href = "../../index.html";
@@ -68,18 +73,19 @@ const AdminDashboard = (() => {
     }
   }
 
-  function _populateSidebar(fullName, email) {
+  function _populateSidebar(fullName, email, avatarUrl) {
     const nameEl = document.getElementById("sidebar-user-name");
     const emailEl = document.getElementById("sidebar-user-email");
     const avatarImg = document.getElementById("sidebar-avatar-img");
     if (nameEl) nameEl.textContent = fullName;
     if (emailEl) emailEl.textContent = email;
-    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+    if (avatarImg) {
+      avatarImg.src = avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+      avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`; };
+    }
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     VENUES (Canchas)
-  ───────────────────────────────────────────────────────────────── */
+  
   async function loadDashboardData() {
     if (!window.VenuesService) return;
 
@@ -88,8 +94,11 @@ const AdminDashboard = (() => {
 
     allVenues = canchas ?? [];
     
-    // Update stat for "Mis Canchas" on the dashboard
-    document.getElementById("stat-canchas-count")?.textContent = allVenues.length;
+    
+    const statCanchasCount = document.getElementById("stat-canchas-count");
+    if (statCanchasCount) {
+      statCanchasCount.textContent = allVenues.length;
+    }
 
 
     const emptyState = document.getElementById("admin-empty-state");
@@ -103,16 +112,30 @@ const AdminDashboard = (() => {
       if (list) {
         list.innerHTML = allVenues.map(c => {
           const precioStr = c.precio ? Number(c.precio).toLocaleString("es-CO") : "0";
+          const imgUrl = c.imagen_url || "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=400&auto=format&fit=crop";
           return `
           <div class="col-12 col-md-6 col-lg-4">
-            <div class="dashboard-venue-card h-100">
-              <div class="dashboard-venue-info">
-                <span class="dashboard-venue-title">${c.nombre}</span>
-                <span class="dashboard-venue-meta">📍 ${c.ubicacion || "Sin ubicación"} &nbsp;•&nbsp; 💰 $${precioStr}/hr</span>
+            <div class="dashboard-venue-card h-100 flex-column align-items-stretch" style="gap:0; padding:0; overflow:hidden;">
+              <div style="height:160px; width:100%; position:relative;">
+                <img src="${imgUrl}" alt="${c.nombre}" style="width:100%; height:100%; object-fit:cover;" />
+                ${c.tipo ? `<span class="badge bg-dark position-absolute top-0 end-0 m-2 bg-opacity-75">${c.tipo}</span>` : ""}
               </div>
-              <div class="d-flex gap-2">
-                <button onclick="AdminDashboard.openModal(${c.id})" class="dashboard-venue-action">Editar</button>
-                <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger">Eliminar</button>
+              <div class="p-3 d-flex flex-column flex-grow-1">
+                <div class="dashboard-venue-info mb-3">
+                  <span class="dashboard-venue-title fs-5">${c.nombre}</span>
+                  <span class="dashboard-venue-meta mt-1 d-flex flex-column gap-1">
+                    <span><i class="bi bi-geo-alt me-1 text-muted"></i>${c.ubicacion || "Sin ubicación"}</span>
+                    <span class="text-success fw-bold"><i class="bi bi-cash me-1"></i>$${precioStr}/hr</span>
+                  </span>
+                </div>
+                <div class="d-flex gap-2 mt-auto">
+                  <a href="./edit_courts.html?id=${c.id}" class="dashboard-venue-action flex-grow-1 justify-content-center">
+                    <i class="bi bi-pencil me-1"></i>Editar
+                  </a>
+                  <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger flex-grow-1 justify-content-center">
+                    <i class="bi bi-trash me-1"></i>Eliminar
+                  </button>
+                </div>
               </div>
             </div>
           </div>`;
@@ -123,14 +146,12 @@ const AdminDashboard = (() => {
       if (container)  container.style.display  = "none";
     }
 
-    // Also load reservations to update related KPIs
+    
     await loadReservas();
 
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     RESERVATIONS (Admin view)
-  ───────────────────────────────────────────────────────────────── */
+  
   async function loadReservas() {
     const tbody = document.getElementById("reservas-admin-tbody");
     if (tbody) {
@@ -139,19 +160,19 @@ const AdminDashboard = (() => {
 
     console.log("[Admin] Iniciando carga de reservas...");
 
-    // Get current user to show in console
+    
     const { data: sessionData } = await supabaseClient.auth.getSession();
     const userId = sessionData?.session?.user?.id;
     console.log("[Admin] Usuario logueado ID:", userId);
 
-    // Check venues for this admin
+    
     const { data: misEsc } = await supabaseClient
       .from("escenarios")
       .select("id, nombre, propietario_id")
       .eq("propietario_id", userId);
     console.log("[Admin] Canchas del admin:", misEsc);
 
-    // Check all reservations (without filter)
+    
     const { data: todasReservas, error: errTodas } = await supabaseClient
       .from("reservas")
       .select("id, estado, escenario_id, usuario_id, fecha")
@@ -177,7 +198,7 @@ const AdminDashboard = (() => {
       </td></tr>`;
     }
 
-    // Update stats
+    
     const pendientes  = allReservas.filter(r => r.estado === "pendiente").length;
     const confirmadas = allReservas.filter(r => r.estado === "confirmada").length;
 
@@ -186,7 +207,7 @@ const AdminDashboard = (() => {
     if (elPend) elPend.textContent = pendientes;
     if (elConf) elConf.textContent = confirmadas;
 
-    // Estimated income: confirmed + completed reservations
+    
     const income = allReservas
       .filter(r => r.estado === "confirmada" || r.estado === "completada")
       .reduce((acc, r) => {
@@ -196,17 +217,17 @@ const AdminDashboard = (() => {
     const elInc = document.getElementById("stat-ingresos");
     if (elInc) elInc.textContent = _formatCOP(income);
 
-    // Badge count (pending) — update sidebar badge
+    
     const badge = document.getElementById("sidebar-badge-reservas");
     if (badge) {
       badge.textContent = pendientes > 0 ? String(pendientes) : "";
       badge.style.display = pendientes > 0 ? "inline-flex" : "none";
     }
 
-    // Populate venue filter dropdown
+    
     _populateVenueFilter();
 
-    // Render table
+    
     renderReservasTable();
   }
 
@@ -283,10 +304,10 @@ const AdminDashboard = (() => {
 
   function _buildActions(id, estado) {
     const btns = [];
-    if (estado === "pendiente") { // Bootstrap buttons
+    if (estado === "pendiente") { 
       btns.push(`<button class="btn btn-sm btn-outline-primary" onclick="AdminDashboard.changeEstado('${id}','confirmada')">Confirmar</button>`);
       btns.push(`<button class="btn btn-sm btn-outline-danger"  onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
-    } else if (estado === "confirmada") { // Bootstrap buttons
+    } else if (estado === "confirmada") { 
       btns.push(`<button class="btn btn-sm btn-outline-success" onclick="AdminDashboard.changeEstado('${id}','completada')">Completar</button>`);
       btns.push(`<button class="btn btn-sm btn-outline-danger"  onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
     } else {
@@ -305,21 +326,19 @@ const AdminDashboard = (() => {
       return;
     }
 
-    // Optimistic update
+    
     const idx = allReservas.findIndex(r => String(r.id) === String(reservaId));
     if (idx !== -1) allReservas[idx].estado = nuevoEstado;
 
     const msgs = { confirmada: "✅ Reserva confirmada.", cancelada: "🔴 Reserva cancelada.", completada: "🏁 Reserva marcada como completada." };
     App.showToast(msgs[nuevoEstado] ?? "Reserva actualizada.");
 
-    // Refresh stats + table
+    
     await loadReservas();
     renderReservasTable();
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     MODAL: Create / Edit Venue
-  ───────────────────────────────────────────────────────────────── */
+  
   function openModal(id = null) {
     if (!modal) return;
     modalError.textContent = "";
@@ -398,9 +417,7 @@ const AdminDashboard = (() => {
     await loadReservas();
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     HELPERS
-  ───────────────────────────────────────────────────────────────── */
+  
   function _diffHours(inicio, fin) {
     if (!inicio || !fin) return 0;
     const [h1, m1] = inicio.split(":").map(Number);
@@ -432,9 +449,7 @@ const AdminDashboard = (() => {
   }
 
 
-  /* ─────────────────────────────────────────────────────────────────
-     CLIENTES
-  ───────────────────────────────────────────────────────────────── */
+  
   let _allClientes = [];
 
   async function loadClientes() {
@@ -443,14 +458,14 @@ const AdminDashboard = (() => {
       tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando clientes…</td></tr>`;
     }
 
-    // Build client list from existing reservations data
+    
     const { data, error } = await window.VenuesService.getReservasAdmin();
     if (error || !data) {
       if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#dc2626;padding:3rem;">❌ Error al cargar clientes.</td></tr>`;
       return;
     }
 
-    // Group by user
+    
     const clientMap = {};
     data.forEach(r => {
       const uid = r.usuario_id;
@@ -470,7 +485,7 @@ const AdminDashboard = (() => {
     _allClientes = Object.values(clientMap).map(c => {
       const sorted = [...c.reservas].sort((a, b) => b.fecha?.localeCompare(a.fecha));
       const ultima = sorted[0];
-      // Most used venue
+      
       const venueCounts = {};
       c.reservas.forEach(r => {
         const n = r.escenarios?.nombre ?? "–";
@@ -531,14 +546,12 @@ const AdminDashboard = (() => {
     _renderClientes(filtered);
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     REPORTES
-  ───────────────────────────────────────────────────────────────── */
+  
   async function loadReportes() {
-    // Use existing allReservas if loaded, otherwise fetch
+    
     const reservas = allReservas.length > 0 ? allReservas : (await window.VenuesService.getReservasAdmin()).data ?? [];
 
-    // ── KPIs ──
+    
     const total      = reservas.length;
     const pendientes = reservas.filter(r => r.estado === "pendiente").length;
     const confirmadas= reservas.filter(r => r.estado === "confirmada").length;
@@ -552,21 +565,28 @@ const AdminDashboard = (() => {
     const kpiEl = document.getElementById("reportes-kpis");
     if (kpiEl) {
       const kpis = [
-        { label: "Total Reservas",   value: total,      color: "#6366f1", icon: "📅" },
-        { label: "Completadas",      value: completadas, color: "#10b981", icon: "✅" },
-        { label: "Pendientes",       value: pendientes,  color: "#f59e0b", icon: "⏳" },
-        { label: "Canceladas",       value: canceladas,  color: "#ef4444", icon: "❌" },
-        { label: "Ingresos Est.",    value: _formatCOP(ingresos), color: "#2ecc50", icon: "💰" },
+        { label: "Total Reservas", value: total,                    color: "#6366f1", icon: "bi-calendar3",      bg: "rgba(99,102,241,.1)"  },
+        { label: "Completadas",    value: completadas,               color: "#10b981", icon: "bi-check-circle",   bg: "rgba(16,185,129,.1)"  },
+        { label: "Pendientes",     value: pendientes,                color: "#f59e0b", icon: "bi-hourglass-split",bg: "rgba(245,158,11,.1)"  },
+        { label: "Canceladas",     value: canceladas,                color: "#ef4444", icon: "bi-x-circle",       bg: "rgba(239,68,68,.1)"   },
+        { label: "Ingresos Est.",  value: _formatCOP(ingresos),      color: "#2ecc50", icon: "bi-cash-coin",      bg: "rgba(46,204,80,.1)"   },
       ];
+      
       kpiEl.innerHTML = kpis.map(k => `
-        <div class="prf-card" style="text-align:center; margin-bottom: 0;">
-          <div style="font-size:2rem;margin-bottom:.5rem;">${k.icon}</div>
-          <div style="font-size:1.5rem;font-weight:800;color:${k.color};font-family:var(--font-display);">${k.value}</div>
-          <div style="font-size:.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${k.label}</div>
+        <div class="col-6 col-md-4 col-xl">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center py-4 kpi-card">
+              <div class="kpi-icon mx-auto mb-3" style="background:${k.bg};">
+                <i class="bi ${k.icon} fs-4" style="color:${k.color};"></i>
+              </div>
+              <div class="kpi-value" style="color:${k.color};">${k.value}</div>
+              <div class="kpi-label mt-1">${k.label}</div>
+            </div>
+          </div>
         </div>`).join("");
     }
 
-    // ── Reservas por cancha ──
+    
     const byCanchaEl = document.getElementById("reportes-por-cancha");
     if (byCanchaEl) {
       const counts = {};
@@ -578,27 +598,34 @@ const AdminDashboard = (() => {
       const maxVal  = entries[0]?.[1] ?? 1;
 
       if (entries.length === 0) {
-        byCanchaEl.innerHTML = `<p style="color:var(--text-muted);font-size:.9rem;">Sin datos.</p>`;
+        byCanchaEl.innerHTML = `
+          <div class="text-center py-5 text-muted">
+            <i class="bi bi-bar-chart fs-1 d-block mb-2 opacity-25"></i>
+            <p class="mb-0">Sin datos de reservas aún.</p>
+          </div>`;
       } else {
         byCanchaEl.innerHTML = entries.map(([name, count]) => {
           const pct = Math.round((count / maxVal) * 100);
           return `
-            <div style="margin-bottom:1rem;">
-              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
-                <span style="font-size:.88rem;font-weight:600;color:var(--text-dark);">${name}</span>
-                <span style="font-size:.85rem;color:var(--text-muted);">${count} reserva${count!==1?"s":""}</span>
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-semibold" style="font-size:.88rem;">${name}</span>
+                <span class="text-muted" style="font-size:.82rem;">${count} reserva${count!==1?"s":""}</span>
               </div>
-              <div style="background:rgba(0,0,0,.06);border-radius:99px;height:10px;overflow:hidden;">
-                <div style="width:${pct}%;height:100%;border-radius:99px;
-                            background:linear-gradient(90deg,var(--color-green),var(--color-green-dark));
-                            transition:width .5s ease;"></div>
+              <div class="progress" style="height:10px;border-radius:99px;">
+                <div class="progress-bar" role="progressbar"
+                     style="width:${pct}%;border-radius:99px;
+                            background:linear-gradient(90deg,var(--primary-green,#2ecc50),var(--primary-green-dark,#27b545));
+                            transition:width .5s ease;"
+                     aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
+                </div>
               </div>
             </div>`;
         }).join("");
       }
     }
 
-    // ── Ingresos por mes ──
+    
     const ingMesEl = document.getElementById("reportes-ingresos-mes");
     if (ingMesEl) {
       const byMonth = {};
@@ -615,23 +642,27 @@ const AdminDashboard = (() => {
       const maxIng  = Math.max(...entries.map(e => e[1]), 1);
 
       if (entries.length === 0) {
-        ingMesEl.innerHTML = `<p style="color:var(--text-muted);font-size:.9rem;">Sin ingresos registrados aún.</p>`;
+        ingMesEl.innerHTML = `
+          <div class="text-center py-5 text-muted">
+            <i class="bi bi-cash-stack fs-1 d-block mb-2 opacity-25"></i>
+            <p class="mb-0">Sin ingresos registrados aún.</p>
+          </div>`;
       } else {
         const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
         ingMesEl.innerHTML = `
-          <div style="display:flex;align-items:flex-end;gap:.6rem;height:140px;padding-bottom:.5rem;overflow-x:auto;">
+          <div class="d-flex align-items-flex-end gap-2 overflow-x-auto pb-2" style="height:160px;align-items:flex-end;">
             ${entries.map(([key, val]) => {
               const [y, m] = key.split("-");
               const label = `${MESES[parseInt(m)-1]} ${y}`;
               const pct   = Math.round((val / maxIng) * 100);
-              const barH  = Math.max(pct * 1.2, 8);
+              const barH  = Math.max(pct * 1.3, 8);
               return `
-                <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;min-width:52px;flex:1;">
-                  <span style="font-size:.62rem;color:var(--text-muted);font-weight:600;">${_formatCOP(val).replace("COP","").trim()}</span>
+                <div class="d-flex flex-column align-items-center gap-1 flex-shrink-0" style="min-width:56px;flex:1;height:100%;justify-content:flex-end;">
+                  <span class="text-muted fw-semibold" style="font-size:.6rem;">${_formatCOP(val).replace("COP","").trim()}</span>
                   <div style="width:100%;height:${barH}px;border-radius:6px 6px 0 0;
-                              background:linear-gradient(180deg,var(--color-green),var(--color-green-dark));
+                              background:linear-gradient(180deg,var(--primary-green,#2ecc50),var(--primary-green-dark,#27b545));
                               transition:height .4s ease;"></div>
-                  <span style="font-size:.65rem;color:var(--text-muted);text-align:center;white-space:nowrap;">${label}</span>
+                  <span class="text-muted" style="font-size:.62rem;text-align:center;white-space:nowrap;">${label}</span>
                 </div>`;
             }).join("")}
           </div>`;

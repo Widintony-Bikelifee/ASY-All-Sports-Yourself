@@ -1,4 +1,4 @@
-/* sidebar-layout.css */
+
 .sidebar-layout {
   display: flex;
   min-height: 100vh;
@@ -8,7 +8,7 @@
 
 .sidebar {
   width: 280px;
-  min-width: 280px; /* Evita que se encoja */
+  min-width: 280px; 
   position: sticky;
   top: 0;
   height: 100vh;

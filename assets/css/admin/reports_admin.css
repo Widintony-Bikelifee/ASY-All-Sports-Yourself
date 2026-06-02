@@ -1,8 +1,6 @@
-/* ═══════════════════════════════════════
-   admin-dashboard.css - Estilos personalizados para panel de administrador
-   ═══════════════════════════════════════ */
 
-/* ========== 1. LAYOUT PRINCIPAL ========== */
+
+
 .sidebar-layout {
   display: flex;
   min-height: 100vh;
@@ -26,10 +24,9 @@
   width: calc(100% - 280px);
   min-height: 100vh;
   background: var(--bg-soft, #f5f7f5);
-  padding: 2rem;
 }
 
-/* Scroll personalizado para sidebar */
+
 .sidebar::-webkit-scrollbar {
   width: 4px;
 }
@@ -43,7 +40,7 @@
   border-radius: 4px;
 }
 
-/* Scroll personalizado para contenido principal */
+
 .main-content::-webkit-scrollbar {
   width: 8px;
 }
@@ -62,12 +59,11 @@
   background: var(--primary-green-dark, #27b545);
 }
 
-/* ========== 2. TIPOGRAFÍA ========== */
+
 h1, h2, h3, h4, h5, h6,
 .fw-bold,
 .navbar-brand span,
-.card-header h5,
-.modal-title {
+.card-header h5 {
   font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
 }
 
@@ -76,7 +72,7 @@ body, .form-label, .text-muted, .list-group-item,
   font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', sans-serif);
 }
 
-/* ========== 3. SIDEBAR STYLES ========== */
+
 .sidebar .nav-link {
   border-radius: var(--radius-md, 10px);
   padding: 0.7rem 1rem;
@@ -91,7 +87,7 @@ body, .form-label, .text-muted, .list-group-item,
   display: inline-block;
 }
 
-/* Solo el ícono tiene efecto hover */
+
 .sidebar .nav-link:hover i {
   transform: scale(1.1);
   color: var(--primary-green, #2ecc50);
@@ -101,18 +97,18 @@ body, .form-label, .text-muted, .list-group-item,
   color: var(--primary-green, #2ecc50);
 }
 
-/* El texto no cambia de fondo, solo el ícono */
+
 .sidebar .nav-link:hover {
   background: transparent;
 }
 
-/* Estado activo: solo el ícono se marca */
+
 .sidebar .nav-link.active {
   background: transparent !important;
   color: var(--text-secondary, #1a1a1a);
 }
 
-/* Ícono activo con borde blanco y fondo verde */
+
 .sidebar .nav-link.active i {
   background: var(--primary-green, #2ecc50);
   color: white;
@@ -120,7 +116,7 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: 0 2px 8px rgba(46, 204, 80, 0.3);
 }
 
-/* Estilo del ícono base para permitir borde blanco */
+
 .sidebar .nav-link i {
   width: 32px;
   height: 32px;
@@ -132,12 +128,12 @@ body, .form-label, .text-muted, .list-group-item,
   margin-right: 0.75rem;
 }
 
-/* Texto del nav */
+
 .sidebar .nav-link .nav-text {
   transition: color var(--transition, 0.2s ease);
 }
 
-/* Sidebar user info */
+
 .sidebar-user {
   transition: background var(--transition, 0.2s ease);
 }
@@ -150,7 +146,7 @@ body, .form-label, .text-muted, .list-group-item,
   border: 2px solid var(--primary-green, #2ecc50);
 }
 
-/* Ajuste para los íconos dentro de la sección de usuario */
+
 .sidebar-user i {
   width: auto;
   height: auto;
@@ -158,7 +154,7 @@ body, .form-label, .text-muted, .list-group-item,
   border: none;
 }
 
-/* ========== 4. CARDS ========== */
+
 .card {
   border-radius: var(--radius-lg, 16px) !important;
   overflow: hidden;
@@ -187,111 +183,120 @@ body, .form-label, .text-muted, .list-group-item,
   padding: 1rem 1.5rem;
 }
 
-/* ========== 5. TARJETAS DE CANCHAS ========== */
-.venue-card-admin {
-  height: 100%;
-  transition: all var(--transition, 0.2s ease);
-}
 
-.venue-card-admin .card-img-wrapper {
-  position: relative;
-  overflow: hidden;
-  height: 180px;
-}
-
-.venue-card-admin .venue-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.venue-card-admin:hover .venue-img {
-  transform: scale(1.05);
-}
-
-.venue-card-admin .sport-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  border-radius: var(--radius-full, 40px);
-  padding: 0.3rem 0.8rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: white;
-  z-index: 2;
-}
-
-.venue-card-admin .sport-badge i {
-  margin-right: 0.3rem;
-  font-size: 0.65rem;
-}
-
-.venue-card-admin .venue-name {
-  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary, #111);
-}
-
-.venue-card-admin .venue-price {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--primary-green, #2ecc50);
-  margin-bottom: 0.25rem;
-}
-
-.venue-card-admin .venue-price small {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-muted, #7a8f7a);
-}
-
-.venue-card-admin .venue-stats {
-  display: flex;
-  gap: 1rem;
-  margin: 1rem 0;
-  padding: 0.75rem 0;
-  border-top: 1px solid var(--border-light, #e8ede8);
-  border-bottom: 1px solid var(--border-light, #e8ede8);
-}
-
-.venue-card-admin .stat-item {
-  flex: 1;
+.kpi-card {
   text-align: center;
 }
 
-.venue-card-admin .stat-value {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--text-primary, #111);
+.kpi-card .kpi-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md, 12px);
+  margin: 0 auto 1rem;
 }
 
-.venue-card-admin .stat-label {
-  font-size: 0.65rem;
+.kpi-card .kpi-value {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary, #111);
+  line-height: 1.2;
+}
+
+.kpi-card .kpi-label {
+  font-size: 0.75rem;
   color: var(--text-muted, #7a8f7a);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.venue-card-admin .card-actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.venue-card-admin .btn-action {
-  flex: 1;
-  padding: 0.4rem;
-  font-size: 0.8rem;
   font-weight: 600;
-  border-radius: var(--radius-md, 8px);
 }
 
-/* ========== 6. BOTONES ========== */
+
+.reportes-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.reportes-table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted, #7a8f7a);
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  padding: 1rem 0.75rem;
+  background: transparent;
+}
+
+.reportes-table tbody td {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  color: var(--text-secondary, #1a1a1a);
+  font-size: 0.9rem;
+}
+
+.reportes-table tbody tr {
+  transition: background var(--transition, 0.2s ease);
+}
+
+.reportes-table tbody tr:hover {
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.03));
+}
+
+.reportes-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+.progress-bar-custom {
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.15));
+  border-radius: var(--radius-full, 40px);
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-bar-custom .progress-fill {
+  background: var(--primary-green, #2ecc50);
+  height: 100%;
+  border-radius: var(--radius-full, 40px);
+  transition: width 0.5s ease;
+}
+
+
+.ingresos-mes-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+}
+
+.ingresos-mes-item:last-child {
+  border-bottom: none;
+}
+
+.ingresos-mes-item .mes-nombre {
+  font-weight: 600;
+  color: var(--text-primary, #111);
+  min-width: 100px;
+}
+
+.ingresos-mes-item .mes-monto {
+  font-weight: 800;
+  color: var(--primary-green, #2ecc50);
+  font-size: 1rem;
+}
+
+.ingresos-mes-item .mes-reservas {
+  font-size: 0.75rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+
 .btn {
   border-radius: var(--radius-md, 10px);
   font-weight: 600;
@@ -311,7 +316,23 @@ body, .form-label, .text-muted, .list-group-item,
   transform: translateY(0);
 }
 
-/* Botón éxito (verde) */
+
+.btn-outline-success {
+  border-color: var(--primary-green, #2ecc50);
+  color: var(--primary-green, #2ecc50);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+.btn-outline-success:hover i {
+  color: white;
+}
+
+
 .btn-success {
   background: var(--primary-green, #2ecc50);
   border-color: var(--primary-green, #2ecc50);
@@ -321,91 +342,24 @@ body, .form-label, .text-muted, .list-group-item,
 .btn-success:hover {
   background: var(--primary-green-dark, #27b545);
   border-color: var(--primary-green-dark, #27b545);
-  box-shadow: 0 4px 12px rgba(46, 204, 80, 0.3);
 }
 
-/* Botón outline primary */
-.btn-outline-primary {
-  border-color: var(--primary-green, #2ecc50);
-  color: var(--primary-green, #2ecc50);
-}
 
-.btn-outline-primary:hover {
-  background-color: var(--primary-green, #2ecc50);
-  border-color: var(--primary-green, #2ecc50);
-  color: white;
-}
-
-.btn-outline-primary:hover i {
-  color: white;
-}
-
-/* Botón outline secondary */
-.btn-outline-secondary {
-  border-color: var(--border-medium, #d9e2d9);
-  color: var(--text-muted, #7a8f7a);
-}
-
-.btn-outline-secondary:hover {
-  background: var(--primary-green, #2ecc50);
-  border-color: var(--primary-green, #2ecc50);
-  color: white;
-}
-
-/* Botón outline danger */
 .btn-outline-danger {
   border-width: 1.5px;
 }
 
 .btn-outline-danger:hover {
   transform: translateY(-1px);
-  background-color: var(--danger, #dc2626);
-  border-color: var(--danger, #dc2626);
 }
 
-/* Botón pequeño */
+
 .btn-sm {
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;
 }
 
-/* Botón grande */
-.btn-lg {
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-}
 
-/* ========== 7. FORMULARIOS ========== */
-.form-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted, #7a8f7a);
-  margin-bottom: 0.5rem;
-}
-
-.form-control, .form-select {
-  border: 1.5px solid var(--border-medium, #d9e2d9);
-  border-radius: var(--radius-md, 10px);
-  padding: 0.7rem 1rem;
-  font-size: 0.95rem;
-  transition: all var(--transition, 0.2s ease);
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: var(--primary-green, #2ecc50);
-  box-shadow: 0 0 0 3px var(--primary-green-dim, rgba(46, 204, 80, 0.12));
-  outline: none;
-}
-
-.input-group-text {
-  background: white;
-  border: 1.5px solid var(--border-medium, #d9e2d9);
-  color: var(--text-muted, #7a8f7a);
-}
-
-/* ========== 8. BADGES ========== */
 .badge {
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -413,33 +367,7 @@ body, .form-label, .text-muted, .list-group-item,
   padding: 0.4rem 0.9rem;
 }
 
-/* ========== 9. MODAL ========== */
-.modal-content {
-  border-radius: var(--radius-lg, 16px);
-  border: none;
-  overflow: hidden;
-}
 
-.modal-header {
-  background: transparent;
-  border-bottom: 1px solid var(--border-light, #e8ede8);
-  padding: 1.25rem 1.5rem;
-}
-
-.modal-title {
-  font-weight: 700;
-}
-
-.modal-body {
-  padding: 1.5rem;
-}
-
-.modal-footer {
-  border-top: 1px solid var(--border-light, #e8ede8);
-  padding: 1rem 1.5rem;
-}
-
-/* ========== 10. TOAST ========== */
 .toast {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -448,12 +376,12 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
-/* ========== 11. SPINNER ========== */
+
 .spinner-border {
   color: var(--primary-green, #2ecc50) !important;
 }
 
-/* ========== 12. ANIMACIONES ========== */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -465,11 +393,11 @@ body, .form-label, .text-muted, .list-group-item,
   }
 }
 
-.card, .venue-card-admin {
+.card, .kpi-card, .reportes-table tbody tr {
   animation: fadeIn 0.3s ease-out;
 }
 
-/* ========== 13. RESPONSIVE ========== */
+
 @media (max-width: 992px) {
   .sidebar {
     width: 240px;
@@ -491,7 +419,6 @@ body, .form-label, .text-muted, .list-group-item,
   .main-content {
     margin-left: 0;
     width: 100%;
-    padding: 1rem;
   }
   
   .sidebar-layout {
@@ -506,23 +433,40 @@ body, .form-label, .text-muted, .list-group-item,
     padding: 0.5rem 1rem;
   }
   
-  .venue-card-admin .card-img-wrapper {
-    height: 150px;
+  .kpi-card .kpi-value {
+    font-size: 1.25rem;
   }
   
-  .venue-card-admin .venue-stats {
-    flex-direction: column;
-    gap: 0.5rem;
+  .reportes-table thead {
+    display: none;
   }
   
-  .venue-card-admin .stat-item {
+  .reportes-table tbody tr {
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light, #e8ede8);
+  }
+  
+  .reportes-table tbody td {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0.5rem 0;
+    border: none;
   }
   
-  .venue-card-admin .card-actions {
-    flex-direction: column;
+  .reportes-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: var(--text-muted, #7a8f7a);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .ingresos-mes-item {
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 }
 
@@ -531,39 +475,25 @@ body, .form-label, .text-muted, .list-group-item,
     font-size: 1rem;
   }
   
-  .row.g-4 {
-    gap: 1rem;
+  .row.g-3 {
+    gap: 0.75rem;
   }
   
-  .venue-card-admin .venue-name {
-    font-size: 0.95rem;
+  .kpi-card .kpi-icon {
+    width: 40px;
+    height: 40px;
   }
   
-  .venue-card-admin .venue-price {
-    font-size: 1rem;
+  .kpi-card .kpi-value {
+    font-size: 1.1rem;
   }
   
-  .modal-footer {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .modal-footer .btn {
-    width: 100%;
+  .kpi-card .kpi-label {
+    font-size: 0.65rem;
   }
 }
 
-/* ========== 14. ESTADO VACÍO ========== */
-#admin-empty-state .card {
-  border-radius: var(--radius-lg, 16px) !important;
-}
 
-#admin-empty-state .display-1 {
-  font-size: 4rem;
-  color: var(--border-medium, #d9e2d9);
-}
-
-/* ========== 15. UTILIDADES ========== */
 .rounded-3 {
   border-radius: var(--radius-md, 10px) !important;
 }
@@ -586,7 +516,7 @@ body, .form-label, .text-muted, .list-group-item,
   text-overflow: ellipsis;
 }
 
-/* Hover effects para enlaces */
+
 a:not(.btn):not(.nav-link) {
   color: var(--primary-green-dark, #27b545);
   text-decoration: none;
@@ -596,4 +526,106 @@ a:not(.btn):not(.nav-link) {
 a:not(.btn):not(.nav-link):hover {
   color: var(--primary-green, #2ecc50);
   text-decoration: underline;
+}
+
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: var(--border-medium, #d9e2d9);
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  color: var(--text-muted, #7a8f7a);
+  margin-bottom: 0;
+}
+
+
+.page-title-badge {
+  background: rgba(46,204,80,.1);
+  color: #2ecc50;
+}
+
+.page-title-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  color: var(--text-primary, #111);
+}
+
+
+.dashboard-venue-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border-radius: var(--radius-lg, 16px);
+  padding: 1.1rem 1.4rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  transition: box-shadow .2s ease, transform .2s ease;
+  flex-wrap: wrap;
+}
+
+.dashboard-venue-card:hover {
+  box-shadow: 0 6px 20px rgba(46,204,80,.12);
+  transform: translateY(-2px);
+}
+
+.dashboard-venue-info {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.dashboard-venue-title {
+  font-family: var(--font-display, 'Poppins', sans-serif);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary, #111);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboard-venue-meta {
+  font-size: .82rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+.dashboard-venue-action {
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem .85rem;
+  border-radius: var(--radius-md, 8px);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s ease;
+  text-decoration: none;
+  border: 1.5px solid var(--primary-green, #2ecc50);
+  color: var(--primary-green, #2ecc50);
+  background: transparent;
+}
+
+.dashboard-venue-action:hover {
+  background: var(--primary-green, #2ecc50);
+  color: #fff;
+}
+
+.dashboard-venue-action--danger {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.dashboard-venue-action--danger:hover {
+  background: #ef4444;
+  color: #fff;
 }

@@ -1,21 +1,21 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Espacios Deportivos – All Sports Yourself</title>
 
-    <!-- CSS -->
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
-    <link rel="stylesheet" href="../../assets/css/profile/venues_user.css" />
+    <link rel="stylesheet" href="../../assets/css/user/venues_user.css" />
     <link rel="stylesheet" href="../../assets/css/venues.css" />
   </head>
 
   <body class="sidebar-layout">
     
-    <!-- LEFT SIDEBAR -->
+    
     <aside class="sidebar bg-white shadow-sm d-flex flex-column">
       <div class="sidebar-header p-4 border-bottom text-center">
         <a class="navbar-brand d-flex flex-column align-items-center gap-2 text-decoration-none" href="./user-dashboard.html">
@@ -62,10 +62,10 @@
       </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    
     <main class="main-content p-4">
       
-      <!-- Header Section -->
+      
       <div class="mb-4">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
           <div>
@@ -84,7 +84,7 @@
           </a>
         </div>
 
-        <!-- Filter Chips -->
+        
         <div class="card shadow-sm border-0 mb-4">
           <div class="card-body">
             <label class="form-label fw-semibold small text-muted mb-2">
@@ -117,9 +117,9 @@
         </div>
       </div>
 
-      <!-- Venues Grid -->
+      
       <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4" id="venues-grid">
-        <!-- Loading State -->
+        
         <div class="col-12">
           <div class="text-center py-5">
             <div class="spinner-border spinner-border-sm text-success mb-3" role="status">
@@ -130,7 +130,7 @@
         </div>
       </div>
 
-      <!-- Empty State (oculto por defecto) -->
+      
       <div id="venues-empty-state" class="text-center py-5 d-none">
         <div class="card shadow-sm border-0 p-5">
           <div class="mb-4">
@@ -148,7 +148,7 @@
 
     </main>
 
-    <!-- TOAST -->
+    
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div class="toast align-items-center border-0" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
@@ -161,14 +161,14 @@
       </div>
     </div>
 
-    <!-- Scripts -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="../../assets/js/services/supabaseClient.js"></script>
     <script src="../../assets/js/services/authService.js"></script>
     <script src="../../assets/js/services/venuesService.js"></script>
     <script src="../../assets/js/app.js"></script>
-    <script src="../../assets/js/venues.js"></script>
-    <script src="../../assets/js/venues_user.js"></script>
+    <script src="../../assets/js/user/venues.js"></script>
+    <script src="../../assets/js/user/venues_user.js"></script>
   </body>
 </html>

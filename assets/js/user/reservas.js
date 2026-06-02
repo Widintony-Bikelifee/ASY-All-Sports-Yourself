@@ -1,13 +1,10 @@
 "use strict";
 
-/*
-  reservas.js – Reservations page logic
-  Handles: auth guard, data loading, rendering, filtering, and cancellation.
-*/
 
-/* ── Constants ─────────────────────────────────────────────────────── */
 
-/** Sport type emoji map for visual flair */
+
+
+
 const SPORT_ICONS = {
   futbol:       "⚽",
   baloncesto:   "🏀",
@@ -20,7 +17,7 @@ const SPORT_ICONS = {
   default:      "🏟️",
 };
 
-/** Human-readable status labels in Spanish */
+
 const STATUS_LABELS = {
   pendiente:  "Pendiente",
   confirmada: "Confirmada",
@@ -28,15 +25,15 @@ const STATUS_LABELS = {
   cancelada:  "Cancelada",
 };
 
-/* ── State ──────────────────────────────────────────────────────────── */
 
-/** Full list fetched from Supabase */
+
+
 let _allReservas = [];
 
-/** ID of the reservation pending cancellation */
+
 let _pendingCancelId = null;
 
-/* ── DOM references ─────────────────────────────────────────────────── */
+
 
 const grid       = document.getElementById("reservas-grid");
 const countEl    = document.getElementById("reservas-count");
@@ -45,13 +42,13 @@ const filterFrom = document.getElementById("filter-date-from");
 const filterTo   = document.getElementById("filter-date-to");
 const btnReset   = document.getElementById("btn-reset-filters");
 
-// Stats
+
 const statTotal    = document.getElementById("stat-total-val");
 const statPend     = document.getElementById("stat-pendiente-val");
 const statComp     = document.getElementById("stat-completada-val");
 const statCancel   = document.getElementById("stat-cancelada-val");
 
-// Modal
+
 const modal          = document.getElementById("cancel-modal");
 const modalVenue     = document.getElementById("modal-venue");
 const modalDate      = document.getElementById("modal-date");
@@ -59,17 +56,13 @@ const modalTime      = document.getElementById("modal-time");
 const modalBtnClose  = document.getElementById("modal-btn-cancel-close");
 const modalBtnConfirm= document.getElementById("modal-btn-confirm-cancel");
 
-/* ── Helpers ────────────────────────────────────────────────────────── */
 
-/**
- * Format ISO date string (YYYY-MM-DD) to a Spanish locale long date.
- * @param {string} isoDate - e.g. "2026-06-15"
- * @returns {string} - e.g. "domingo, 15 de junio de 2026"
- */
+
+
 function formatDate(isoDate) {
   if (!isoDate) return "–";
   const [y, m, d] = isoDate.split("-").map(Number);
-  // Use UTC to avoid timezone shifting the day
+  
   const date = new Date(Date.UTC(y, m - 1, d));
   return date.toLocaleDateString("es-CO", {
     weekday: "long",
@@ -80,21 +73,13 @@ function formatDate(isoDate) {
   });
 }
 
-/**
- * Format time string "HH:MM:SS" → "HH:MM"
- * @param {string} t - e.g. "14:30:00"
- * @returns {string} - e.g. "14:30"
- */
+
 function formatTime(t) {
   if (!t) return "–";
   return t.slice(0, 5);
 }
 
-/**
- * Get sport emoji by type string (case-insensitive, partial match).
- * @param {string} tipo - e.g. "Fútbol 5"
- * @returns {string} emoji
- */
+
 function getSportIcon(tipo = "") {
   const lower = tipo.toLowerCase();
   for (const [key, icon] of Object.entries(SPORT_ICONS)) {
@@ -103,11 +88,7 @@ function getSportIcon(tipo = "") {
   return SPORT_ICONS.default;
 }
 
-/**
- * Format price in Colombian Pesos.
- * @param {number|null} precio
- * @returns {string}
- */
+
 function formatPrice(precio) {
   if (precio == null || precio === 0) return "Precio no especificado";
   return new Intl.NumberFormat("es-CO", {
@@ -122,12 +103,9 @@ function getRelativePagePath(fileName) {
   return `${isUserPage ? '../' : './'}${fileName}`;
 }
 
-/* ── Auth guard ─────────────────────────────────────────────────────── */
 
-/**
- * Redirect unauthenticated users to login.
- * Set user name / avatar in navbar.
- */
+
+
 async function checkAuth() {
   const { data } = await supabaseClient.auth.getSession();
   const session  = data?.session;
@@ -137,7 +115,7 @@ async function checkAuth() {
     return null;
   }
 
-  // Populate navbar user info
+  
   const userId = session.user.id;
   const { data: usuario } = await supabaseClient
     .from("usuarios")
@@ -148,26 +126,33 @@ async function checkAuth() {
   if (usuario) {
     const nameEl   = document.getElementById("user-name");
     const avatarEl = document.getElementById("user-avatar");
+    const sidebarName = document.getElementById("sidebar-user-name");
+    const sidebarAvatar = document.getElementById("sidebar-avatar-img");
     const fullName = `${usuario.nombre} ${usuario.apellido}`;
+
+    const avatarUrl = session.user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+
     if (nameEl)   nameEl.textContent   = fullName;
     if (avatarEl) avatarEl.textContent = usuario.nombre.charAt(0).toUpperCase();
+
+    if (sidebarName) sidebarName.textContent = fullName;
+    if (sidebarAvatar) {
+      sidebarAvatar.src = avatarUrl;
+      sidebarAvatar.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`; };
+    }
   }
 
   return session;
 }
 
-/* ── Render helpers ─────────────────────────────────────────────────── */
 
-/** Remove loading skeleton cards */
+
+
 function clearSkeletons() {
   document.querySelectorAll(".reserva-skeleton").forEach(el => el.remove());
 }
 
-/**
- * Build a single reservation card element.
- * @param {object} r - Reservation row (with nested escenarios object)
- * @returns {HTMLElement}
- */
+
 function buildCard(r) {
   const esc    = r.escenarios ?? {};
   const status = r.estado ?? "pendiente";
@@ -237,7 +222,7 @@ function buildCard(r) {
     </div>
   `;
 
-  // Attach cancel button listener
+  
   if (canCancel) {
     const btn = card.querySelector(".reserva-card__btn-cancel");
     btn.addEventListener("click", () => openCancelModal(btn.dataset));
@@ -246,11 +231,7 @@ function buildCard(r) {
   return card;
 }
 
-/**
- * Build empty-state element.
- * @param {boolean} isFiltered - true if there are filters applied
- * @returns {HTMLElement}
- */
+
 function buildEmptyState(isFiltered) {
   const div = document.createElement("div");
   div.className = "reservas-empty";
@@ -268,24 +249,18 @@ function buildEmptyState(isFiltered) {
   return div;
 }
 
-/* ── Filtering ──────────────────────────────────────────────────────── */
 
-/**
- * Returns the current filter values from the DOM.
- * @returns {{ status: string, from: string, to: string }}
- */
+
+
 function getFilters() {
   return {
     status: filterSts.value,
-    from:   filterFrom.value,   // "YYYY-MM-DD" or ""
+    from:   filterFrom.value,   
     to:     filterTo.value,
   };
 }
 
-/**
- * Apply active filters to _allReservas and return matching rows.
- * @returns {object[]}
- */
+
 function applyFilters() {
   const { status, from, to } = getFilters();
 
@@ -297,11 +272,9 @@ function applyFilters() {
   });
 }
 
-/* ── Stats ──────────────────────────────────────────────────────────── */
 
-/**
- * Compute and render stats from the full (unfiltered) data set.
- */
+
+
 function renderStats() {
   const total      = _allReservas.length;
   const pendiente  = _allReservas.filter(r => r.estado === "pendiente").length;
@@ -314,11 +287,9 @@ function renderStats() {
   statCancel.textContent = cancelada;
 }
 
-/* ── Main render ────────────────────────────────────────────────────── */
 
-/**
- * Render the filtered reservation cards into the grid.
- */
+
+
 function render() {
   clearSkeletons();
   grid.innerHTML = "";
@@ -327,7 +298,7 @@ function render() {
   const { status, from, to } = getFilters();
   const isFiltered = !!(status || from || to);
 
-  // Update count label
+  
   if (countEl) {
     if (_allReservas.length === 0) {
       countEl.textContent = "";
@@ -346,12 +317,9 @@ function render() {
   filtered.forEach(r => grid.appendChild(buildCard(r)));
 }
 
-/* ── Cancel Modal ───────────────────────────────────────────────────── */
 
-/**
- * Open the cancel confirmation modal with reservation details.
- * @param {{ id, venue, date, inicio, fin }} dataset
- */
+
+
 function openCancelModal({ id, venue, date, inicio, fin }) {
   _pendingCancelId = id;
 
@@ -364,14 +332,14 @@ function openCancelModal({ id, venue, date, inicio, fin }) {
   document.body.style.overflow = "hidden";
 }
 
-/** Close the cancel modal. */
+
 function closeModal() {
   modal.classList.remove("open");
   document.body.style.overflow = "";
   _pendingCancelId = null;
 }
 
-/** Execute the cancellation via VenuesService. */
+
 async function confirmCancel() {
   if (!_pendingCancelId) return;
 
@@ -390,7 +358,7 @@ async function confirmCancel() {
     return;
   }
 
-  // Optimistic UI: update state locally, re-render without a new fetch
+  
   const idx = _allReservas.findIndex(r => String(r.id) === String(_pendingCancelId));
   if (idx !== -1) _allReservas[idx].estado = "cancelada";
 
@@ -400,64 +368,71 @@ async function confirmCancel() {
   App.showToast("✅ Reserva cancelada correctamente.");
 }
 
-/* ── Event listeners ────────────────────────────────────────────────── */
+
 
 function attachListeners() {
-  // Filters
-  filterSts.addEventListener("change", render);
-  filterFrom.addEventListener("change", render);
-  filterTo.addEventListener("change", render);
+  
+  filterSts?.addEventListener("change", render);
+  filterFrom?.addEventListener("change", render);
+  filterTo?.addEventListener("change", render);
 
-  btnReset.addEventListener("click", () => {
-    filterSts.value  = "";
-    filterFrom.value = "";
-    filterTo.value   = "";
+  btnReset?.addEventListener("click", () => {
+    if (filterSts) filterSts.value  = "";
+    if (filterFrom) filterFrom.value = "";
+    if (filterTo) filterTo.value   = "";
     render();
   });
 
-  // Modal
-  modalBtnClose.addEventListener("click",   closeModal);
-  modalBtnConfirm.addEventListener("click", confirmCancel);
+  
+  modalBtnClose?.addEventListener("click",   closeModal);
+  modalBtnConfirm?.addEventListener("click", confirmCancel);
 
-  // Close modal on overlay click
-  modal.addEventListener("click", e => {
+  
+  modal?.addEventListener("click", e => {
     if (e.target === modal) closeModal();
   });
 
-  // Keyboard: Escape closes modal
+  
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape" && modal.classList.contains("open")) closeModal();
+    if (e.key === "Escape" && modal?.classList.contains("open")) closeModal();
   });
 }
 
-/* ── Bootstrap ──────────────────────────────────────────────────────── */
+
 
 async function init() {
-  // 1. Guard auth
+  
+  if (!document.getElementById("reservas-grid")) {
+    return;
+  }
+
+  
   const session = await checkAuth();
   if (!session) return;
 
-  // 2. Attach all event listeners
+  
   attachListeners();
 
-  // 3. Fetch reservations
+  
   const { data, error } = await VenuesService.getMisReservas();
 
   clearSkeletons();
 
   if (error) {
     App.showToast("⚠️ Error al cargar las reservas. Recarga la página.");
-    grid.innerHTML = "";
-    grid.appendChild(buildEmptyState(false));
+    if (grid) {
+      grid.innerHTML = "";
+      grid.appendChild(buildEmptyState(false));
+    }
     return;
   }
 
   _allReservas = data;
 
-  // 4. Update stats and render cards
+  
   renderStats();
   render();
 }
 
-// Run on DOM ready
+
 document.addEventListener("DOMContentLoaded", init);

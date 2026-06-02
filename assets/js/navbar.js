@@ -1,11 +1,6 @@
-/* ═══════════════════════════════════════
-   navbar.js - Dual navigation bar system
-   Shows different navbar for guests vs authenticated users.
-   Queries Supabase session and displays the appropriate navbar.
-   Both navbars exist in HTML but are hidden by default.
-   ═══════════════════════════════════════ */
 
-// Default mock notifications
+
+
 const DEFAULT_USER_NOTIS = [
   { id: 'u1', text: "¡Tu reserva para este Sábado a las 10:00 en Cancha Sintética El Golazo ha sido CONFIRMADA! ⚽", read: false, time: "Hace 10 min", icon: "✅" },
   { id: 'u2', text: "Nuevo Torneo de Fútbol 5 en Ipiales. Inscripciones abiertas. ¡Premios en efectivo! 🏆", read: false, time: "Hace 2 horas", icon: "🏆" },
@@ -20,13 +15,10 @@ const DEFAULT_ADMIN_NOTIS = [
   { id: 'a4', text: "Felicidades, has alcanzado 50 reservas este mes. 🚀", read: true, time: "Hace 3 días", icon: "🌟" }
 ];
 
-/* ═══════════════════════════════════════
-   INITIALIZATION - IIFE to initialize navbar on load
-   ═══════════════════════════════════════
-   */
+
 (async function initDualNavbar() {
 
-  /* Step 1: Check Supabase session */
+  
   let session = null;
   if (window.supabaseClient) {
     try {
@@ -37,46 +29,46 @@ const DEFAULT_ADMIN_NOTIS = [
     }
   }
 
-  /* Step 2: Show the appropriate navbar based on session */
+  
   const guestNav = document.getElementById("navbar-guest");
   const userNav  = document.getElementById("navbar-user");
   const adminNav = document.getElementById("navbar-admin");
 
   if (session) {
-    // Get user role
+    
     let role = 'user';
     if (window.getUserRole) {
       role = await window.getUserRole();
     }
 
     if (role === 'admin_cancha' && adminNav) {
-      // Admin is logged in - show admin navbar
+      
       adminNav.classList.remove("navbar-wrapper--hidden");
       guestNav?.classList.add("navbar-wrapper--hidden");
       userNav?.classList.add("navbar-wrapper--hidden");
       setupUserNavbar(session.user, "admin-");
     } else {
-      // User is logged in - show user navbar
+      
       if (userNav) {
         userNav.classList.remove("navbar-wrapper--hidden");
         guestNav?.classList.add("navbar-wrapper--hidden");
         adminNav?.classList.add("navbar-wrapper--hidden");
         setupUserNavbar(session.user, "user-");
       } else {
-        // Fallback to guest if userNav doesn't exist
+        
         guestNav?.classList.remove("navbar-wrapper--hidden");
         setupGuestNavbar();
       }
     }
   } else {
-    // User is not logged in - show guest navbar
+    
     if (guestNav) {
       guestNav.classList.remove("navbar-wrapper--hidden");
       userNav?.classList.add("navbar-wrapper--hidden");
       adminNav?.classList.add("navbar-wrapper--hidden");
       setupGuestNavbar();
     } else {
-      // Fallback
+      
       const defaultNav = document.getElementById("navbar");
       if (defaultNav) {
         setupGuestNavbar();
@@ -93,10 +85,7 @@ const DEFAULT_ADMIN_NOTIS = [
 })();
 
 
-/* ═══════════════════════════════════════
-   GUEST NAVBAR - Setup for non-authenticated users
-   ═══════════════════════════════════════
-   */
+
 function setupGuestNavbar() {
   const hamburger  = document.getElementById("guest-hamburger") || document.getElementById("navbar-hamburger");
   const mobileMenu = document.getElementById("guest-mobile-menu") || document.getElementById("navbar-mobile-menu");
@@ -114,10 +103,7 @@ function setupGuestNavbar() {
 }
 
 
-/* ═══════════════════════════════════════
-   USER/ADMIN NAVBAR - Setup for authenticated users
-   ═══════════════════════════════════════
-   */
+
 function setupUserNavbar(user, prefix = "user-") {
 
   const displayName =
@@ -132,7 +118,7 @@ function setupUserNavbar(user, prefix = "user-") {
   if (avatarEl) avatarEl.textContent = displayName.charAt(0).toUpperCase();
   if (nameEl)   nameEl.textContent   = displayName;
 
-  // Mobile Hamburger Menu
+  
   const hamburger  = document.getElementById(`${prefix}hamburger`);
   const mobileMenu = document.getElementById(`${prefix}mobile-menu`);
 
@@ -147,7 +133,7 @@ function setupUserNavbar(user, prefix = "user-") {
     });
   }
 
-  // Profile Dropdown
+  
   const trigger  = document.getElementById(`${prefix}trigger`);
   const dropdown = document.getElementById(`${prefix}dropdown`);
 
@@ -157,7 +143,7 @@ function setupUserNavbar(user, prefix = "user-") {
       dropdown.classList.toggle("open");
       trigger.classList.toggle("active");
 
-      // Close notification dropdown if open
+      
       const notiDropdown = document.getElementById(`${prefix}noti-dropdown`);
       const notiTrigger = document.getElementById(`${prefix}noti-trigger`);
       if (notiDropdown) notiDropdown.classList.remove("open");
@@ -170,10 +156,10 @@ function setupUserNavbar(user, prefix = "user-") {
     });
   }
 
-  // Setup Notifications dropdown and badge
+  
   setupNotifications(prefix);
 
-  // Logout Buttons
+  
   const desktopLogout = document.getElementById(prefix === "admin-" ? "btn-logout-admin" : "btn-logout");
   const mobileLogout  = document.getElementById(prefix === "admin-" ? "btn-logout-mobile-admin" : "btn-logout-mobile");
   
@@ -181,15 +167,12 @@ function setupUserNavbar(user, prefix = "user-") {
   mobileLogout?.addEventListener("click", logout);
 }
 
-/* ═══════════════════════════════════════
-   LOGOUT - Sign out user and redirect
-   ═══════════════════════════════════════
-   */
+
 async function logout() {
   if (window.supabaseClient) {
     await supabaseClient.auth.signOut();
   }
-  // Redirect to login page. We might need to adjust relative path depending on where we are.
+  
   const path = window.location.pathname;
   const isNested = path.includes('/pages/user/') || path.includes('/pages/admin/');
   const isSubPage = path.includes('/pages/') && !isNested;
@@ -197,10 +180,7 @@ async function logout() {
 }
 
 
-/* ═══════════════════════════════════════
-   NOTIFICATIONS MANAGEMENT
-   ═══════════════════════════════════════
-   */
+
 function getNotifications(type) {
   const key = `asy_notifications_${type}`;
   let notis = localStorage.getItem(key);
@@ -229,7 +209,7 @@ function updateNotificationUI(prefix) {
 
   const unreadCount = notis.filter(n => !n.read).length;
 
-  // Update badge
+  
   if (badge) {
     if (unreadCount > 0) {
       badge.textContent = unreadCount;
@@ -239,7 +219,7 @@ function updateNotificationUI(prefix) {
     }
   }
 
-  // Update list
+  
   if (notis.length === 0) {
     list.innerHTML = `
       <div class="navbar__noti-empty">
@@ -261,7 +241,7 @@ function updateNotificationUI(prefix) {
       </div>
     `).join('');
 
-    // Attach click events to items to mark them as read
+    
     list.querySelectorAll('.navbar__noti-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -294,39 +274,36 @@ function setupNotifications(prefix) {
 
   if (!trigger || !dropdown) return;
 
-  // Initial render
+  
   updateNotificationUI(prefix);
 
-  // Toggle dropdown
+  
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
     dropdown.classList.toggle('open');
     trigger.classList.toggle('active');
 
-    // Close other dropdowns (user profile dropdown)
+    
     const userDropdown = document.getElementById(`${prefix}dropdown`);
     const userTrigger = document.getElementById(`${prefix}trigger`);
     if (userDropdown) userDropdown.classList.remove('open');
     if (userTrigger) userTrigger.classList.remove('active');
   });
 
-  // Clear / mark all read button
+  
   clearBtn?.addEventListener('click', (e) => {
     e.stopPropagation();
     markAllAsRead(type, prefix);
   });
 
-  // Close dropdown on click outside
+  
   document.addEventListener('click', () => {
     dropdown.classList.remove('open');
     trigger.classList.remove('active');
   });
 }
 
-/* ═══════════════════════════════════════
-   PROVISIONAL FEATURES MODAL LÓGICA
-   ═══════════════════════════════════════
-   */
+
 function initMockFeatureModal() {
   if (document.getElementById('navbar-feature-modal')) return;
 
@@ -369,7 +346,7 @@ function showMockFeatureModal(name, desc, icon) {
 
 function setupMockLinks() {
   document.addEventListener('click', (e) => {
-    // Find closest anchor or button that has the mock classes
+    
     const link = e.target.closest('.navbar__link--mock, .navbar__dropdown-item--mock');
     if (link) {
       e.preventDefault();
@@ -382,14 +359,9 @@ function setupMockLinks() {
 }
 
 
-/* ═══════════════════════════════════════
-   HOME PAGE LOGOUT INTERCEPTION
-   When an authenticated user is already on index.html and clicks
-   the logo or an "Inicio" link, ask them to confirm session close.
-   ═══════════════════════════════════════
-   */
+
 function setupHomePageLogoutInterception() {
-  // Only activate when the current page IS index.html (root or /index.html)
+  
   const path = window.location.pathname;
   const isHomePage = path === '/' ||
                      path.endsWith('/index.html') ||
@@ -398,12 +370,12 @@ function setupHomePageLogoutInterception() {
 
   if (!isHomePage) return;
 
-  // We intercept via a delegated listener to catch dynamically-visible navbars
+  
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a');
     if (!link) return;
 
-    // Only care about links that point to the home page
+    
     const href = link.getAttribute('href') || '';
     const isHomeLink =
       href === './' ||
@@ -415,22 +387,19 @@ function setupHomePageLogoutInterception() {
 
     if (!isHomeLink) return;
 
-    // Check this link lives inside a logged-in navbar (not the guest one)
+    
     const inGuestNav = link.closest('#navbar-guest');
-    if (inGuestNav) return;  // Guest navbar: no interception needed
+    if (inGuestNav) return;  
 
-    // Intercept: prevent navigation, show confirm modal
+    
     e.preventDefault();
     showLogoutConfirmModal();
   });
 }
 
-/* ═══════════════════════════════════════
-   LOGOUT CONFIRMATION MODAL
-   ═══════════════════════════════════════
-   */
+
 function showLogoutConfirmModal() {
-  // Reuse the existing modal overlay infrastructure
+  
   let overlay = document.getElementById('navbar-logout-confirm-modal');
 
   if (!overlay) {
@@ -457,12 +426,12 @@ function showLogoutConfirmModal() {
     `;
     document.body.appendChild(overlay);
 
-    // Cancel button
+    
     overlay.querySelector('#logout-confirm-cancel').addEventListener('click', () => {
       overlay.classList.remove('open');
     });
 
-    // Confirm button — sign out then reload so guest navbar appears
+    
     overlay.querySelector('#logout-confirm-ok').addEventListener('click', async () => {
       const btn = overlay.querySelector('#logout-confirm-ok');
       btn.textContent = 'Cerrando…';
@@ -470,16 +439,16 @@ function showLogoutConfirmModal() {
       if (window.supabaseClient) {
         await supabaseClient.auth.signOut();
       }
-      // Reload index.html — now without a session, the guest navbar will appear
+      
       window.location.reload();
     });
 
-    // Close on backdrop click
+    
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) overlay.classList.remove('open');
     });
   }
 
-  // Show with a small delay so the CSS transition fires
+  
   requestAnimationFrame(() => overlay.classList.add('open'));
 }

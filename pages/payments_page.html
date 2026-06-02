@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Método de Pago | All Sports Yourself</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/payments_page.css">
+</head>
+<body class="pt-4 pb-5">
+
+<div class="container-fluid px-4 px-xl-5 py-3 min-vh-100 d-flex flex-column">
+  
+  <div class="text-center mb-5 mt-3">
+    <span class="badge rounded-pill py-2 px-3 mb-3 bg-success bg-opacity-10 text-success fw-bold" style="letter-spacing: 0.5px;">
+      <i class="bi bi-credit-card me-1"></i> Proceso de Pago
+    </span>
+    <h1 class="display-5 fw-bolder text-dark mb-2" style="font-family: 'Poppins', sans-serif;">
+      <img src="../assets/img/Logo-ASY.png" alt="Logo ASY" width="48" height="48" class="me-2 mb-1">
+      All Sports Yourself
+    </h1>
+    <p class="text-secondary fs-5">Completa tu pago de manera rápida y segura</p>
+  </div>
+
+  <div class="row justify-content-center flex-grow-1">
+    <div class="col-12 col-xxl-11 d-flex flex-column mb-4">
+      <div class="card shadow-lg border-0 rounded-4 overflow-hidden bg-white flex-grow-1">
+        <div class="row g-0 h-100">
+          
+          
+          <div class="col-lg-4 p-4 p-xl-5 bg-light border-end">
+            <h4 class="fw-bold mb-4"><i class="bi bi-receipt-cutoff text-success me-2"></i>Resumen de compra</h4>
+            
+            <div class="mb-4">
+              <label class="text-muted small d-block mb-1">Escenario deportivo</label>
+              <strong class="fs-4 text-dark lh-sm" id="summary-court">-</strong>
+            </div>
+            
+            <div class="row mb-4">
+              <div class="col-6">
+                <label class="text-muted small d-block mb-1">Fecha</label>
+                <span class="fw-semibold text-dark fs-5" id="summary-date">-</span>
+              </div>
+              <div class="col-6">
+                <label class="text-muted small d-block mb-1">Horario</label>
+                <span class="fw-semibold text-dark fs-5" id="summary-time">-</span>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-6">
+                <label class="text-muted small d-block mb-1">Duración</label>
+                <span class="fw-semibold text-dark fs-5" id="summary-duration">-</span>
+              </div>
+              <div class="col-6">
+                <label class="text-muted small d-block mb-1">Valor por hora</label>
+                <span class="fw-semibold text-dark fs-5" id="summary-price-hour">-</span>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="total-amount-box p-4 rounded-4 mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted fw-bold">TOTAL A PAGAR</span>
+                <span class="display-6 fw-bolder text-success m-0" id="summary-total">$0 COP</span>
+              </div>
+            </div>
+            <p class="small text-muted text-center mb-0 mt-auto pt-4"><i class="bi bi-shield-fill-check text-success fs-5 me-1 align-middle"></i> Conexión cifrada de 256 bits</p>
+          </div>
+
+          
+          <div class="col-lg-8 p-4 p-xl-5">
+            <h4 class="fw-semibold border-start border-success border-4 ps-3 mb-4">Selecciona método de pago</h4>
+            
+            
+            <div class="d-flex flex-column gap-2 mb-4">
+              <div class="payment-method-option selected" data-method="tarjeta">
+                <input class="form-check-input" type="radio" name="paymentMethodRadio" id="radioCard" checked>
+                <label class="form-check-label fw-bold ms-2 pointer-event" for="radioCard">
+                  <i class="bi bi-credit-card-2-back text-success me-2"></i> Tarjeta de Crédito / Débito
+                </label>
+              </div>
+              
+              <div class="payment-method-option" data-method="pse">
+                <input class="form-check-input" type="radio" name="paymentMethodRadio" id="radioPse">
+                <label class="form-check-label fw-bold ms-2" for="radioPse">
+                  <i class="bi bi-bank text-success me-2"></i> Transferencia PSE
+                </label>
+              </div>
+
+              <div class="payment-method-option" data-method="efectivo">
+                <input class="form-check-input" type="radio" name="paymentMethodRadio" id="radioCash">
+                <label class="form-check-label fw-bold ms-2" for="radioCash">
+                  <i class="bi bi-cash-stack text-success me-2"></i> Pagar en la Cancha (Efectivo)
+                </label>
+              </div>
+            </div>
+
+            
+            <div id="dynamic-forms-wrapper">
+              
+              
+              <div id="form-tarjeta-wrapper">
+                <h5 class="fw-semibold text-secondary mb-3 small uppercase-label">Detalles de la tarjeta</h5>
+                <div class="mb-3">
+                  <label class="form-label small">Nombre del titular</label>
+                  <input type="text" class="form-control" id="card-holder" placeholder="Ej. Carlos Martínez" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small">Número de tarjeta</label>
+                  <input type="text" class="form-control" id="card-number" placeholder="4000 1234 5678 9010" maxlength="19" required>
+                </div>
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <label class="form-label small">Expiración</label>
+                    <input type="text" class="form-control" id="card-expiry" placeholder="MM/AA" maxlength="5" required>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label class="form-label small">CVC</label>
+                    <input type="password" class="form-control" id="card-cvc" placeholder="123" maxlength="4" required>
+                  </div>
+                </div>
+              </div>
+
+              
+              <div id="form-pse-wrapper" class="d-none">
+                <h5 class="fw-semibold text-secondary mb-3 small uppercase-label">Transferencia PSE</h5>
+                <div class="mb-3">
+                  <label class="form-label small">Selecciona tu Entidad Financiera</label>
+                  <select class="form-select" id="pse-bank">
+                    <option value="">-- Selecciona un Banco --</option>
+                    <option value="nequi">Nequi</option>
+                    <option value="bancolombia">Bancolombia</option>
+                    <option value="davivienda">Davivienda</option>
+                    <option value="bogota">Banco de Bogotá</option>
+                    <option value="daviplata">Daviplata</option>
+                    <option value="scotiabank">Colpatria</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label small">Correo registrado en PSE</label>
+                  <input type="email" class="form-control" id="pse-email" placeholder="ejemplo@correo.com">
+                </div>
+              </div>
+
+              
+              <div id="form-efectivo-wrapper" class="d-none">
+                <div class="alert alert-success border-0 bg-success bg-opacity-10 text-success p-3 rounded-3">
+                  <i class="bi bi-info-circle-fill me-2"></i> Paga en el sitio deportivo al llegar. Tu turno será guardado como <strong>Pendiente de Pago</strong> en tu perfil.
+                </div>
+              </div>
+
+            </div>
+
+            
+            <div id="payment-error" class="alert alert-danger border-0 d-none mt-3" role="alert"></div>
+
+            <div class="d-grid gap-2 mt-4">
+              <button class="btn btn-pay-custom btn-lg" id="btn-pay-now">
+                <i class="bi bi-lock-fill me-2"></i> Confirmar y Reservar
+              </button>
+              <button class="btn btn-outline-secondary rounded-pill py-2" id="btn-back">
+                Atrás
+              </button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="text-center mt-5">
+    <p>© 2026 All Sports Yourself · Pasarela de reservas segura</p>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="../assets/js/services/supabaseClient.js"></script>
+<script src="../assets/js/services/authService.js"></script>
+<script src="../assets/js/services/venuesService.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/payments_page.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

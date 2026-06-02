@@ -1,18 +1,12 @@
-# Stage 1: Base
 FROM nginx:alpine AS base
 RUN apk add --no-cache curl
 
-# Stage 2: Development
 FROM base AS development
-# CAMBIO CLAVE: Cambiamos el WORKDIR a la ruta de Nginx
 WORKDIR /usr/share/nginx/html
-# Copiamos todo el contenido aquí
 COPY . .
 EXPOSE 80
-# Quitamos el flag -c para usar la config por defecto que sí funciona
 CMD ["nginx", "-g", "daemon off;"]
 
-# Stage 3: Production
 FROM base AS production
 WORKDIR /usr/share/nginx/html
 COPY . .

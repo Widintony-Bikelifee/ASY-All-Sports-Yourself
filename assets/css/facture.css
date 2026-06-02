@@ -1,0 +1,58 @@
+
+body {
+  background: #f8faf9;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #2c3e2f;
+}
+
+.invoice-wrapper {
+  margin: 0 auto;
+}
+
+.table-details th {
+  background-color: #f8faf9 !important;
+  color: #5a6e5a;
+  font-weight: 600;
+}
+
+.total-amount {
+  background: rgba(46,204,80,.08);
+  border: 1.5px dashed rgba(46,204,80,.4);
+  color: #1b5e20;
+}
+
+.footer-note {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #5a6e5a;
+  line-height: 1.6;
+}
+
+.btn-print, .btn-pdf, .btn-home {
+  border-radius: 40px;
+  font-weight: 600;
+  padding: 10px 24px;
+  transition: all 0.2s ease;
+}
+
+.btn-print { background-color: #6c757d; }
+.btn-print:hover { background-color: #5a6268; transform: translateY(-2px); }
+
+.btn-pdf { background-color: #dc3545; }
+.btn-pdf:hover { background-color: #c82333; transform: translateY(-2px); }
+
+.btn-home { background-color: #2ecc50; }
+.btn-home:hover { background-color: #27b545; transform: translateY(-2px); }
+
+@media print {
+  body {
+    background: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .invoice-card {
+    box-shadow: none !important;
+    border: none !important;
+  }
+}

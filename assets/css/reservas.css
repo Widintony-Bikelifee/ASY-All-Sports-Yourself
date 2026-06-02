@@ -1,8 +1,6 @@
-/* ═══════════════════════════════════════
-   reservas.css – Reservations page styles
-   ═══════════════════════════════════════ */
 
-/* ── Page wrapper ── */
+
+
 .page-reservas {
   padding-top: calc(var(--nav-h) + 3rem);
   padding-bottom: 5rem;
@@ -10,7 +8,7 @@
   min-height: 100vh;
 }
 
-/* ── Page header ── */
+
 .reservas-header {
   display: flex;
   justify-content: space-between;
@@ -77,7 +75,7 @@
   box-shadow: 0 6px 20px rgba(46, 204, 80, 0.35);
 }
 
-/* ── Stats grid ── */
+
 .reservas-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -86,7 +84,7 @@
   animation: fadeUp 0.55s 0.05s ease both;
 }
 
-/* ── Filter bar ── */
+
 .reservas-filters {
   background: var(--bg-white);
   border: 1px solid var(--border-light);
@@ -170,7 +168,7 @@
   background: rgba(46, 204, 80, 0.06);
 }
 
-/* ── Results count ── */
+
 .reservas-count {
   font-size: var(--fs-sm);
   color: var(--text-muted);
@@ -184,7 +182,7 @@
   color: var(--text-dark);
 }
 
-/* ── Cards grid ── */
+
 .reservas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -192,7 +190,7 @@
   animation: fadeUp 0.65s 0.2s ease both;
 }
 
-/* ── Reservation Card ── */
+
 .reserva-card {
   background: var(--bg-white);
   border: 1px solid var(--border-light);
@@ -210,7 +208,7 @@
   box-shadow: 0 12px 32px rgba(0,0,0,0.08);
 }
 
-/* Status accent strip on top */
+
 .reserva-card::before {
   content: '';
   display: block;
@@ -231,7 +229,7 @@
   gap: 0.85rem;
 }
 
-/* Card header row */
+
 .reserva-card__header {
   display: flex;
   justify-content: space-between;
@@ -264,7 +262,7 @@
   flex-shrink: 0;
 }
 
-/* Info rows */
+
 .reserva-card__info-row {
   display: flex;
   align-items: center;
@@ -285,14 +283,14 @@
   color: var(--text-dark);
 }
 
-/* Divider */
+
 .reserva-card__divider {
   height: 1px;
   background: var(--border-light);
   margin: 0.15rem 0;
 }
 
-/* Price */
+
 .reserva-card__price {
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -307,7 +305,7 @@
   font-family: var(--font-body);
 }
 
-/* Card footer */
+
 .reserva-card__footer {
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--border-light);
@@ -318,7 +316,7 @@
   background: rgba(0,0,0,0.01);
 }
 
-/* ── Status Badge ── */
+
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -362,7 +360,7 @@
 }
 .status-badge--cancelada::before { background: #ef4444; }
 
-/* Cancel button */
+
 .reserva-card__btn-cancel {
   display: inline-flex;
   align-items: center;
@@ -396,7 +394,7 @@
   font-family: monospace;
 }
 
-/* ── Loading skeleton ── */
+
 .reserva-skeleton {
   background: var(--bg-white);
   border: 1px solid var(--border-light);
@@ -433,7 +431,7 @@
   to   { background-position: -200% 0; }
 }
 
-/* ── Empty state ── */
+
 .reservas-empty {
   grid-column: 1 / -1;
   background: var(--bg-white);
@@ -467,7 +465,7 @@
   line-height: 1.6;
 }
 
-/* ── Cancel Confirmation Modal ── */
+
 .reservas-modal {
   position: fixed;
   inset: 0;
@@ -619,7 +617,7 @@
   transform: none;
 }
 
-/* ── Toast (reuse from main) ── */
+
 .toast {
   position: fixed;
   bottom: 1.5rem;
@@ -641,7 +639,7 @@
   transform: translateX(-50%) translateY(0);
 }
 
-/* ── Responsive ── */
+
 @media (max-width: 768px) {
   .reservas-header {
     flex-direction: column;
@@ -672,7 +670,7 @@
   }
 }
 
-/* User reservations layout */
+
 .reservas-layout {
   display: flex;
   min-height: 100vh;

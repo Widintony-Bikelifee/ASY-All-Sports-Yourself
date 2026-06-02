@@ -1,4 +1,4 @@
-﻿/* payments_user.js - Logic for user payments page */
+
 const UserPayments = (() => {
   async function init() {
     try {
@@ -26,7 +26,9 @@ const UserPayments = (() => {
       document.getElementById('sidebar-user-email').textContent = email;
       const avatarImg = document.getElementById('sidebar-avatar-img');
       if (avatarImg) {
-        avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+        const avatarUrl = session.user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+        avatarImg.src = avatarUrl;
+        avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`; };
       }
 
       const logoutBtn = document.getElementById('btn-logout');
@@ -52,6 +54,9 @@ const UserPayments = (() => {
 
   async function loadPagos() {
     const tbody = document.getElementById('pagos-tbody');
+    const emptyState = document.getElementById('payments-empty-state');
+    const tableCard = tbody?.closest('.card');
+
     if (tbody) {
       tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando pagos...</td></tr>`;
     }
@@ -60,30 +65,55 @@ const UserPayments = (() => {
       const { data, error } = await window.VenuesService.getMisReservas();
       if (error) throw error;
 
-      const pagos = (data || []).filter(r => r.estado === 'confirmada' || r.estado === 'completada');
+      
+      const pagos     = (data || []).filter(r => r.estado === 'confirmada' || r.estado === 'completada');
+      const pendientes = (data || []).filter(r => r.estado === 'pendiente');
+
+      
+      const totalMonto = pagos.reduce((sum, r) => {
+        const hrs   = _diffHours(r.hora_inicio, r.hora_fin);
+        const precio = r.escenarios?.precio ?? 0;
+        return sum + hrs * precio;
+      }, 0);
+
+      const elTotalPagos  = document.getElementById('stat-total-pagos');
+      const elTotalMonto  = document.getElementById('stat-total-monto');
+      const elPendientes  = document.getElementById('stat-pendientes');
+
+      if (elTotalPagos)  elTotalPagos.textContent  = pagos.length;
+      if (elTotalMonto)  elTotalMonto.textContent   = _formatCOP(totalMonto);
+      if (elPendientes)  elPendientes.textContent   = pendientes.length;
+      
+
       if (pagos.length === 0) {
-        if (tbody) tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem;">Aún no tienes pagos registrados de reservas confirmadas o completadas.</td></tr>`;
+        
+        if (tableCard)   tableCard.classList.add('d-none');
+        if (emptyState)  emptyState.classList.remove('d-none');
         return;
       }
 
+      
+      if (tableCard)   tableCard.classList.remove('d-none');
+      if (emptyState)  emptyState.classList.add('d-none');
+
       if (tbody) {
         tbody.innerHTML = pagos.map(r => {
-          const esc = r.escenarios ?? {};
+          const esc      = r.escenarios ?? {};
           const venueName = esc.nombre ?? '–';
-          const fecha = formatShortDate(r.fecha);
-          const horario = `${r.hora_inicio?.slice(0, 5) ?? '–'} - ${r.hora_fin?.slice(0, 5) ?? '–'}`;
-          const hrs = _diffHours(r.hora_inicio, r.hora_fin);
-          const total = hrs * (esc.precio ?? 0);
-          const pagoStr = r.metodo_pago ? _paymentLabel(r.metodo_pago) : '–';
+          const fecha    = formatShortDate(r.fecha);
+          const horario  = `${r.hora_inicio?.slice(0, 5) ?? '–'} - ${r.hora_fin?.slice(0, 5) ?? '–'}`;
+          const hrs      = _diffHours(r.hora_inicio, r.hora_fin);
+          const total    = hrs * (esc.precio ?? 0);
+          const pagoStr  = r.metodo_pago ? _paymentLabel(r.metodo_pago) : '–';
 
           return `
             <tr>
-              <td>${fecha}</td>
+              <td class="ps-4">${fecha}</td>
               <td><strong>${venueName}</strong></td>
               <td>${horario} (${hrs}h)</td>
               <td>${pagoStr}</td>
               <td><span class="res-badge res-badge--${r.estado}">${_statusLabel(r.estado)}</span></td>
-              <td style="font-weight:700; color:var(--color-green-dark);">${_formatCOP(total)}</td>
+              <td class="pe-4 text-end" style="font-weight:700; color:var(--color-green-dark);">${_formatCOP(total)}</td>
             </tr>
           `;
         }).join('');
