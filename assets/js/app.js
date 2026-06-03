@@ -85,12 +85,64 @@ window.App = App;
 window.addEventListener("DOMContentLoaded", () => {
   if (!window.location.pathname.includes("/pages/user/") && !window.location.pathname.includes("/pages/admin/")) return;
 
+  // --- MOBILE SIDEBAR RESPONSIVENESS INJECTION / INYECCIÓN DE RESPONSIVIDAD PARA EL SIDEBAR EN MÓVILES ---
+  const sidebar = document.querySelector(".sidebar");
+  if (sidebar) {
+    // 1. Create and inject fixed mobile header (visible only on small screens) / Crear e inyectar la cabecera móvil fija (visible solo en pantallas pequeñas)
+    const mobileHeader = document.createElement("div");
+    mobileHeader.className = "mobile-header d-lg-none fixed-top bg-white border-bottom px-3 py-2 d-flex align-items-center justify-content-between";
+    mobileHeader.style.cssText = "z-index: 1020; height: 60px;";
+    mobileHeader.innerHTML = `
+      <div class="d-flex align-items-center">
+        <button class="btn btn-link text-dark p-1 me-2" id="mobile-sidebar-toggle" aria-label="Abrir menú">
+          <i class="bi bi-list fs-2"></i>
+        </button>
+        <a href="../../index.html" class="d-flex align-items-center gap-2 text-decoration-none">
+          <img src="../../assets/img/Logo-ASY.png" alt="Logo ASY" width="36" height="36" />
+          <span class="fw-bold text-dark fs-6" style="font-family: var(--font-display, 'Poppins', sans-serif); letter-spacing: 0.5px;">All Sports Yourself</span>
+        </a>
+      </div>
+      <div></div>
+    `;
+    document.body.prepend(mobileHeader);
+
+    // 2. Create and inject backdrop overlay to close sidebar on click / Crear e inyectar el backdrop para cerrar el sidebar al hacer click fuera
+    const backdrop = document.createElement("div");
+    backdrop.className = "sidebar-backdrop";
+    document.body.appendChild(backdrop);
+
+    // 3. Event handlers to open and close the menu / Manejadores de eventos para abrir y cerrar el menú
+    const toggleBtn = document.getElementById("mobile-sidebar-toggle");
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => {
+        sidebar.classList.add("show");
+        backdrop.classList.add("show");
+      });
+    }
+
+    /** Close sidebar and backdrop / Cerrar sidebar y backdrop */
+    const closeSidebar = () => {
+      sidebar.classList.remove("show");
+      backdrop.classList.remove("show");
+    };
+
+    backdrop.addEventListener("click", closeSidebar);
+
+    // Automatically close when clicking any navigation link inside sidebar / Cerrar automáticamente al hacer click en cualquier link de navegación interna del sidebar
+    const sidebarLinks = sidebar.querySelectorAll(".nav-link");
+    sidebarLinks.forEach(link => {
+      link.addEventListener("click", closeSidebar);
+    });
+  }
+  // --- END OF MOBILE SIDEBAR INJECTION / FIN DE INYECCIÓN DE RESPONSIVIDAD PARA EL SIDEBAR EN MÓVILES ---
+
+
+
   const logoutBtn = document.getElementById("btn-logout");
   const sidebarBrand = document.querySelector(".sidebar-header .navbar-brand");
 
   /**
-   * PerformLogout.
-   * Realiza.
+   * Sign out user and redirect to login / Cerrar sesión y redirigir al login
    */
   
   async function performLogout() {

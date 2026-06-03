@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+  <!-- Page head: meta, fonts, styles / Cabecera: meta, fuentes, estilos -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,6 +21,7 @@
   </head>
   <body class="sidebar-layout">
     
+    <!-- Sidebar navigation / Navegación lateral -->
     <aside class="sidebar bg-white shadow-sm d-flex flex-column">
       <div class="sidebar-header p-4 border-bottom text-center">
         <a
@@ -105,6 +107,7 @@
     </aside>
 
     
+    <!-- Main content area / Área principal de contenido -->
     <main class="main-content p-4">
       
       <div class="mb-4">
@@ -130,6 +133,7 @@
       </div>
 
       
+      <!-- Payment stats cards / Tarjetas de estadísticas de pagos -->
       <div class="row g-3 mb-4">
         <div class="col-12 col-md-4">
           <div class="card border-0 shadow-sm h-100">
@@ -188,6 +192,7 @@
       </div>
 
       
+      <!-- Data table: payment history / Tabla de datos: historial de pagos -->
       <div class="card shadow-sm border-0">
         <div
           class="card-header bg-white py-3 d-flex justify-content-between align-items-center"
@@ -257,6 +262,7 @@
       </div>
 
       
+      <!-- Empty state: no payments / Estado vacío: sin pagos -->
       <div id="payments-empty-state" class="text-center py-5 d-none">
         <div class="card shadow-sm border-0 p-5">
           <div class="mb-4">
@@ -275,6 +281,7 @@
     </main>
 
     
+    <!-- Toast notifications / Notificaciones toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div
         class="toast align-items-center border-0"
@@ -302,6 +309,7 @@
     </div>
 
     
+    <!-- Page scripts / Scripts de la página -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="../../assets/js/services/supabaseClient.js"></script>

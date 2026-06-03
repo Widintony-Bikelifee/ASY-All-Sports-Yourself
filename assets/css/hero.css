@@ -292,4 +292,34 @@
   background: var(--color-green);
 }
 
+/* ==========================================================================
+   MOBILE DEVICES (Hero Responsiveness) / DISPOSITIVOS MÓVILES (Responsividad de Hero)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .hero__content {
+    padding: calc(var(--nav-h) + 3rem) 1.5rem 4rem !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+  }
+  .hero__stadium svg {
+    width: 110% !important;
+    right: -5% !important;
+    opacity: 0.25 !important; /* Lower opacity to improve mobile text contrast / Reducir opacidad para mejorar contraste en móviles */
+    top: auto !important;
+    bottom: 0 !important;
+    transform: translateY(10%) !important;
+  }
+  .hero__stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+    padding-top: 1.5rem !important;
+  }
+  .hero__scroll-hint {
+    display: none !important; /* Hide hint on small screens / Ocultar indicador en pantallas pequeñas */
+  }
+}
+
+
+
 

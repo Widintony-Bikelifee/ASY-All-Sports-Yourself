@@ -189,8 +189,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * ClearNewImagePreview.
-   * Realiza.
+   * ClearNewImagePreview. Resets the image preview area and restores the existing court image URL.
+   * ClearNewImagePreview. Restablece el área de previsualización de imagen y restaura la URL de imagen actual de la cancha.
    */
   function clearNewImagePreview() {
     previewWrapper.classList.add('d-none');

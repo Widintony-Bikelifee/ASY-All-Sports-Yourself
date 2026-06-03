@@ -318,5 +318,50 @@ main.col-md-6::-webkit-scrollbar-thumb:hover {
   background: var(--color-green-dark, #22993f);
 }
 
+/* ==========================================================================
+   MOBILE DEVICES (Register Responsiveness) / DISPOSITIVOS MÓVILES (Responsividad de Registro)
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* Reset overflow for mobile scrolling / Restablecer desbordamiento para desplazamiento móvil */
+  html, body {
+    overflow: auto;
+  }
+  
+  /* Auto height for container fluid / Altura automática para container fluid */
+  .container-fluid {
+    height: auto;
+    overflow: visible;
+  }
+  
+  /* Auto height for layout row / Altura automática para la fila de diseño */
+  .row.g-0 {
+    height: auto;
+  }
+  
+  /* Reset left banner positioning and size / Restablecer posicionamiento y tamaño del banner izquierdo */
+  #static-register-left {
+    position: relative !important;
+    width: 100%;
+    height: auto;
+    min-height: 50vh;
+    overflow: visible !important;
+  }
+  
+  #static-register-left,
+  #static-register-left * {
+    overflow: visible !important;
+  }
+  
+  /* Expand form column to full screen width / Expandir columna de formulario al ancho completo de la pantalla */
+  main.col-md-6 {
+    margin-left: 0;
+    width: 100%;
+    height: auto;
+    overflow-y: visible !important;
+  }
+}
+
+
+
 
 

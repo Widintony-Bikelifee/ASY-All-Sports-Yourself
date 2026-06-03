@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const calcTotal = document.getElementById('calc-total');
 
   /**
-   * Recalculate.
-   * Realiza.
+   * Recalculate. Computes the booking duration and total cost based on selected start and end times.
+   * Recalculate. Calcula la duración de la reserva y el costo total según las horas de inicio y fin seleccionadas.
    */
   
   function recalculate() {

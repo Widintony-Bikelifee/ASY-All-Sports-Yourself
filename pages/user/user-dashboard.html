@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+  <!-- Page head: meta, fonts, styles / Cabecera: meta, fuentes, estilos -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,6 +15,7 @@
   <body class="sidebar-layout">
 
     
+    <!-- Sidebar navigation / Navegación lateral -->
     <aside class="sidebar bg-white shadow-sm d-flex flex-column">
       <div class="sidebar-header p-4 border-bottom text-center">
         <a class="navbar-brand d-flex flex-column align-items-center gap-2 text-decoration-none" href="../../index.html">
@@ -61,6 +63,7 @@
     </aside>
 
     
+    <!-- Main content area / Área principal de contenido -->
     <main class="main-content p-4">
       
       
@@ -78,6 +81,7 @@
         </div>
 
         
+        <!-- Welcome banner with background image / Banner de bienvenida con imagen de fondo -->
         <div class="card border-0 shadow-sm mb-4 overflow-hidden position-relative" style="min-height: 250px;">
           <img src="../../assets/img/venues/Estadio_Ipiales.jpg" 
                alt="Fondo" 
@@ -96,6 +100,7 @@
         </div>
 
         
+        <!-- Dashboard stats cards / Tarjetas de estadísticas del panel -->
         <div class="row g-4 mb-5">
           <div class="col-12 col-md-4">
             <div class="card border-0 shadow-sm h-100">
@@ -141,6 +146,7 @@
         </div>
 
         
+        <!-- Upcoming reservations panel / Panel de próximas reservas -->
         <div class="card border-0 shadow-sm">
           <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
             <h5 class="mb-0 fw-semibold">
@@ -165,6 +171,7 @@
     </main>
 
     
+    <!-- Toast notifications / Notificaciones toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div class="toast align-items-center border-0" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
@@ -178,6 +185,7 @@
     </div>
 
     
+    <!-- Page scripts / Scripts de la página -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="../../assets/js/services/supabaseClient.js"></script>
