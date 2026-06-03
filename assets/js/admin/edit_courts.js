@@ -1,3 +1,7 @@
+/**
+ * edit_courts.js script file.
+ * Archivo de script edit_courts.js.
+ */
 document.addEventListener('DOMContentLoaded', function () {
 
   
@@ -35,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   
+  /**
+   * Load court data.
+   * Cargar court data.
+   */
   async function loadCourtData(id) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Cargando...';
@@ -97,6 +105,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   
+  /**
+   * Update commission preview.
+   * Actualizar commission preview.
+   */
   function updateCommissionPreview() {
     const price      = parseFloat(priceInput.value) || 0;
     const commission = price * COMMISSION_RATE;
@@ -137,6 +149,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.target.files.length > 0) handleFileUpload(e.target.files[0]);
   });
 
+  /**
+   * Handle file upload.
+   * Manejar file upload.
+   */
   async function handleFileUpload(file) {
     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!validTypes.includes(file.type)) { showAlert('Formato no válido. Usa JPG, PNG, GIF o WebP', 'error'); return; }
@@ -172,6 +188,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1500);
   }
 
+  /**
+   * ClearNewImagePreview.
+   * Realiza.
+   */
   function clearNewImagePreview() {
     previewWrapper.classList.add('d-none');
     previewImg.src      = '';
@@ -186,6 +206,10 @@ document.addEventListener('DOMContentLoaded', function () {
   removeBtn.addEventListener('click', clearNewImagePreview);
 
   
+  /**
+   * Get selected features.
+   * Obtener selected features.
+   */
   function getSelectedFeatures() {
     const ids = ['feature-lights','feature-parking','feature-locker','feature-wifi','feature-snack','feature-equipment'];
     return ids
@@ -195,6 +219,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   
+  /**
+   * Show alert.
+   * Mostrar alert.
+   */
   function showAlert(message, type = 'success') {
     
     document.getElementById('success-alert').classList.add('d-none');
@@ -216,6 +244,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  /**
+   * Validate times.
+   * Validar times.
+   */
   function validateTimes(openTime, closeTime) {
     const [oh, om] = openTime.split(':').map(Number);
     const [ch, cm] = closeTime.split(':').map(Number);

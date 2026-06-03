@@ -1,193 +1,14 @@
+/*
+ * reports_admin.css stylesheet file.
+ * Archivo de hoja de estilos reports_admin.css.
+ */
 
-
-
-.sidebar-layout {
-  display: flex;
-  min-height: 100vh;
-  background: var(--bg-soft, #f5f7f5);
-}
-
-.sidebar {
-  width: 280px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  z-index: 100;
-  overflow-y: auto;
-  transition: all 0.3s ease;
-}
-
-.main-content {
-  flex: 1;
-  margin-left: 280px;
-  width: calc(100% - 280px);
-  min-height: 100vh;
-  background: var(--bg-soft, #f5f7f5);
-}
-
-
-.sidebar::-webkit-scrollbar {
-  width: 4px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: var(--border-light, #e8ede8);
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: var(--primary-green, #2ecc50);
-  border-radius: 4px;
-}
-
-
-.main-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.main-content::-webkit-scrollbar-track {
-  background: var(--border-light, #e8ede8);
-  border-radius: 4px;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-  background: var(--primary-green, #2ecc50);
-  border-radius: 4px;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-green-dark, #27b545);
-}
-
-
-h1, h2, h3, h4, h5, h6,
-.fw-bold,
-.navbar-brand span,
-.card-header h5 {
-  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
-}
-
-body, .form-label, .text-muted, .list-group-item,
-.card-text, .badge, .small {
-  font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', sans-serif);
-}
-
-
-.sidebar .nav-link {
-  border-radius: var(--radius-md, 10px);
-  padding: 0.7rem 1rem;
-  color: var(--text-secondary, #1a1a1a);
-  transition: all var(--transition, 0.2s ease);
-  position: relative;
-}
-
-.sidebar .nav-link i {
-  font-size: 1.1rem;
-  transition: all var(--transition, 0.2s ease);
-  display: inline-block;
-}
-
-
-.sidebar .nav-link:hover i {
-  transform: scale(1.1);
-  color: var(--primary-green, #2ecc50);
-}
-
-.sidebar .nav-link:hover .nav-text {
-  color: var(--primary-green, #2ecc50);
-}
-
-
-.sidebar .nav-link:hover {
-  background: transparent;
-}
-
-
-.sidebar .nav-link.active {
-  background: transparent !important;
-  color: var(--text-secondary, #1a1a1a);
-}
-
-
-.sidebar .nav-link.active i {
-  background: var(--primary-green, #2ecc50);
-  color: white;
-  border: 2px solid white;
-  box-shadow: 0 2px 8px rgba(46, 204, 80, 0.3);
-}
-
-
-.sidebar .nav-link i {
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-md, 10px);
-  transition: all var(--transition, 0.2s ease);
-  margin-right: 0.75rem;
-}
-
-
-.sidebar .nav-link .nav-text {
-  transition: color var(--transition, 0.2s ease);
-}
-
-
-.sidebar-user {
-  transition: background var(--transition, 0.2s ease);
-}
-
-.sidebar-user:hover {
-  background: var(--bg-soft, #f5f7f5);
-}
-
-.sidebar-user img {
-  border: 2px solid var(--primary-green, #2ecc50);
-}
-
-
-.sidebar-user i {
-  width: auto;
-  height: auto;
-  background: transparent;
-  border: none;
-}
-
-
-.card {
-  border-radius: var(--radius-lg, 16px) !important;
-  overflow: hidden;
-  transition: transform var(--transition, 0.2s ease), box-shadow var(--transition, 0.2s ease);
-  border: none !important;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1)) !important;
-}
-
-.card-header {
-  background: transparent;
-  border-bottom: 1px solid var(--border-light, #e8ede8);
-  padding: 1.25rem 1.5rem;
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-.card-footer {
-  background: transparent;
-  border-top: 1px solid var(--border-light, #e8ede8);
-  padding: 1rem 1.5rem;
-}
-
-
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .kpi-card {
   text-align: center;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .kpi-card .kpi-icon {
   width: 48px;
   height: 48px;
@@ -198,6 +19,7 @@ body, .form-label, .text-muted, .list-group-item,
   margin: 0 auto 1rem;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .kpi-card .kpi-value {
   font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
   font-size: 1.75rem;
@@ -206,6 +28,7 @@ body, .form-label, .text-muted, .list-group-item,
   line-height: 1.2;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .kpi-card .kpi-label {
   font-size: 0.75rem;
   color: var(--text-muted, #7a8f7a);
@@ -214,12 +37,13 @@ body, .form-label, .text-muted, .list-group-item,
   font-weight: 600;
 }
 
-
+/* Styles for reportes table. / Estilos para reportes table. */
 .reportes-table {
   width: 100%;
   margin-bottom: 0;
 }
 
+/* Styles for reportes table thead th. / Estilos para reportes table thead th. */
 .reportes-table thead th {
   font-size: 0.75rem;
   font-weight: 700;
@@ -231,6 +55,7 @@ body, .form-label, .text-muted, .list-group-item,
   background: transparent;
 }
 
+/* Styles for reportes table tbody td. / Estilos para reportes table tbody td. */
 .reportes-table tbody td {
   padding: 0.75rem;
   vertical-align: middle;
@@ -239,19 +64,22 @@ body, .form-label, .text-muted, .list-group-item,
   font-size: 0.9rem;
 }
 
+/* Styles for reportes table tbody tr. / Estilos para reportes table tbody tr. */
 .reportes-table tbody tr {
   transition: background var(--transition, 0.2s ease);
 }
 
+/* Styles for reportes table tbody tr. / Estilos para reportes table tbody tr. */
 .reportes-table tbody tr:hover {
   background: var(--primary-green-dim, rgba(46, 204, 80, 0.03));
 }
 
+/* Styles for reportes table tbody tr. / Estilos para reportes table tbody tr. */
 .reportes-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-
+/* Styles for progress bar custom. / Estilos para progress bar custom. */
 .progress-bar-custom {
   background: var(--primary-green-dim, rgba(46, 204, 80, 0.15));
   border-radius: var(--radius-full, 40px);
@@ -259,6 +87,7 @@ body, .form-label, .text-muted, .list-group-item,
   overflow: hidden;
 }
 
+/* Styles for progress bar custom .progress fill. / Estilos para progress bar custom .progress fill. */
 .progress-bar-custom .progress-fill {
   background: var(--primary-green, #2ecc50);
   height: 100%;
@@ -266,7 +95,7 @@ body, .form-label, .text-muted, .list-group-item,
   transition: width 0.5s ease;
 }
 
-
+/* Styles for ingresos mes item. / Estilos para ingresos mes item. */
 .ingresos-mes-item {
   display: flex;
   align-items: center;
@@ -275,91 +104,79 @@ body, .form-label, .text-muted, .list-group-item,
   border-bottom: 1px solid var(--border-light, #e8ede8);
 }
 
+/* Styles for ingresos mes item. / Estilos para ingresos mes item. */
 .ingresos-mes-item:last-child {
   border-bottom: none;
 }
 
+/* Styles for ingresos mes item .mes nombre. / Estilos para ingresos mes item .mes nombre. */
 .ingresos-mes-item .mes-nombre {
   font-weight: 600;
   color: var(--text-primary, #111);
   min-width: 100px;
 }
 
+/* Styles for ingresos mes item .mes monto. / Estilos para ingresos mes item .mes monto. */
 .ingresos-mes-item .mes-monto {
   font-weight: 800;
   color: var(--primary-green, #2ecc50);
   font-size: 1rem;
 }
 
+/* Styles for ingresos mes item .mes reservas. / Estilos para ingresos mes item .mes reservas. */
 .ingresos-mes-item .mes-reservas {
   font-size: 0.75rem;
   color: var(--text-muted, #7a8f7a);
 }
 
 
-.btn {
-  border-radius: var(--radius-md, 10px);
-  font-weight: 600;
-  padding: 0.6rem 1.2rem;
-  transition: all var(--transition, 0.2s ease);
-}
-
-.btn i {
-  transition: all var(--transition, 0.2s ease);
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-}
-
-.btn:active {
-  transform: translateY(0);
-}
 
 
+
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-success {
   border-color: var(--primary-green, #2ecc50);
   color: var(--primary-green, #2ecc50);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-success:hover {
   background-color: var(--primary-green, #2ecc50);
   border-color: var(--primary-green, #2ecc50);
   color: white;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-success:hover i {
   color: white;
 }
 
-
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-success {
   background: var(--primary-green, #2ecc50);
   border-color: var(--primary-green, #2ecc50);
   color: white;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-success:hover {
   background: var(--primary-green-dark, #27b545);
   border-color: var(--primary-green-dark, #27b545);
 }
 
-
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-danger {
   border-width: 1.5px;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-danger:hover {
   transform: translateY(-1px);
 }
 
 
-.btn-sm {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-}
-
-
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .badge {
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -367,7 +184,7 @@ body, .form-label, .text-muted, .list-group-item,
   padding: 0.4rem 0.9rem;
 }
 
-
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
 .toast {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -376,59 +193,34 @@ body, .form-label, .text-muted, .list-group-item,
   box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
 }
 
-
+/* Styles for spinner border. / Estilos para spinner border. */
 .spinner-border {
   color: var(--primary-green, #2ecc50) !important;
 }
 
-
 @keyframes fadeIn {
+/* Styles for from. / Estilos para from. */
   from {
     opacity: 0;
     transform: translateY(10px);
   }
+/* Styles for to. / Estilos para to. */
   to {
     opacity: 1;
     transform: translateY(0);
   }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 }
 
 .card, .kpi-card, .reportes-table tbody tr {
   animation: fadeIn 0.3s ease-out;
 }
 
-
 @media (max-width: 992px) {
-  .sidebar {
-    width: 240px;
+/* Styles for 768px). / Estilos para 768px). */
   }
-  
-  .main-content {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-  }
-}
 
 @media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    position: relative;
-    height: auto;
-  }
-  
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-  }
-  
-  .sidebar-layout {
-    flex-direction: column;
-  }
-  
-  .card-body {
-    padding: 1.25rem;
-  }
-  
   .btn {
     padding: 0.5rem 1rem;
   }
@@ -471,86 +263,99 @@ body, .form-label, .text-muted, .list-group-item,
 }
 
 @media (max-width: 576px) {
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
   .card-header h5 {
     font-size: 1rem;
   }
   
+/* Styles for row.g 3. / Estilos para row.g 3. */
   .row.g-3 {
     gap: 0.75rem;
   }
   
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
   .kpi-card .kpi-icon {
     width: 40px;
     height: 40px;
   }
   
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
   .kpi-card .kpi-value {
     font-size: 1.1rem;
   }
   
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
   .kpi-card .kpi-label {
     font-size: 0.65rem;
   }
+/* Styles for .rounded 3. / Estilos para .rounded 3. */
 }
-
 
 .rounded-3 {
   border-radius: var(--radius-md, 10px) !important;
 }
 
+/* Styles for shadow sm. / Estilos para shadow sm. */
 .shadow-sm {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
 }
 
+/* Styles for text secondary. / Estilos para text secondary. */
 .text-secondary {
   color: var(--text-muted, #7a8f7a) !important;
 }
 
+/* Styles for overflow hidden. / Estilos para overflow hidden. */
 .overflow-hidden {
   overflow: hidden;
 }
 
+/* Styles for text truncate. / Estilos para text truncate. */
 .text-truncate {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-
+/* Styles for a. / Estilos para a. */
 a:not(.btn):not(.nav-link) {
   color: var(--primary-green-dark, #27b545);
   text-decoration: none;
   transition: color var(--transition, 0.2s ease);
 }
 
+/* Styles for a. / Estilos para a. */
 a:not(.btn):not(.nav-link):hover {
   color: var(--primary-green, #2ecc50);
   text-decoration: underline;
 }
 
-
+/* Styles for empty state. / Estilos para empty state. */
 .empty-state {
   text-align: center;
   padding: 2rem;
 }
 
+/* Styles for empty state i. / Estilos para empty state i. */
 .empty-state i {
   font-size: 3rem;
   color: var(--border-medium, #d9e2d9);
   margin-bottom: 1rem;
 }
 
+/* Styles for empty state p. / Estilos para empty state p. */
 .empty-state p {
   color: var(--text-muted, #7a8f7a);
   margin-bottom: 0;
 }
 
-
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .page-title-badge {
   background: rgba(46,204,80,.1);
   color: #2ecc50;
 }
 
+/* Styles for page title heading. / Estilos para page title heading. */
 .page-title-heading {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 2.8rem);
@@ -558,7 +363,7 @@ a:not(.btn):not(.nav-link):hover {
   color: var(--text-primary, #111);
 }
 
-
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .dashboard-venue-card {
   display: flex;
   justify-content: space-between;
@@ -572,11 +377,13 @@ a:not(.btn):not(.nav-link):hover {
   flex-wrap: wrap;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .dashboard-venue-card:hover {
   box-shadow: 0 6px 20px rgba(46,204,80,.12);
   transform: translateY(-2px);
 }
 
+/* Styles for dashboard venue info. / Estilos para dashboard venue info. */
 .dashboard-venue-info {
   display: flex;
   flex-direction: column;
@@ -585,6 +392,7 @@ a:not(.btn):not(.nav-link):hover {
   min-width: 0;
 }
 
+/* Styles for dashboard venue title. / Estilos para dashboard venue title. */
 .dashboard-venue-title {
   font-family: var(--font-display, 'Poppins', sans-serif);
   font-weight: 700;
@@ -595,11 +403,13 @@ a:not(.btn):not(.nav-link):hover {
   text-overflow: ellipsis;
 }
 
+/* Styles for dashboard venue meta. / Estilos para dashboard venue meta. */
 .dashboard-venue-meta {
   font-size: .82rem;
   color: var(--text-muted, #7a8f7a);
 }
 
+/* Styles for dashboard venue action. / Estilos para dashboard venue action. */
 .dashboard-venue-action {
   display: inline-flex;
   align-items: center;
@@ -615,17 +425,17 @@ a:not(.btn):not(.nav-link):hover {
   background: transparent;
 }
 
+/* Styles for dashboard venue action. / Estilos para dashboard venue action. */
 .dashboard-venue-action:hover {
   background: var(--primary-green, #2ecc50);
   color: #fff;
 }
 
+/* Styles for dashboard venue action  danger. / Estilos para dashboard venue action  danger. */
 .dashboard-venue-action--danger {
   border-color: #ef4444;
   color: #ef4444;
 }
 
+/* Styles for dashboard venue action  danger. / Estilos para dashboard venue action  danger. */
 .dashboard-venue-action--danger:hover {
-  background: #ef4444;
-  color: #fff;
-}

@@ -1,16 +1,15 @@
-
-
+/**
+ * Toggle the password visibility icon and input state.
+ * Alterna el estado de visibilidad de la contraseña e icono.
+ */
 
 function togglePassword(inputId, eyeEl) {
-  
   const input = document.getElementById(inputId);
   if (!input) return;
 
-  
   const isPassword = input.type === 'password';
   input.type = isPassword ? 'text' : 'password';
 
-  
   if (eyeEl) {
     eyeEl.innerHTML = isPassword
       ? `<svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.8"
@@ -28,18 +27,28 @@ function togglePassword(inputId, eyeEl) {
   }
 }
 
-
-
+/**
+ * Check whether the email string has a valid format.
+ * Verifica si la cadena de correo electrónico tiene un formato válido.
+ */
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
+/**
+ * Check whether the password meets minimum requirements.
+ * Verifica si la contraseña cumple con los requisitos mínimos.
+ */
 
 function isValidPassword(pass) {
   return pass.length >= 8;
 }
 
+/**
+ * Locate or create the invalid-feedback element for a field.
+ * Encuentra o crea el elemento invalid-feedback para un campo.
+ */
 
 function getInvalidFeedback(input) {
   const wrap = input.closest('.form__input-wrap') || input.parentElement;
@@ -54,12 +63,15 @@ function getInvalidFeedback(input) {
   return feedback;
 }
 
+/**
+ * Mark a field as invalid and display the provided error message.
+ * Marca un campo como inválido y muestra el mensaje de error proporcionado.
+ */
 
 function setFieldError(fieldId, message) {
   const input = document.getElementById(fieldId);
   if (!input) return;
 
-  
   input.classList.add('is-invalid');
   input.classList.remove('is-valid', 'input--error', 'input--ok');
 
@@ -70,6 +82,10 @@ function setFieldError(fieldId, message) {
   }
 }
 
+/**
+ * Mark a field as valid and clear any displayed error.
+ * Marca un campo como válido y borra cualquier error mostrado.
+ */
 
 function setFieldOk(fieldId) {
   const input = document.getElementById(fieldId);
@@ -86,9 +102,16 @@ function setFieldOk(fieldId) {
   }
 }
 
+/**
+ * Login module with validation helpers and submission workflow.
+ * Módulo de login con ayudas de validación y flujo de envío.
+ */
 
 const Login = (() => {
-
+  /**
+   * Get current values from the login form.
+   * Obtiene los valores actuales del formulario de login.
+   */
   
   function getFormData() {
     return {
@@ -97,30 +120,35 @@ const Login = (() => {
     };
   }
 
+  /**
+   * Validate a specific field when it changes.
+   * Valida un campo específico cuando cambia.
+   */
   
   function validateField(fieldId) {
     const { email, password } = getFormData();
 
-    
     if (fieldId === 'login-email') {
       if (!email)                    setFieldError('login-email', 'El correo es obligatorio.');
       else if (!isValidEmail(email)) setFieldError('login-email', 'Formato de correo invalido.');
       else                           setFieldOk('login-email');
     }
 
-    
     if (fieldId === 'login-password') {
       if (!password) setFieldError('login-password', 'La contrasena es obligatoria.');
       else           setFieldOk('login-password');
     }
   }
 
+  /**
+   * Validate all login fields before submitting.
+   * Valida todos los campos de login antes de enviar.
+   */
   
   function validate() {
     const { email, password } = getFormData();
     let ok = true;
 
-    
     if (!email) {
       setFieldError('login-email', 'El correo es obligatorio.'); ok = false;
     } else if (!isValidEmail(email)) {
@@ -129,7 +157,6 @@ const Login = (() => {
       setFieldOk('login-email');
     }
 
-    
     if (!password) {
       setFieldError('login-password', 'La contrasena es obligatoria.'); ok = false;
     } else {
@@ -139,28 +166,32 @@ const Login = (() => {
     return ok;
   }
 
+  /**
+   * Handle the login button click, authenticate, and redirect.
+   * Maneja el clic del botón de login, autentica y redirige.
+   */
   
   async function handleSubmit() {
-    
     if (!validate()) return;
 
     const { email, password } = getFormData();
     const btn = document.querySelector('.auth__btn-submit');
 
     try {
-      
       if (btn) {
         btn.disabled = true;
         btn.textContent = 'Iniciando sesion...';
       }
-      
-      
-      const usuario = await loginUser(email, password);
 
-      
+      const usuario = await loginUser(email, password);
       const rol = usuario.rol || 'user';
       App.showToast('Bienvenido, ' + usuario.nombre + '!');
 
+      /**
+       * pendingVenue module.
+       * Realiza module.
+       */
+      
       const pendingVenue = (() => {
         try {
           return JSON.parse(sessionStorage.getItem('pendingVenue'));
@@ -186,14 +217,12 @@ const Login = (() => {
     } catch (err) {
       console.error('Error en login:', err);
 
-      
       const mensajes = {
         'Invalid login credentials': 'Correo o contrasena incorrectos.',
         'Email not confirmed': 'Debes confirmar tu correo antes de iniciar sesion.',
         'Too many requests': 'Demasiados intentos. Espera un momento.',
       };
 
-      
       const msg = mensajes[err.message] || err.message;
       setFieldError('login-email', msg);
 
@@ -204,18 +233,25 @@ const Login = (() => {
     }
   }
 
+  /**
+   * Attach event listeners for login field validation.
+   * Adjunta eventos para validar los campos de login.
+   */
   
   function init() {
     ['login-email', 'login-password'].forEach(id => {
       const el = document.getElementById(id);
       if (!el) return;
-      
-      el.addEventListener('blur',  () => validateField(id));
-      
+
+      el.addEventListener('blur', () => validateField(id));
       el.addEventListener('input', () => { if (el.classList.contains('is-invalid')) validateField(id); });
     });
   }
 
+  /**
+   * Handle Google login button behaviour.
+   * Maneja el comportamiento del botón de login con Google.
+   */
   
   async function handleGoogle(btn) {
     try {
@@ -227,7 +263,6 @@ const Login = (() => {
         `;
       }
       await loginWithGoogle();
-      
     } catch (err) {
       console.error('[Login] Google OAuth error:', err);
       if (btn) {
@@ -248,10 +283,15 @@ const Login = (() => {
     }
   }
 
-  
   return { handleSubmit, handleGoogle, init };
 })();
 
+window.Login = Login;
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('login-email')) Login.init();

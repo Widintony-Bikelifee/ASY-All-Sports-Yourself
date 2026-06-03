@@ -1,4 +1,9 @@
 
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const ticketInfoStr = sessionStorage.getItem('ticketInfo');
 
@@ -92,14 +97,26 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   
+  /**
+   * Initialize page scripting once DOM content is ready.
+   * Inicializa el script de la página cuando el contenido DOM está listo.
+   */
   window.addEventListener('beforeunload', () => {
     sessionStorage.removeItem('ticketInfo');
   });
 
+  /**
+   * Format cop.
+   * Formatear cop.
+   */
   function _formatCOP(value) {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
   }
 
+  /**
+   * Format date.
+   * Formatear date.
+   */
   function _formatDate(isoDate) {
     if (!isoDate) return '–';
     const [y, m, d] = isoDate.split('-').map(Number);

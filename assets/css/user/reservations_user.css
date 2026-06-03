@@ -1,560 +1,96 @@
-
-
-
-.sidebar-layout {
-  display: flex;
-  min-height: 100vh;
-  background: var(--bg-soft, #f5f7f5);
-}
-
-.sidebar {
-  width: 280px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  z-index: 100;
-  overflow-y: auto;
-  transition: all 0.3s ease;
-}
-
-.main-content {
-  flex: 1;
-  margin-left: 280px;
-  width: calc(100% - 280px);
-  min-height: 100vh;
-  background: var(--bg-soft, #f5f7f5);
-}
-
-
-.sidebar::-webkit-scrollbar {
-  width: 4px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background: var(--border-light, #e8ede8);
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background: var(--primary-green, #2ecc50);
-  border-radius: 4px;
-}
-
-
-.main-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.main-content::-webkit-scrollbar-track {
-  background: var(--border-light, #e8ede8);
-  border-radius: 4px;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-  background: var(--primary-green, #2ecc50);
-  border-radius: 4px;
-}
-
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-green-dark, #27b545);
-}
-
-
-h1, h2, h3, h4, h5, h6,
-.fw-bold,
-.navbar-brand span,
-.modal-title {
-  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
-}
-
-body, .form-label, .text-muted, .list-group-item,
-.card-text, .badge, .small {
-  font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', sans-serif);
-}
-
-
-.sidebar .nav-link {
-  border-radius: var(--radius-md, 10px);
-  padding: 0.7rem 1rem;
-  color: var(--text-secondary, #1a1a1a);
-  transition: all var(--transition, 0.2s ease);
-  position: relative;
-}
-
-.sidebar .nav-link i {
-  font-size: 1.1rem;
-  transition: all var(--transition, 0.2s ease);
-  display: inline-block;
-}
-
-
-.sidebar .nav-link:hover i {
-  transform: scale(1.1);
-  color: var(--primary-green, #2ecc50);
-}
-
-.sidebar .nav-link:hover .nav-text {
-  color: var(--primary-green, #2ecc50);
-}
-
-
-.sidebar .nav-link:hover {
-  background: transparent;
-}
-
-
-.sidebar .nav-link.active {
-  background: transparent !important;
-  color: var(--text-secondary, #1a1a1a);
-}
-
-
-.sidebar .nav-link.active i {
-  background: var(--primary-green, #2ecc50);
-  color: white;
-  border: 2px solid white;
-  box-shadow: 0 2px 8px rgba(46, 204, 80, 0.3);
-}
-
-
-.sidebar .nav-link i {
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-md, 10px);
-  transition: all var(--transition, 0.2s ease);
-  margin-right: 0.75rem;
-}
-
-
-.sidebar .nav-link .nav-text {
-  transition: color var(--transition, 0.2s ease);
-}
-
-
-.sidebar-user {
-  transition: background var(--transition, 0.2s ease);
-}
-
-.sidebar-user:hover {
-  background: var(--bg-soft, #f5f7f5);
-}
-
-.sidebar-user img {
-  border: 2px solid var(--primary-green, #2ecc50);
-}
-
-
-.sidebar-user i {
-  width: auto;
-  height: auto;
-  background: transparent;
-  border: none;
-}
-
-
-.card {
-  border-radius: var(--radius-lg, 16px) !important;
-  overflow: hidden;
-  transition: transform var(--transition, 0.2s ease), box-shadow var(--transition, 0.2s ease);
-  border: none !important;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1)) !important;
-}
-
-.card-header {
-  background: transparent;
-  border-bottom: 1px solid var(--border-light, #e8ede8);
-  padding: 1.25rem 1.5rem;
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-.card-footer {
-  background: transparent;
-  border-top: 1px solid var(--border-light, #e8ede8);
-  padding: 1rem 1.5rem;
-}
-
-
-.reserva-card {
-  transition: all var(--transition, 0.2s ease);
-  height: 100%;
-}
-
-.reserva-card .reserva-status {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 2;
-}
-
-.reserva-card .reserva-status .badge {
-  border-radius: var(--radius-full, 40px);
-  padding: 0.4rem 0.9rem;
-  font-weight: 600;
-  font-size: 0.7rem;
-}
-
-.reserva-card .reserva-title {
-  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
-  font-weight: 700;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.reserva-card .reserva-detail {
-  font-size: 0.85rem;
-  color: var(--text-muted, #7a8f7a);
-  margin-bottom: 0.5rem;
-}
-
-.reserva-card .reserva-detail i {
-  width: 20px;
-  margin-right: 0.5rem;
-  color: var(--primary-green, #2ecc50);
-}
-
-.reserva-card .reserva-price {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--primary-green, #2ecc50);
-  margin-top: 0.5rem;
-}
-
-.reserva-card .btn-cancel {
-  border-radius: var(--radius-md, 10px);
-  padding: 0.4rem 0.8rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  transition: all var(--transition, 0.2s ease);
-}
-
-.reserva-card .btn-cancel:hover {
-  transform: translateY(-1px);
-}
-
-
-#reservas-stats .card {
-  cursor: pointer;
-  transition: all var(--transition, 0.2s ease);
-}
-
-#reservas-stats .card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1)) !important;
-}
-
-#reservas-stats .rounded-3 {
-  border-radius: var(--radius-md, 10px) !important;
-}
-
-
-.btn {
-  border-radius: var(--radius-md, 10px);
-  font-weight: 600;
-  padding: 0.6rem 1.2rem;
-  transition: all var(--transition, 0.2s ease);
-}
-
-.btn i {
-  transition: all var(--transition, 0.2s ease);
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-}
-
-.btn:active {
-  transform: translateY(0);
-}
-
-
-.btn-primary {
-  background: var(--primary-green, #2ecc50);
-  border-color: var(--primary-green, #2ecc50);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: var(--primary-green-dark, #27b545);
-  border-color: var(--primary-green-dark, #27b545);
-  box-shadow: 0 4px 12px rgba(46, 204, 80, 0.3);
-}
-
-
-.btn-outline-secondary {
-  border-color: var(--border-medium, #d9e2d9);
-  color: var(--text-muted, #7a8f7a);
-}
-
-.btn-outline-secondary:hover {
-  background: var(--primary-green, #2ecc50);
-  border-color: var(--primary-green, #2ecc50);
-  color: white;
-}
-
-.btn-outline-secondary:hover i {
-  color: white;
-}
-
-
-.btn-danger {
-  background: var(--danger, #dc2626);
-  border-color: var(--danger, #dc2626);
-}
-
-.btn-danger:hover {
-  background: #b91c1c;
-  border-color: #b91c1c;
-  transform: translateY(-1px);
-}
-
-.btn-outline-danger {
-  border-width: 1.5px;
-}
-
-.btn-outline-danger:hover {
-  transform: translateY(-1px);
-  background-color: var(--danger, #dc2626);
-  border-color: var(--danger, #dc2626);
-}
-
-
-.btn-sm {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
-}
-
-
-.form-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted, #7a8f7a);
-  margin-bottom: 0.5rem;
-}
-
-.form-control, .form-select {
-  border: 1.5px solid var(--border-medium, #d9e2d9);
-  border-radius: var(--radius-md, 10px);
-  padding: 0.7rem 1rem;
-  font-size: 0.95rem;
-  transition: all var(--transition, 0.2s ease);
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: var(--primary-green, #2ecc50);
-  box-shadow: 0 0 0 3px var(--primary-green-dim, rgba(46, 204, 80, 0.12));
-  outline: none;
-}
-
-
-.badge {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  border-radius: var(--radius-full, 40px) !important;
-  padding: 0.4rem 0.9rem;
-}
-
-.badge.bg-primary {
-  background: var(--primary-green, #2ecc50) !important;
-}
-
-
-.modal-content {
-  border-radius: var(--radius-lg, 16px);
-  border: none;
-  overflow: hidden;
-}
-
-.modal-header {
-  background: transparent;
-  padding: 1.5rem 1.5rem 0 1.5rem;
-}
-
-.modal-title {
-  font-weight: 700;
-}
-
-.modal-body {
-  padding: 1.5rem;
-}
-
-.modal-footer {
-  border-top: none;
-  padding: 0 1.5rem 1.5rem 1.5rem;
-}
-
-
-#cancel-modal .modal-header .display-4 {
-  font-size: 3rem;
-}
-
-
-.toast {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.95);
-  border-left: 4px solid var(--primary-green, #2ecc50);
-  border-radius: var(--radius-md, 10px);
-  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
-}
-
-
-.spinner-border {
-  color: var(--primary-green, #2ecc50) !important;
-}
-
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.card, .reserva-card {
-  animation: fadeIn 0.3s ease-out;
-}
-
-
-@media (max-width: 992px) {
-  .sidebar {
-    width: 240px;
-  }
-  
-  .main-content {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-  }
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    position: relative;
-    height: auto;
-  }
-  
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-  }
-  
-  .sidebar-layout {
-    flex-direction: column;
-  }
-  
-  .card-body {
-    padding: 1.25rem;
-  }
-  
-  .btn {
-    padding: 0.5rem 1rem;
-  }
-  
-  .reserva-card .reserva-price {
-    font-size: 1rem;
-  }
-  
-  .modal-body {
-    padding: 1rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .card-header h5 {
-    font-size: 1rem;
-  }
-  
-  .row.g-4 {
+/*
+ * reservations_user.css stylesheet file.
+ * Archivo de hoja de estilos reservations_user.css.
+ */
+
+/* Styles for row.g 4. / Estilos para row.g 4. */
+.row.g-4 {
     gap: 1rem;
   }
   
+/* Styles for col 12. / Estilos para col 12. */
   .col-12 {
     padding: 0 0.5rem;
   }
   
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
   .reserva-card .reserva-title {
     font-size: 0.95rem;
   }
   
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
   .reserva-card .reserva-detail {
     font-size: 0.75rem;
   }
   
+/* Footer area styling / Estilo del área de pie de página */
   .modal-footer {
     flex-direction: column;
     gap: 0.5rem;
   }
   
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
   .modal-footer .btn {
     width: 100%;
   }
   
+/* Styles for reservas stats .fs 4. / Estilos para reservas stats .fs 4. */
   #reservas-stats .fs-4 {
     font-size: 1.1rem;
   }
   
+/* Styles for reservas stats .text muted.small. / Estilos para reservas stats .text muted.small. */
   #reservas-stats .text-muted.small {
     font-size: 0.7rem;
   }
-}
 
 
+/* Styles for rounded 3. / Estilos para rounded 3. */
 .rounded-3 {
   border-radius: var(--radius-md, 10px) !important;
 }
 
+/* Styles for shadow sm. / Estilos para shadow sm. */
 .shadow-sm {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
 }
 
+/* Styles for text secondary. / Estilos para text secondary. */
 .text-secondary {
   color: var(--text-muted, #7a8f7a) !important;
 }
 
+/* Styles for overflow hidden. / Estilos para overflow hidden. */
 .overflow-hidden {
   overflow: hidden;
 }
 
+/* Styles for text truncate. / Estilos para text truncate. */
 .text-truncate {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-
+/* Styles for a. / Estilos para a. */
 a:not(.btn):not(.nav-link) {
   color: var(--primary-green-dark, #27b545);
   text-decoration: none;
   transition: color var(--transition, 0.2s ease);
 }
 
+/* Styles for a. / Estilos para a. */
 a:not(.btn):not(.nav-link):hover {
   color: var(--primary-green, #2ecc50);
   text-decoration: underline;
 }
 
-
+/* Styles for reservas grid. / Estilos para reservas grid. */
 #reservas-grid:empty::before {
-  content: "No tienes reservas registradas";
+  content: "No tienes reservas activas.";
   display: block;
   text-align: center;
-  padding: 3rem;
   color: var(--text-muted, #7a8f7a);
-  background: white;
-  border-radius: var(--radius-lg, 16px);
+  font-size: 1.2rem;
+  padding: 2rem;
 }

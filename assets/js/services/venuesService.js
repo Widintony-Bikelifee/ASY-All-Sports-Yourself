@@ -1,10 +1,22 @@
+/**
+ * venuesService.js script file.
+ * Archivo de script venuesService.js.
+ */
 "use strict";
 
 
 
+/**
+ * VenuesService module.
+ * Realiza module.
+ */
 const VenuesService = (() => {
 
   
+  /**
+   * Get escenarios.
+   * Obtener escenarios.
+   */
   async function getEscenarios() {
     
     const { data, error } = await supabaseClient
@@ -17,6 +29,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * Get usuario actual.
+   * Obtener usuario actual.
+   */
   async function getUsuarioActual() {
     
     const { data } = await supabaseClient.auth.getSession();
@@ -25,6 +41,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * Insert reserva.
+   * Insertar reserva.
+   */
   async function insertReserva(reserva) {
     
     const usuario = await getUsuarioActual();
@@ -51,6 +71,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * Get mis reservas.
+   * Obtener mis reservas.
+   */
   async function getMisReservas() {
     
     const usuario = await getUsuarioActual();
@@ -80,6 +104,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * Get mis escenarios.
+   * Obtener mis escenarios.
+   */
   async function getMisEscenarios() {
     const usuario = await getUsuarioActual();
     if (!usuario) {
@@ -96,6 +124,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * Insert escenario.
+   * Insertar escenario.
+   */
   async function insertEscenario(escenario) {
     const usuario = await getUsuarioActual();
     if (!usuario) return { data: null, error: { message: "No hay sesión activa." } };
@@ -111,6 +143,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * Update escenario.
+   * Actualizar escenario.
+   */
   async function updateEscenario(id, updates) {
     const { data, error } = await supabaseClient
       .from("escenarios")
@@ -121,6 +157,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * DeleteEscenario.
+   * Realiza.
+   */
   async function deleteEscenario(id) {
     const { error } = await supabaseClient
       .from("escenarios")
@@ -130,6 +170,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * CancelReserva.
+   * Realiza.
+   */
   async function cancelReserva(reservaId) {
     const usuario = await getUsuarioActual();
     if (!usuario) {
@@ -146,6 +190,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * Get reservas admin.
+   * Obtener reservas admin.
+   */
   async function getReservasAdmin() {
     const usuario = await getUsuarioActual();
     if (!usuario) {
@@ -215,6 +263,10 @@ const VenuesService = (() => {
   }
 
   
+  /**
+   * Update reserva estado.
+   * Actualizar reserva estado.
+   */
   async function updateReservaEstado(reservaId, estado) {
     const { error } = await supabaseClient
       .from("reservas")

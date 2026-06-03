@@ -1,21 +1,30 @@
+/*
+ * payments_page.css stylesheet file.
+ * Archivo de hoja de estilos payments_page.css.
+ */
 
+
+/* Styles for . / Estilos para . */
 :root {
   --primary-green: #2ecc50;
   --primary-green-dark: #27b545;
   --bg-soft: #f8faf9;
 }
 
+/* Styles for body. / Estilos para body. */
 body {
   background: var(--bg-soft);
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   color: #2c3e2f;
 }
 
+/* Styles for total amount box. / Estilos para total amount box. */
 .total-amount-box {
   background: rgba(46,204,80,.05);
   border: 1.5px dashed rgba(46,204,80,.3);
 }
 
+/* Styles for payment method option. / Estilos para payment method option. */
 .payment-method-option {
   display: flex;
   align-items: center;
@@ -27,22 +36,26 @@ body {
   background: #fff;
 }
 
+/* Styles for payment method option. / Estilos para payment method option. */
 .payment-method-option:hover {
   border-color: rgba(46,204,80,.4);
   background: rgba(46,204,80,.02);
 }
 
+/* Styles for payment method option.selected. / Estilos para payment method option.selected. */
 .payment-method-option.selected {
   border-color: var(--primary-green);
   background: rgba(46,204,80,.05);
   box-shadow: 0 4px 12px rgba(46, 204, 80, 0.1);
 }
 
+/* Styles for uppercase label. / Estilos para uppercase label. */
 .uppercase-label {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-pay-custom {
   background: var(--primary-green);
   color: white;
@@ -53,6 +66,7 @@ body {
   box-shadow: 0 4px 12px rgba(46, 204, 80, 0.2);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-pay-custom:hover {
   background: var(--primary-green-dark);
   transform: translateY(-2px);
@@ -60,7 +74,10 @@ body {
   color: white;
 }
 
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
 .form-control:focus, .form-select:focus {
-  border-color: var(--primary-green);
-  box-shadow: 0 0 0 0.25rem rgba(46, 204, 80, 0.25);
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.12);
 }
+
+

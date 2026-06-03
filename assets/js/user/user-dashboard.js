@@ -1,8 +1,18 @@
 
 
+
+
+/**
+ * UserDashboard module.
+ * Realiza module.
+ */
 const UserDashboard = (() => {
   let currentUserProfile = null;
 
+  /**
+   * Init.
+   * Realiza.
+   */
   async function init() {
     
     try {
@@ -133,6 +143,10 @@ const UserDashboard = (() => {
     }
   }
 
+  /**
+   * SwitchTab.
+   * Realiza.
+   */
   function switchTab(tab) {
     
     document.getElementById('tab-inicio')?.classList.toggle('active', tab === 'inicio');
@@ -158,6 +172,10 @@ const UserDashboard = (() => {
     }
   }
 
+  /**
+   * Load real reservations.
+   * Cargar real reservations.
+   */
   async function loadRealReservations() {
     const listContainer = document.getElementById('upcoming-reservations-list');
     if (listContainer) {
@@ -225,6 +243,10 @@ const UserDashboard = (() => {
     }
   }
 
+  /**
+   * Format short date.
+   * Formatear short date.
+   */
   function formatShortDate(isoDate) {
     if (!isoDate) return '';
     const [y, m, d] = isoDate.split("-").map(Number);
@@ -239,6 +261,10 @@ const UserDashboard = (() => {
   }
 
   
+  /**
+   * _refreshProfileView.
+   * Realiza.
+   */
   function _refreshProfileView(profile, email, user) {
     const fullName = `${profile.nombre ?? ""} ${profile.apellido ?? ""}`.trim();
     email = email || user?.email || "";
@@ -276,6 +302,10 @@ const UserDashboard = (() => {
     if (vPhone) vPhone.textContent = profile.telefono || "—";
   }
 
+  /**
+   * Set profile edit mode.
+   * Establecer profile edit mode.
+   */
   function _setProfileEditMode(editing) {
     const view = document.getElementById("prf-view-mode");
     const edit = document.getElementById("prf-edit-mode");
@@ -287,12 +317,20 @@ const UserDashboard = (() => {
       : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar`;
   }
 
+  /**
+   * Toggle profile edit.
+   * Alternar profile edit.
+   */
   function toggleProfileEdit() {
     const editMode = document.getElementById("prf-edit-mode");
     const isEditing = editMode && editMode.style.display !== "none";
     _setProfileEditMode(!isEditing);
   }
 
+  /**
+   * Open change password.
+   * Abrir change password.
+   */
   function openChangePassword() {
     const modal = document.getElementById("prf-password-modal");
     if (modal) {
@@ -303,10 +341,18 @@ const UserDashboard = (() => {
     }
   }
 
+  /**
+   * Close change password.
+   * Cerrar change password.
+   */
   function closeChangePassword() {
     document.getElementById("prf-password-modal")?.classList.remove("open");
   }
 
+  /**
+   * Save new password.
+   * Guardar new password.
+   */
   async function saveNewPassword() {
     const pw1 = document.getElementById("prf-new-password")?.value || "";
     const pw2 = document.getElementById("prf-confirm-password")?.value || "";
@@ -323,6 +369,10 @@ const UserDashboard = (() => {
     App.showToast("✅ Contraseña actualizada correctamente.");
   }
 
+  /**
+   * SignOutAll.
+   * Realiza.
+   */
   async function signOutAll() {
     if (!confirm("¿Cerrar sesión en todos los dispositivos?")) return;
     await supabaseClient.auth.signOut({ scope: "global" });
@@ -342,6 +392,10 @@ const UserDashboard = (() => {
 
 window.UserDashboard = UserDashboard;
 
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   UserDashboard.init();
 });

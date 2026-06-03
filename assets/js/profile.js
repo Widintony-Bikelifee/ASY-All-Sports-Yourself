@@ -1,13 +1,32 @@
+/**
+ * profile.js script file.
+ * Archivo de script profile.js.
+ */
 "use strict";
 
 
+
+/**
+ * UserProfile module.
+ * Realiza module.
+ */
 
 const UserProfile = (() => {
   let currentAuthUser = null;
   let lastSavedProfile = null;
 
+  /**
+   * Initialize page scripting once DOM content is ready.
+   * Inicializa el script de la página cuando el contenido DOM está listo.
+   */
+  
   document.addEventListener("DOMContentLoaded", init);
 
+  /**
+   * Init.
+   * Realiza.
+   */
+  
   async function init() {
     const els = getProfileElements();
     if (!els.form || !window.supabaseClient) return;
@@ -42,6 +61,11 @@ const UserProfile = (() => {
     }
   }
 
+  /**
+   * Get profile elements.
+   * Obtener profile elements.
+   */
+  
   function getProfileElements() {
     return {
       form: document.getElementById("profile-form"),
@@ -77,6 +101,11 @@ const UserProfile = (() => {
     };
   }
 
+  /**
+   * BindStaticActions.
+   * Realiza.
+   */
+  
   function bindStaticActions(els) {
     els.editToggle?.addEventListener("click", toggleProfileEdit);
     els.passwordOpen?.addEventListener("click", openChangePassword);
@@ -95,12 +124,22 @@ const UserProfile = (() => {
     });
   }
 
+  /**
+   * Get active session.
+   * Obtener active session.
+   */
+  
   async function getActiveSession() {
     const { data, error } = await supabaseClient.auth.getSession();
     if (error) throw error;
     return data?.session || null;
   }
 
+  /**
+   * Get role safely.
+   * Obtener role safely.
+   */
+  
   async function getRoleSafely() {
     if (typeof window.getUserRole !== "function") return "user";
 
@@ -112,6 +151,11 @@ const UserProfile = (() => {
     }
   }
 
+  /**
+   * Load profile.
+   * Cargar profile.
+   */
+  
   async function loadProfile(authUser) {
     if (typeof window.getUserProfile === "function") {
       try {
@@ -146,6 +190,11 @@ const UserProfile = (() => {
     return fallbackProfile;
   }
 
+  /**
+   * Render profile.
+   * Renderizar profile.
+   */
+  
   function renderProfile(els, profile, authUser) {
     const email = profile.correo_electronico || authUser.email || "";
     const fullName = getFullName(profile) || emailName(email) || "Usuario";
@@ -178,6 +227,11 @@ const UserProfile = (() => {
     }
   }
 
+  /**
+   * BindProfileForm.
+   * Realiza.
+   */
+  
   function bindProfileForm(els) {
     if (els.form.dataset.bound === "true") return;
     els.form.dataset.bound = "true";
@@ -237,12 +291,22 @@ const UserProfile = (() => {
     });
   }
 
+  /**
+   * Toggle profile edit.
+   * Alternar profile edit.
+   */
+  
   function toggleProfileEdit() {
     const editMode = document.getElementById("prf-edit-mode");
     const isEditing = editMode && editMode.style.display !== "none";
     setProfileEditMode(!isEditing);
   }
 
+  /**
+   * Set profile edit mode.
+   * Establecer profile edit mode.
+   */
+  
   function setProfileEditMode(editing) {
     const view = document.getElementById("prf-view-mode");
     const edit = document.getElementById("prf-edit-mode");
@@ -257,6 +321,11 @@ const UserProfile = (() => {
     }
   }
 
+  /**
+   * Open change password.
+   * Abrir change password.
+   */
+  
   function openChangePassword() {
     const els = getProfileElements();
     if (!els.passwordModal) return;
@@ -268,10 +337,20 @@ const UserProfile = (() => {
     els.passwordModal.classList.add("open");
   }
 
+  /**
+   * Close change password.
+   * Cerrar change password.
+   */
+  
   function closeChangePassword() {
     document.getElementById("prf-password-modal")?.classList.remove("open");
   }
 
+  /**
+   * Save new password.
+   * Guardar new password.
+   */
+  
   async function saveNewPassword() {
     const els = getProfileElements();
     const password = els.passwordNew?.value || "";
@@ -309,6 +388,11 @@ const UserProfile = (() => {
     }
   }
 
+  /**
+   * Logout.
+   * Cerrar sesión.
+   */
+  
   async function logout() {
     const logoutButton = document.getElementById("btn-logout");
     if (logoutButton) {
@@ -323,6 +407,11 @@ const UserProfile = (() => {
     }
   }
 
+  /**
+   * SignOutAll.
+   * Realiza.
+   */
+  
   async function signOutAll() {
     if (!confirm("¿Cerrar sesión en todos los dispositivos?")) return;
 
@@ -330,6 +419,11 @@ const UserProfile = (() => {
     window.location.href = "../../index.html";
   }
 
+  /**
+   * Handle avatar upload.
+   * Manejar avatar upload.
+   */
+  
   async function handleAvatarUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -378,6 +472,14 @@ const UserProfile = (() => {
       });
       if (updateError) throw updateError;
       
+      const { error: dbError } = await window.supabaseClient
+        .from('usuarios')
+        .update({ avatar_url: publicUrl })
+        .eq('id', currentAuthUser.id);
+        
+      if (dbError) {
+        console.warn("No se pudo sincronizar avatar_url en la tabla usuarios:", dbError);
+      }
       
       currentAuthUser.user_metadata = currentAuthUser.user_metadata || {};
       currentAuthUser.user_metadata.avatar_url = publicUrl;
@@ -396,6 +498,11 @@ const UserProfile = (() => {
     }
   }
 
+  /**
+   * Set loading state.
+   * Establecer loading state.
+   */
+  
   function setLoadingState(els, isLoading) {
     [els.name, els.lastname, els.phone].forEach((input) => {
       if (input) input.disabled = isLoading;
@@ -407,20 +514,40 @@ const UserProfile = (() => {
     }
   }
 
+  /**
+   * Set saving state.
+   * Establecer saving state.
+   */
+  
   function setSavingState(els, isSaving) {
     if (!els.saveButton) return;
     els.saveButton.disabled = isSaving;
     els.saveButton.textContent = isSaving ? "Guardando..." : "Guardar Cambios";
   }
 
+  /**
+   * Get full name.
+   * Obtener full name.
+   */
+  
   function getFullName(profile) {
     return `${profile.nombre || ""} ${profile.apellido || ""}`.trim();
   }
 
+  /**
+   * EmailName.
+   * Realiza.
+   */
+  
   function emailName(email) {
     return email ? email.split("@")[0] : "";
   }
 
+  /**
+   * BuildAvatarUrl.
+   * Realiza.
+   */
+  
   function buildAvatarUrl(name, user) {
     if (user?.user_metadata?.avatar_url) {
       return user.user_metadata.avatar_url;
@@ -428,6 +555,11 @@ const UserProfile = (() => {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || "Usuario")}&background=2ecc50&color=fff`;
   }
 
+  /**
+   * Get member since.
+   * Obtener member since.
+   */
+  
   function getMemberSince(user) {
     const raw = user?.created_at || user?.user_metadata?.created_at;
     if (!raw) return "Miembro ASY";
@@ -439,10 +571,20 @@ const UserProfile = (() => {
     return `Miembro desde ${label.charAt(0).toUpperCase() + label.slice(1)}`;
   }
 
+  /**
+   * RedirectToLogin.
+   * Realiza.
+   */
+  
   function redirectToLogin() {
     window.location.href = "../login.html";
   }
 
+  /**
+   * Show toast.
+   * Mostrar toast.
+   */
+  
   function showToast(message) {
     if (window.App && typeof window.App.showToast === "function") {
       window.App.showToast(message);

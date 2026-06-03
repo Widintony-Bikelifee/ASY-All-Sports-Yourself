@@ -1,4 +1,12 @@
 
+
+
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
+
 document.addEventListener('DOMContentLoaded', async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const venueId = parseInt(urlParams.get('venueId'), 10);
@@ -52,6 +60,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const calcDuration = document.getElementById('calc-duration');
   const calcTotal = document.getElementById('calc-total');
 
+  /**
+   * Recalculate.
+   * Realiza.
+   */
+  
   function recalculate() {
     const start = startInput.value;
     const end = endInput.value;
@@ -128,6 +141,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.location.href = `./payments_page.html`;
   });
 
+  /**
+   * Format cop.
+   * Formatear cop.
+   */
+  
   function _formatCOP(value) {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
   }

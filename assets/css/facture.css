@@ -1,26 +1,36 @@
+/*
+ * facture.css stylesheet file.
+ * Archivo de hoja de estilos facture.css.
+ */
 
+
+/* Styles for body. / Estilos para body. */
 body {
   background: #f8faf9;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
   color: #2c3e2f;
 }
 
+/* Styles for invoice wrapper. / Estilos para invoice wrapper. */
 .invoice-wrapper {
   margin: 0 auto;
 }
 
+/* Styles for table details th. / Estilos para table details th. */
 .table-details th {
   background-color: #f8faf9 !important;
   color: #5a6e5a;
   font-weight: 600;
 }
 
+/* Styles for total amount. / Estilos para total amount. */
 .total-amount {
   background: rgba(46,204,80,.08);
   border: 1.5px dashed rgba(46,204,80,.4);
   color: #1b5e20;
 }
 
+/* Footer area styling / Estilo del área de pie de página */
 .footer-note {
   margin-top: 2rem;
   font-size: 0.85rem;
@@ -28,6 +38,7 @@ body {
   line-height: 1.6;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-print, .btn-pdf, .btn-home {
   border-radius: 40px;
   font-weight: 600;
@@ -35,24 +46,33 @@ body {
   transition: all 0.2s ease;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-print { background-color: #6c757d; }
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-print:hover { background-color: #5a6268; transform: translateY(-2px); }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-pdf { background-color: #dc3545; }
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-pdf:hover { background-color: #c82333; transform: translateY(-2px); }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-home { background-color: #2ecc50; }
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-home:hover { background-color: #27b545; transform: translateY(-2px); }
 
 @media print {
+/* Styles for body. / Estilos para body. */
   body {
     background: #fff;
   }
+/* Styles for no print. / Estilos para no print. */
   .no-print {
     display: none !important;
   }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
   .invoice-card {
-    box-shadow: none !important;
     border: none !important;
+    box-shadow: none !important;
   }
 }

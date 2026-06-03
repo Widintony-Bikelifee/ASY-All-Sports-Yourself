@@ -1,3 +1,7 @@
+/**
+ * reservas.js script file.
+ * Archivo de script reservas.js.
+ */
 "use strict";
 
 
@@ -59,6 +63,10 @@ const modalBtnConfirm= document.getElementById("modal-btn-confirm-cancel");
 
 
 
+/**
+ * Format date.
+ * Formatear date.
+ */
 function formatDate(isoDate) {
   if (!isoDate) return "–";
   const [y, m, d] = isoDate.split("-").map(Number);
@@ -74,12 +82,20 @@ function formatDate(isoDate) {
 }
 
 
+/**
+ * Format time.
+ * Formatear time.
+ */
 function formatTime(t) {
   if (!t) return "–";
   return t.slice(0, 5);
 }
 
 
+/**
+ * Get sport icon.
+ * Obtener sport icon.
+ */
 function getSportIcon(tipo = "") {
   const lower = tipo.toLowerCase();
   for (const [key, icon] of Object.entries(SPORT_ICONS)) {
@@ -89,6 +105,10 @@ function getSportIcon(tipo = "") {
 }
 
 
+/**
+ * Format price.
+ * Formatear price.
+ */
 function formatPrice(precio) {
   if (precio == null || precio === 0) return "Precio no especificado";
   return new Intl.NumberFormat("es-CO", {
@@ -98,6 +118,10 @@ function formatPrice(precio) {
   }).format(precio);
 }
 
+/**
+ * Get relative page path.
+ * Obtener relative page path.
+ */
 function getRelativePagePath(fileName) {
   const isUserPage = window.location.pathname.includes('/pages/user/');
   return `${isUserPage ? '../' : './'}${fileName}`;
@@ -106,6 +130,10 @@ function getRelativePagePath(fileName) {
 
 
 
+/**
+ * CheckAuth.
+ * Realiza.
+ */
 async function checkAuth() {
   const { data } = await supabaseClient.auth.getSession();
   const session  = data?.session;
@@ -119,7 +147,7 @@ async function checkAuth() {
   const userId = session.user.id;
   const { data: usuario } = await supabaseClient
     .from("usuarios")
-    .select("nombre, apellido")
+    .select("nombre, apellido, correo_electronico")
     .eq("id", userId)
     .single();
 
@@ -127,15 +155,17 @@ async function checkAuth() {
     const nameEl   = document.getElementById("user-name");
     const avatarEl = document.getElementById("user-avatar");
     const sidebarName = document.getElementById("sidebar-user-name");
+    const sidebarEmail = document.getElementById("sidebar-user-email");
     const sidebarAvatar = document.getElementById("sidebar-avatar-img");
-    const fullName = `${usuario.nombre} ${usuario.apellido}`;
-
+    const fullName = `${usuario.nombre || ""} ${usuario.apellido || ""}`.trim() || "Usuario";
+    const email = usuario.correo_electronico || session.user.email || "";
     const avatarUrl = session.user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
 
     if (nameEl)   nameEl.textContent   = fullName;
-    if (avatarEl) avatarEl.textContent = usuario.nombre.charAt(0).toUpperCase();
+    if (avatarEl) avatarEl.textContent = (usuario.nombre || "U").charAt(0).toUpperCase();
 
     if (sidebarName) sidebarName.textContent = fullName;
+    if (sidebarEmail) sidebarEmail.textContent = email;
     if (sidebarAvatar) {
       sidebarAvatar.src = avatarUrl;
       sidebarAvatar.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`; };
@@ -148,11 +178,19 @@ async function checkAuth() {
 
 
 
+/**
+ * ClearSkeletons.
+ * Realiza.
+ */
 function clearSkeletons() {
   document.querySelectorAll(".reserva-skeleton").forEach(el => el.remove());
 }
 
 
+/**
+ * BuildCard.
+ * Realiza.
+ */
 function buildCard(r) {
   const esc    = r.escenarios ?? {};
   const status = r.estado ?? "pendiente";
@@ -232,6 +270,10 @@ function buildCard(r) {
 }
 
 
+/**
+ * BuildEmptyState.
+ * Realiza.
+ */
 function buildEmptyState(isFiltered) {
   const div = document.createElement("div");
   div.className = "reservas-empty";
@@ -252,6 +294,10 @@ function buildEmptyState(isFiltered) {
 
 
 
+/**
+ * Get filters.
+ * Obtener filters.
+ */
 function getFilters() {
   return {
     status: filterSts.value,
@@ -261,6 +307,10 @@ function getFilters() {
 }
 
 
+/**
+ * ApplyFilters.
+ * Realiza.
+ */
 function applyFilters() {
   const { status, from, to } = getFilters();
 
@@ -275,6 +325,10 @@ function applyFilters() {
 
 
 
+/**
+ * Render stats.
+ * Renderizar stats.
+ */
 function renderStats() {
   const total      = _allReservas.length;
   const pendiente  = _allReservas.filter(r => r.estado === "pendiente").length;
@@ -290,6 +344,10 @@ function renderStats() {
 
 
 
+/**
+ * Render.
+ * Renderizar.
+ */
 function render() {
   clearSkeletons();
   grid.innerHTML = "";
@@ -320,6 +378,10 @@ function render() {
 
 
 
+/**
+ * Open cancel modal.
+ * Abrir cancel modal.
+ */
 function openCancelModal({ id, venue, date, inicio, fin }) {
   _pendingCancelId = id;
 
@@ -333,6 +395,10 @@ function openCancelModal({ id, venue, date, inicio, fin }) {
 }
 
 
+/**
+ * Close modal.
+ * Cerrar modal.
+ */
 function closeModal() {
   modal.classList.remove("open");
   document.body.style.overflow = "";
@@ -340,6 +406,10 @@ function closeModal() {
 }
 
 
+/**
+ * ConfirmCancel.
+ * Realiza.
+ */
 async function confirmCancel() {
   if (!_pendingCancelId) return;
 
@@ -370,6 +440,10 @@ async function confirmCancel() {
 
 
 
+/**
+ * AttachListeners.
+ * Realiza.
+ */
 function attachListeners() {
   
   filterSts?.addEventListener("change", render);
@@ -393,6 +467,10 @@ function attachListeners() {
   });
 
   
+  /**
+   * Initialize page scripting once DOM content is ready.
+   * Inicializa el script de la página cuando el contenido DOM está listo.
+   */
   document.addEventListener("keydown", e => {
     if (e.key === "Escape" && modal?.classList.contains("open")) closeModal();
   });
@@ -400,6 +478,10 @@ function attachListeners() {
 
 
 
+/**
+ * Init.
+ * Realiza.
+ */
 async function init() {
   
   if (!document.getElementById("reservas-grid")) {
@@ -435,4 +517,8 @@ async function init() {
 }
 
 
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 document.addEventListener("DOMContentLoaded", init);

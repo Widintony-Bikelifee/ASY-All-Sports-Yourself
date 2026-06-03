@@ -1,4 +1,9 @@
 
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 document.addEventListener('DOMContentLoaded', function () {
 
   
@@ -24,6 +29,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const previewEarningSpan    = document.getElementById('preview-earning');
 
   
+  /**
+   * Update commission preview.
+   * Actualizar commission preview.
+   */
   function updateCommissionPreview() {
     const price      = parseFloat(priceInput.value) || 0;
     const commission = price * COMMISSION_RATE;
@@ -76,6 +85,10 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   
+  /**
+   * Handle file upload.
+   * Manejar file upload.
+   */
   async function handleFileUpload(file) {
     const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!validTypes.includes(file.type)) {
@@ -120,6 +133,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   
+  /**
+   * ClearImagePreview.
+   * Realiza.
+   */
   function clearImagePreview() {
     previewWrapper.classList.add('d-none');
     previewImg.src       = '';
@@ -134,6 +151,10 @@ document.addEventListener('DOMContentLoaded', function () {
   removeBtn.addEventListener('click', clearImagePreview);
 
   
+  /**
+   * Show toast.
+   * Mostrar toast.
+   */
   function showToast(message, type = 'success') {
     const alertDiv   = document.getElementById('success-alert');
     const messageSpan = document.getElementById('success-message');
@@ -159,6 +180,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 5000);
   }
 
+  /**
+   * Validate times.
+   * Validar times.
+   */
   function validateTimes(openTime, closeTime) {
     const [oh, om] = openTime.split(':').map(Number);
     const [ch, cm] = closeTime.split(':').map(Number);
@@ -169,6 +194,10 @@ document.addEventListener('DOMContentLoaded', function () {
     return true;
   }
 
+  /**
+   * Get selected features.
+   * Obtener selected features.
+   */
   function getSelectedFeatures() {
     const ids = ['feature-lights','feature-parking','feature-locker','feature-wifi','feature-snack','feature-equipment'];
     return ids

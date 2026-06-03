@@ -14,11 +14,15 @@
 
 <body>
 
+<!-- Page content starts here / Contenido principal de la página comienza aquí -->
 
+
+<!-- Login page container / Contenedor de la página de inicio de sesión -->
 <div class="container-fluid min-vh-100 p-0">
   <div class="row g-0 min-vh-100">
 
     
+    <!-- Left promotional panel, visible on medium+ screens / Panel promocional izquierdo, visible en pantallas medianas o mayores -->
     <aside class="col-md-6 d-none d-md-flex position-relative overflow-hidden bg-dark">
       <div class="auth__left-bg"></div>
       <div class="auth__spotlight"></div>
@@ -42,6 +46,7 @@
     </aside>
 
     
+    <!-- Main login form panel / Panel principal del formulario de inicio de sesión -->
     <main class="col-12 col-md-6 d-flex align-items-center justify-content-center bg-light py-5 px-4">
       <div class="w-100" style="max-width: 420px;">
 
@@ -58,6 +63,7 @@
         <h1 class="fw-bold mb-2" style="font-size: 1.8rem;">Bienvenido de Vuelta</h1>
         <p class="text-secondary mb-4">Ingresa tus credenciales para acceder a tu cuenta.</p>
 
+        <!-- Login form starts here / El formulario de login comienza aquí -->
         <form novalidate>
           
           <div class="mb-3">
@@ -121,6 +127,7 @@
             <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
           </button>
         </form>
+        <!-- End of login form / Fin del formulario de inicio de sesión -->
 
         
         <div class="d-flex align-items-center gap-3 my-4">
@@ -157,6 +164,7 @@
 </div>
 
 
+<!-- Toast notification container for user messages / Contenedor de las notificaciones toast para mensajes al usuario -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
   <div class="toast align-items-center border-0" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex">
@@ -170,13 +178,19 @@
 </div>
 
 
+<!-- External libraries and page scripts / Librerías externas y scripts de la página -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Page scripts / Scripts de la página -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<!-- Page scripts / Scripts de la página -->
 <script src="../assets/js/services/supabaseClient.js"></script>
+<!-- Page scripts / Scripts de la página -->
 <script src="../assets/js/services/authService.js"></script>
 
+<!-- Page scripts / Scripts de la página -->
 <script src="../assets/js/app.js"></script>
+<!-- Page scripts / Scripts de la página -->
 <script src="../assets/js/login.js"></script>
 </body>
 </html>

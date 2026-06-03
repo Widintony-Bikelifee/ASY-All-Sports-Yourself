@@ -1,17 +1,25 @@
+/*
+ * navbar.css stylesheet file.
+ * Archivo de hoja de estilos navbar.css.
+ */
 
 
 
+
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__logo-icon img {
   width: 55px;
   height: 55px;
   object-fit: contain;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar {
   color: var(--text-primary);
 }
 
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__brand-text {
   font-family: var(--font-display);
   font-size: 1rem;
@@ -22,6 +30,7 @@
 }
 
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__link {
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -33,14 +42,17 @@
   padding-bottom: 2px;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__link:hover {
   color: var(--text-primary);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__link.active {
   color: var(--color-green);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__link.active::after {
   content: "";
   position: absolute;
@@ -53,6 +65,7 @@
 }
 
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__btn-login {
   background: transparent;
   border: 1.5px solid currentColor;
@@ -64,12 +77,14 @@
   transition: border-color var(--transition), color var(--transition);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__btn-login:hover {
   border-color: var(--color-green);
   color: var(--color-green);
 }
 
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__btn-register {
   background: var(--color-green);
   color: #000;
@@ -80,12 +95,14 @@
   transition: background var(--transition), transform var(--transition);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar__btn-register:hover {
   background: var(--color-green-dark);
   transform: translateY(-1px);
 }
 
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal-overlay {
   position: fixed;
   inset: 0;
@@ -102,11 +119,13 @@
   padding: 1.5rem;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal-overlay.open {
   opacity: 1;
   visibility: visible;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal {
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.6);
@@ -125,10 +144,12 @@
   text-align: center;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal-overlay.open .navbar-modal {
   transform: scale(1) translateY(0);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__close {
   position: absolute;
   top: 1rem;
@@ -147,12 +168,14 @@
   transition: all var(--transition);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__close:hover {
   background: rgba(0, 0, 0, 0.08);
   color: var(--text-primary);
   transform: rotate(90deg);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__icon-container {
   width: 72px;
   height: 72px;
@@ -168,6 +191,7 @@
   box-shadow: 0 8px 16px rgba(46, 204, 80, 0.08);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__badge {
   background: var(--color-orange);
   color: white;
@@ -181,6 +205,7 @@
   box-shadow: 0 4px 8px rgba(255, 107, 43, 0.2);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__title {
   font-family: var(--font-display);
   font-size: 1.6rem;
@@ -190,6 +215,7 @@
   letter-spacing: 0.5px;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__desc {
   font-size: var(--fs-base);
   color: var(--text-secondary);
@@ -198,6 +224,7 @@
   font-weight: 500;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__btn {
   background: var(--color-green);
   color: #000;
@@ -214,12 +241,14 @@
   width: 100%;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__btn:hover {
   background: var(--color-green-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-green);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__actions-wrap {
   display: flex;
   gap: 0.85rem;
@@ -227,12 +256,14 @@
   margin-top: 0.5rem;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__btn--secondary {
   background: transparent;
   border: 1.5px solid var(--border-dark2, rgba(0, 0, 0, 0.15));
   color: var(--text-secondary);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__btn--secondary:hover {
   background: rgba(0, 0, 0, 0.04);
   color: var(--text-primary);
@@ -240,20 +271,26 @@
   box-shadow: none;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__btn--danger {
   background: #e53e3e;
   color: #fff;
   border: none;
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__btn--danger:hover {
   background: #c53030;
   box-shadow: 0 6px 20px rgba(229, 62, 62, 0.35);
   transform: translateY(-2px);
 }
 
+/* Navigation bar layout and responsive styling / Diseño de la barra de navegación y estilo responsivo */
 .navbar-modal__btn--danger:disabled {
+  background: #e53e3e;
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
+  box-shadow: none;
 }
+
+/* Navigation

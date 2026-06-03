@@ -1,6 +1,9 @@
+/*
+ * register_court_admin.css stylesheet file.
+ * Archivo de hoja de estilos register_court_admin.css.
+ */
 
-
-
+/* Styles for . / Estilos para . */
 :root {
   --asy-green:       #2ecc50;
   --asy-green-dark:  #1b5e20;
@@ -17,6 +20,7 @@
 }
 
 
+/* Styles for body. / Estilos para body. */
 body {
   background: linear-gradient(145deg, var(--asy-bg) 0%, #e6ebe7 100%);
   font-family: var(--font-main);
@@ -25,6 +29,7 @@ body {
 }
 
 
+/* Styles for col md 4.bg success. / Estilos para col md 4.bg success. */
 .col-md-4.bg-success,
 .col-lg-3.bg-success {
   background: linear-gradient(160deg, var(--asy-green-dark) 0%, var(--asy-green) 100%) !important;
@@ -33,6 +38,7 @@ body {
   overflow: hidden;
 }
 
+/* Styles for col md 4.bg success. / Estilos para col md 4.bg success. */
 .col-md-4.bg-success::before {
   content: '';
   position: absolute;
@@ -44,6 +50,7 @@ body {
   border-radius: 50%;
 }
 
+/* Styles for col md 4.bg success. / Estilos para col md 4.bg success. */
 .col-md-4.bg-success::after {
   content: '';
   position: absolute;
@@ -56,12 +63,14 @@ body {
 }
 
 
+/* Styles for col md 4 .bi check circle fill. / Estilos para col md 4 .bi check circle fill. */
 .col-md-4 .bi-check-circle-fill {
   color: rgba(255, 255, 255, 0.85);
   font-size: 1rem;
 }
 
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .card.shadow-sm {
   border: none !important;
   border-radius: var(--asy-radius) !important;
@@ -70,6 +79,7 @@ body {
 }
 
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .card-body h1,
 .card-body h2,
 .card-body h3 {
@@ -78,6 +88,7 @@ body {
 }
 
 
+/* Styles for form label. / Estilos para form label. */
 .form-label {
   font-weight: 600;
   color: var(--asy-text);
@@ -86,6 +97,7 @@ body {
 }
 
 
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
 .form-control,
 .form-select {
   border-radius: var(--asy-radius-sm);
@@ -96,6 +108,7 @@ body {
   background-color: #fafcfa;
 }
 
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
 .form-control:focus,
 .form-select:focus {
   border-color: var(--asy-green);
@@ -104,6 +117,7 @@ body {
   outline: none;
 }
 
+/* Input icon wrapper styling / Estilo del contenedor de iconos de entrada */
 .input-group-text {
   border-radius: var(--asy-radius-sm) 0 0 var(--asy-radius-sm);
   background-color: rgba(46, 204, 80, 0.08);
@@ -112,17 +126,20 @@ body {
   font-weight: 600;
 }
 
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
 .input-group .form-control:last-child {
   border-radius: 0 var(--asy-radius-sm) var(--asy-radius-sm) 0;
 }
 
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .card.bg-light {
   background-color: #f0f7f2 !important;
   border: 1px solid var(--asy-border) !important;
   border-radius: var(--asy-radius-sm) !important;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .card.bg-light .alert-warning {
   background-color: #fff8e1;
   border: none;
@@ -130,6 +147,7 @@ body {
   color: #7a5a00;
 }
 
+/* Styles for preview price. / Estilos para preview price. */
 #preview-price,
 #preview-commission,
 #preview-earning {
@@ -137,11 +155,13 @@ body {
   font-size: 0.92rem;
 }
 
+/* Styles for preview earning. / Estilos para preview earning. */
 #preview-earning {
   color: var(--asy-green-dark);
 }
 
 
+/* Styles for drop zone. / Estilos para drop zone. */
 #drop-zone {
   border: 2px dashed rgba(46, 204, 80, 0.4) !important;
   border-radius: var(--asy-radius-sm) !important;
@@ -150,17 +170,20 @@ body {
   transition: all 0.2s ease;
 }
 
+/* Styles for drop zone. / Estilos para drop zone. */
 #drop-zone:hover,
 #drop-zone.drag-over {
   border-color: var(--asy-green) !important;
   background: rgba(46, 204, 80, 0.04) !important;
 }
 
+/* Styles for drop zone .bi image. / Estilos para drop zone .bi image. */
 #drop-zone .bi-image {
   color: var(--asy-green);
 }
 
 
+/* Styles for nav pills .nav link. / Estilos para nav pills .nav link. */
 .nav-pills .nav-link {
   border-radius: 50px;
   color: var(--asy-muted);
@@ -170,6 +193,7 @@ body {
   transition: all 0.2s;
 }
 
+/* Styles for nav pills .nav link.active. / Estilos para nav pills .nav link.active. */
 .nav-pills .nav-link.active {
   background-color: var(--asy-green);
   color: #fff;
@@ -177,33 +201,39 @@ body {
 }
 
 
+/* Styles for progress bar. / Estilos para progress bar. */
 .progress-bar {
   background: linear-gradient(90deg, var(--asy-green), var(--asy-green-dark));
 }
 
 
+/* Styles for form check input. / Estilos para form check input. */
 .form-check-input:checked {
   background-color: var(--asy-green);
   border-color: var(--asy-green);
 }
 
+/* Styles for form check input. / Estilos para form check input. */
 .form-check-input:focus {
   box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.2);
   border-color: var(--asy-green);
 }
 
+/* Styles for form check label. / Estilos para form check label. */
 .form-check-label {
   font-size: 0.88rem;
   color: var(--asy-text);
 }
 
 
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
 textarea.form-control {
   resize: vertical;
   min-height: 80px;
 }
 
 
+/* Styles for success alert. / Estilos para success alert. */
 #success-alert {
   border-radius: var(--asy-radius-sm);
   border: none;
@@ -212,6 +242,7 @@ textarea.form-control {
 }
 
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 #submit-btn,
 button[type="submit"] {
   background: linear-gradient(135deg, var(--asy-green) 0%, var(--asy-green-mid) 100%);
@@ -225,6 +256,7 @@ button[type="submit"] {
   transition: all 0.25s ease;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 #submit-btn:hover,
 button[type="submit"]:hover {
   background: linear-gradient(135deg, var(--asy-green-mid) 0%, var(--asy-green-dark) 100%);
@@ -232,12 +264,14 @@ button[type="submit"]:hover {
   box-shadow: 0 12px 24px rgba(46, 204, 80, 0.3);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 #submit-btn:disabled {
   opacity: 0.65;
   transform: none;
   cursor: not-allowed;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-secondary {
   border-radius: 50px;
   font-weight: 600;
@@ -246,6 +280,7 @@ button[type="submit"]:hover {
   transition: all 0.2s;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-secondary:hover {
   background-color: #f0f4f0;
   border-color: #aabcaa;
@@ -253,36 +288,44 @@ button[type="submit"]:hover {
 }
 
 
+/* Styles for modal header.bg success. / Estilos para modal header.bg success. */
 .modal-header.bg-success {
   background: linear-gradient(135deg, var(--asy-green-dark), var(--asy-green)) !important;
 }
 
+/* Styles for modal content. / Estilos para modal content. */
 .modal-content {
   border-radius: var(--asy-radius) !important;
   border: none;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
 }
 
+/* Styles for modal body h6. / Estilos para modal body h6. */
 .modal-body h6 {
   color: var(--asy-green-dark);
   font-weight: 700;
 }
 
 
+/* Styles for a[data bs target="#termsModal"]. / Estilos para a[data bs target="#termsModal"]. */
 a[data-bs-target="#termsModal"] {
   color: var(--asy-green-mid);
   text-decoration: underline;
   font-weight: 600;
 }
 
+/* Styles for a[data bs target="#termsModal"]. / Estilos para a[data bs target="#termsModal"]. */
 a[data-bs-target="#termsModal"]:hover {
   color: var(--asy-green-dark);
 }
 
 
 @keyframes fadeSlideIn {
+/* Styles for from. / Estilos para from. */
   from { opacity: 0; transform: translateY(-10px); }
+/* Styles for to. / Estilos para to. */
   to   { opacity: 1; transform: translateY(0); }
+/* Styles for #preview img. / Estilos para #preview img. */
 }
 
 
@@ -293,10 +336,9 @@ a[data-bs-target="#termsModal"]:hover {
 
 
 @media (max-width: 768px) {
+/* Styles for col md 4.bg success. / Estilos para col md 4.bg success. */
   .col-md-4.bg-success {
     border-radius: 0;
   }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
   .card.shadow-sm {
-    border-radius: 1rem !important;
-  }
-}

@@ -1,6 +1,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+/**
+ * Toggle password.
+ * Alternar password.
+ */
+
 function togglePassword(inputId, eyeEl) {
   
   const input = document.getElementById(inputId);
@@ -31,14 +45,29 @@ function togglePassword(inputId, eyeEl) {
 
 
 
+/**
+ * IsValidEmail.
+ * Realiza.
+ */
+
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 }
 
 
+/**
+ * IsValidPassword.
+ * Realiza.
+ */
+
 function isValidPassword(pass) {
   return pass.length >= 8;
 }
+
+/**
+ * Get invalid feedback.
+ * Obtener invalid feedback.
+ */
 
 function getInvalidFeedback(input) {
   const wrap = input.closest('.form__input-wrap') || input.parentElement;
@@ -53,6 +82,11 @@ function getInvalidFeedback(input) {
   return feedback;
 }
 
+/**
+ * Set field error.
+ * Establecer field error.
+ */
+
 function setFieldError(fieldId, message) {
   const input = document.getElementById(fieldId);
   if (!input) return;
@@ -66,6 +100,11 @@ function setFieldError(fieldId, message) {
     feedback.classList.add('d-block');
   }
 }
+
+/**
+ * Set field ok.
+ * Establecer field ok.
+ */
 
 function setFieldOk(fieldId) {
   const input = document.getElementById(fieldId);
@@ -83,8 +122,18 @@ function setFieldOk(fieldId) {
 }
 
 
+/**
+ * Register module with page helpers and application logic.
+ * Registrar module with page helpers and application logic.
+ */
+
 const Register = (() => {
 
+  
+  /**
+   * Get form data.
+   * Obtener form data.
+   */
   
   function getFormData() {
     return {
@@ -100,6 +149,11 @@ const Register = (() => {
     };
   }
 
+  
+  /**
+   * Validate field.
+   * Validar field.
+   */
   
   function validateField(fieldId) {
     const data = getFormData();
@@ -143,6 +197,11 @@ const Register = (() => {
     }
   }
 
+  
+  /**
+   * Validate.
+   * Validar.
+   */
   
   function validate() {
     const data = getFormData();
@@ -214,6 +273,11 @@ const Register = (() => {
   }
 
   
+  /**
+   * Handle submit.
+   * Manejar submit.
+   */
+  
   async function handleSubmit() {
     
     if (!validate()) return;
@@ -273,6 +337,11 @@ const Register = (() => {
   }
 
   
+  /**
+   * Init.
+   * Realiza.
+   */
+  
   function init() {
     
     ['reg-cedula', 'reg-name', 'reg-lastname', 'reg-email', 'reg-password', 'reg-password2']
@@ -315,6 +384,11 @@ const Register = (() => {
   return { init, handleSubmit };
 })();
 
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('reg-cedula')) Register.init();

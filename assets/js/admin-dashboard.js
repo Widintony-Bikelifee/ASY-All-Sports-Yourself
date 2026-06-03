@@ -67,12 +67,10 @@ const AdminDashboard = (() => {
         const fullName = fullNameFromDb || metadata.nombre || metadata.name || emailName(authUser.email) || 'Administrador';
         const email = profile?.correo_electronico || authUser.email || 'sin@correo.com';
         
-        const avatarUrl = metadata.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
-        
-        _populateSidebar(fullName, email, avatarUrl);
+        _populateSidebar(fullName, email);
       } catch (profileErr) {
         console.error("Error al cargar el perfil de usuario:", profileErr);
-        _populateSidebar("Administrador", session.user.email, null);
+        _populateSidebar("Administrador", session.user.email);
       }
 
       
@@ -94,16 +92,13 @@ const AdminDashboard = (() => {
    * Realiza.
    */
   
-  function _populateSidebar(fullName, email, avatarUrl) {
+  function _populateSidebar(fullName, email) {
     const nameEl = document.getElementById("sidebar-user-name");
     const emailEl = document.getElementById("sidebar-user-email");
     const avatarImg = document.getElementById("sidebar-avatar-img");
     if (nameEl) nameEl.textContent = fullName;
     if (emailEl) emailEl.textContent = email;
-    if (avatarImg) {
-      avatarImg.src = avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
-      avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`; };
-    }
+    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
   }
 
   
@@ -140,30 +135,23 @@ const AdminDashboard = (() => {
           const precioStr = c.precio ? Number(c.precio).toLocaleString("es-CO") : "0";
           const imgUrl = c.imagen_url || "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=400&auto=format&fit=crop";
           return `
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="dashboard-venue-card h-100 flex-column align-items-stretch" style="gap:0; padding:0; overflow:hidden;">
-              <div style="height:160px; width:100%; position:relative;">
-                <img src="${imgUrl}" alt="${c.nombre}" style="width:100%; height:100%; object-fit:cover;" />
-                ${c.tipo ? `<span class="badge bg-dark position-absolute top-0 end-0 m-2 bg-opacity-75">${c.tipo}</span>` : ""}
+          <div class="col-12">
+            <article class="dashboard-venue-card h-100">
+              <div class="dashboard-venue-thumb">
+                <img src="${imgUrl}" alt="${c.nombre}" />
+                ${c.tipo ? `<span class="dashboard-venue-badge bg-dark text-white position-absolute top-0 start-0 m-3">${c.tipo}</span>` : ""}
               </div>
-              <div class="p-3 d-flex flex-column flex-grow-1">
-                <div class="dashboard-venue-info mb-3">
-                  <span class="dashboard-venue-title fs-5">${c.nombre}</span>
-                  <span class="dashboard-venue-meta mt-1 d-flex flex-column gap-1">
-                    <span><i class="bi bi-geo-alt me-1 text-muted"></i>${c.ubicacion || "Sin ubicación"}</span>
-                    <span class="text-success fw-bold"><i class="bi bi-cash me-1"></i>$${precioStr}/hr</span>
-                  </span>
+              <div class="dashboard-venue-body">
+                <div class="dashboard-venue-info">
+                  <span class="dashboard-venue-title">${c.nombre}</span>
+                  <span class="dashboard-venue-meta">📍 ${c.ubicacion || "Sin ubicación"} • 💰 $${precioStr}/hr</span>
                 </div>
-                <div class="d-flex gap-2 mt-auto">
-                  <a href="./edit_courts.html?id=${c.id}" class="dashboard-venue-action flex-grow-1 justify-content-center">
-                    <i class="bi bi-pencil me-1"></i>Editar
-                  </a>
-                  <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger flex-grow-1 justify-content-center">
-                    <i class="bi bi-trash me-1"></i>Eliminar
-                  </button>
+                <div class="dashboard-venue-actions">
+                  <button onclick="AdminDashboard.openModal(${c.id})" class="dashboard-venue-action">Editar</button>
+                  <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger">Eliminar</button>
                 </div>
               </div>
-            </div>
+            </article>
           </div>`;
         }).join("");
       }
@@ -584,7 +572,6 @@ const AdminDashboard = (() => {
       const u = r.usuarios ?? {};
       if (!clientMap[uid]) {
         clientMap[uid] = {
-          id: uid,
           nombre: `${u.nombre ?? "–"} ${u.apellido ?? ""}`.trim(),
           correo: u.correo_electronico ?? "–",
           telefono: u.telefono ?? "–",
@@ -620,7 +607,7 @@ const AdminDashboard = (() => {
     if (!tbody) return;
 
     if (list.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem;">Sin clientes registrados aún.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:3rem;">Sin clientes registrados aún.</td></tr>`;
       return;
     }
 
@@ -649,9 +636,6 @@ const AdminDashboard = (() => {
           <td>
             <span style="background:rgba(46,204,80,.1);color:#065f46;padding:.2rem .6rem;
                          border-radius:99px;font-size:.75rem;font-weight:700;">${c.favorita}</span>
-          </td>
-          <td class="text-end pe-4">
-            <a href="./look_client.html?clientId=${c.id}" class="btn btn-sm btn-outline-primary">Ver</a>
           </td>
         </tr>`;
     }).join("");
@@ -695,24 +679,17 @@ const AdminDashboard = (() => {
     const kpiEl = document.getElementById("reportes-kpis");
     if (kpiEl) {
       const kpis = [
-        { label: "Total Reservas", value: total,                    color: "#6366f1", icon: "bi-calendar3",      bg: "rgba(99,102,241,.1)"  },
-        { label: "Completadas",    value: completadas,               color: "#10b981", icon: "bi-check-circle",   bg: "rgba(16,185,129,.1)"  },
-        { label: "Pendientes",     value: pendientes,                color: "#f59e0b", icon: "bi-hourglass-split",bg: "rgba(245,158,11,.1)"  },
-        { label: "Canceladas",     value: canceladas,                color: "#ef4444", icon: "bi-x-circle",       bg: "rgba(239,68,68,.1)"   },
-        { label: "Ingresos Est.",  value: _formatCOP(ingresos),      color: "#2ecc50", icon: "bi-cash-coin",      bg: "rgba(46,204,80,.1)"   },
+        { label: "Total Reservas",   value: total,      color: "#6366f1", icon: "📅" },
+        { label: "Completadas",      value: completadas, color: "#10b981", icon: "✅" },
+        { label: "Pendientes",       value: pendientes,  color: "#f59e0b", icon: "⏳" },
+        { label: "Canceladas",       value: canceladas,  color: "#ef4444", icon: "❌" },
+        { label: "Ingresos Est.",    value: _formatCOP(ingresos), color: "#2ecc50", icon: "💰" },
       ];
-      
       kpiEl.innerHTML = kpis.map(k => `
-        <div class="col-6 col-md-4 col-xl">
-          <div class="card border-0 shadow-sm h-100">
-            <div class="card-body text-center py-4 kpi-card">
-              <div class="kpi-icon mx-auto mb-3" style="background:${k.bg};">
-                <i class="bi ${k.icon} fs-4" style="color:${k.color};"></i>
-              </div>
-              <div class="kpi-value" style="color:${k.color};">${k.value}</div>
-              <div class="kpi-label mt-1">${k.label}</div>
-            </div>
-          </div>
+        <div class="prf-card" style="text-align:center; margin-bottom: 0;">
+          <div style="font-size:2rem;margin-bottom:.5rem;">${k.icon}</div>
+          <div style="font-size:1.5rem;font-weight:800;color:${k.color};font-family:var(--font-display);">${k.value}</div>
+          <div style="font-size:.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${k.label}</div>
         </div>`).join("");
     }
 
@@ -728,27 +705,20 @@ const AdminDashboard = (() => {
       const maxVal  = entries[0]?.[1] ?? 1;
 
       if (entries.length === 0) {
-        byCanchaEl.innerHTML = `
-          <div class="text-center py-5 text-muted">
-            <i class="bi bi-bar-chart fs-1 d-block mb-2 opacity-25"></i>
-            <p class="mb-0">Sin datos de reservas aún.</p>
-          </div>`;
+        byCanchaEl.innerHTML = `<p style="color:var(--text-muted);font-size:.9rem;">Sin datos.</p>`;
       } else {
         byCanchaEl.innerHTML = entries.map(([name, count]) => {
           const pct = Math.round((count / maxVal) * 100);
           return `
-            <div class="mb-3">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <span class="fw-semibold" style="font-size:.88rem;">${name}</span>
-                <span class="text-muted" style="font-size:.82rem;">${count} reserva${count!==1?"s":""}</span>
+            <div style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+                <span style="font-size:.88rem;font-weight:600;color:var(--text-dark);">${name}</span>
+                <span style="font-size:.85rem;color:var(--text-muted);">${count} reserva${count!==1?"s":""}</span>
               </div>
-              <div class="progress" style="height:10px;border-radius:99px;">
-                <div class="progress-bar" role="progressbar"
-                     style="width:${pct}%;border-radius:99px;
-                            background:linear-gradient(90deg,var(--primary-green,#2ecc50),var(--primary-green-dark,#27b545));
-                            transition:width .5s ease;"
-                     aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
-                </div>
+              <div style="background:rgba(0,0,0,.06);border-radius:99px;height:10px;overflow:hidden;">
+                <div style="width:${pct}%;height:100%;border-radius:99px;
+                            background:linear-gradient(90deg,var(--color-green),var(--color-green-dark));
+                            transition:width .5s ease;"></div>
               </div>
             </div>`;
         }).join("");
@@ -772,27 +742,23 @@ const AdminDashboard = (() => {
       const maxIng  = Math.max(...entries.map(e => e[1]), 1);
 
       if (entries.length === 0) {
-        ingMesEl.innerHTML = `
-          <div class="text-center py-5 text-muted">
-            <i class="bi bi-cash-stack fs-1 d-block mb-2 opacity-25"></i>
-            <p class="mb-0">Sin ingresos registrados aún.</p>
-          </div>`;
+        ingMesEl.innerHTML = `<p style="color:var(--text-muted);font-size:.9rem;">Sin ingresos registrados aún.</p>`;
       } else {
         const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
         ingMesEl.innerHTML = `
-          <div class="d-flex align-items-flex-end gap-2 overflow-x-auto pb-2" style="height:160px;align-items:flex-end;">
+          <div style="display:flex;align-items:flex-end;gap:.6rem;height:140px;padding-bottom:.5rem;overflow-x:auto;">
             ${entries.map(([key, val]) => {
               const [y, m] = key.split("-");
               const label = `${MESES[parseInt(m)-1]} ${y}`;
               const pct   = Math.round((val / maxIng) * 100);
-              const barH  = Math.max(pct * 1.3, 8);
+              const barH  = Math.max(pct * 1.2, 8);
               return `
-                <div class="d-flex flex-column align-items-center gap-1 flex-shrink-0" style="min-width:56px;flex:1;height:100%;justify-content:flex-end;">
-                  <span class="text-muted fw-semibold" style="font-size:.6rem;">${_formatCOP(val).replace("COP","").trim()}</span>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:.4rem;min-width:52px;flex:1;">
+                  <span style="font-size:.62rem;color:var(--text-muted);font-weight:600;">${_formatCOP(val).replace("COP","").trim()}</span>
                   <div style="width:100%;height:${barH}px;border-radius:6px 6px 0 0;
-                              background:linear-gradient(180deg,var(--primary-green,#2ecc50),var(--primary-green-dark,#27b545));
+                              background:linear-gradient(180deg,var(--color-green),var(--color-green-dark));
                               transition:height .4s ease;"></div>
-                  <span class="text-muted" style="font-size:.62rem;text-align:center;white-space:nowrap;">${label}</span>
+                  <span style="font-size:.65rem;color:var(--text-muted);text-align:center;white-space:nowrap;">${label}</span>
                 </div>`;
             }).join("")}
           </div>`;

@@ -1,4 +1,12 @@
 
+
+
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
   const tempReservationStr = sessionStorage.getItem('tempReservation');
   
@@ -147,6 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  /**
+   * Format cop.
+   * Formatear cop.
+   */
+  
   function _formatCOP(value) {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
   }

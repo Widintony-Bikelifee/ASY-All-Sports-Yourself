@@ -1,16 +1,21 @@
+/*
+ * login.css stylesheet file.
+ * Archivo de hoja de estilos login.css.
+ */
 
-
-
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
 .auth__logo h2,
 h1.fw-bold {
   font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
 }
 
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
 .auth__logo p {
   font-family: var(--font-base, system-ui, -apple-system, 'Segoe UI', sans-serif);
 }
 
 
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
 .auth__left-bg,
 .auth__players,
 .auth__spotlight,
@@ -18,16 +23,19 @@ h1.fw-bold {
   position: absolute;
 }
 
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
 .auth__left-bg,
 .auth__players {
   inset: 0;
 }
 
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
 .auth__left-bg {
   background: var(--bg-dark, #0a1a0a);
   z-index: 0;
 }
 
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
 .auth__players {
   background-image: linear-gradient(
       rgba(0, 0, 0, 0.5),
@@ -41,6 +49,7 @@ h1.fw-bold {
 }
 
 
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
 .auth__spotlight {
   top: -10%;
   left: 40%;
@@ -52,6 +61,7 @@ h1.fw-bold {
 }
 
 
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
 .auth__spotlight-2 {
   bottom: 0;
   right: 0;
@@ -63,65 +73,77 @@ h1.fw-bold {
 }
 
 
+/* Input icon wrapper styling / Estilo del contenedor de iconos de entrada */
 .input-group-text {
   border: 1px solid var(--border-light, #dee2e6);
   border-right: none;
   transition: border-color 0.2s ease;
 }
 
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
 .form-control {
   border: 1px solid var(--border-light, #dee2e6);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
 .form-control:focus {
   border-color: var(--color-green, #2ecc50);
   box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.12);
 }
 
 
+/* Styles for input group. / Estilos para input group. */
 .input-group:focus-within .input-group-text {
   border-color: var(--color-green, #2ecc50);
 }
 
 
+/* Styles for form check input. / Estilos para form check input. */
 .form-check-input:checked {
   background-color: var(--color-green, #2ecc50);
   border-color: var(--color-green, #2ecc50);
 }
 
+/* Styles for form check input. / Estilos para form check input. */
 .form-check-input:focus {
   border-color: var(--color-green, #2ecc50);
   box-shadow: 0 0 0 0.2rem rgba(46, 204, 80, 0.15);
 }
 
 
+/* Styles for a. / Estilos para a. */
 a:not(.btn):not(.nav-link) {
   color: var(--color-green-dark, #22993f);
   transition: color var(--transition, 0.2s ease);
 }
 
+/* Styles for a. / Estilos para a. */
 a:not(.btn):not(.nav-link):hover {
   color: var(--color-green, #2ecc50);
   text-decoration: underline !important;
 }
 
 
+/* Styles for nav pills .nav link.active. / Estilos para nav pills .nav link.active. */
 .nav-pills .nav-link.active {
   background-color: var(--color-green, #2ecc50);
   color: white;
 }
 
+/* Styles for nav pills .nav link. / Estilos para nav pills .nav link. */
 .nav-pills .nav-link:not(.active) {
   color: var(--text-muted, #6c757d);
 }
 
+/* Styles for nav pills .nav link. / Estilos para nav pills .nav link. */
 .nav-pills .nav-link:not(.active):hover {
   background-color: var(--color-green-dim, rgba(46, 204, 80, 0.1));
   color: var(--color-green-dark, #22993f);
 }
 
 
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
 .toast {
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
@@ -130,28 +152,33 @@ a:not(.btn):not(.nav-link):hover {
 }
 
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-success {
   background: linear-gradient(135deg, var(--color-green, #2ecc50) 0%, var(--color-green-dark, #22993f) 100%);
   border: none;
   transition: all var(--transition, 0.2s ease);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-success:hover {
   transform: translateY(-1px);
   box-shadow: 0 8px 20px rgba(46, 204, 80, 0.25);
   background: linear-gradient(135deg, var(--color-green-dark, #22993f) 0%, var(--color-green, #2ecc50) 100%);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-success:active {
   transform: translateY(0);
 }
 
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-secondary {
   transition: all var(--transition, 0.2s ease);
   border-width: 1.5px;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-outline-secondary:hover {
   transform: translateY(-1px);
   border-color: var(--color-green, #2ecc50);
@@ -160,10 +187,12 @@ a:not(.btn):not(.nav-link):hover {
 
 
 @media (max-width: 768px) {
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
   .auth__spotlight,
   .auth__spotlight-2 {
     opacity: 0.7;
   }
+/* Styles for 576px). / Estilos para 576px). */
 }
 
 @media (max-width: 576px) {
@@ -175,6 +204,7 @@ a:not(.btn):not(.nav-link):hover {
 
 
 
+/* Styles for html. / Estilos para html. */
 html, body {
   height: 100%;
   margin: 0;
@@ -182,18 +212,21 @@ html, body {
   overflow: hidden;
 }
 
+/* Styles for container fluid. / Estilos para container fluid. */
 .container-fluid {
   height: 100vh;
   overflow: hidden;
   padding: 0 !important;
 }
 
+/* Styles for row.g 0. / Estilos para row.g 0. */
 .row.g-0 {
   height: 100%;
   margin: 0;
 }
 
 
+/* Styles for col md 6. / Estilos para col md 6. */
 .col-md-6:first-child {
   position: fixed !important;
   left: 0;
@@ -206,6 +239,7 @@ html, body {
 }
 
 
+/* Styles for col md 6. / Estilos para col md 6. */
 .col-md-6:first-child .position-relative {
   overflow: visible !important;
   height: 100%;
@@ -215,6 +249,7 @@ html, body {
 }
 
 
+/* Styles for col md 6. / Estilos para col md 6. */
 .col-md-6:first-child,
 .col-md-6:first-child * {
   overflow: visible !important;
@@ -223,21 +258,25 @@ html, body {
 }
 
 
+/* Styles for col md 6. / Estilos para col md 6. */
 .col-md-6:first-child .d-flex.flex-column.justify-content-between {
   height: 100%;
   overflow: visible;
 }
 
 
+/* Styles for col md 6. / Estilos para col md 6. */
 .col-md-6:first-child .auth__logo {
   flex-shrink: 0;
 }
 
+/* Styles for col md 6. / Estilos para col md 6. */
 .col-md-6:first-child .text-white-50:last-child {
   flex-shrink: 0;
 }
 
 
+/* Styles for main.col md 6. / Estilos para main.col md 6. */
 main.col-md-6 {
   position: relative;
   margin-left: 50%;
@@ -250,46 +289,55 @@ main.col-md-6 {
 }
 
 
+/* Styles for div. / Estilos para div. */
 main.col-md-6 > div {
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
 
+/* Styles for main.col md 6:: webkit scrollbar. / Estilos para main.col md 6:: webkit scrollbar. */
 main.col-md-6::-webkit-scrollbar {
   width: 8px;
 }
 
+/* Styles for main.col md 6:: webkit scrollbar track. / Estilos para main.col md 6:: webkit scrollbar track. */
 main.col-md-6::-webkit-scrollbar-track {
   background: var(--border-light, #e9ecef);
   border-radius: 4px;
 }
 
+/* Styles for main.col md 6:: webkit scrollbar thumb. / Estilos para main.col md 6:: webkit scrollbar thumb. */
 main.col-md-6::-webkit-scrollbar-thumb {
   background: var(--color-green, #2ecc50);
   border-radius: 4px;
 }
 
+/* Styles for main.col md 6:: webkit scrollbar thumb. / Estilos para main.col md 6:: webkit scrollbar thumb. */
 main.col-md-6::-webkit-scrollbar-thumb:hover {
   background: var(--color-green-dark, #22993f);
 }
 
 
 @media (max-width: 767px) {
+/* Styles for html. / Estilos para html. */
   html, body {
     overflow: auto;
   }
   
+/* Styles for container fluid. / Estilos para container fluid. */
   .container-fluid {
     height: auto;
     overflow: visible;
   }
   
+/* Styles for row.g 0. / Estilos para row.g 0. */
   .row.g-0 {
     height: auto;
   }
   
   
+/* Styles for col md 6. / Estilos para col md 6. */
   .col-md-6:first-child {
     position: relative !important;
     width: 100%;
@@ -298,20 +346,18 @@ main.col-md-6::-webkit-scrollbar-thumb:hover {
     overflow: visible !important;
   }
   
+/* Styles for col md 6. / Estilos para col md 6. */
   .col-md-6:first-child,
   .col-md-6:first-child * {
     overflow: visible !important;
   }
   
   
+/* Styles for main.col md 6. / Estilos para main.col md 6. */
   main.col-md-6 {
     margin-left: 0;
     width: 100%;
     height: auto;
     overflow-y: visible !important;
-  }
-  
-  main.col-md-6::-webkit-scrollbar {
-    width: 0;
   }
 }

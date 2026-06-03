@@ -1,5 +1,14 @@
 
+
+/**
+ * UserPayments module.
+ * Realiza module.
+ */
 const UserPayments = (() => {
+  /**
+   * Init.
+   * Realiza.
+   */
   async function init() {
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
@@ -52,6 +61,10 @@ const UserPayments = (() => {
     }
   }
 
+  /**
+   * Load pagos.
+   * Cargar pagos.
+   */
   async function loadPagos() {
     const tbody = document.getElementById('pagos-tbody');
     const emptyState = document.getElementById('payments-empty-state');
@@ -126,6 +139,10 @@ const UserPayments = (() => {
     }
   }
 
+  /**
+   * Format short date.
+   * Formatear short date.
+   */
   function formatShortDate(isoDate) {
     if (!isoDate) return '–';
     const [y, m, d] = isoDate.split('-').map(Number);
@@ -133,6 +150,10 @@ const UserPayments = (() => {
     return date.toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }).replace(/\./g, '');
   }
 
+  /**
+   * _diffHours.
+   * Realiza.
+   */
   function _diffHours(inicio, fin) {
     if (!inicio || !fin) return 0;
     const [h1, m1] = inicio.split(':').map(Number);
@@ -140,10 +161,18 @@ const UserPayments = (() => {
     return Math.max(0, Math.round(((h2 * 60 + m2) - (h1 * 60 + m1)) / 60 * 100) / 100);
   }
 
+  /**
+   * Format cop.
+   * Formatear cop.
+   */
   function _formatCOP(value) {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
   }
 
+  /**
+   * _statusLabel.
+   * Realiza.
+   */
   function _statusLabel(status) {
     return {
       pendiente: 'Pendiente',
@@ -153,6 +182,10 @@ const UserPayments = (() => {
     }[status] ?? status ?? '–';
   }
 
+  /**
+   * _paymentLabel.
+   * Realiza.
+   */
   function _paymentLabel(method) {
     const map = {
       efectivo: '💵 Efectivo',
@@ -167,4 +200,8 @@ const UserPayments = (() => {
 })();
 
 window.UserPayments = UserPayments;
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 window.addEventListener('DOMContentLoaded', () => UserPayments.init());

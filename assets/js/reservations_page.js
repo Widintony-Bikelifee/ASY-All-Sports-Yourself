@@ -1,3 +1,7 @@
+/**
+ * reservations_page.js script file.
+ * Archivo de script reservations_page.js.
+ */
 (async function() {
   const urlParams = new URLSearchParams(window.location.search);
   const venueId = parseInt(urlParams.get('venueId'), 10);
@@ -62,6 +66,11 @@
   const dynamicTotalSpan = document.getElementById('dynamicTotalPrice');
   
   
+  /**
+   * Update total price.
+   * Actualizar total price.
+   */
+  
   function updateTotalPrice() {
     const hours = parseInt(durationSelect.value, 10);
     const total = hours * PRICE_PER_HOUR;
@@ -78,6 +87,11 @@
   durationSelect.addEventListener('change', updateTotalPrice);
   updateTotalPrice();
   
+  
+  /**
+   * Get end time.
+   * Obtener end time.
+   */
   
   function getEndTime(startTime, durationHours) {
     const timeMap = {
@@ -96,10 +110,20 @@
     return `${endHour12.toString().padStart(2, '0')}:00 ${ampm}`;
   }
 
+  /**
+   * Format cop.
+   * Formatear cop.
+   */
+  
   function _formatCOP(value) {
     return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 }).format(value);
   }
 
+  /**
+   * ProceedToPayment.
+   * Realiza.
+   */
+  
   function proceedToPayment(event) {
     if (event) event.preventDefault();
 
@@ -152,6 +176,11 @@
     const endTime = getEndTime(reserveTime, durationHours);
     
     if (endTime) {
+      /**
+       * endHour24 module.
+       * Realiza module.
+       */
+      
       const endHour24 = (() => {
         const timeMapRev = {
           '08:00 AM': 8, '09:00 AM': 9, '10:00 AM': 10, '11:00 AM': 11,

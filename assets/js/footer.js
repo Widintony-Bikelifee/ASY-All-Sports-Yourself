@@ -1,4 +1,12 @@
 
+
+
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
   const newsletterForm = document.getElementById('footer-newsletter');
 

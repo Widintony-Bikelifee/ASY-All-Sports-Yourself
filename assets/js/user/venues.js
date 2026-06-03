@@ -1,3 +1,7 @@
+/**
+ * venues.js script file.
+ * Archivo de script venues.js.
+ */
 "use strict";
 
 
@@ -15,6 +19,10 @@ const SPORT_ICONS = {
   padel: "🏸", beisbol: "⚾", default: "🏟️",
 };
 
+/**
+ * Get sport icon.
+ * Obtener sport icon.
+ */
 function getSportIcon(tipo = "") {
   const lower = tipo.toLowerCase();
   for (const [k, v] of Object.entries(SPORT_ICONS)) {
@@ -24,12 +32,20 @@ function getSportIcon(tipo = "") {
 }
 
 
+/**
+ * Format price.
+ * Formatear price.
+ */
 function formatPrice(price) {
   return new Intl.NumberFormat("es-CO", {
     style: "currency", currency: "COP", minimumFractionDigits: 0,
   }).format(Number(price));
 }
 
+/**
+ * Format date long.
+ * Formatear date long.
+ */
 function formatDateLong(isoDate) {
   const [y, m, d] = isoDate.split("-").map(Number);
   return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("es-CO", {
@@ -39,6 +55,10 @@ function formatDateLong(isoDate) {
 
 const PENDING_VENUE_KEY = "pendingVenue";
 
+/**
+ * Save pending venue.
+ * Guardar pending venue.
+ */
 function savePendingVenue(venue) {
   if (!venue || !venue.id) return;
   sessionStorage.setItem(PENDING_VENUE_KEY, JSON.stringify({
@@ -47,6 +67,10 @@ function savePendingVenue(venue) {
   }));
 }
 
+/**
+ * Get stored pending venue.
+ * Obtener stored pending venue.
+ */
 function getStoredPendingVenue() {
   try {
     return JSON.parse(sessionStorage.getItem(PENDING_VENUE_KEY));
@@ -55,10 +79,18 @@ function getStoredPendingVenue() {
   }
 }
 
+/**
+ * ClearStoredPendingVenue.
+ * Realiza.
+ */
 function clearStoredPendingVenue() {
   sessionStorage.removeItem(PENDING_VENUE_KEY);
 }
 
+/**
+ * HighlightVenueCard.
+ * Realiza.
+ */
 function highlightVenueCard(venueId) {
   if (!venueId) return;
   const card = document.querySelector(`.venue-card[data-id="${venueId}"]`);
@@ -69,6 +101,10 @@ function highlightVenueCard(venueId) {
   card.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
+/**
+ * RestorePendingVenue.
+ * Realiza.
+ */
 function restorePendingVenue() {
   const params = new URLSearchParams(window.location.search);
   const pendingParam = params.get("pendingVenueId");
@@ -89,21 +125,37 @@ function restorePendingVenue() {
   App.showToast("Has regresado a la cancha que seleccionaste.");
 }
 
+/**
+ * FmtTime.
+ * Realiza.
+ */
 function fmtTime(t) { return t ? t.slice(0, 5) : "–"; }
 
 
+/**
+ * DiffHours.
+ * Realiza.
+ */
 function diffHours(inicio, fin) {
   const [h1, m1] = inicio.split(":").map(Number);
   const [h2, m2] = fin.split(":").map(Number);
   return Math.round(((h2 * 60 + m2) - (h1 * 60 + m1)) / 60 * 100) / 100;
 }
 
+/**
+ * Render stars.
+ * Renderizar stars.
+ */
 function renderStars(n = 4) {
   const r = Math.round(n);
   return "★".repeat(r) + "☆".repeat(5 - r);
 }
 
 
+/**
+ * Render venue card.
+ * Renderizar venue card.
+ */
 function renderVenueCard(venue) {
   
   const isUserPage = window.location.pathname.includes('/pages/user/');
@@ -113,11 +165,11 @@ function renderVenueCard(venue) {
     : `${assetsBase}/img/venues/${venue.imagen_url}`;
 
   return `
-    <div class="col">
+    <div class="col-12 col-md-6 col-lg-4">
       <article class="card h-100 venue-card" data-id="${venue.id}">
         <div class="venue-card__img">
           <img src="${imgSrc}" alt="${venue.nombre}"
-               onerror="this.src='../assets/img/venues/Estadio_Ipiales.jpg'" />
+               onerror="this.src='../../assets/img/venues/Estadio_Ipiales.jpg'" />
         </div>
         <div class="card-body d-flex flex-column">
           <h3 class="venue-card__name">${venue.nombre}</h3>
@@ -141,11 +193,19 @@ function renderVenueCard(venue) {
 }
 
 
+/**
+ * Venues module.
+ * Realiza module.
+ */
 const Venues = (() => {
   const gridEl  = document.getElementById("venues-grid");
   const countEl = document.getElementById("venues-count");
 
   
+  /**
+   * Load.
+   * Cargar.
+   */
   async function load() {
     if (gridEl) gridEl.innerHTML = `
       <div class="col-12">
@@ -174,6 +234,10 @@ const Venues = (() => {
   }
 
   
+  /**
+   * Render.
+   * Renderizar.
+   */
   function render(filter = "todos") {
     currentFilter = filter;
     if (!gridEl) return;
@@ -199,6 +263,10 @@ const Venues = (() => {
   }
 
   
+  /**
+   * ApplyFilter.
+   * Realiza.
+   */
   function applyFilter(type, chipEl) {
     document.querySelectorAll(".venues__filter-chip").forEach(c => c.classList.remove("active"));
     if (chipEl) chipEl.classList.add("active");
@@ -208,6 +276,10 @@ const Venues = (() => {
   
 
   
+  /**
+   * Open modal.
+   * Abrir modal.
+   */
   async function openModal(venueId) {
     selectedVenue = allVenues.find(v => v.id === venueId);
     if (!selectedVenue) return;
@@ -228,6 +300,10 @@ const Venues = (() => {
   }
 
   
+  /**
+   * Close modal.
+   * Cerrar modal.
+   */
   function closeModal() {
     document.getElementById("reserva-modal").classList.remove("open");
     document.body.style.overflow = "";
@@ -237,15 +313,27 @@ const Venues = (() => {
 
   
 
+  /**
+   * NextStep.
+   * Realiza.
+   */
   function nextStep() {
     if (_modalStep === 1) _validateAndGoStep2();
     else if (_modalStep === 2) confirmarReserva();
   }
 
+  /**
+   * PrevStep.
+   * Realiza.
+   */
   function prevStep() {
     if (_modalStep === 2) _goToStep(1);
   }
 
+  /**
+   * _goToStep.
+   * Realiza.
+   */
   function _goToStep(step) {
     _modalStep = step;
 
@@ -276,6 +364,10 @@ const Venues = (() => {
   }
 
   
+  /**
+   * Validate and go step 2.
+   * Validar and go step 2.
+   */
   function _validateAndGoStep2() {
     const fecha      = document.getElementById("modal-fecha").value;
     const horaInicio = document.getElementById("modal-hora-inicio").value;
@@ -306,6 +398,10 @@ const Venues = (() => {
   }
 
   
+  /**
+   * _selectPayment.
+   * Realiza.
+   */
   function _selectPayment(value) {
     document.querySelectorAll(".rmodal-payment-opt").forEach(opt => {
       const isSelected = opt.dataset.value === value;
@@ -315,12 +411,20 @@ const Venues = (() => {
     });
   }
 
+  /**
+   * Get selected payment.
+   * Obtener selected payment.
+   */
   function _getSelectedPayment() {
     const checked = document.querySelector("input[name=metodo_pago]:checked");
     return checked ? checked.value : "efectivo";
   }
 
   
+  /**
+   * ConfirmarReserva.
+   * Realiza.
+   */
   async function confirmarReserva() {
     const fecha      = document.getElementById("modal-fecha").value;
     const horaInicio = document.getElementById("modal-hora-inicio").value;
@@ -353,6 +457,10 @@ const Venues = (() => {
     _showSuccess(fecha, horaInicio, horaFin);
   }
 
+  /**
+   * Show success.
+   * Mostrar success.
+   */
   function _showSuccess(fecha, inicio, fin) {
     
     document.getElementById("rmodal-step-1").classList.remove("active");
@@ -378,6 +486,10 @@ const Venues = (() => {
 
 window.Venues = Venues;
 
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 document.addEventListener("DOMContentLoaded", async () => {
   
   if (!document.getElementById("venues-grid")) {
@@ -396,6 +508,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   
+  /**
+   * Initialize page scripting once DOM content is ready.
+   * Inicializa el script de la página cuando el contenido DOM está listo.
+   */
   document.addEventListener("keydown", e => {
     if (e.key === "Escape" && overlay?.classList.contains("open")) Venues.closeModal();
   });

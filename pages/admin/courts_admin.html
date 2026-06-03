@@ -65,7 +65,7 @@
     </aside>
 
     
-    <main class="main-content p-4">
+    <main class="main-content">
       <div class="panel-section active" id="panel-canchas">
         
         
@@ -86,8 +86,7 @@
 
         
         <div id="dashboard-venues-container" class="mb-5" style="display:none;">
-          <div id="dashboard-venues-list" class="row g-4">
-            
+          <div id="dashboard-venues-list" class="row row-cols-1 g-3">
           </div>
         </div>
 
@@ -113,11 +112,11 @@
     </main>
 
     
-    <div class="modal fade" id="venue-modal" tabindex="-1" aria-labelledby="venueModalLabel" aria-hidden="true">
+    <div class="modal fade" id="venue-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="venueModalLabel">
+            <h5 class="modal-title" id="modal-title">
               <i class="bi bi-geo-alt me-2"></i>Añadir Cancha
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -146,6 +145,20 @@
                 <option value="Natación">🏊 Natación</option>
                 <option value="Gimnasio">💪 Gimnasio</option>
               </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="venue-ubicacion" class="form-label fw-semibold">
+                Ubicación <span class="text-danger">*</span>
+              </label>
+              <input type="text" id="venue-ubicacion" class="form-control" placeholder="Ej: Calle 123, Bogotá" required />
+            </div>
+            
+            <div class="mb-3">
+              <label for="venue-imagen" class="form-label fw-semibold">
+                URL de Imagen
+              </label>
+              <input type="url" id="venue-imagen" class="form-control" placeholder="https://ejemplo.com/imagen.jpg" />
             </div>
             
             <div class="mb-3">
@@ -192,6 +205,7 @@
     <script src="../../assets/js/services/venuesService.js"></script>
     <script src="../../assets/js/app.js"></script>
     <script src="../../assets/js/admin.js"></script>
+    <script src="../../assets/js/admin-dashboard.js"></script>
     <script src="../../assets/js/admin/courts_admin.js"></script>
   </body>
 </html>

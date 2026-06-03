@@ -1,5 +1,14 @@
 
+
+/**
+ * VenuesUser module.
+ * Realiza module.
+ */
 const VenuesUser = (() => {
+  /**
+   * Init.
+   * Realiza.
+   */
   async function init() {
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
@@ -50,4 +59,8 @@ const VenuesUser = (() => {
 })();
 
 window.VenuesUser = VenuesUser;
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 window.addEventListener('DOMContentLoaded', () => VenuesUser.init());
