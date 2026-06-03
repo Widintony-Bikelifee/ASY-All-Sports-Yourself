@@ -1,12 +1,20 @@
-/* ═══════════════════════════════════════
-   user-dashboard.js - Logic for the deportista dashboard
-   ═══════════════════════════════════════ */
 
+
+
+
+/**
+ * UserDashboard module.
+ * Realiza module.
+ */
 const UserDashboard = (() => {
   let currentUserProfile = null;
 
+  /**
+   * Init.
+   * Realiza.
+   */
   async function init() {
-    // 1. Verificar autenticación
+    
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
       
@@ -15,7 +23,7 @@ const UserDashboard = (() => {
         return;
       }
 
-      // 2. Verificar el rol del usuario
+      
       const role = await window.getUserRole();
       
       if (role === 'admin_cancha') {
@@ -26,21 +34,26 @@ const UserDashboard = (() => {
         return;
       }
 
-      // 3. Cargar datos del perfil en el sidebar y form
+      
       currentUserProfile = await window.getUserProfile(session.user.id);
       const email = currentUserProfile.correo_electronico || session.user.email;
       const fullName = `${currentUserProfile.nombre} ${currentUserProfile.apellido}`;
       const firstName = currentUserProfile.nombre.split(' ')[0];
 
-      // Populate Sidebar
+      
       document.getElementById('sidebar-user-name').textContent = fullName;
       document.getElementById('sidebar-user-email').textContent = email;
-      document.getElementById('sidebar-avatar-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+      const avatarImg = document.getElementById('sidebar-avatar-img');
+      if (avatarImg) {
+        const avatarUrl = session.user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
+        avatarImg.src = avatarUrl;
+        avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`; };
+      }
 
-      // Populate Banner
+      
       document.getElementById('banner-welcome-name').textContent = `HOLA, ${firstName.toUpperCase()}!`;
 
-      // Populate Profile Form
+      
       const profileName = document.getElementById('profile-name');
       const profileLastname = document.getElementById('profile-lastname');
       const profileEmail = document.getElementById('profile-email');
@@ -52,7 +65,7 @@ const UserDashboard = (() => {
 
       _refreshProfileView(currentUserProfile, email, session.user);
 
-      // Setup Profile Save
+      
       document.getElementById('profile-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const btnSave = document.getElementById('btn-save');
@@ -68,11 +81,16 @@ const UserDashboard = (() => {
         try {
           await window.updateUserProfile(session.user.id, updatedData);
           App.showToast('✅ Perfil actualizado correctamente');
-          // Update sidebar immediately
+          
           const newFullName = `${updatedData.nombre} ${updatedData.apellido}`;
           document.getElementById('sidebar-user-name').textContent = newFullName;
           document.getElementById('banner-welcome-name').textContent = `HOLA, ${updatedData.nombre.split(' ')[0].toUpperCase()}!`;
-          document.getElementById('sidebar-avatar-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
+          const avatarImg = document.getElementById('sidebar-avatar-img');
+          if (avatarImg) {
+            const avatarUrl = session.user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
+            avatarImg.src = avatarUrl;
+            avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`; };
+          }
           
           _refreshProfileView({ nombre: updatedData.nombre, apellido: updatedData.apellido, telefono: updatedData.telefono }, email, session.user);
           _setProfileEditMode(false);
@@ -84,7 +102,7 @@ const UserDashboard = (() => {
         }
       });
 
-      // Setup Logout Button
+      
       const logoutBtn = document.getElementById('btn-logout');
       if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
@@ -93,43 +111,56 @@ const UserDashboard = (() => {
         });
       }
 
-      // 4. Cargar reservas reales
+      
       await loadRealReservations();
 
-      // 5. Soporte de routing SPA por parámetro ?tab=...
+      
       const urlParams = new URLSearchParams(window.location.search);
       const tabParam = urlParams.get('tab');
-      if (tabParam && ['inicio', 'reservas', 'venues', 'profile', 'pagos'].includes(tabParam)) {
-        switchTab(tabParam);
-      } else {
-        switchTab('inicio');
+      if (tabParam) {
+        if (tabParam === 'reservas') {
+          window.location.href = './reservations_user.html';
+          return;
+        } else if (tabParam === 'venues') {
+          window.location.href = './venues_user.html';
+          return;
+        } else if (tabParam === 'profile') {
+          window.location.href = './perfil_user.html';
+          return;
+        }
       }
+      switchTab('inicio');
 
     } catch (error) {
       console.error('Error loading user dashboard:', error);
-      App.showToast('Error de autenticación.', 'error');
-      setTimeout(() => {
-        window.location.href = '../login.html';
-      }, 1500);
+      App.showToast('Error al cargar el panel. Por favor intenta de nuevo.', 'error');
+      const message = error?.message?.toString().toLowerCase() || '';
+      if (message.includes('session') || message.includes('auth') || message.includes('jwt') || message.includes('not authenticated')) {
+        setTimeout(() => {
+          window.location.href = '../login.html';
+        }, 1500);
+      }
     }
   }
 
+  /**
+   * SwitchTab.
+   * Realiza.
+   */
   function switchTab(tab) {
-    // Update sidebar active links
+    
     document.getElementById('tab-inicio')?.classList.toggle('active', tab === 'inicio');
     document.getElementById('tab-reservas')?.classList.toggle('active', tab === 'reservas');
     document.getElementById('tab-venues')?.classList.toggle('active', tab === 'venues');
-    document.getElementById('tab-pagos')?.classList.toggle('active', tab === 'pagos');
     document.getElementById('tab-profile')?.classList.toggle('active', tab === 'profile');
 
-    // Update main content panels
+    
     document.getElementById('panel-inicio')?.classList.toggle('active', tab === 'inicio');
     document.getElementById('panel-reservas')?.classList.toggle('active', tab === 'reservas');
     document.getElementById('panel-venues')?.classList.toggle('active', tab === 'venues');
-    document.getElementById('panel-pagos')?.classList.toggle('active', tab === 'pagos');
     document.getElementById('panel-profile')?.classList.toggle('active', tab === 'profile');
 
-    // Trigger re-fetches or loads on entering tabs
+    
     if (tab === 'reservas' && window.ReservasPage) {
       window.ReservasPage.init();
     }
@@ -139,11 +170,12 @@ const UserDashboard = (() => {
     if (tab === 'inicio') {
       loadRealReservations();
     }
-    if (tab === 'pagos') {
-      loadPagos();
-    }
   }
 
+  /**
+   * Load real reservations.
+   * Cargar real reservations.
+   */
   async function loadRealReservations() {
     const listContainer = document.getElementById('upcoming-reservations-list');
     if (listContainer) {
@@ -211,6 +243,10 @@ const UserDashboard = (() => {
     }
   }
 
+  /**
+   * Format short date.
+   * Formatear short date.
+   */
   function formatShortDate(isoDate) {
     if (!isoDate) return '';
     const [y, m, d] = isoDate.split("-").map(Number);
@@ -224,83 +260,11 @@ const UserDashboard = (() => {
     return str.replace(/\./g, "");
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     PAGOS (Mis Pagos)
-  ───────────────────────────────────────────────────────────────── */
-  async function loadPagos() {
-    const tbody = document.getElementById('pagos-tbody');
-    if (tbody) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando pagos...</td></tr>`;
-    }
-
-    try {
-      const { data, error } = await window.VenuesService.getMisReservas();
-      if (error) throw error;
-      
-      const pagos = data.filter(r => r.estado === 'confirmada' || r.estado === 'completada');
-      
-      if (pagos.length === 0) {
-        if (tbody) tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem;">Aún no tienes pagos registrados de reservas confirmadas o completadas.</td></tr>`;
-        return;
-      }
-      
-      if (tbody) {
-        tbody.innerHTML = pagos.map(r => {
-          const esc = r.escenarios ?? {};
-          const venueName = esc.nombre ?? '–';
-          const fecha = formatShortDate(r.fecha);
-          const horario = `${r.hora_inicio.slice(0, 5)} - ${r.hora_fin.slice(0, 5)}`;
-          
-          // Calculate total
-          const hrs = _diffHours(r.hora_inicio, r.hora_fin);
-          const total = hrs * (esc.precio ?? 0);
-          
-          const pagoStr = r.metodo_pago ? _paymentLabel(r.metodo_pago) : '–';
-          
-          return `
-            <tr>
-              <td>${fecha}</td>
-              <td><strong>${venueName}</strong></td>
-              <td>${horario} (${hrs}h)</td>
-              <td>${pagoStr}</td>
-              <td><span class="res-badge res-badge--${r.estado}">${_statusLabel(r.estado)}</span></td>
-              <td style="font-weight:700; color:var(--color-green-dark);">${_formatCOP(total)}</td>
-            </tr>
-          `;
-        }).join('');
-      }
-      
-    } catch (err) {
-      console.error('Error fetching pagos:', err);
-      if (tbody) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#dc2626;padding:3rem;">Error al cargar los pagos.</td></tr>`;
-      }
-    }
-  }
-
-  function _diffHours(inicio, fin) {
-    if (!inicio || !fin) return 0;
-    const [h1, m1] = inicio.split(":").map(Number);
-    const [h2, m2] = fin.split(":").map(Number);
-    return Math.max(0, Math.round(((h2 * 60 + m2) - (h1 * 60 + m1)) / 60 * 100) / 100);
-  }
-
-  function _formatCOP(n) {
-    return new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n);
-  }
-
-  function _statusLabel(s) {
-    return { pendiente: "Pendiente", confirmada: "Confirmada", completada: "Completada", cancelada: "Cancelada" }[s] ?? s;
-  }
-
-  function _paymentLabel(m) {
-    const icons = { efectivo: "💵 Efectivo", transferencia: "🏦 Transferencia", tarjeta: "💳 Tarjeta", pse: "🌐 PSE" };
-    return `<span style="font-size:.82rem;">${icons[m] ?? (m ?? "–")}</span>`;
-  }
-
-  /* ─────────────────────────────────────────────────────────────────
-     PROFILE UI HELPERS
-  ───────────────────────────────────────────────────────────────── */
+  
+  /**
+   * _refreshProfileView.
+   * Realiza.
+   */
   function _refreshProfileView(profile, email, user) {
     const fullName = `${profile.nombre ?? ""} ${profile.apellido ?? ""}`.trim();
     email = email || user?.email || "";
@@ -309,9 +273,15 @@ const UserDashboard = (() => {
     const heroEmail = document.getElementById("prf-hero-email");
     const heroSince = document.getElementById("prf-hero-since");
     const avatarImg = document.getElementById("prf-avatar-img");
+    
+    const avatarUrl = user?.user_metadata?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`;
+
     if (heroName)  heroName.textContent  = fullName || "—";
     if (heroEmail) heroEmail.textContent = email;
-    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`;
+    if (avatarImg) {
+      avatarImg.src = avatarUrl;
+      avatarImg.onerror = function() { this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`; };
+    }
 
     if (heroSince) {
       const raw = user?.created_at || user?.user_metadata?.created_at;
@@ -332,6 +302,10 @@ const UserDashboard = (() => {
     if (vPhone) vPhone.textContent = profile.telefono || "—";
   }
 
+  /**
+   * Set profile edit mode.
+   * Establecer profile edit mode.
+   */
   function _setProfileEditMode(editing) {
     const view = document.getElementById("prf-view-mode");
     const edit = document.getElementById("prf-edit-mode");
@@ -343,12 +317,20 @@ const UserDashboard = (() => {
       : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar`;
   }
 
+  /**
+   * Toggle profile edit.
+   * Alternar profile edit.
+   */
   function toggleProfileEdit() {
     const editMode = document.getElementById("prf-edit-mode");
     const isEditing = editMode && editMode.style.display !== "none";
     _setProfileEditMode(!isEditing);
   }
 
+  /**
+   * Open change password.
+   * Abrir change password.
+   */
   function openChangePassword() {
     const modal = document.getElementById("prf-password-modal");
     if (modal) {
@@ -359,10 +341,18 @@ const UserDashboard = (() => {
     }
   }
 
+  /**
+   * Close change password.
+   * Cerrar change password.
+   */
   function closeChangePassword() {
     document.getElementById("prf-password-modal")?.classList.remove("open");
   }
 
+  /**
+   * Save new password.
+   * Guardar new password.
+   */
   async function saveNewPassword() {
     const pw1 = document.getElementById("prf-new-password")?.value || "";
     const pw2 = document.getElementById("prf-confirm-password")?.value || "";
@@ -379,6 +369,10 @@ const UserDashboard = (() => {
     App.showToast("✅ Contraseña actualizada correctamente.");
   }
 
+  /**
+   * SignOutAll.
+   * Realiza.
+   */
   async function signOutAll() {
     if (!confirm("¿Cerrar sesión en todos los dispositivos?")) return;
     await supabaseClient.auth.signOut({ scope: "global" });
@@ -398,6 +392,10 @@ const UserDashboard = (() => {
 
 window.UserDashboard = UserDashboard;
 
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   UserDashboard.init();
 });

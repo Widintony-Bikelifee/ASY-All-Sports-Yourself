@@ -1,35 +1,26 @@
+/*
+ * footer.css stylesheet file.
+ * Archivo de hoja de estilos footer.css.
+ */
+
+
+
+/* Footer area styling / Estilo del área de pie de página */
 .footer {
-  background-color: #030712; /* gray-950 equivalent */
+  background-color: #030712;
   color: var(--text-primary);
   padding: 4rem 0 2rem;
   border-top: 1px solid var(--border-dark);
 }
 
-.footer__container {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
 
-.footer__grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
-}
-
-.footer__brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-}
-
+/* Footer area styling / Estilo del área de pie de página */
 .footer__logo-img {
   height: 40px;
   width: auto;
 }
 
+/* Footer area styling / Estilo del área de pie de página */
 .footer__brand-text {
   font-family: var(--font-display);
   font-weight: 700;
@@ -38,6 +29,8 @@
   color: white;
 }
 
+
+/* Footer area styling / Estilo del área de pie de página */
 .footer__desc {
   color: var(--text-muted);
   font-size: var(--fs-sm);
@@ -46,13 +39,11 @@
   max-width: 320px;
 }
 
-.footer__newsletter {
-  display: flex;
-  gap: 0.5rem;
-}
 
+/* Footer area styling / Estilo del área de pie de página */
 .footer__input {
   flex: 1;
+  min-width: 0; 
   background: #111827;
   border: 1px solid #374151;
   color: white;
@@ -62,10 +53,18 @@
   outline: none;
 }
 
+/* Footer area styling / Estilo del área de pie de página */
+.footer__input::placeholder {
+  color: #6b7280;
+}
+
+/* Footer area styling / Estilo del área de pie de página */
 .footer__input:focus {
   border-color: var(--color-green);
 }
 
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .footer__btn {
   background: var(--color-green);
   color: black;
@@ -73,13 +72,17 @@
   border-radius: var(--radius-full);
   font-weight: 600;
   font-size: var(--fs-sm);
+  white-space: nowrap;
   transition: background var(--transition);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .footer__btn:hover {
   background: var(--color-green-dark);
 }
 
+
+/* Footer area styling / Estilo del área de pie de página */
 .footer__title {
   color: white;
   font-size: var(--fs-sm);
@@ -88,43 +91,35 @@
   margin-bottom: 1.5rem;
 }
 
-.footer__list, .footer__contact {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
 
-.footer__link, .footer__contact li {
+/* Footer area styling / Estilo del área de pie de página */
+.footer__link,
+.footer__contact li {
   color: var(--text-muted);
   font-size: var(--fs-sm);
   transition: color var(--transition);
 }
 
+/* Footer area styling / Estilo del área de pie de página */
 .footer__link:hover {
   color: var(--color-green);
 }
 
+/* Footer area styling / Estilo del área de pie de página */
 .footer__contact i {
   color: var(--color-green);
   margin-right: 0.5rem;
 }
 
-.footer__socials {
-  margin-top: 1.5rem;
-}
 
+/* Footer area styling / Estilo del área de pie de página */
 .footer__socials-label {
   font-size: var(--fs-xs);
   color: #6b7280;
   margin-bottom: 0.75rem;
 }
 
-.footer__socials-grid {
-  display: flex;
-  gap: 0.75rem;
-}
-
+/* Footer area styling / Estilo del área de pie de página */
 .footer__social-icon {
   width: 36px;
   height: 36px;
@@ -137,43 +132,28 @@
   transition: all var(--transition);
 }
 
+/* Footer area styling / Estilo del área de pie de página */
 .footer__social-icon:hover {
   background: var(--color-green);
   color: black;
   transform: translateY(-2px);
 }
 
+
+/* Footer area styling / Estilo del área de pie de página */
 .footer__bottom {
   border-top: 1px solid #1f2937;
   padding-top: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 1rem; 
 }
 
-.footer__copy, .footer__legal-link {
+/* Footer area styling / Estilo del área de pie de página */
+.footer__copy,
+.footer__legal-link {
   font-size: var(--fs-xs);
   color: #6b7280;
+  margin-bottom: 0; 
 }
 
-.footer__legal {
-  display: flex;
-  gap: 1.5rem;
-}
-
+/* Footer area styling / Estilo del área de pie de página */
 .footer__legal-link:hover {
-  text-decoration: underline;
-  color: var(--text-primary);
-}
-
-@media (max-width: 768px) {
-  .footer__grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-  .footer__bottom {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-  }
-}

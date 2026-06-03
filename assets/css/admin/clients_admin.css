@@ -1,0 +1,257 @@
+/*
+ * clients_admin.css stylesheet file.
+ * Archivo de hoja de estilos clients_admin.css.
+ */
+
+/* Styles for client avatar. / Estilos para client avatar. */
+.client-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-green, #2ecc50);
+}
+
+/* Styles for avatar large. / Estilos para avatar large. */
+.avatar-large {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--primary-green, #2ecc50);
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(46, 204, 80, 0.15);
+}
+
+/* Styles for client info. / Estilos para client info. */
+.client-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Styles for client name. / Estilos para client name. */
+.client-name {
+  font-weight: 700;
+  color: var(--text-primary, #111);
+  margin-bottom: 0.15rem;
+}
+
+/* Styles for client email. / Estilos para client email. */
+.client-email {
+  font-size: 0.75rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+/* Styles for reservas count. / Estilos para reservas count. */
+.reservas-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  padding: 0.25rem 0.5rem;
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.1));
+  color: var(--primary-green, #2ecc50);
+  border-radius: var(--radius-full, 40px);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Styles for favorite venue. / Estilos para favorite venue. */
+.favorite-venue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 193, 7, 0.1);
+  color: #d97706;
+  border-radius: var(--radius-full, 40px);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Styles for favorite venue i. / Estilos para favorite venue i. */
+.favorite-venue i {
+  font-size: 0.7rem;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success {
+  background: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success:hover {
+  background: var(--primary-green-dark, #27b545);
+  border-color: var(--primary-green-dark, #27b545);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger {
+  border-width: 1.5px;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger:hover {
+  transform: translateY(-1px);
+}
+
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-full, 40px) !important;
+  padding: 0.4rem 0.9rem;
+}
+
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
+.toast {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-left: 4px solid var(--primary-green, #2ecc50);
+  border-radius: var(--radius-md, 10px);
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
+}
+
+/* Styles for spinner border. / Estilos para spinner border. */
+.spinner-border {
+  color: var(--primary-green, #2ecc50) !important;
+}
+
+@keyframes fadeIn {
+/* Styles for from. / Estilos para from. */
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+/* Styles for to. / Estilos para to. */
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+}
+
+.card, @media (max-width: 992px) {
+  }
+
+@media (max-width: 768px) {
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+  .btn {
+    padding: 0.5rem 1rem;
+  }
+  
+  
+/* Styles for table thead. / Estilos para table thead. */
+  .table thead {
+    display: none;
+  }
+  
+/* Styles for table tbody td. / Estilos para table tbody td. */
+  .table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: var(--text-muted, #7a8f7a);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+/* Styles for client info. / Estilos para client info. */
+  .client-info {
+    flex: 1;
+  }
+  
+/* Styles for input group. / Estilos para input group. */
+  .input-group {
+    max-width: 100% !important;
+  }
+/* Styles for 576px). / Estilos para 576px). */
+}
+
+@media (max-width: 576px) {
+  .card-header h5 {
+    font-size: 1rem;
+  }
+  
+  .client-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .client-name {
+    font-size: 0.85rem;
+  }
+  
+  .client-email {
+    font-size: 0.7rem;
+  }
+  
+  .reservas-count {
+    min-width: 28px;
+    font-size: 0.75rem;
+  }
+  
+  .favorite-venue {
+    font-size: 0.7rem;
+  }
+}
+
+/* Styles for rounded 3. / Estilos para rounded 3. */
+.rounded-3 {
+  border-radius: var(--radius-md, 10px) !important;
+}
+
+/* Styles for shadow sm. / Estilos para shadow sm. */
+.shadow-sm {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Styles for text secondary. / Estilos para text secondary. */
+.text-secondary {
+  color: var(--text-muted, #7a8f7a) !important;
+}
+
+/* Styles for overflow hidden. / Estilos para overflow hidden. */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Styles for text truncate. / Estilos para text truncate. */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Styles for empty state. / Estilos para empty state. */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+/* Styles for empty state i. / Estilos para empty state i. */
+.empty-state i {
+  font-size: 3rem;
+  color: var(--border-medium, #d9e2d9);
+  margin-bottom: 1rem;
+}
+
+/* Styles for empty state p. / Estilos para empty state p. */
+.empty-state p {
+  color: var(--text-muted, #7a8f7a);
+  margin-bottom: 0;
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link) {
+  color: var(--primary-green-dark, #27b545);
+  text-decoration: none;
+  transition: color var(--transition, 0.2s ease);
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link):hover {

@@ -1,228 +1,402 @@
-/* Google Fonts import - Barlow Condensed for headings, Barlow for body text */
+/*
+ * main.css stylesheet file.
+ * Archivo de hoja de estilos main.css.
+ */
+
+
 @import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap");
 
-/* 
-   GLOBAL CSS VARIABLES - Design tokens
-   All colors, spacing, typography, and
-   reusable values defined here for consistency.
- */
+
+/* Styles for . / Estilos para . */
 :root {
-  /* ── Primary Colors ───────────────────────────────────────────────── */
-  --color-green: #2ecc50;       /* Main green - buttons, highlights */
-  --color-green-dark: #1db53e;  /* Darker green - hover states */
-  --color-green-dim: rgba(46, 204, 80, 0.15);  /* Transparent green - backgrounds */
-  --color-green-glow: rgba(46, 204, 80, 0.35); /* Green glow effect */
-  --color-orange: #ff6b2b;      /* Accent orange - prices, alerts */
-  --color-orange-dim: rgba(255, 107, 43, 0.15); /* Transparent orange */
-  --color-blue: #0a84ff;        /* Link blue - interactive elements */
-  --color-blue-dim: rgba(10, 132, 255, 0.15);   /* Transparent blue */
+  
+  --color-green: #2ecc50;       
+  --color-green-dark: #1db53e;  
+  --color-green-dim: rgba(46, 204, 80, 0.15);  
+  --color-green-glow: rgba(46, 204, 80, 0.35); 
+  --color-orange: #ff6b2b;      
+  --color-orange-dim: rgba(255, 107, 43, 0.15); 
+  --color-blue: #0a84ff;        
+  --color-blue-dim: rgba(10, 132, 255, 0.15);   
 
-  /* ── Background Colors ────────────────────────────────────────────── */
-  --bg-dark: #f8faf8;     /* Was dark, now main light background */
-  --bg-dark2: #ffffff;    /* Was dark2, now solid white */
-  --bg-dark3: #eef2ee;    /* Was dark3, now slightly off-white */
-  --bg-card: #ffffff;     /* Card background */
-  --bg-white: #ffffff;    /* White background */
-  --bg-light: #f4f7f4;    /* Light background */
-  --bg-light2: #e8ede8;   /* Slightly darker light */
+  
+  --bg-dark: #f8faf8;     
+  --bg-dark2: #ffffff;    
+  --bg-dark3: #eef2ee;    
+  --bg-card: #ffffff;     
+  --bg-white: #ffffff;    
+  --bg-light: #f4f7f4;    
+  --bg-light2: #e8ede8;   
 
-  /* ── Text Colors ──────────────────────────────────────────────────── */
-  --text-primary: #0d1a0d;    /* Was white, now very dark green/black */
-  --text-secondary: #3a4a3a;  /* Was light gray-green, now dark gray */
-  --text-muted: #7a8f7a;      /* Muted text - gray-green */
-  --text-dark: #0d1a0d;       /* Dark text */
-  --text-dark2: #3a4a3a;      /* Secondary dark text */
-  --text-placeholder: #aabcaa; /* Placeholder text color */
+  
+  --text-primary: #0d1a0d;    
+  --text-secondary: #3a4a3a;  
+  --text-muted: #7a8f7a;      
+  --text-dark: #0d1a0d;       
+  --text-dark2: #3a4a3a;      
+  --text-placeholder: #aabcaa; 
 
-  /* ── Border Colors ────────────────────────────────────────────────── */
-  --border-dark: rgba(0, 0, 0, 0.08);   /* Was white border, now subtle dark */
-  --border-dark2: rgba(0, 0, 0, 0.15);  /* More visible dark border */
-  --border-light: rgba(0, 0, 0, 0.05);    /* Light border */
-  --border-light2: rgba(0, 0, 0, 0.12);   /* Secondary light border */
+  
+  --border-dark: rgba(0, 0, 0, 0.08);   
+  --border-dark2: rgba(0, 0, 0, 0.15);  
+  --border-light: rgba(0, 0, 0, 0.05);    
+  --border-light2: rgba(0, 0, 0, 0.12);   
 
-  /* ── Typography ───────────────────────────────────────────────────── */
-  --font-display: "Barlow Condensed", sans-serif; /* Headings - condensed bold */
-  --font-body: "Barlow", sans-serif;              /* Body text - regular */
+  
+  --font-display: "Barlow Condensed", sans-serif; 
+  --font-body: "Barlow", sans-serif;              
 
-  /* ── Font Sizes ────────────────────────────────────────────────────── */
-  --fs-xs: 0.72rem;    /* Extra small - tags, labels */
-  --fs-sm: 0.82rem;    /* Small - secondary text */
-  --fs-base: 0.92rem;  /* Base size */
-  --fs-md: 1rem;       /* Medium - body text */
-  --fs-lg: 1.2rem;     /* Large - emphasized text */
-  --fs-xl: 1.5rem;     /* Extra large - subheadings */
-  --fs-2xl: 2rem;      /* 2x large - section titles */
-  --fs-3xl: 2.8rem;    /* 3x large - page titles */
-  --fs-4xl: 4rem;      /* 4x large - hero text */
+  
+  --fs-xs: 0.72rem;    
+  --fs-sm: 0.82rem;    
+  --fs-base: 0.92rem;  
+  --fs-md: 1rem;       
+  --fs-lg: 1.2rem;     
+  --fs-xl: 1.5rem;     
+  --fs-2xl: 2rem;      
+  --fs-3xl: 2.8rem;    
+  --fs-4xl: 4rem;      
 
-  /* ── Spacing ──────────────────────────────────────────────────────── */
-  --space-xs: 0.4rem;  /* Extra small spacing */
-  --space-sm: 0.8rem;  /* Small spacing */
-  --space-md: 1.2rem;  /* Medium spacing */
-  --space-lg: 2rem;    /* Large spacing */
-  --space-xl: 3rem;    /* Extra large spacing */
-  --space-2xl: 4rem;   /* 2x extra large */
+  
+  --space-xs: 0.4rem;  
+  --space-sm: 0.8rem;  
+  --space-md: 1.2rem;  
+  --space-lg: 2rem;    
+  --space-xl: 3rem;    
+  --space-2xl: 4rem;   
 
-  /* ── Border Radius ────────────────────────────────────────────────── */
-  --radius-sm: 6px;    /* Small radius - buttons */
-  --radius-md: 10px;   /* Medium radius - cards */
-  --radius-lg: 14px;   /* Large radius - modals */
-  --radius-xl: 20px;   /* Extra large radius */
-  --radius-full: 9999px; /* Full radius - pills, circles */
+  
+  --radius-sm: 6px;    
+  --radius-md: 10px;   
+  --radius-lg: 14px;   
+  --radius-xl: 20px;   
+  --radius-full: 9999px; 
 
-  /* ── Shadows ──────────────────────────────────────────────────────── */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);      /* Small shadow */
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.18);     /* Medium shadow */
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.24);     /* Large shadow */
-  --shadow-green: 0 6px 24px rgba(46, 204, 80, 0.3); /* Green glow shadow */
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.12);      
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.18);     
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.24);     
+  --shadow-green: 0 6px 24px rgba(46, 204, 80, 0.3); 
 
-  /* ── Layout ───────────────────────────────────────────────────────── */
-  --nav-h: 68px;       /* Navbar height - used for top padding */
+  
+  --nav-h: 68px;       
 
-  /* ── Transitions ──────────────────────────────────────────────────── */
-  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth easing */
+  
+  --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* 
-   CSS RESET - Normalize browser defaults
-    */
-*,
-*::before,
-*::after {
-  box-sizing: border-box; /* Include padding/border in element width */
-  margin: 0;              /* Remove default margins */
-  padding: 0;             /* Remove default padding */
-}
-
-/* Base HTML styles */
-html {
-  font-size: 16px;                    /* Base font size */
-  scroll-behavior: smooth;            /* Smooth scroll to anchors */
-  -webkit-text-size-adjust: 100%;     /* Prevent font scaling on rotation */
-}
-
-/* Base body styles */
-body {
-  font-family: var(--font-body);      /* Body font family */
-  font-size: var(--fs-md);             /* Base font size */
-  line-height: 1.6;                   /* Comfortable line height */
-  color: var(--text-primary);          /* Primary text color */
-  background-color: var(--bg-dark);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-img,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-  font-family: var(--font-body);
-  border: none;
-  background: none;
-}
-
-input,
-select,
-textarea {
-  font-family: var(--font-body);
-  font-size: var(--fs-base);
-}
-
-ul,
-ol {
-  list-style: none;
-}
-
-/* ── GLOBAL UTLITY ── */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-/* ── BASE SHARED BUTTONS── */
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.6rem;
-  border-radius: var(--radius-full);
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: var(--fs-base);
-  transition:
-    background var(--transition),
-    transform var(--transition),
-    box-shadow var(--transition),
-    border-color var(--transition);
-  white-space: nowrap;
+  border-radius: var(--radius-md, 10px);
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  transition: all var(--transition, 0.2s ease);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn i {
+  transition: all var(--transition, 0.2s ease);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .btn-primary {
-  background: var(--color-green);
+  background-color: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
   color: #000;
 }
-.btn-primary:hover {
-  background: var(--color-green-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-green);
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--primary-green-dark, #1db53e);
+  border-color: var(--primary-green-dark, #1db53e);
+  color: #000;
 }
 
-.btn-outline {
-  background: transparent;
-  border: 1.5px solid var(--border-dark2);
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-primary {
+  border-color: var(--primary-green, #2ecc50);
+  color: var(--primary-green, #2ecc50);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-primary:hover {
+  background-color: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-primary:hover i {
+  color: white;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+/* Styles for form label. / Estilos para form label. */
+.form-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted, #7a8f7a);
+  margin-bottom: 0.5rem;
+}
+
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
+.form-control {
+  border: 1.5px solid var(--border-medium, #d9e2d9);
+  border-radius: var(--radius-md, 10px);
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  transition: all var(--transition, 0.2s ease);
+}
+
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
+.form-control:focus {
+  border-color: var(--primary-green, #2ecc50);
+  box-shadow: 0 0 0 3px var(--primary-green-dim, rgba(46, 204, 80, 0.12));
+  outline: none;
+}
+
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
+.form-control:disabled {
+  background-color: var(--bg-dark, #e8ede8);
+  cursor: not-allowed;
+}
+
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
+.form-control-plaintext {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary, #1a1a1a);
+  padding: 0.5rem 0;
+}
+
+/* Styles for input group. / Estilos para input group. */
+.input-group {
+  border-radius: var(--radius-md, 10px);
+  overflow: hidden;
+}
+
+/* Input icon wrapper styling / Estilo del contenedor de iconos de entrada */
+.input-group-text {
+  background: white;
+  border: 1.5px solid var(--border-medium, #d9e2d9);
+  border-right: none;
+  color: var(--text-muted, #7a8f7a);
+}
+
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
+.input-group .form-control:last-child {
+  border-radius: 0 var(--radius-md, 10px) var(--radius-md, 10px) 0;
+}
+
+/* Styles for list group item. / Estilos para list group item. */
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  padding: 1rem 1.25rem;
+  transition: all var(--transition, 0.2s ease);
+}
+
+/* Styles for list group item. / Estilos para list group item. */
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+/* Styles for list group item action. / Estilos para list group item action. */
+.list-group-item-action {
+  cursor: pointer;
+}
+
+/* Styles for list group item action. / Estilos para list group item action. */
+.list-group-item-action:hover {
+  background-color: var(--primary-green-dim, rgba(46, 204, 80, 0.05));
+}
+
+/* Styles for list group item i. / Estilos para list group item i. */
+.list-group-item i {
+  transition: all var(--transition, 0.2s ease);
+}
+
+/* Styles for list group item. / Estilos para list group item. */
+.list-group-item:hover i {
+  transform: translateX(2px);
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge[style*="background: rgba(46,204,80,.1)"] {
+  transition: all var(--transition, 0.2s ease);
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge[style*="background: rgba(46,204,80,.1)"]:hover {
+  background: rgba(46, 204, 80, 0.2) !important;
+}
+
+/* Styles for modal content. / Estilos para modal content. */
+.modal-content {
+  border-radius: var(--radius-lg, 16px);
+  border: none;
+  overflow: hidden;
+}
+
+/* Styles for modal header. / Estilos para modal header. */
+.modal-header {
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  background: var(--bg-white, #ffffff);
+  padding: 1.25rem 1.5rem;
+}
+
+/* Styles for modal title. / Estilos para modal title. */
+.modal-title {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+  font-weight: 700;
+}
+
+/* Styles for modal body. / Estilos para modal body. */
+.modal-body {
+  padding: 1.5rem;
+}
+
+/* Footer area styling / Estilo del área de pie de página */
+.modal-footer {
+  border-top: 1px solid var(--border-light, #e8ede8);
+  padding: 1rem 1.5rem;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.modal-footer .btn-secondary {
+  background: var(--bg-dark, #e8ede8);
+  border: none;
+  color: var(--text-secondary, #1a1a1a);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.modal-footer .btn-secondary:hover {
+  background: var(--border-light, #e8ede8);
+}
+
+/* Styles for rounded circle. / Estilos para rounded circle. */
+.rounded-circle {
+  object-fit: cover;
+}
+
+/* Styles for img.rounded circle. / Estilos para img.rounded circle. */
+img.rounded-circle {
+  transition: transform var(--transition, 0.2s ease);
+}
+
+/* Styles for img.rounded circle. / Estilos para img.rounded circle. */
+img.rounded-circle:hover {
+  transform: scale(1.05);
+}
+
+/* Styles for border success. / Estilos para border success. */
+.border-success {
+  border-color: var(--primary-green, #2ecc50) !important;
+}
+
+/* Styles for bg success. / Estilos para bg success. */
+.bg-success {
+  background-color: var(--primary-green, #2ecc50) !important;
+}
+
+
+      
+/* Styles for section local. / Estilos para section local. */
+      .section-local {
+        padding: 5rem 0;
+      }
+      
+/* Styles for stat number local. / Estilos para stat number local. */
+      .stat-number-local {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--bs-primary, #0d6efd);
+        margin-bottom: 0.25rem;
+      }
+      
+/* Styles for check local. / Estilos para check local. */
+      .check-local {
+        display: flex;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+      }
+      
+/* Styles for check local i. / Estilos para check local i. */
+      .check-local i {
+        color: var(--bs-primary, #0d6efd);
+        font-size: 1.25rem;
+        margin-top: 0.125rem;
+      }
+      
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+      .card-espacio {
+        transition: transform 0.3s ease;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      }
+      
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+      .card-espacio:hover {
+        transform: translateY(-5px);
+      }
+      
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+      .badge-deporte {
+        background-color: #e9ecef;
+        color: #495057;
+        padding: 0.25rem 0.75rem;
+        border-radius: 2rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.page-title-badge {
+  background: rgba(46,204,80,.1);
+  color: #2ecc50;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.report-title-badge {
+  background: rgba(16,185,129,.1);
+  color: #065f46;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.clients-title-badge {
+  background: rgba(139,92,246,.1);
+  color: #6d28d9;
+}
+
+/* Styles for page title heading. / Estilos para page title heading. */
+.page-title-heading { 
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.1;
   color: var(--text-primary);
-}
-.btn-outline:hover {
-  border-color: var(--color-green);
-  color: var(--color-green);
-}
-
-/* ── BASE ANIMATIONS ── */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.animate-fade-up {
-  animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
 }

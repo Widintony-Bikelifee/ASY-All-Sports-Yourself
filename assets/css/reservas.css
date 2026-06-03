@@ -1,8 +1,9 @@
-/* ═══════════════════════════════════════
-   reservas.css – Reservations page styles
-   ═══════════════════════════════════════ */
+/*
+ * reservas.css stylesheet file.
+ * Archivo de hoja de estilos reservas.css.
+ */
 
-/* ── Page wrapper ── */
+/* Styles for page reservas. / Estilos para page reservas. */
 .page-reservas {
   padding-top: calc(var(--nav-h) + 3rem);
   padding-bottom: 5rem;
@@ -10,7 +11,7 @@
   min-height: 100vh;
 }
 
-/* ── Page header ── */
+/* Styles for reservas header. / Estilos para reservas header. */
 .reservas-header {
   display: flex;
   justify-content: space-between;
@@ -21,8 +22,10 @@
   animation: fadeUp 0.5s ease both;
 }
 
+/* Styles for reservas header  content. / Estilos para reservas header  content. */
 .reservas-header__content {}
 
+/* Styles for reservas tag. / Estilos para reservas tag. */
 .reservas-tag {
   display: inline-flex;
   align-items: center;
@@ -38,6 +41,7 @@
   margin-bottom: 0.8rem;
 }
 
+/* Styles for reservas title. / Estilos para reservas title. */
 .reservas-title {
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 2.8rem);
@@ -46,12 +50,14 @@
   line-height: 1.1;
 }
 
+/* Styles for reservas subtitle. / Estilos para reservas subtitle. */
 .reservas-subtitle {
   color: var(--text-muted);
   font-size: var(--fs-base);
   margin-top: 0.5rem;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .reservas-btn-primary {
   display: inline-flex;
   align-items: center;
@@ -71,13 +77,14 @@
   text-decoration: none;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .reservas-btn-primary:hover {
   background: var(--color-green-dark);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(46, 204, 80, 0.35);
 }
 
-/* ── Stats grid ── */
+/* Styles for reservas stats. / Estilos para reservas stats. */
 .reservas-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -86,7 +93,7 @@
   animation: fadeUp 0.55s 0.05s ease both;
 }
 
-/* ── Filter bar ── */
+/* Styles for reservas filters. / Estilos para reservas filters. */
 .reservas-filters {
   background: var(--bg-white);
   border: 1px solid var(--border-light);
@@ -101,6 +108,7 @@
   animation: fadeUp 0.6s 0.1s ease both;
 }
 
+/* Styles for reservas filters  label. / Estilos para reservas filters  label. */
 .reservas-filters__label {
   font-size: var(--fs-xs);
   font-weight: 700;
@@ -110,6 +118,7 @@
   white-space: nowrap;
 }
 
+/* Styles for reservas filter group. / Estilos para reservas filter group. */
 .reservas-filter-group {
   display: flex;
   align-items: center;
@@ -118,6 +127,7 @@
   min-width: 160px;
 }
 
+/* Styles for reservas select. / Estilos para reservas select. */
 .reservas-select,
 .reservas-input {
   flex: 1;
@@ -134,6 +144,7 @@
   cursor: pointer;
 }
 
+/* Styles for reservas select. / Estilos para reservas select. */
 .reservas-select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a8f7a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -141,6 +152,7 @@
   padding-right: 2.2rem;
 }
 
+/* Styles for reservas select. / Estilos para reservas select. */
 .reservas-select:focus,
 .reservas-input:focus {
   outline: none;
@@ -148,6 +160,7 @@
   box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.12);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .reservas-btn-reset {
   display: inline-flex;
   align-items: center;
@@ -164,13 +177,14 @@
   white-space: nowrap;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .reservas-btn-reset:hover {
   border-color: var(--color-green);
   color: var(--color-green-dark);
   background: rgba(46, 204, 80, 0.06);
 }
 
-/* ── Results count ── */
+/* Styles for reservas count. / Estilos para reservas count. */
 .reservas-count {
   font-size: var(--fs-sm);
   color: var(--text-muted);
@@ -179,12 +193,13 @@
   animation: fadeUp 0.6s 0.15s ease both;
 }
 
+/* Styles for reservas count span. / Estilos para reservas count span. */
 .reservas-count span {
   font-weight: 700;
   color: var(--text-dark);
 }
 
-/* ── Cards grid ── */
+/* Styles for reservas grid. / Estilos para reservas grid. */
 .reservas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -192,7 +207,7 @@
   animation: fadeUp 0.65s 0.2s ease both;
 }
 
-/* ── Reservation Card ── */
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card {
   background: var(--bg-white);
   border: 1px solid var(--border-light);
@@ -205,12 +220,13 @@
   flex-direction: column;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(0,0,0,0.08);
 }
 
-/* Status accent strip on top */
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card::before {
   content: '';
   display: block;
@@ -218,11 +234,16 @@
   width: 100%;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card--pendiente::before   { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card--confirmada::before  { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card--completada::before  { background: linear-gradient(90deg, #10b981, #34d399); }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card--cancelada::before   { background: linear-gradient(90deg, #ef4444, #f87171); }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__body {
   padding: 1.4rem 1.5rem;
   flex: 1;
@@ -231,7 +252,7 @@
   gap: 0.85rem;
 }
 
-/* Card header row */
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__header {
   display: flex;
   justify-content: space-between;
@@ -239,6 +260,7 @@
   gap: 0.75rem;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__venue-name {
   font-family: var(--font-display);
   font-size: 1.2rem;
@@ -247,6 +269,7 @@
   line-height: 1.2;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__type-tag {
   display: inline-flex;
   align-items: center;
@@ -264,7 +287,7 @@
   flex-shrink: 0;
 }
 
-/* Info rows */
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__info-row {
   display: flex;
   align-items: center;
@@ -273,6 +296,7 @@
   color: var(--text-secondary);
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__info-row svg {
   width: 15px;
   height: 15px;
@@ -280,19 +304,20 @@
   flex-shrink: 0;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__info-row strong {
   font-weight: 600;
   color: var(--text-dark);
 }
 
-/* Divider */
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__divider {
   height: 1px;
   background: var(--border-light);
   margin: 0.15rem 0;
 }
 
-/* Price */
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__price {
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -300,6 +325,7 @@
   color: var(--color-green-dark);
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__price-label {
   font-size: var(--fs-xs);
   color: var(--text-muted);
@@ -307,7 +333,7 @@
   font-family: var(--font-body);
 }
 
-/* Card footer */
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__footer {
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--border-light);
@@ -318,7 +344,7 @@
   background: rgba(0,0,0,0.01);
 }
 
-/* ── Status Badge ── */
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -331,6 +357,7 @@
   letter-spacing: 0.6px;
 }
 
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge::before {
   content: '';
   width: 6px;
@@ -338,31 +365,39 @@
   border-radius: 50%;
 }
 
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge--pendiente {
   background: rgba(245, 158, 11, 0.12);
   color: #92400e;
 }
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge--pendiente::before { background: #f59e0b; }
 
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge--confirmada {
   background: rgba(59, 130, 246, 0.12);
   color: #1e40af;
 }
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge--confirmada::before { background: #3b82f6; }
 
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge--completada {
   background: rgba(16, 185, 129, 0.12);
   color: #065f46;
 }
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge--completada::before { background: #10b981; }
 
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge--cancelada {
   background: rgba(239, 68, 68, 0.1);
   color: #991b1b;
 }
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
 .status-badge--cancelada::before { background: #ef4444; }
 
-/* Cancel button */
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__btn-cancel {
   display: inline-flex;
   align-items: center;
@@ -379,24 +414,27 @@
   letter-spacing: 0.3px;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__btn-cancel:hover {
   background: #fef2f2;
   border-color: #ef4444;
   transform: translateY(-1px);
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__btn-cancel svg {
   width: 13px;
   height: 13px;
 }
 
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
 .reserva-card__id {
   font-size: 0.68rem;
   color: var(--text-muted);
   font-family: monospace;
 }
 
-/* ── Loading skeleton ── */
+/* Styles for reserva skeleton. / Estilos para reserva skeleton. */
 .reserva-skeleton {
   background: var(--bg-white);
   border: 1px solid var(--border-light);
@@ -404,6 +442,7 @@
   overflow: hidden;
 }
 
+/* Styles for skeleton strip. / Estilos para skeleton strip. */
 .skeleton-strip {
   height: 4px;
   background: linear-gradient(90deg, #e8ede8 25%, #d4dbd4 50%, #e8ede8 75%);
@@ -411,10 +450,12 @@
   animation: shimmer 1.4s infinite;
 }
 
+/* Styles for skeleton body. / Estilos para skeleton body. */
 .skeleton-body {
   padding: 1.4rem 1.5rem;
 }
 
+/* Styles for skeleton line. / Estilos para skeleton line. */
 .skeleton-line {
   height: 14px;
   background: linear-gradient(90deg, #e8ede8 25%, #d4dbd4 50%, #e8ede8 75%);
@@ -424,16 +465,21 @@
   margin-bottom: 0.85rem;
 }
 
+/* Styles for skeleton line  short. / Estilos para skeleton line  short. */
 .skeleton-line--short { width: 45%; }
+/* Styles for skeleton line  medium. / Estilos para skeleton line  medium. */
 .skeleton-line--medium { width: 70%; }
+/* Styles for skeleton line  long. / Estilos para skeleton line  long. */
 .skeleton-line--long { width: 90%; }
 
 @keyframes shimmer {
+/* Styles for from. / Estilos para from. */
   from { background-position: 200% 0; }
+/* Styles for to. / Estilos para to. */
   to   { background-position: -200% 0; }
+/* Styles for .reservas empty. / Estilos para .reservas empty. */
 }
 
-/* ── Empty state ── */
 .reservas-empty {
   grid-column: 1 / -1;
   background: var(--bg-white);
@@ -447,12 +493,14 @@
   gap: 1rem;
 }
 
+/* Styles for reservas empty  icon. / Estilos para reservas empty  icon. */
 .reservas-empty__icon {
   font-size: 4rem;
   line-height: 1;
   opacity: 0.7;
 }
 
+/* Styles for reservas empty  title. / Estilos para reservas empty  title. */
 .reservas-empty__title {
   font-family: var(--font-display);
   font-size: var(--fs-xl);
@@ -460,6 +508,7 @@
   color: var(--text-dark);
 }
 
+/* Styles for reservas empty  text. / Estilos para reservas empty  text. */
 .reservas-empty__text {
   color: var(--text-muted);
   font-size: var(--fs-base);
@@ -467,7 +516,7 @@
   line-height: 1.6;
 }
 
-/* ── Cancel Confirmation Modal ── */
+/* Styles for reservas modal. / Estilos para reservas modal. */
 .reservas-modal {
   position: fixed;
   inset: 0;
@@ -483,11 +532,13 @@
   -webkit-backdrop-filter: blur(4px);
 }
 
+/* Styles for reservas modal.open. / Estilos para reservas modal.open. */
 .reservas-modal.open {
   opacity: 1;
   visibility: visible;
 }
 
+/* Styles for reservas modal  box. / Estilos para reservas modal  box. */
 .reservas-modal__box {
   background: var(--bg-white);
   border-radius: var(--radius-lg);
@@ -499,14 +550,17 @@
   overflow: hidden;
 }
 
+/* Styles for reservas modal.open .reservas modal  box. / Estilos para reservas modal.open .reservas modal  box. */
 .reservas-modal.open .reservas-modal__box {
   transform: translateY(0) scale(1);
 }
 
+/* Styles for reservas modal  header. / Estilos para reservas modal  header. */
 .reservas-modal__header {
   padding: 1.5rem 1.5rem 0;
 }
 
+/* Styles for reservas modal  icon. / Estilos para reservas modal  icon. */
 .reservas-modal__icon {
   width: 56px;
   height: 56px;
@@ -519,11 +573,13 @@
   color: #ef4444;
 }
 
+/* Styles for reservas modal  icon svg. / Estilos para reservas modal  icon svg. */
 .reservas-modal__icon svg {
   width: 28px;
   height: 28px;
 }
 
+/* Styles for reservas modal  title. / Estilos para reservas modal  title. */
 .reservas-modal__title {
   font-family: var(--font-display);
   font-size: var(--fs-xl);
@@ -532,16 +588,19 @@
   margin-bottom: 0.4rem;
 }
 
+/* Styles for reservas modal  subtitle. / Estilos para reservas modal  subtitle. */
 .reservas-modal__subtitle {
   color: var(--text-muted);
   font-size: var(--fs-sm);
   line-height: 1.5;
 }
 
+/* Styles for reservas modal  body. / Estilos para reservas modal  body. */
 .reservas-modal__body {
   padding: 1.25rem 1.5rem;
 }
 
+/* Styles for reservas modal  detail. / Estilos para reservas modal  detail. */
 .reservas-modal__detail {
   background: var(--bg-light);
   border-radius: var(--radius-md);
@@ -551,6 +610,7 @@
   gap: 0.5rem;
 }
 
+/* Styles for reservas modal  detail row. / Estilos para reservas modal  detail row. */
 .reservas-modal__detail-row {
   display: flex;
   align-items: center;
@@ -558,16 +618,19 @@
   font-size: var(--fs-sm);
 }
 
+/* Styles for reservas modal  detail row .label. / Estilos para reservas modal  detail row .label. */
 .reservas-modal__detail-row .label {
   color: var(--text-muted);
   font-weight: 500;
 }
 
+/* Styles for reservas modal  detail row .value. / Estilos para reservas modal  detail row .value. */
 .reservas-modal__detail-row .value {
   font-weight: 700;
   color: var(--text-dark);
 }
 
+/* Footer area styling / Estilo del área de pie de página */
 .reservas-modal__footer {
   padding: 1.25rem 1.5rem;
   border-top: 1px solid var(--border-light);
@@ -576,6 +639,7 @@
   gap: 0.85rem;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .modal-btn-secondary {
   padding: 0.7rem 1.3rem;
   border: 1.5px solid var(--border-dark2);
@@ -588,10 +652,12 @@
   transition: all var(--transition);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .modal-btn-secondary:hover {
   background: var(--bg-light);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .modal-btn-danger {
   padding: 0.7rem 1.3rem;
   border: none;
@@ -607,19 +673,21 @@
   gap: 0.4rem;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .modal-btn-danger:hover {
   background: #dc2626;
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(239,68,68,0.3);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .modal-btn-danger:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
-/* ── Toast (reuse from main) ── */
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
 .toast {
   position: fixed;
   bottom: 1.5rem;
@@ -637,33 +705,39 @@
   box-shadow: 0 8px 24px rgba(0,0,0,0.18);
 }
 
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
 .toast--visible {
   transform: translateX(-50%) translateY(0);
 }
 
-/* ── Responsive ── */
 @media (max-width: 768px) {
+/* Styles for reservas header. / Estilos para reservas header. */
   .reservas-header {
     flex-direction: column;
     align-items: flex-start;
   }
 
+/* Styles for reservas filters. / Estilos para reservas filters. */
   .reservas-filters {
     flex-direction: column;
     align-items: stretch;
   }
 
+/* Styles for reservas filter group. / Estilos para reservas filter group. */
   .reservas-filter-group {
     min-width: unset;
   }
 
+/* Styles for reservas grid. / Estilos para reservas grid. */
   .reservas-grid {
     grid-template-columns: 1fr;
   }
 
+/* Styles for reservas stats. / Estilos para reservas stats. */
   .reservas-stats {
     grid-template-columns: repeat(2, 1fr);
   }
+/* Styles for 480px). / Estilos para 480px). */
 }
 
 @media (max-width: 480px) {
@@ -671,3 +745,168 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Styles for reservas layout. / Estilos para reservas layout. */
+.reservas-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-light);
+}
+
+/* Styles for reservas layout .reservas layout .page reservas. / Estilos para reservas layout .reservas layout .page reservas. */
+.reservas-layout .reservas-layout .page-reservas {
+  min-height: 100%;
+  padding: 0;
+  background: transparent;
+}
+
+/* Styles for reservas layout .page reservas .container. / Estilos para reservas layout .page reservas .container. */
+.reservas-layout .page-reservas .container {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+/* Styles for reservas layout .reservas header. / Estilos para reservas layout .reservas header. */
+.reservas-layout .reservas-header {
+  width: 100%;
+}
+
+/* Styles for reservas layout .reservas stats. / Estilos para reservas layout .reservas stats. */
+.reservas-layout .reservas-stats {
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  width: 100%;
+}
+
+/* Styles for reservas layout .reservas grid. / Estilos para reservas layout .reservas grid. */
+.reservas-layout .reservas-grid {
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  width: 100%;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 112px;
+  padding: 1.25rem;
+  background: var(--bg-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__icon--blue {
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__icon--yellow {
+  background: rgba(245, 158, 11, 0.12);
+  color: #92400e;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__icon--green {
+  background: rgba(16, 185, 129, 0.12);
+  color: #065f46;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__icon--red {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__info {
+  min-width: 0;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.stat-card__value {
+  display: block;
+  color: var(--text-dark);
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.reserva-card__footer > div {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+@media (max-width: 1200px) {
+/* Styles for reservas layout .reservas stats. / Estilos para reservas layout .reservas stats. */
+  .reservas-layout .reservas-stats {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+  }
+/* Styles for 992px). / Estilos para 992px). */
+}
+
+@media (max-width: 992px) {
+  .reservas-layout {
+    display: block;
+  }
+
+  .reservas-layout }
+
+@media (max-width: 576px) {
+/* Styles for reservas layout .reservas stats. / Estilos para reservas layout .reservas stats. */
+  .reservas-layout .reservas-stats,
+  .reservas-layout .reservas-grid {
+    grid-template-columns: 1fr;
+  }
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .reserva-card__footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .reserva-card__footer > div,
+  .reserva-card__btn-cancel {

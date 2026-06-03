@@ -1,0 +1,71 @@
+/*
+ * venues_user.css stylesheet file.
+ * Archivo de hoja de estilos venues_user.css.
+ */
+
+/* Styles for row.g 4. / Estilos para row.g 4. */
+.row.g-4 {
+    --bs-gutter-x: 1rem;
+    --bs-gutter-y: 1rem;
+  }
+  
+/* Styles for col 12. / Estilos para col 12. */
+  .col-12 {
+    padding: 0 0.5rem;
+  }
+  
+/* Styles for venues  filter chip. / Estilos para venues  filter chip. */
+  .venues__filter-chip {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.7rem;
+  }
+  
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .venue-card .venue-name {
+    font-size: 0.95rem;
+  }
+  
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .venue-card .price-tag {
+    font-size: 1.1rem;
+  }
+
+
+/* Styles for rounded 3. / Estilos para rounded 3. */
+.rounded-3 {
+  border-radius: var(--radius-md, 10px) !important;
+}
+
+/* Styles for shadow sm. / Estilos para shadow sm. */
+.shadow-sm {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Styles for text secondary. / Estilos para text secondary. */
+.text-secondary {
+  color: var(--text-muted, #7a8f7a) !important;
+}
+
+/* Styles for overflow hidden. / Estilos para overflow hidden. */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Styles for text truncate. / Estilos para text truncate. */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link) {
+  color: var(--primary-green-dark, #27b545);
+  text-decoration: none;
+  transition: color var(--transition, 0.2s ease);
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link):hover {
+  color: var(--primary-green) !important;
+}

@@ -1,155 +1,163 @@
-/* Home page container - dark background for hero section */
+/*
+ * hero.css stylesheet file.
+ * Archivo de hoja de estilos hero.css.
+ */
+
+/* Styles for page home. / Estilos para page home. */
 .page-home {
   background: var(--bg-dark);
 }
 
-/* Hero section - full viewport height, centered content */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero {
-  position: relative; /* For absolute positioning of children */
-  min-height: 100vh; /* Full viewport height */
-  display: flex; /* Flexbox for centering */
-  align-items: center; /* Vertically centered */
-  overflow: hidden; /* Hide overflow content */
-  background-color: var(--bg-light); /* Light background */
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--bg-light);
 }
 
-/* Background overlay - light gradient for text readability */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__bg {
-  position: absolute; /* Covers entire hero */
-  inset: 0; /* top/right/bottom/left: 0 */
-  z-index: 0; /* Behind content */
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background:
     linear-gradient(
       105deg,
-      rgba(255, 255, 255, 0.95) 0%,    /* Light left side */
-      rgba(255, 255, 255, 0.8) 42%,   /* Slightly lighter center */
-      rgba(255, 255, 255, 0.35) 70%,  /* Transparent right */
-      rgba(255, 255, 255, 0.15) 100%  /* Very transparent far right */
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.8) 42%,
+      rgba(255, 255, 255, 0.35) 70%,
+      rgba(255, 255, 255, 0.15) 100%
     ),
     linear-gradient(
-      180deg, /* Vertical gradient */
-      rgba(255, 255, 255, 0.55) 0%, /* White tint top */
-      rgba(255, 255, 255, 0.3) 45%,  /* Lighter white middle */
-      rgba(240, 245, 240, 0.75) 100%  /* Light bottom */
+      180deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.3) 45%,
+      rgba(240, 245, 240, 0.75) 100%
     );
-  background-color: var(--bg-light); /* Fallback color */
+  background-color: var(--bg-light);
 }
 
-/* Stadium background image container */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__stadium {
-  position: absolute; /* Full coverage */
-  inset: 0; /* Covers entire hero */
-  z-index: 1; /* Above overlay */
-  overflow: hidden; /* Hide overflow */
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
 }
 
-/* Stadium SVG - positioned on right side */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__stadium svg {
-  position: absolute; /* Absolute positioning */
-  right: -5%; /* Slight right offset */
-  top: 50%; /* Vertical center */
-  transform: translateY(-50%); /* Center vertically */
-  width: 70%; /* 70% of container width */
-  height: auto; /* Maintain aspect ratio */
-  opacity: 0.95; /* Slight transparency */
+  position: absolute;
+  right: -5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 70%;
+  height: auto;
+  opacity: 0.95;
 }
 
-/* Noise texture overlay - adds visual depth */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__noise {
-  position: absolute; /* Full coverage */
-  inset: 0; /* Covers entire hero */
-  z-index: 2; /* Above stadium */
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
-  pointer-events: none; /* Click-through to content */
+  pointer-events: none;
 }
 
-/* Hero content area - main text and CTA */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__content {
-  position: relative; /* Above background layers */
-  z-index: 5; /* Top layer */
-  width: 100%; /* Full width */
-  max-width: 1140px; /* Max container width */
-  margin: 0 auto; /* Center horizontally */
-  padding: calc(var(--nav-h) + 4rem) 2.5rem 6rem; /* Top padding accounts for navbar */
-  display: flex; /* Flexbox layout */
-  flex-direction: column; /* Stack vertically */
-  justify-content: center; /* Center content vertically */
-  min-height: 100vh; /* Minimum full height */
-  max-width: 640px; /* Limit content width for readability */
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: calc(var(--nav-h) + 4rem) 2.5rem 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  max-width: 640px;
 }
 
-/* Location pill - shows city/region */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__location {
-  display: inline-flex; /* Inline flex for icon + text */
-  align-items: center; /* Vertically aligned */
-  gap: 0.45rem; /* Space between icon and text */
-  background: var(--color-green-dim); /* Dark green background */
-  border: 1px solid rgba(46, 204, 80, 0.3); /* Green border */
-  border-radius: var(--radius-full); /* Pill shape */
-  padding: 0.38rem 1rem; /* Internal spacing */
-  font-size: var(--fs-sm); /* Small font */
-  font-weight: 600; /* Semi-bold */
-  color: var(--color-green); /* Green text */
-  margin-bottom: 1.6rem; /* Space below */
-  width: fit-content; /* Only as wide as content */
-  animation: fadeUp 0.6s 0.05s both; /* Entrance animation */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--color-green-dim);
+  border: 1px solid rgba(46, 204, 80, 0.3);
+  border-radius: var(--radius-full);
+  padding: 0.38rem 1rem;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-green);
+  margin-bottom: 1.6rem;
+  width: fit-content;
+  animation: fadeUp 0.6s 0.05s both;
 }
 
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__location svg {
-  width: 14px; /* Icon width */
-  height: 14px; /* Icon height */
-  fill: var(--color-green); /* Green fill */
-  flex-shrink: 0; /* Don't shrink */
+  width: 14px;
+  height: 14px;
+  fill: var(--color-green);
+  flex-shrink: 0;
 }
 
-/* Main headline - large display text */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__headline {
-  font-family: var(--font-display); /* Display font */
-  font-weight: 900; /* Extra bold */
-  text-transform: uppercase; /* ALL CAPS */
-  line-height: 0.92; /* Tight line height */
-  margin-bottom: 1.5rem; /* Space below */
-  animation: fadeUp 0.6s 0.15s both; /* Entrance animation */
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.92;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s 0.15s both;
 }
 
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__headline .line1 {
-  display: block; /* Separate line */
-  font-size: clamp(2.8rem, 5.5vw, 5rem); /* Responsive size */
-  color: var(--text-primary); /* White text */
+  display: block;
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  color: var(--text-primary);
 }
 
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__headline .line2 {
-  display: block; /* Separate line */
-  font-size: clamp(3.2rem, 7vw, 6.2rem); /* Larger responsive size */
-  color: var(--color-green); /* Green text */
-  text-shadow: 0 0 60px rgba(46, 204, 80, 0.4); /* Green glow */
+  display: block;
+  font-size: clamp(3.2rem, 7vw, 6.2rem);
+  color: var(--color-green);
+  text-shadow: 0 0 60px rgba(46, 204, 80, 0.4);
 }
 
-/* Description text - explains the service */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__desc {
-  font-size: var(--fs-md); /* Medium font size */
-  line-height: 1.68; /* Relaxed line height */
-  color: var(--text-secondary); /* Dark text for contrast */
-  max-width: 460px; /* Limit width for readability */
-  margin-bottom: 2.2rem; /* Space below */
-  animation: fadeUp 0.6s 0.25s both; /* Entrance animation */
+  font-size: var(--fs-md);
+  line-height: 1.68;
+  color: var(--text-secondary);
+  max-width: 460px;
+  margin-bottom: 2.2rem;
+  animation: fadeUp 0.6s 0.25s both;
 }
 
-/* CTA buttons container - holds primary and secondary buttons */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__cta {
-  display: flex; /* Horizontal layout */
-  gap: 1rem; /* Space between buttons */
-  flex-wrap: wrap; /* Wrap on mobile */
-  margin-bottom: 3rem; /* Space below */
-  animation: fadeUp 0.6s 0.35s both; /* Entrance animation */
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  animation: fadeUp 0.6s 0.35s both;
 }
 
-/* Primary CTA button - green filled style */
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .hero__btn-primary {
-  display: inline-flex; /* Inline flex for icon + text */
-  align-items: center; /* Vertically aligned */
-  gap: 0.5rem; /* Space between icon and text */
-  background: var(--color-green); /* Green background */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-green);
   color: #000;
   padding: 0.88rem 2rem;
   border-radius: var(--radius-full);
@@ -161,17 +169,20 @@
     box-shadow var(--transition);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .hero__btn-primary:hover {
   background: var(--color-green-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-green);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .hero__btn-primary svg {
   width: 18px;
   height: 18px;
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .hero__btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -188,17 +199,19 @@
     border-color var(--transition);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .hero__btn-secondary:hover {
   background: var(--bg-light);
   border-color: var(--border-dark);
 }
 
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
 .hero__btn-secondary svg {
   width: 18px;
   height: 18px;
 }
 
-/* ── Statistics ── */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__stats {
   display: flex;
   gap: 2.5rem;
@@ -207,9 +220,9 @@
   animation: fadeUp 0.6s 0.45s both;
 }
 
-.hero__stat {
-}
 
+
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__stat-value {
   display: block;
   font-family: var(--font-display);
@@ -219,6 +232,7 @@
   line-height: 1;
 }
 
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__stat-label {
   display: block;
   font-size: var(--fs-xs);
@@ -229,7 +243,7 @@
   margin-top: 0.2rem;
 }
 
-/* ── Scroll indicator ── */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__scroll-hint {
   position: absolute;
   right: 1.8rem;
@@ -245,18 +259,15 @@
   gap: 0.6rem;
 }
 
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__scroll-hint::after {
   content: "";
   width: 1px;
   height: 46px;
-  background: linear-gradient(
-    to bottom,
-    var(--text-muted),
-    transparent
-  );
+  background: linear-gradient(to bottom, var(--text-muted), transparent);
 }
 
-/* ── Slide dots ── */
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__dots {
   position: absolute;
   bottom: 2.5rem;
@@ -267,6 +278,7 @@
   gap: 0.5rem;
 }
 
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__dot {
   width: 28px;
   height: 4px;
@@ -275,34 +287,9 @@
   transition: background 0.3s;
 }
 
+/* Hero section layout and typography / Diseño de la sección hero y tipografía */
 .hero__dot.active {
   background: var(--color-green);
 }
 
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .hero__stadium {
-    opacity: 0.5;
-  }
-}
 
-@media (max-width: 640px) {
-  .hero__content {
-    padding-left: 1.2rem;
-    padding-right: 1.2rem;
-  }
-
-  .hero__stats {
-    gap: 1.6rem;
-    flex-wrap: wrap;
-  }
-
-  .hero__cta {
-    flex-direction: column;
-  }
-
-  .hero__btn-primary,
-  .hero__btn-secondary {
-    justify-content: center;
-  }
-}

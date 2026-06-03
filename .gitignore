@@ -1,0 +1,23 @@
+# Ignore Python virtual environments
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE / editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Dependency folders
+node_modules/

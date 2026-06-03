@@ -1,648 +1,322 @@
-/* ═══════════════════════════════════════
-   register.css - Registration page styles
-   ═══════════════════════════════════════ */
+/*
+ * register.css stylesheet file.
+ * Archivo de hoja de estilos register.css.
+ */
 
-/* Page container - full viewport height, 2-column grid */
-.auth-page {
-  min-height: 100vh;        /* Full viewport height */
-  display: grid;            /* CSS Grid layout */
-  grid-template-columns: 52% 1fr;  /* Left 52%, right fills rest */
-  background: var(--bg-white);     /* White background */
+
+
+
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+.auth__logo h2,
+.auth__logo p strong,
+h1.fw-bold {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
 }
 
-/* Left panel - dark background with imagery */
-.auth__left {
-  position: relative;       /* For absolute children */
-  overflow: hidden;         /* Hide overflow content */
-  background: var(--bg-light);      /* Light green-gray */
-  display: flex;            /* Vertical layout */
-  flex-direction: column;   /* Stack items vertically */
-  justify-content: flex-end; /* Content at bottom */
-  padding: 2.8rem;          /* Internal spacing */
-  min-height: 100vh;        /* Full height */
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+.auth__logo p {
+  font-family: var(--font-base, system-ui, -apple-system, 'Segoe UI', sans-serif);
 }
 
-/* Background overlay - gradient layers */
-.auth__left-bg {
-  position: absolute;       /* Covers entire parent */
-  inset: 0;                 /* top/right/bottom/left: 0 */
-  background:
-    linear-gradient(160deg, rgba(255,255,255,0.7) 0%, rgba(240,250,240,0.85) 40%, rgba(255,255,255,0.9) 100%),  /* Diagonal light gradient */
-    radial-gradient(ellipse 80% 60% at 60% 45%, rgba(80,200,60,0.12) 0%, transparent 70%);  /* Green glow */
-  background-color: var(--bg-light);  /* Fallback color */
-}
 
-/* Players background image */
-.auth__players {
-  position: absolute;       /* Full coverage */
-  inset: 0;
-  z-index: 1;               /* Above bg, below content */
-  overflow: hidden;
-  background-image: linear-gradient(
-      rgba(255,255,255,0.5),      /* Light overlay */
-      rgba(255,255,255,0.8)
-    ),
-    url("../img/fondo.jpg");  /* Background image */
-  background-size: cover;      /* Fill container */
-  background-position: center; /* Center image */
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
-
-/* Spotlight effect - green glow from top */
-.auth__spotlight {
-  position: absolute;
-  top: -10%;                /* Above visible area */
-  left: 40%;                /* Offset from left */
-  width: 60%;               /* Wide ellipse */
-  height: 80%;              /* Tall ellipse */
-  background: radial-gradient(ellipse, rgba(46,204,80,0.18) 0%, transparent 65%);  /* Green glow */
-  z-index: 2;               /* Above players layer */
-  pointer-events: none;     /* Let clicks pass through */
-}
-
-/* Spotlight 2 - gold glow from bottom right */
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+.auth__left-bg,
+.auth__players,
+.auth__spotlight,
 .auth__spotlight-2 {
   position: absolute;
-  bottom: 0;                /* At bottom */
-  right: 0;                 /* At right */
-  width: 50%;               /* Half width */
-  height: 60%;              /* Medium height */
-  background: radial-gradient(ellipse at bottom right, rgba(180,120,0,0.12) 0%, transparent 65%);  /* Gold glow */
+}
+
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+.auth__left-bg,
+.auth__players {
+  inset: 0;
+}
+
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+.auth__left-bg {
+  background: var(--bg-dark, #0a1a0a);
+  z-index: 0;
+}
+
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+.auth__players {
+  background-image: linear-gradient(
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.7)
+    ),
+    url("../img/fondo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+.auth__spotlight {
+  top: -10%;
+  left: 40%;
+  width: 60%;
+  height: 80%;
+  background: radial-gradient(ellipse, rgba(46, 204, 80, 0.25) 0%, transparent 70%);
   z-index: 2;
   pointer-events: none;
 }
 
-/* Left panel content - above backgrounds */
-.auth__left-content {
-  position: relative;       /* Stacks above absolute elements */
-  z-index: 5;               /* Top layer */
+
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+.auth__spotlight-2 {
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  height: 60%;
+  background: radial-gradient(ellipse at bottom right, rgba(255, 193, 7, 0.15) 0%, transparent 70%);
+  z-index: 2;
+  pointer-events: none;
 }
 
-/* Logo section */
-.auth__logo {
-  display: flex;            /* Icon + text side by side */
-  align-items: center;      /* Vertically aligned */
-  gap: 0.7rem;              /* Space between */
-  margin-bottom: 1.6rem;    /* Space below */
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-check:checked + .btn-outline-success {
+  background: var(--color-green, #2ecc50);
+  border-color: var(--color-green, #2ecc50);
+  color: white;
+  transform: translateY(-2px);
+  transition: all var(--transition, 0.2s ease);
 }
 
-/* Logo icon - green SVG */
-.auth__logo-icon svg {
-  width: 26px;              /* Icon width */
-  height: 26px;             /* Icon height */
-  fill: var(--color-green); /* Green fill color */
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-success {
+  transition: all var(--transition, 0.2s ease);
+  border-width: 1.5px;
 }
 
-/* Logo text - dark, uppercase */
-.auth__logo-text {
-  font-family: var(--font-display);  /* Display font */
-  font-size: 1rem;
-  font-weight: 800;         /* Extra bold */
-  letter-spacing: 1.5px;    /* Wide spacing */
-  text-transform: uppercase;  /* ALL CAPS */
-  color: var(--text-primary);  /* Dark text */
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-success:hover {
+  transform: translateY(-1px);
+  background: var(--color-green-dim, rgba(46, 204, 80, 0.1));
 }
 
-/* Brand name - large heading */
-.auth__brand-name {
-  font-family: var(--font-display);
-  font-size: 2rem;          /* Large text */
-  font-weight: 900;         /* Boldest */
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-primary); /* Primary text color */
-  margin-bottom: 0.9rem;    /* Space below */
+
+/* Input icon wrapper styling / Estilo del contenedor de iconos de entrada */
+.input-group-text {
+  border: 1px solid var(--border-light, #dee2e6);
+  border-right: none;
+  transition: border-color 0.2s ease;
 }
 
-/* Brand description - paragraph text */
-.auth__brand-desc {
-  font-size: var(--fs-base); /* Base font size */
-  line-height: 1.65;        /* Tall line height */
-  color: var(--text-secondary);  /* Dimmed text */
-  margin-bottom: 2rem;      /* Space below */
-  max-width: 320px;         /* Limit width */
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
+.form-control {
+  border: 1px solid var(--border-light, #dee2e6);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Highlighted text in description */
-.auth__brand-desc strong {
-  color: var(--color-green); /* Green color */
-  font-weight: 700;         /* Bold */
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
+.form-control:focus {
+  border-color: var(--color-green, #2ecc50);
+  box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.12);
 }
 
-/* Stats section - numbers with labels */
-.auth__stats {
-  display: flex;            /* Horizontal layout */
-  gap: 2rem;                /* Space between stats */
-  margin-bottom: 2rem;
+
+/* Styles for input group. / Estilos para input group. */
+.input-group:focus-within .input-group-text {
+  border-color: var(--color-green, #2ecc50);
 }
 
-/* Stat number - large green number */
-.auth__stat-value {
-  display: block;           /* Block element */
-  font-family: var(--font-display);
-  font-size: 1.9rem;
-  font-weight: 900;
-  color: var(--color-green);
-  line-height: 1;           /* Tight line height */
+
+/* Styles for form check input. / Estilos para form check input. */
+.form-check-input:checked {
+  background-color: var(--color-green, #2ecc50);
+  border-color: var(--color-green, #2ecc50);
 }
 
-/* Stat label - small uppercase text */
-.auth__stat-label {
-  display: block;
-  font-size: var(--fs-xs);  /* Extra small */
-  font-weight: 600;
-  color: var(--text-muted);  /* Very dim */
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  margin-top: 0.15rem;      /* Space above */
+/* Styles for form check input. / Estilos para form check input. */
+.form-check-input:focus {
+  border-color: var(--color-green, #2ecc50);
+  box-shadow: 0 0 0 0.2rem rgba(46, 204, 80, 0.15);
 }
 
-/* Sports icons row */
-.auth__sports-icons {
-  display: flex;
-  gap: 1.2rem;              /* Space between icons */
-  align-items: center;      /* Vertically centered */
-  border-top: 1px solid var(--border-dark);  /* Top border */
-  padding-top: 1.4rem;      /* Space below border */
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link) {
+  color: var(--color-green-dark, #22993f);
+  transition: color var(--transition, 0.2s ease);
 }
 
-/* Individual sport icon - circular badge */
-.auth__sport-icon {
-  width: 36px;              /* Square size */
-  height: 36px;
-  border-radius: 50%;       /* Circle */
-  background: var(--bg-white);  /* Very transparent white */
-  border: 1px solid var(--border-dark2);  /* Subtle border */
-  color: var(--text-dark);
-  display: flex;
-  align-items: center;      /* Center icon */
-  justify-content: center;
-  font-size: 1rem;
-  transition: background var(--transition);  /* Smooth hover */
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link):hover {
+  color: var(--color-green, #2ecc50);
+  text-decoration: underline !important;
 }
 
-/* Sport icon hover - green tint */
-.auth__sport-icon:hover {
-  background: var(--color-green-dim);  /* Dim green */
+
+/* Styles for nav pills .nav link.active. / Estilos para nav pills .nav link.active. */
+.nav-pills .nav-link.active {
+  background-color: var(--color-green, #2ecc50);
+  color: white;
 }
 
-/* Right panel - form area */
-.auth__right {
-  display: flex;
-  flex-direction: column;   /* Vertical layout */
-  justify-content: center;  /* Center vertically */
-  align-items: center;      /* Center horizontally */
-  padding: 3rem 3.5rem;     /* Internal spacing */
-  background: var(--bg-white);  /* White background */
-  min-height: 100vh;        /* Full height */
-  overflow-y: auto;         /* Scroll if needed */
+/* Styles for nav pills .nav link. / Estilos para nav pills .nav link. */
+.nav-pills .nav-link:not(.active) {
+  color: var(--text-muted, #6c757d);
 }
 
-/* Inner container - limits form width */
-.auth__right-inner {
-  width: 100%;
-  max-width: 420px;         /* Maximum width */
+/* Styles for nav pills .nav link. / Estilos para nav pills .nav link. */
+.nav-pills .nav-link:not(.active):hover {
+  background-color: var(--color-green-dim, rgba(46, 204, 80, 0.1));
+  color: var(--color-green-dark, #22993f);
 }
 
-/* Tab switcher - login/register tabs */
-.auth__tabs {
-  display: flex;            /* Horizontal tabs */
-  background: #f1f5f1;      /* Light gray bg */
-  border-radius: var(--radius-full);  /* Pill shape */
-  padding: 0.28rem;         /* Inner padding */
-  margin-bottom: 2.4rem;    /* Space below */
+
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
+.toast {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-left: 4px solid var(--color-green, #2ecc50);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Individual tab */
-.auth__tab {
-  flex: 1;                  /* Equal width */
-  padding: 0.6rem 1.2rem;   /* Internal spacing */
-  border-radius: var(--radius-full);  /* Rounded */
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: #6b7c6b;          /* Gray text */
-  background: transparent;  /* No background */
-  transition: all var(--transition);  /* Smooth transition */
-  text-align: center;
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success {
+  background: linear-gradient(135deg, var(--color-green, #2ecc50) 0%, var(--color-green-dark, #22993f) 100%);
+  border: none;
+  transition: all var(--transition, 0.2s ease);
 }
 
-/* Active tab - white bg, dark text */
-.auth__tab.active {
-  background: var(--bg-white);
-  color: var(--text-dark);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);  /* Subtle shadow */
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(46, 204, 80, 0.25);
+  background: linear-gradient(135deg, var(--color-green-dark, #22993f) 0%, var(--color-green, #2ecc50) 100%);
 }
 
-/* Form heading */
-.auth__heading {
-  font-family: var(--font-display);
-  font-size: var(--fs-2xl);
-  font-weight: 900;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-dark);
-  margin-bottom: 0.35rem;
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success:active {
+  transform: translateY(0);
 }
 
-/* Form subheading */
-.auth__subheading {
-  font-size: var(--fs-base);
-  color: #6b7c6b;          /* Gray text */
-  margin-bottom: 1.8rem;
-  line-height: 1.5;
+
+
+
+
+
+
+/* Styles for html. / Estilos para html. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
-/* Form group - label + input */
-.form__group {
-  margin-bottom: 1.15rem;  /* Space below group */
+/* Styles for container fluid. / Estilos para container fluid. */
+.container-fluid {
+  height: 100vh;
+  overflow: hidden;
+  padding: 0 !important;
 }
 
-/* Two column row */
-.form__row-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;  /* Two equal columns */
-  gap: 1rem;                /* Space between */
+/* Styles for row.g 0. / Estilos para row.g 0. */
+.row.g-0 {
+  height: 100%;
+  margin: 0;
 }
 
-/* Form label */
-.form__label {
-  display: block;           /* Block element */
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: var(--text-dark2);
-  margin-bottom: 0.70rem;
-}
 
-/* Input wrapper - icon + input side by side */
-.form__input-wrap {
-  display: flex;
-  align-items: center;      /* Vertically centered */
-  gap: 0.7rem;              /* Space between icon and input */
-  position: relative;       /* For absolute positioned elements */
-}
-
-/* Input icon - left side icon */
-.form__input-icon {
-  flex-shrink: 0;           /* Don't shrink */
-  color: var(--text-muted); /* Muted color */
-  display: flex;
-  align-items: center;
-  pointer-events: none;     /* Let clicks pass to input */
-}
-
-/* Input icon SVG */
-.form__input-icon svg {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;     /* Use text color */
-  fill: none;               /* No fill */
-}
-
-/* Password toggle eye icon */
-.form__input-eye {
-  flex-shrink: 0;
-  color: var(--text-muted);
-  cursor: pointer;          /* Clickable */
-  display: flex;
-  align-items: center;
-  transition: color var(--transition);
-}
-
-/* Eye icon hover */
-.form__input-eye:hover {
-  color: var(--text-dark2);
-}
-
-/* Eye icon SVG */
-.form__input-eye svg {
-  width: 16px;
-  height: 16px;
-  stroke: currentColor;
-  fill: none;
-}
-
-/* Form input field */
-.form__input {
-  width: 100%;              /* Full width */
-  background: var(--bg-white);
-  border: 1.5px solid var(--border-light);  /* Light border */
-  border-radius: var(--radius-sm);  /* Small radius */
-  color: var(--text-dark);
-  font-size: var(--fs-base);
-  flex: 1;                  /* Grow to fill space */
-  min-width: 0;             /* Allow shrinking */
-  padding: 0.75rem 1rem;    /* Internal spacing */
-  outline: none;            /* Remove default outline */
-  transition: border-color var(--transition), box-shadow var(--transition);  /* Smooth focus */
-}
-
-/* Input placeholder text */
-.form__input::placeholder {
-  color: var(--text-placeholder);  /* Placeholder color */
-}
-
-/* Input focus state - green border + glow */
-.form__input:focus {
-  border-color: var(--color-green);
-  box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.12);  /* Green glow */
-}
-
-/* Submit button - full width, green */
-.auth__btn-submit {
-  width: 100%;              /* Full width */
-  background: var(--color-green);  /* Green background */
-  color: #000;              /* Black text */
-  padding: 0.92rem;         /* Internal spacing */
-  border-radius: var(--radius-full);  /* Pill shape */
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-top: 1.4rem;       /* Space above */
-  margin-bottom: 1.4rem;    /* Space below */
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);  /* Smooth hover */
-}
-
-/* Submit button hover - darker green, lift effect */
-.auth__btn-submit:hover {
-  background: var(--color-green-dark);
-  transform: translateY(-1px);   /* Move up slightly */
-  box-shadow: var(--shadow-green);  /* Green shadow */
-}
-
-/* Divider - "or" between sections */
-.auth__divider {
-  display: flex;
-  align-items: center;      /* Center vertically */
-  gap: 0.9rem;              /* Space around text */
-  margin-bottom: 1.2rem;
-}
-
-/* Divider lines - left and right */
-.auth__divider::before,
-.auth__divider::after {
-  content: '';              /* Empty pseudo-element */
-  flex: 1;                  /* Grow to fill space */
-  height: 1px;              /* Thin line */
-  background: #e2eae2;      /* Light gray */
-}
-
-/* Divider text - "or" */
-.auth__divider span {
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-  white-space: nowrap;      /* Don't wrap */
-}
-
-/* Social login buttons */
-.auth__social-btns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;  /* Two columns */
-  gap: 0.8rem;              /* Space between */
-}
-
-/* Individual social button */
-.auth__social-btn {
-  display: flex;
-  align-items: center;      /* Center vertically */
-  justify-content: center;  /* Center horizontally */
-  gap: 0.6rem;              /* Space between icon and text */
-  background: var(--bg-white);
-  border: 1.5px solid var(--border-light);  /* Light border */
-  border-radius: var(--radius-sm);
-  padding: 0.7rem;
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: var(--text-dark2);
-  transition: background var(--transition), border-color var(--transition);  /* Smooth hover */
-}
-
-/* Social button hover */
-.auth__social-btn:hover {
-  background: var(--bg-light);
-  border-color: var(--border-light2);
-}
-
-/* Social button icon */
-.auth__social-btn svg {
-  width: 18px;
-  height: 18px;
-}
-
-/* Checkbox group */
-.form__check {
-  display: flex;
-  align-items: flex-start;  /* Align to top */
-  gap: 0.65rem;              /* Space between checkbox and label */
-  margin-bottom: 0.4rem;
-}
-
-/* Checkbox input */
-.form__check input[type="checkbox"] {
-  width: 16px;              /* Square size */
-  height: 16px;
-  accent-color: var(--color-green);  /* Green check */
-  margin-top: 0.15rem;      /* Align with text */
-  flex-shrink: 0;           /* Don't shrink */
-  cursor: pointer;          /* Clickable */
-}
-
-/* Checkbox label */
-.form__check label {
-  font-size: var(--fs-sm);
-  color: #4a5a4a;          /* Dark gray text */
-  line-height: 1.5;        /* Line height */
-  cursor: pointer;          /* Clickable */
-}
-
-/* Link inside label */
-.form__check label a {
-  color: var(--color-green-dark);  /* Green link */
-  font-weight: 600;
-}
-
-/* Link hover */
-.form__check label a:hover {
-  text-decoration: underline;
-}
-
-/* Switch text - "already have account" */
-.auth__switch {
-  text-align: center;
-  font-size: var(--fs-sm);
-  color: #6b7c6b;
-  margin-top: 1.2rem;
-}
-
-/* Switch link */
-.auth__switch a {
-  color: var(--color-green-dark);
-  font-weight: 700;
-}
-
-/* Switch link hover */
-.auth__switch a:hover {
-  text-decoration: underline;
-}
-
-/* Back link section */
-.auth__back {
-  text-align: center;
-  margin-top: 1.4rem;
-}
-
-/* Back link */
-.auth__back a {
-  display: inline-flex;     /* Inline with flex */
-  align-items: center;      /* Center icon + text */
-  gap: 0.3rem;              /* Space between */
-  font-size: var(--fs-sm);
-  color: #4a5a4a;
-  font-weight: 600;
-  transition: color var(--transition);
-}
-
-/* Back link hover */
-.auth__back a:hover {
-  color: var(--color-green-dark);
-}
-
-/* Error state - red border + glow */
-.input--error {
-  border-color: #e53935 !important;
-  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.12) !important;
-}
-
-/* OK state - green border + glow */
-.input--ok {
-  border-color: var(--color-green) !important;
-  box-shadow: 0 0 0 3px rgba(46, 204, 80, 0.10) !important;
-}
-
-/* Field hint - error message */
-.form__field-hint {
-  position: absolute;       /* Positioned relative to input wrap */
-  top: -14px;              /* Above input */
-  left: 25px;              /* Offset from left */
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #e53935;          /* Red error color */
-  letter-spacing: 0.2px;
-  background: var(--bg-white);  /* White bg to hide content behind */
-  padding: 0 4px;          /* Small padding */
-}
-
-/* Responsive - tablet (1024px) */
-@media (max-width: 1024px) {
-  .auth-page {
-    grid-template-columns: 45% 1fr;  /* Narrower left panel */
-  }
-}
-
-/* Responsive - mobile (768px) */
-@media (max-width: 768px) {
-  .auth-page {
-    grid-template-columns: 1fr;  /* Single column */
-  }
-
-  .auth__left {
-    min-height: 300px;      /* Shorter left panel */
-    padding: 2rem;
-  }
-
-  .auth__right {
-    padding: 2rem 1.5rem;
-  }
-}
-
-/* Responsive - small mobile (480px) */
-@media (max-width: 480px) {
-  .auth__right {
-    padding: 1.5rem 1rem;
-  }
-
-  .form__row-2 {
-    grid-template-columns: 1fr;  /* Stack columns */
-  }
-
-  .auth__social-btns {
-    grid-template-columns: 1fr;  /* Stack buttons */
-  }
-}
-
-/* ═══════════════════════════════════════
-   Role Selector
-   ═══════════════════════════════════════ */
-.role-selector {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.role-card {
-  position: relative;
-  display: block;
-  cursor: pointer;
-}
-
-.role-card input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.role-card__content {
+/* Styles for static register left. / Estilos para static register left. */
+#static-register-left {
+  position: fixed !important;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100vh;
+  overflow: hidden !important;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 1.2rem 1rem;
-  background: var(--bg-white);
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  transition: all var(--transition);
+}
+
+
+/* Styles for static register left .position relative. / Estilos para static register left .position relative. */
+#static-register-left .position-relative {
+  overflow: visible !important;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.role-card__icon {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+
+/* Styles for static register left. / Estilos para static register left. */
+#static-register-left,
+#static-register-left * {
+  overflow: visible !important;
+  overflow-y: visible !important;
+  overflow-x: visible !important;
 }
 
-.role-card__title {
-  font-weight: 700;
-  color: var(--text-dark);
-  margin-bottom: 0.25rem;
-  font-size: var(--fs-sm);
+
+/* Styles for static register left .d flex.flex column.justify content between. / Estilos para static register left .d flex.flex column.justify content between. */
+#static-register-left .d-flex.flex-column.justify-content-between {
+  height: 100%;
+  overflow: visible;
 }
 
-.role-card__desc {
-  font-size: var(--fs-xs);
-  color: var(--text-muted);
-  line-height: 1.3;
+
+/* Authentication section appearance and branding / Apariencia y estilo de la sección de autenticación */
+#static-register-left .auth__logo {
+  flex-shrink: 0;
 }
 
-.role-card:hover .role-card__content {
-  border-color: var(--color-green-dim);
-  background: var(--bg-light);
+/* Styles for static register left .text white 50. / Estilos para static register left .text white 50. */
+#static-register-left .text-white-50:last-child {
+  flex-shrink: 0;
 }
 
-.role-card input[type="radio"]:checked + .role-card__content {
-  border-color: var(--color-green);
-  background: rgba(46, 204, 80, 0.05);
-  box-shadow: 0 0 0 2px rgba(46, 204, 80, 0.2);
+
+/* Styles for main.col md 6. / Estilos para main.col md 6. */
+main.col-md-6 {
+  position: relative;
+  margin-left: 50%;
+  width: 50%;
+  height: 100vh;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: smooth;
+  display: block !important;
 }
 
-@media (max-width: 480px) {
-  .role-selector {
-    grid-template-columns: 1fr;
-  }
-}
+
+/* Styles for scrollable register. / Estilos para scrollable register. */
+#scrollable-register {
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  max-width: 520px;
+}
+
+
+/* Styles for main.col md 6:: webkit scrollbar. / Estilos para main.col md 6:: webkit scrollbar. */
+main.col-md-6::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Styles for main.col md 6:: webkit scrollbar track. / Estilos para main.col md 6:: webkit scrollbar track. */
+main.col-md-6::-webkit-scrollbar-track {
+  background: var(--border-light, #e9ecef);
+  border-radius: 4px;
+}
+
+/* Styles for main.col md 6:: webkit scrollbar thumb. / Estilos para main.col md 6:: webkit scrollbar thumb. */
+main.col-md-6::-webkit-scrollbar-thumb {
+  background: var(--color-green, #2ecc50);
+  border-radius: 4px;
+}
+
+/* Styles for main.col md 6:: webkit scrollbar thumb. / Estilos para main.col md 6:: webkit scrollbar thumb. */
+main.col-md-6::-webkit-scrollbar-thumb:hover {
+  background: var(--color-green-dark, #22993f);
+}
+
+
+

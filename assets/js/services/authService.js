@@ -1,109 +1,82 @@
 
-/* 
-   authService.js - Authentication service
-   Handles login, registration, and user profile operations with Supabase
-   Supports two user roles: 'user' (deportista) and 'admin_cancha' (administrador)
-    */
 
-/* 
-   LOGIN - Authenticate user with email/password
- 
-   @param {string} email    - User's email address
-   @param {string} password - User's password
-   @returns {object}        - User data (nombre, apellido, rol)
-   @throws {Error}          - If authentication fails
-   */
+
+
+
+
+
+
+/**
+ * Authenticate a user with email and password.
+ * Autentica a un usuario con correo y contraseña.
+ */
 async function loginUser(email, password) {
-  // Sign in with Supabase using email and password
   const { data: sessionData, error } =
     await supabaseClient.auth.signInWithPassword({
       email,
       password
     });
 
-  // If there's an error, throw it to be handled by the caller
   if (error) throw error;
 
-  // Fetch additional user data from the 'usuarios' table — include rol
   const { data: usuario, error: dbError } =
     await supabaseClient
       .from('usuarios')
-      .select('nombre, apellido, rol')  // Include rol for redirect logic
+      .select('nombre, apellido, rol')
       .eq('id', sessionData.user.id)
       .single();
 
-  // If database error, throw custom error message
   if (dbError) throw new Error('No se encontraron datos del usuario.');
 
-  // Return user profile data (includes rol)
   return usuario;
 }
 
-/* 
-   REGISTER - Create new user account
-   @param {string} email    - User's email address
-   @param {string} password - User's chosen password
-   @param {string} nombre   - User's first name
-   @param {string} apellido - User's last name
-   @returns {object}        - Created user object
-   @throws {Error}          - If registration fails
-   */
-async function registerUserAuth(email, password, nombre, apellido) {
-  // Sign up new user with Supabase Auth
+/**
+ * Register a new user in Supabase authentication.
+ * Registra un nuevo usuario en la autenticación de Supabase.
+ */
+async function registerUserAuth(email, password, nombre, apellido, cedula) {
   const { data, error } = await supabaseClient.auth.signUp({
     email,
     password,
     options: {
-      // Store additional user metadata in Auth
-      data: { nombre, apellido }
+      data: { nombre, apellido, cedula }
     }
   });
 
-  // If there's an error, throw it
   if (error) throw error;
-
-  // Return the created user object
   return data.user;
 }
 
-/* 
-   INSERT PROFILE - Create user profile in database
-   
-   @param {string} userId - The authenticated user's ID
-   @param {object} data   - Profile data { name, lastname, phone, email }
-   @returns {void}
-   @throws {Error}        - If insert fails
-   */
+/**
+ * Insert the new user profile into the usuarios table.
+ * Inserta el nuevo perfil de usuario en la tabla usuarios.
+ */
 async function insertUserProfile(userId, data) {
-  // Insert new row into usuarios table
   const { error } = await supabaseClient
     .from('usuarios')
     .insert([{
-      id: userId,                         // Link to auth user ID
-      nombre: data.name,                  // First name
-      apellido: data.lastname,            // Last name
-      telefono: data.phone || null,       // Phone (optional)
-      correo_electronico: data.email,     // Email
-      rol: data.rol || 'user',            // Role: 'user' | 'admin_cancha'
+      id: userId,
+      cedula: data.cedula,
+      nombre: data.name,
+      apellido: data.lastname,
+      telefono: data.phone || null,
+      correo_electronico: data.email,
+      rol: data.rol || 'user',
     }]);
 
-  // If there's an error, throw it
   if (error) throw error;
 }
 
-/* 
-   GET USER ROLE - Fetch the current authenticated user's role
-
-   @returns {string} - 'user' | 'admin_cancha' | null
-   @description - Queries usuarios table for the role of the active session user
-   */
+/**
+ * Return the current authenticated user's role from the database.
+ * Devuelve el rol del usuario autenticado actualmente desde la base de datos.
+ */
 async function getUserRole() {
-  // Get current session
   const { data } = await supabaseClient.auth.getSession();
   const userId = data?.session?.user?.id;
   if (!userId) return null;
 
-  // Query rol from usuarios table
   const { data: row, error } = await supabaseClient
     .from('usuarios')
     .select('rol')
@@ -114,12 +87,10 @@ async function getUserRole() {
   return row?.rol ?? 'user';
 }
 
-/* 
-   GET USER PROFILE - Fetch the user's profile details
-
-   @param {string} userId - The authenticated user's ID
-   @returns {object} - The user's profile data
-   */
+/**
+ * Fetch the full profile for a specific user ID.
+ * Obtiene el perfil completo para un ID de usuario específico.
+ */
 async function getUserProfile(userId) {
   const { data, error } = await supabaseClient
     .from('usuarios')
@@ -131,12 +102,10 @@ async function getUserProfile(userId) {
   return data;
 }
 
-/* 
-   UPDATE USER PROFILE - Update user details
-
-   @param {string} userId - The authenticated user's ID
-   @param {object} data - The updated profile data { nombre, apellido, telefono }
-   */
+/**
+ * Update name, last name, and phone for a user profile.
+ * Actualiza nombre, apellido y teléfono de un perfil de usuario.
+ */
 async function updateUserProfile(userId, data) {
   const { error } = await supabaseClient
     .from('usuarios')
@@ -150,10 +119,98 @@ async function updateUserProfile(userId, data) {
   if (error) throw error;
 }
 
-// Expose functions globally for use in other scripts
-window.loginUser         = loginUser;
-window.registerUserAuth  = registerUserAuth;
+/**
+ * Start Google OAuth login flow with Supabase.
+ * Inicia el flujo de login con Google usando Supabase.
+ */
+async function loginWithGoogle() {
+  const base = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
+  const redirectTo = window.location.origin + '/pages/auth-callback.html';
+
+  const { data, error } = await supabaseClient.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: redirectTo
+    }
+  });
+
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Handle OAuth callback session and store or return user data.
+ * Maneja la sesión de OAuth de callback y devuelve los datos de usuario.
+ */
+async function handleOAuthSession() {
+  const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+  if (sessionError || !sessionData?.session) {
+    throw new Error('No se pudo obtener la sesión de Google.');
+  }
+
+  const authUser = sessionData.session.user;
+  const userId = authUser.id;
+
+  const { data: existingUser, error: fetchError } = await supabaseClient
+    .from('usuarios')
+    .select('nombre, apellido, rol')
+    .eq('id', userId)
+    .maybeSingle();
+
+  if (!fetchError && existingUser) {
+    return { usuario: existingUser, isNew: false };
+  }
+
+  const meta = authUser.user_metadata || {};
+  const fullName = meta.full_name || meta.name || '';
+  const nameParts = fullName.trim().split(' ');
+  const nombre = nameParts[0] || 'Usuario';
+  const apellido = nameParts.slice(1).join(' ') || '';
+  const email = authUser.email || '';
+
+  const { error: insertError } = await supabaseClient
+    .from('usuarios')
+    .insert([{
+      id: userId,
+      cedula: null,
+      nombre: nombre,
+      apellido: apellido,
+      telefono: null,
+      correo_electronico: email,
+      rol: 'user',
+    }]);
+
+  if (insertError) throw new Error('Error al crear el perfil de usuario.');
+
+  return { usuario: { nombre, apellido, rol: 'user' }, isNew: true };
+}
+
+/**
+ * Return the current authenticated user object.
+ * Devuelve el objeto del usuario autenticado actualmente.
+ */
+async function getCurrentUser() {
+  const { data } = await supabaseClient.auth.getSession();
+  return data?.session?.user ?? null;
+}
+
+window.loginUser = loginUser;
+window.registerUserAuth = registerUserAuth;
 window.insertUserProfile = insertUserProfile;
-window.getUserRole       = getUserRole;
-window.getUserProfile    = getUserProfile;
+window.getUserRole = getUserRole;
+window.getUserProfile = getUserProfile;
 window.updateUserProfile = updateUserProfile;
+window.getCurrentUser = getCurrentUser;
+window.loginWithGoogle = loginWithGoogle;
+window.handleOAuthSession = handleOAuthSession;
+window.AuthService = {
+  loginUser,
+  registerUserAuth,
+  insertUserProfile,
+  getUserRole,
+  getUserProfile,
+  updateUserProfile,
+  getCurrentUser,
+  loginWithGoogle,
+  handleOAuthSession,
+};

@@ -5,821 +5,189 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panel de Usuario – All Sports Yourself</title>
     
-    <!-- CSS -->
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/sidebar-layout.css" />
-    <link rel="stylesheet" href="../../assets/css/profile.css" />
-    <link rel="stylesheet" href="../../assets/css/reservas.css" />
-    <link rel="stylesheet" href="../../assets/css/venues.css" />
-    
-    <style>
-      /* Override page-reservas padding inside SPA */
-      .page-reservas {
-        padding: 0;
-        margin: 0;
-        background: transparent;
-      }
-      .page-reservas .container {
-        padding: 0;
-        max-width: 100%;
-      }
-    </style>
-  </head>
+    <link rel="stylesheet" href="../../assets/css/user/user_dashboard.css" />
   <body class="sidebar-layout">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="sidebar__logo">
-        <img src="../../assets/img/Logo-ASY.png" alt="Logo ASY" />
-        <div class="sidebar__brand-text">
-          All Sports <span>Yourself</span>
+    
+    <aside class="sidebar bg-white shadow-sm d-flex flex-column">
+      <div class="sidebar-header p-4 border-bottom text-center">
+        <a class="navbar-brand d-flex flex-column align-items-center gap-2 text-decoration-none" href="../../index.html">
+          <img src="../../assets/img/Logo-ASY.png" alt="Logo ASY" width="48" height="48" />
+          <span class="fw-bold text-dark">All Sports Yourself</span>
+        </a>
+      </div>
+
+      <div class="sidebar-user p-4 d-flex align-items-center gap-3 border-bottom">
+        <img id="sidebar-avatar-img" 
+             src="https://ui-avatars.com/api/?name=Usuario&background=2ecc50&color=fff" 
+             alt="Avatar" 
+             class="rounded-circle" 
+             width="48" 
+             height="48" />
+        <div class="overflow-hidden">
+          <div class="fw-semibold text-truncate" id="sidebar-user-name">Cargando...</div>
+          <small class="text-muted text-truncate d-block" id="sidebar-user-email">cargando@...</small>
         </div>
       </div>
 
-      <div class="sidebar__user">
-        <div class="sidebar__avatar">
-          <img src="https://ui-avatars.com/api/?name=Usuario&background=2ecc50&color=fff" alt="Avatar" id="sidebar-avatar-img">
-        </div>
-        <div class="sidebar__user-info">
-          <span class="sidebar__user-name" id="sidebar-user-name">Cargando...</span>
-          <span class="sidebar__user-email" id="sidebar-user-email">cargando@...</span>
-        </div>
-      </div>
-
-      <nav class="sidebar__nav">
-        <button onclick="UserDashboard.switchTab('inicio')" class="sidebar__link active" id="tab-inicio" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; font-family: inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          Inicio
-        </button>
-        <button onclick="UserDashboard.switchTab('reservas')" class="sidebar__link" id="tab-reservas" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; font-family: inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Mis Reservas
-        </button>
-        <button onclick="UserDashboard.switchTab('venues')" class="sidebar__link" id="tab-venues" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; font-family: inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Explorar Espacios
-        </button>
-        <button onclick="UserDashboard.switchTab('pagos')" class="sidebar__link" id="tab-pagos" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; font-family: inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-          Mis Pagos
-        </button>
-        <button onclick="UserDashboard.switchTab('profile')" class="sidebar__link" id="tab-profile" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; font-family: inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Mi Perfil
-        </button>
-        
-        <div style="margin-top: auto;">
-          <button class="sidebar__link" id="btn-logout" style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; color: #ff4757;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="stroke: #ff4757;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            Cerrar Sesión
-          </button>
-        </div>
+      <nav class="nav nav-pills flex-column p-3 gap-1 flex-grow-1">
+        <a href="./user-dashboard.html" class="nav-link active text-start" id="tab-inicio">
+          <i class="bi bi-house-door me-2"></i>Inicio
+        </a>
+        <a href="./reservations_user.html" class="nav-link text-start" id="tab-reservas">
+          <i class="bi bi-calendar-check me-2"></i>Mis Reservas
+        </a>
+        <a href="./venues_user.html" class="nav-link text-start" id="tab-venues">
+          <i class="bi bi-compass me-2"></i>Explorar Espacios
+        </a>
+        <a href="./payments_user.html" class="nav-link text-start">
+          <i class="bi bi-credit-card me-2"></i>Mis Pagos
+        </a>
+        <a href="./perfil_user.html" class="nav-link text-start" id="tab-profile">
+          <i class="bi bi-person-circle me-2"></i>Mi Perfil
+        </a>
       </nav>
+
+      <div class="p-3 border-top">
+        <button class="btn btn-outline-danger w-100" id="btn-logout">
+          <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+        </button>
+      </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
+    
+    <main class="main-content p-4">
       
-      <!-- ── PANEL: Inicio ── -->
+      
       <div id="panel-inicio" class="panel-section active">
-        <header class="dashboard-header">
-          <h1>Inicio</h1>
-          <p>All Sports Yourself — Mi Espacio</p>
-        </header>
+        
+        
+        <div class="mb-4">
+          <span class="badge rounded-pill py-2 px-3 mb-3" class="page-title-badge">
+            <i class="bi bi-house-heart me-1"></i> Inicio
+          </span>
+          <h1 class="fw-bold mb-1" class="page-title-heading">
+            Panel de Usuario
+          </h1>
+          <p class="text-secondary mb-0">All Sports Yourself — Mi Espacio</p>
+        </div>
 
-        <!-- Banner -->
-        <div class="dashboard-banner">
-          <img src="../../assets/img/venues/Estadio_Ipiales.jpg" alt="Fondo" class="dashboard-banner__bg">
-          <div class="dashboard-banner__overlay"></div>
-          <div class="dashboard-banner__content">
-            <span class="dashboard-banner__tag">BIENVENIDO DE VUELTA</span>
-            <h2 class="dashboard-banner__title" id="banner-welcome-name">HOLA!</h2>
-            <p class="dashboard-banner__subtitle">Tienes <span id="banner-upcoming-count">0</span> reserva(s) próxima(s)</p>
+        
+        <div class="card border-0 shadow-sm mb-4 overflow-hidden position-relative" style="min-height: 250px;">
+          <img src="../../assets/img/venues/Estadio_Ipiales.jpg" 
+               alt="Fondo" 
+               class="position-absolute top-0 start-0 w-100 h-100" 
+               style="object-fit: cover; z-index: 0;" />
+          <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%); z-index: 1;"></div>
+          <div class="card-body position-relative d-flex flex-column justify-content-center p-5" style="z-index: 2; min-height: 250px;">
+            <span class="badge bg-success rounded-pill px-3 py-2 mb-3 align-self-start" style="font-size: 0.75rem; letter-spacing: 1px;">
+              BIENVENIDO DE VUELTA
+            </span>
+            <h2 class="display-4 fw-bold text-white mb-2" id="banner-welcome-name">¡HOLA!</h2>
+            <p class="lead text-white-50 mb-0">
+              Tienes <strong class="text-white" id="banner-upcoming-count">0</strong> reserva(s) próxima(s)
+            </p>
           </div>
         </div>
 
-        <!-- Stats -->
-        <div class="stats-grid">
-          <div class="stat-card-clean">
-            <div class="stat-card-clean__icon stat-card-clean__icon--green">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        
+        <div class="row g-4 mb-5">
+          <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background: rgba(46,204,80,.1);">
+                    <i class="bi bi-calendar-check fs-4 text-success"></i>
+                  </div>
+                </div>
+                <h2 class="fw-bold mb-1" id="stat-total">0</h2>
+                <p class="text-muted small mb-0">Reservas Totales</p>
+              </div>
             </div>
-            <span class="stat-card-clean__value" id="stat-total">0</span>
-            <span class="stat-card-clean__label">Reservas Totales</span>
           </div>
           
-          <div class="stat-card-clean">
-            <div class="stat-card-clean__icon stat-card-clean__icon--orange">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background: rgba(255,152,0,.1);">
+                    <i class="bi bi-clock-history fs-4 text-warning"></i>
+                  </div>
+                </div>
+                <h2 class="fw-bold mb-1" id="stat-upcoming">0</h2>
+                <p class="text-muted small mb-0">Próximas</p>
+              </div>
             </div>
-            <span class="stat-card-clean__value" id="stat-upcoming">0</span>
-            <span class="stat-card-clean__label">Próximas</span>
           </div>
-
-          <div class="stat-card-clean">
-            <div class="stat-card-clean__icon stat-card-clean__icon--blue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          
+          <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background: rgba(13,110,253,.1);">
+                    <i class="bi bi-check-circle fs-4 text-primary"></i>
+                  </div>
+                </div>
+                <h2 class="fw-bold mb-1" id="stat-completed">0</h2>
+                <p class="text-muted small mb-0">Completadas</p>
+              </div>
             </div>
-            <span class="stat-card-clean__value" id="stat-completed">0</span>
-            <span class="stat-card-clean__label">Completadas</span>
           </div>
         </div>
 
-        <!-- Reservations List -->
-        <div class="reservations-section">
-          <h2>Próximas Reservas</h2>
-          <div class="reservations-list" id="upcoming-reservations-list">
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Cargando reservas...</p>
+        
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-semibold">
+              <i class="bi bi-calendar-event me-2"></i>Próximas Reservas
+            </h5>
+            <a href="./reservations_user.html" class="btn btn-outline-primary btn-sm">
+              Ver todas <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+          <div class="card-body" id="upcoming-reservations-list">
+            <div class="text-center py-4">
+              <div class="spinner-border spinner-border-sm text-success mb-2" role="status">
+                <span class="visually-hidden">Cargando...</span>
+              </div>
+              <p class="text-muted mb-0">Cargando reservas...</p>
+            </div>
           </div>
         </div>
+
       </div>
 
-      <!-- ── PANEL: Reservas ── -->
-      <div id="panel-reservas" class="panel-section">
-        <main class="page-reservas">
-          <div class="container">
-            <!-- Header -->
-            <header class="reservas-header" style="margin-bottom: 2rem;">
-              <div class="reservas-header__content">
-                <span class="reservas-tag">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                  Mis Reservas
-                </span>
-                <h1 class="reservas-title" style="font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.1; color: var(--text-primary); margin-top: 0.4rem;">Gestión de Reservas</h1>
-                <p class="reservas-subtitle" style="color: var(--text-secondary); margin-top: 0.5rem;">Consulta tu historial, filtra y administra tus reservas activas.</p>
-              </div>
-              <button onclick="UserDashboard.switchTab('venues')" class="reservas-btn-primary" id="btn-nueva-reserva" style="border: none; cursor: pointer; padding: 0.8rem 1.6rem; border-radius: 99px; background: var(--color-green); color: #000; font-family: var(--font-display); font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                Nueva Reserva
-              </button>
-            </header>
-
-            <!-- Stats -->
-            <div class="reservas-stats" id="reservas-stats" role="region" aria-label="Resumen de reservas" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-              <div class="stat-card" id="stat-total-card">
-                <div class="stat-card__icon" style="background:rgba(99,102,241,0.1);color:#6366f1;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                </div>
-                <div class="stat-card__info">
-                  <span class="stat-card__label">Total Reservas</span>
-                  <span class="stat-card__value" id="stat-total-val">–</span>
-                </div>
-              </div>
-
-              <div class="stat-card" id="stat-pendiente-card">
-                <div class="stat-card__icon stat-card__icon--yellow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                </div>
-                <div class="stat-card__info">
-                  <span class="stat-card__label">Pendientes</span>
-                  <span class="stat-card__value" id="stat-pendiente-val">–</span>
-                </div>
-              </div>
-
-              <div class="stat-card" id="stat-completada-card">
-                <div class="stat-card__icon stat-card__icon--green">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                </div>
-                <div class="stat-card__info">
-                  <span class="stat-card__label">Completadas</span>
-                  <span class="stat-card__value" id="stat-completada-val">–</span>
-                </div>
-              </div>
-
-              <div class="stat-card" id="stat-cancelada-card">
-                <div class="stat-card__icon stat-card__icon--blue" style="background:rgba(239,68,68,0.1);color:#ef4444;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                </div>
-                <div class="stat-card__info">
-                  <span class="stat-card__label">Canceladas</span>
-                  <span class="stat-card__value" id="stat-cancelada-val">–</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Filters -->
-            <div class="reservas-filters" role="search" aria-label="Filtros de reservas" style="display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem;">
-              <span class="reservas-filters__label" style="font-weight: 700; font-size: 0.9rem;">Filtrar por:</span>
-              <div class="reservas-filter-group">
-                <select id="filter-status" class="reservas-select" style="padding: 0.6rem 1.2rem; border-radius: var(--radius-md); border: 1.5px solid var(--border-dark); background: white;">
-                  <option value="">Todos los estados</option>
-                  <option value="pendiente">🟡 Pendiente</option>
-                  <option value="confirmada">🔵 Confirmada</option>
-                  <option value="completada">🟢 Completada</option>
-                  <option value="cancelada">🔴 Cancelada</option>
-                </select>
-              </div>
-              <div class="reservas-filter-group">
-                <input type="date" id="filter-date-from" class="reservas-input" style="padding: 0.6rem; border-radius: var(--radius-md); border: 1.5px solid var(--border-dark);" />
-              </div>
-              <div class="reservas-filter-group">
-                <input type="date" id="filter-date-to" class="reservas-input" style="padding: 0.6rem; border-radius: var(--radius-md); border: 1.5px solid var(--border-dark);" />
-              </div>
-              <button id="btn-reset-filters" class="reservas-btn-reset" style="padding: 0.6rem 1.2rem; border-radius: var(--radius-md); border: 1.5px solid var(--border-dark2); background: transparent; cursor: pointer; display: flex; align-items: center; gap: 0.4rem;">
-                Limpiar
-              </button>
-            </div>
-
-            <p class="reservas-count" id="reservas-count" style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.9rem; font-weight: 500;"></p>
-
-            <div class="reservas-grid" id="reservas-grid" role="list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
-              <!-- Dynamic cards -->
-            </div>
-          </div>
-        </main>
-      </div>
-
-      <!-- ── PANEL: Venues (Explorar) ── -->
-      <div id="panel-venues" class="panel-section">
-        <section class="page-venues" aria-label="Catálogo de escenarios deportivos">
-          <div class="venues__header">
-            <div class="venues__header-inner">
-              <div>
-                <span class="venues__section-tag">🏟️ Catálogo</span>
-                <h1 class="venues__title">Escenarios Deportivos</h1>
-              </div>
-              <p class="venues__count" id="venues-count">
-                Mostrando <strong>0 espacios</strong> en Ipiales
-              </p>
-            </div>
-
-            <!-- Filters -->
-            <div class="venues__filters" id="venues-filters" role="group">
-              <button class="venues__filter-chip active" onclick="Venues.applyFilter('todos', this)">Todos</button>
-              <button class="venues__filter-chip" onclick="Venues.applyFilter('futbol', this)">Futbol</button>
-              <button class="venues__filter-chip" onclick="Venues.applyFilter('baloncesto', this)">Baloncesto</button>
-              <button class="venues__filter-chip" onclick="Venues.applyFilter('tenis', this)">Tenis</button>
-              <button class="venues__filter-chip" onclick="Venues.applyFilter('voleibol', this)">Voleibol</button>
-              <button class="venues__filter-chip" onclick="Venues.applyFilter('gimnasio', this)">Gimnasio</button>
-              <button class="venues__filter-chip" onclick="Venues.applyFilter('natacion', this)">Natación</button>
-            </div>
-          </div>
-
-          <!-- GRID -->
-          <div class="venues__grid" id="venues-grid">
-            <!-- Venue cards loaded dynamically -->
-          </div>
-        </section>
-      </div>
-
-      <!-- ── PANEL: Mis Pagos ── -->
-      <div id="panel-pagos" class="panel-section">
-        <style>
-          .reservas-admin-table-wrap {
-            background: var(--bg-white); border-radius: var(--radius-md);
-            border: 1px solid var(--border-light);
-            box-shadow: 0 4px 15px rgba(0,0,0,.03);
-            overflow-x: auto; margin-top: 1.5rem;
-          }
-          .reservas-admin-table {
-            width: 100%; border-collapse: collapse; min-width: 780px;
-          }
-          .reservas-admin-table th {
-            padding: .9rem 1.2rem; text-align: left;
-            font-size: var(--fs-xs); text-transform: uppercase;
-            letter-spacing: .5px; font-weight: 700; color: var(--text-muted);
-            background: rgba(0,0,0,.02); border-bottom: 1px solid var(--border-light);
-          }
-          .reservas-admin-table td {
-            padding: .9rem 1.2rem; font-size: var(--fs-sm);
-            border-bottom: 1px solid var(--border-light); vertical-align: middle;
-          }
-          .reservas-admin-table tr:last-child td { border-bottom: none; }
-          .reservas-admin-table tbody tr:hover { background: rgba(46,204,80,.02); }
-          .res-badge {
-            display: inline-flex; align-items: center; gap: .3rem;
-            padding: .22rem .65rem; border-radius: 99px;
-            font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
-          }
-          .res-badge::before { content:""; width:5px; height:5px; border-radius:50%; }
-          .res-badge--pendiente  { background:rgba(245,158,11,.12); color:#92400e; }
-          .res-badge--pendiente::before  { background:#f59e0b; }
-          .res-badge--confirmada { background:rgba(59,130,246,.12); color:#1e40af; }
-          .res-badge--confirmada::before { background:#3b82f6; }
-          .res-badge--completada { background:rgba(16,185,129,.12); color:#065f46; }
-          .res-badge--completada::before { background:#10b981; }
-          .res-badge--cancelada  { background:rgba(239,68,68,.1);  color:#991b1b; }
-          .res-badge--cancelada::before  { background:#ef4444; }
-        </style>
-        <header class="dashboard-header" style="margin-bottom: 2rem;">
-          <h1>Mis Pagos</h1>
-          <p>Historial de transacciones y pagos de tus reservas.</p>
-        </header>
-
-        <div class="reservas-admin-table-wrap">
-          <table class="reservas-admin-table">
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Cancha</th>
-                <th>Horario</th>
-                <th>Método</th>
-                <th>Estado</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody id="pagos-tbody">
-              <tr>
-                <td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando pagos...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- ── PANEL: Mi Perfil ── -->
-      <div class="panel-section" id="panel-profile">
-        <style>
-          /* ── Profile Card ── */
-          .prf-card {
-            background: #fff;
-            border: 1px solid #e8ede8;
-            border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0,0,0,.05);
-            padding: 1.5rem;
-            margin-bottom: 1.25rem;
-          }
-          /* Profile hero row */
-          .prf-hero {
-            display: flex;
-            align-items: center;
-            gap: 1.1rem;
-          }
-          .prf-avatar-wrap {
-            position: relative;
-            flex-shrink: 0;
-          }
-          .prf-avatar {
-            width: 64px; height: 64px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #e8ede8;
-          }
-          .prf-avatar-badge {
-            position: absolute;
-            bottom: 2px; right: 2px;
-            width: 18px; height: 18px;
-            border-radius: 50%;
-            background: #2ecc50;
-            border: 2px solid #fff;
-          }
-          .prf-hero-info { flex: 1; min-width: 0; }
-          .prf-hero-name {
-            font-size: 1.15rem; font-weight: 800;
-            color: #111; margin-bottom: .1rem;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-          }
-          .prf-hero-email {
-            font-size: .82rem; color: #7a8f7a;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-          }
-          .prf-hero-since {
-            font-size: .75rem; color: #aaa; margin-top: .2rem;
-          }
-          .prf-edit-btn {
-            display: inline-flex; align-items: center; gap: .35rem;
-            padding: .45rem 1rem; border-radius: 99px;
-            border: 1.5px solid #d1d5d1; background: #fff;
-            font-size: .8rem; font-weight: 700; color: #333;
-            cursor: pointer; transition: all .2s; white-space: nowrap;
-          }
-          .prf-edit-btn:hover { border-color: #2ecc50; color: #1a7a2e; background: rgba(46,204,80,.05); }
-
-          /* Section heading */
-          .prf-section-title {
-            font-size: .72rem; font-weight: 800;
-            text-transform: uppercase; letter-spacing: .6px;
-            color: #7a8f7a; margin-bottom: 1rem;
-          }
-
-          /* Info rows (view mode) */
-          .prf-field { margin-bottom: 1.1rem; }
-          .prf-field:last-child { margin-bottom: 0; }
-          .prf-field-label {
-            font-size: .68rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: .5px; color: #aaa; margin-bottom: .3rem;
-          }
-          .prf-field-value {
-            font-size: .93rem; color: #1a1a1a; font-weight: 500;
-            padding: .7rem .9rem;
-            background: #f7faf7; border: 1px solid #e8ede8;
-            border-radius: 10px;
-          }
-
-          /* Edit form inputs */
-          .prf-input {
-            width: 100%; padding: .7rem .9rem;
-            border: 1.5px solid #d8e4d8; border-radius: 10px;
-            font-family: inherit; font-size: .93rem; color: #1a1a1a;
-            background: #fff; transition: border-color .2s;
-            box-sizing: border-box;
-          }
-          .prf-input:focus { outline: none; border-color: #2ecc50; }
-          .prf-input:disabled { background: #f0f0f0; color: #999; cursor: not-allowed; }
-          .prf-input-row { display: flex; gap: .75rem; }
-          .prf-input-row .prf-field { flex: 1; }
-
-          /* Security rows */
-          .prf-security-row {
-            display: flex; align-items: center; gap: 1rem;
-            padding: .95rem 0;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer; transition: background .15s;
-            border-radius: 8px; padding-left: .5rem; padding-right: .5rem;
-          }
-          .prf-security-row:last-child { border-bottom: none; }
-          .prf-security-row:hover { background: #f7faf7; }
-          .prf-security-icon {
-            width: 36px; height: 36px; border-radius: 10px;
-            background: #f3f4f6; display: flex; align-items: center;
-            justify-content: center; flex-shrink: 0;
-          }
-          .prf-security-icon svg { width: 16px; height: 16px; stroke: #555; }
-          .prf-security-text { flex: 1; }
-          .prf-security-label { font-size: .88rem; font-weight: 700; color: #1a1a1a; }
-          .prf-security-desc  { font-size: .76rem; color: #9ca3af; margin-top: .1rem; }
-          .prf-security-arrow { color: #ccc; font-size: 1rem; }
-
-          /* Danger zone */
-          .prf-danger-row {
-            display: flex; align-items: center; gap: .6rem;
-            color: #dc2626; font-size: .88rem; font-weight: 700;
-            cursor: pointer; padding: .5rem 0;
-          }
-          .prf-danger-row svg { width: 16px; height: 16px; stroke: #dc2626; }
-          .prf-danger-row:hover { text-decoration: underline; }
-
-          /* Save button */
-          .prf-save-btn {
-            width: 100%; padding: .75rem;
-            background: #2ecc50; border: none; border-radius: 10px;
-            font-size: .93rem; font-weight: 800; color: #fff;
-            cursor: pointer; transition: background .2s; margin-top: .5rem;
-          }
-          .prf-save-btn:hover { background: #27b545; }
-          .prf-save-btn:disabled { background: #a8d5b5; cursor: not-allowed; }
-          .prf-cancel-btn {
-            width: 100%; padding: .7rem;
-            background: transparent; border: 1.5px solid #d1d5d1;
-            border-radius: 10px; font-size: .88rem; font-weight: 700;
-            color: #555; cursor: pointer; margin-top: .5rem;
-            transition: all .2s;
-          }
-          .prf-cancel-btn:hover { border-color: #aaa; color: #111; }
-
-          /* Change password modal overlay */
-          .prf-modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,.45); z-index: 1000;
-            align-items: center; justify-content: center;
-          }
-          .prf-modal-overlay.open { display: flex; }
-          .prf-modal-box {
-            background: #fff; border-radius: 16px; padding: 2rem;
-            width: 100%; max-width: 420px; margin: 1rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,.15);
-          }
-          .prf-modal-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.25rem; color: #111; }
-          .prf-modal-field { margin-bottom: 1rem; }
-          .prf-modal-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #7a8f7a; margin-bottom: .4rem; display: block; }
-          .prf-modal-actions { display: flex; gap: .75rem; margin-top: 1.25rem; }
-          .prf-modal-actions button { flex: 1; padding: .75rem; border-radius: 10px; font-size: .9rem; font-weight: 700; cursor: pointer; }
-          .prf-modal-btn-cancel { background: #f3f4f6; border: none; color: #555; }
-          .prf-modal-btn-save   { background: #2ecc50; border: none; color: #fff; }
-          .prf-modal-btn-cancel:hover { background: #e5e7eb; }
-          .prf-modal-btn-save:hover   { background: #27b545; }
-        </style>
-
-        <!-- ── Profile Hero Card ── -->
-        <div class="prf-card">
-          <div class="prf-hero">
-            <div class="prf-avatar-wrap">
-              <img id="prf-avatar-img"
-                   src="https://ui-avatars.com/api/?name=User&background=2ecc50&color=fff"
-                   alt="Avatar" class="prf-avatar" />
-              <div class="prf-avatar-badge"></div>
-            </div>
-            <div class="prf-hero-info">
-              <div class="prf-hero-name" id="prf-hero-name">Cargando...</div>
-              <div class="prf-hero-email" id="prf-hero-email">—</div>
-              <div class="prf-hero-since" id="prf-hero-since">Miembro desde —</div>
-            </div>
-            <button class="prf-edit-btn" id="prf-edit-toggle" onclick="UserDashboard.toggleProfileEdit()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-              </svg>
-              Editar
-            </button>
-          </div>
-        </div>
-
-        <!-- ── Información Personal (view mode) ── -->
-        <div class="prf-card" id="prf-view-mode">
-          <div class="prf-section-title">Información Personal</div>
-
-          <div class="prf-field">
-            <div class="prf-field-label">Nombre Completo</div>
-            <div class="prf-field-value" id="prf-view-name">—</div>
-          </div>
-          <div class="prf-field">
-            <div class="prf-field-label">Correo Electrónico</div>
-            <div class="prf-field-value" id="prf-view-email">—</div>
-          </div>
-          <div class="prf-field">
-            <div class="prf-field-label">Teléfono</div>
-            <div class="prf-field-value" id="prf-view-phone">—</div>
-          </div>
-          <div class="prf-field">
-            <div class="prf-field-label">Ciudad</div>
-            <div class="prf-field-value">Ipiales, Nariño</div>
-          </div>
-        </div>
-
-        <!-- ── Información Personal (edit mode, hidden by default) ── -->
-        <div class="prf-card" id="prf-edit-mode" style="display:none;">
-          <div class="prf-section-title">Editar Información</div>
-          <form id="profile-form">
-            <div class="prf-input-row" style="margin-bottom:1rem;">
-              <div class="prf-field">
-                <div class="prf-field-label">Nombre</div>
-                <input type="text" id="profile-name" class="prf-input" placeholder="Tu nombre" required />
-              </div>
-              <div class="prf-field">
-                <div class="prf-field-label">Apellido</div>
-                <input type="text" id="profile-lastname" class="prf-input" placeholder="Tu apellido" required />
-              </div>
-            </div>
-            <div class="prf-field" style="margin-bottom:1rem;">
-              <div class="prf-field-label">Correo Electrónico</div>
-              <input type="email" id="profile-email" class="prf-input" disabled />
-            </div>
-            <div class="prf-field" style="margin-bottom:.5rem;">
-              <div class="prf-field-label">Teléfono</div>
-              <input type="tel" id="profile-phone" class="prf-input" placeholder="+57 300 123 4567" />
-            </div>
-            <button type="submit" class="prf-save-btn" id="btn-save">Guardar Cambios</button>
-            <button type="button" class="prf-cancel-btn" onclick="UserDashboard.toggleProfileEdit()">Cancelar</button>
-          </form>
-        </div>
-
-        <!-- ── Seguridad ── -->
-        <div class="prf-card">
-          <div class="prf-section-title">Seguridad</div>
-
-          <div class="prf-security-row" onclick="UserDashboard.openChangePassword()">
-            <div class="prf-security-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2"/>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-            </div>
-            <div class="prf-security-text">
-              <div class="prf-security-label">Cambiar Contraseña</div>
-              <div class="prf-security-desc">Actualiza tu contraseña de acceso</div>
-            </div>
-            <span class="prf-security-arrow">›</span>
-          </div>
-
-          <div class="prf-security-row" onclick="App.showToast('Función disponible próximamente.')">
-            <div class="prf-security-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
-            <div class="prf-security-text">
-              <div class="prf-security-label">Verificación en 2 pasos</div>
-              <div class="prf-security-desc">Añade una capa extra de seguridad</div>
-            </div>
-            <span class="prf-security-arrow">›</span>
-          </div>
-
-          <div class="prf-security-row" onclick="App.showToast('Función disponible próximamente.')">
-            <div class="prf-security-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                <path d="M8 21h8M12 17v4"/>
-              </svg>
-            </div>
-            <div class="prf-security-text">
-              <div class="prf-security-label">Sesiones Activas</div>
-              <div class="prf-security-desc">Gestiona los dispositivos conectados</div>
-            </div>
-            <span class="prf-security-arrow">›</span>
-          </div>
-        </div>
-
-        <!-- ── Zona de Peligro ── -->
-        <div class="prf-card">
-          <div class="prf-section-title">Zona de Peligro</div>
-          <div class="prf-danger-row" onclick="UserDashboard.signOutAll()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="3" width="20" height="14" rx="2"/>
-              <path d="M8 21h8M12 17v4"/>
-            </svg>
-            Cerrar Sesión en todos los dispositivos
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Change Password Modal ── -->
-      <div class="prf-modal-overlay" id="prf-password-modal">
-        <div class="prf-modal-box">
-          <div class="prf-modal-title">🔒 Cambiar Contraseña</div>
-          <div class="prf-modal-field">
-            <label class="prf-modal-label" for="prf-new-password">Nueva Contraseña</label>
-            <input type="password" id="prf-new-password" class="prf-input" placeholder="Mínimo 8 caracteres" />
-          </div>
-          <div class="prf-modal-field">
-            <label class="prf-modal-label" for="prf-confirm-password">Confirmar Contraseña</label>
-            <input type="password" id="prf-confirm-password" class="prf-input" placeholder="Repite la contraseña" />
-          </div>
-          <p id="prf-password-error" style="color:#dc2626;font-size:.8rem;margin-top:.5rem;"></p>
-          <div class="prf-modal-actions">
-            <button class="prf-modal-btn-cancel" onclick="UserDashboard.closeChangePassword()">Cancelar</button>
-            <button class="prf-modal-btn-save" onclick="UserDashboard.saveNewPassword()">Guardar</button>
-          </div>
-        </div>
-      </div>
     </main>
 
-    <!-- ══ CANCEL MODAL ═════════════════════════════════════════════════ -->
-    <div class="reservas-modal" id="cancel-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="reservas-modal__box">
-        <div class="reservas-modal__header">
-          <div class="reservas-modal__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div class="toast align-items-center border-0" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body d-flex align-items-center gap-2" id="toast-body-content">
+            <i class="bi bi-bell"></i>
+            <span></span>
           </div>
-          <h2 class="reservas-modal__title" id="modal-title">Cancelar Reserva</h2>
-          <p class="reservas-modal__subtitle">Esta acción no se puede deshacer. ¿Estás seguro de que deseas cancelar esta reserva?</p>
-        </div>
-        <div class="reservas-modal__body">
-          <div class="reservas-modal__detail" id="modal-detail">
-            <div class="reservas-modal__detail-row">
-              <span class="label">Cancha</span>
-              <span class="value" id="modal-venue">–</span>
-            </div>
-            <div class="reservas-modal__detail-row">
-              <span class="label">Fecha</span>
-              <span class="value" id="modal-date">–</span>
-            </div>
-            <div class="reservas-modal__detail-row">
-              <span class="label">Horario</span>
-              <span class="value" id="modal-time">–</span>
-            </div>
-          </div>
-        </div>
-        <div class="reservas-modal__footer">
-          <button class="modal-btn-secondary" id="modal-btn-cancel-close">Volver</button>
-          <button class="modal-btn-danger" id="modal-btn-confirm-cancel">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            Sí, cancelar
-          </button>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
       </div>
     </div>
 
-    <!-- ══ 2-STEP RESERVATION MODAL ══════════════════════════════════ -->
-    <div class="reserva-modal-overlay" id="reserva-modal" role="dialog" aria-modal="true" aria-labelledby="rmodal-title">
-      <div class="reserva-modal">
-        <!-- Progress bar -->
-        <div class="rmodal-progress" role="progressbar" aria-valuemin="1" aria-valuemax="2" aria-valuenow="1">
-          <div class="rmodal-progress__bar" id="rmodal-progress-bar" style="width:50%"></div>
-        </div>
-        <!-- Header -->
-        <div class="rmodal-header">
-          <div class="rmodal-header__left">
-            <div class="rmodal-step-label" id="rmodal-step-label">Paso 1 de 2</div>
-            <h2 class="rmodal-title" id="rmodal-title">Elige fecha y horario</h2>
-          </div>
-          <button class="rmodal-close" onclick="Venues.closeModal()" aria-label="Cerrar">&times;</button>
-        </div>
-        <!-- Venue info strip -->
-        <div class="rmodal-venue-info">
-          <div class="rmodal-venue-icon" id="rmodal-venue-icon">🏟️</div>
-          <div>
-            <span class="rmodal-venue-name" id="modal-venue-name">Cancha</span>
-            <span class="rmodal-venue-meta" id="modal-venue-tipo-precio">Tipo · Precio</span>
-          </div>
-        </div>
-        <!-- Body (steps) -->
-        <div class="rmodal-body">
-          <!-- ── STEP 1: date + time ── -->
-          <div class="rmodal-step active" id="rmodal-step-1">
-            <div class="rmodal-form-group">
-              <label for="modal-fecha">📅 Fecha de la reserva</label>
-              <input type="date" id="modal-fecha" class="rmodal-input" required />
-            </div>
-            <div class="rmodal-row">
-              <div class="rmodal-form-group">
-                <label for="modal-hora-inicio">🕐 Hora de inicio</label>
-                <input type="time" id="modal-hora-inicio" class="rmodal-input" required />
-              </div>
-              <div class="rmodal-form-group">
-                <label for="modal-hora-fin">🕓 Hora de fin</label>
-                <input type="time" id="modal-hora-fin" class="rmodal-input" required />
-              </div>
-            </div>
-            <p class="rmodal-error" id="modal-error"></p>
-          </div>
-          <!-- ── STEP 2: summary + payment ── -->
-          <div class="rmodal-step" id="rmodal-step-2">
-            <div class="rmodal-summary" id="rmodal-summary">
-              <div class="rmodal-summary-row">
-                <span class="lbl">Cancha</span>
-                <span class="val" id="sum-venue">–</span>
-              </div>
-              <div class="rmodal-summary-row">
-                <span class="lbl">Fecha</span>
-                <span class="val" id="sum-date">–</span>
-              </div>
-              <div class="rmodal-summary-row">
-                <span class="lbl">Horario</span>
-                <span class="val" id="sum-time">–</span>
-              </div>
-              <div class="rmodal-summary-row">
-                <span class="lbl">Duración</span>
-                <span class="val" id="sum-duration">–</span>
-              </div>
-              <div class="rmodal-summary__divider"></div>
-              <div class="rmodal-summary-row rmodal-summary-row--total">
-                <span class="lbl">Total estimado</span>
-                <span class="val" id="sum-total">–</span>
-              </div>
-            </div>
-            <span class="rmodal-payment-label">💳 Método de pago</span>
-            <div class="rmodal-payment-options" id="payment-options">
-              <label class="rmodal-payment-opt selected" data-value="efectivo">
-                <input type="radio" name="metodo_pago" value="efectivo" checked />
-                <span class="rmodal-payment-opt__icon">💵</span>
-                <span class="rmodal-payment-opt__text">
-                  <span class="rmodal-payment-opt__name">Efectivo</span>
-                  <span class="rmodal-payment-opt__sub">Al llegar</span>
-                </span>
-                <span class="rmodal-payment-check"></span>
-              </label>
-              <label class="rmodal-payment-opt" data-value="transferencia">
-                <input type="radio" name="metodo_pago" value="transferencia" />
-                <span class="rmodal-payment-opt__icon">🏦</span>
-                <span class="rmodal-payment-opt__text">
-                  <span class="rmodal-payment-opt__name">Transferencia</span>
-                  <span class="rmodal-payment-opt__sub">Nequi / Bancolombia</span>
-                </span>
-                <span class="rmodal-payment-check"></span>
-              </label>
-              <label class="rmodal-payment-opt" data-value="tarjeta">
-                <input type="radio" name="metodo_pago" value="tarjeta" />
-                <span class="rmodal-payment-opt__icon">💳</span>
-                <span class="rmodal-payment-opt__text">
-                  <span class="rmodal-payment-opt__name">Tarjeta</span>
-                  <span class="rmodal-payment-opt__sub">Débito / Crédito</span>
-                </span>
-                <span class="rmodal-payment-check"></span>
-              </label>
-              <label class="rmodal-payment-opt" data-value="pse">
-                <input type="radio" name="metodo_pago" value="pse" />
-                <span class="rmodal-payment-opt__icon">🌐</span>
-                <span class="rmodal-payment-opt__text">
-                  <span class="rmodal-payment-opt__name">PSE</span>
-                  <span class="rmodal-payment-opt__sub">Pago en línea</span>
-                </span>
-                <span class="rmodal-payment-check"></span>
-              </label>
-            </div>
-            <p class="rmodal-error" id="modal-error-2"></p>
-          </div>
-          <!-- ── SUCCESS STATE ── -->
-          <div class="rmodal-success" id="rmodal-success">
-            <div class="rmodal-success__icon">✅</div>
-            <h3 class="rmodal-success__title">¡Reserva Confirmada!</h3>
-            <p class="rmodal-success__text" id="success-text">Tu reserva ha sido registrada exitosamente.</p>
-            <button onclick="UserDashboard.switchTab('reservas')" class="rmodal-success__btn" style="border: none; cursor: pointer;">Ver mis reservas</button>
-          </div>
-        </div>
-        <!-- Footer (hidden during success) -->
-        <div class="rmodal-footer" id="rmodal-footer">
-          <button class="rmodal-btn-back" id="rmodal-btn-back" onclick="Venues.prevStep()" style="display:none">← Volver</button>
-          <button class="rmodal-btn-next" id="rmodal-btn-next" onclick="Venues.nextStep()">
-            Siguiente
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
-
-    <!-- Supabase SDK -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="../../assets/js/services/supabaseClient.js"></script>
     <script src="../../assets/js/services/authService.js"></script>
     <script src="../../assets/js/services/venuesService.js"></script>
 
-    <!-- JAVASCRIPT -->
+    
     <script src="../../assets/js/app.js"></script>
-    <script src="../../assets/js/reservas.js"></script>
-    <script src="../../assets/js/venues.js"></script>
-    <script src="../../assets/js/user-dashboard.js"></script>
+    <script src="../../assets/js/user/reservas.js"></script>
+    <script src="../../assets/js/user/venues.js"></script>
+    <script src="../../assets/js/user/user-dashboard.js"></script>
   </body>
 </html>

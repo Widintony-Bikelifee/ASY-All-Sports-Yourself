@@ -1,0 +1,393 @@
+/*
+ * user_dashboard.css stylesheet file.
+ * Archivo de hoja de estilos user_dashboard.css.
+ */
+
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+.banner-welcome {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+}
+
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+.banner-welcome .banner-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+.banner-welcome .banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+  z-index: 1;
+}
+
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+.banner-welcome .banner-content {
+  position: relative;
+  z-index: 2;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+.banner-welcome .badge {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+.banner-welcome .display-4 {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+  font-weight: 800;
+}
+
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+.banner-welcome .lead strong {
+  font-weight: 700;
+}
+
+/* Styles for stats container #stats container .rounded 3. / Estilos para stats container #stats container .rounded 3. */
+#stats-container #stats-container .rounded-3 {
+  border-radius: var(--radius-md, 10px) !important;
+}
+
+/* Styles for stats container h2. / Estilos para stats container h2. */
+#stats-container h2 {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+  font-weight: 800;
+  font-size: 2rem;
+}
+
+/* Reservation item layout and hover state styling / Diseño del elemento de reserva y estilo hover */
+.reserva-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  transition: background var(--transition, 0.2s ease);
+}
+
+/* Reservation item layout and hover state styling / Diseño del elemento de reserva y estilo hover */
+.reserva-item:last-child {
+  border-bottom: none;
+}
+
+/* Reservation item layout and hover state styling / Diseño del elemento de reserva y estilo hover */
+.reserva-item:hover {
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.02));
+}
+
+/* Styles for reserva icon. / Estilos para reserva icon. */
+.reserva-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.1));
+  border-radius: var(--radius-md, 10px);
+  flex-shrink: 0;
+}
+
+/* Styles for reserva icon i. / Estilos para reserva icon i. */
+.reserva-icon i {
+  font-size: 1.5rem;
+  color: var(--primary-green, #2ecc50);
+}
+
+/* Styles for reserva info. / Estilos para reserva info. */
+.reserva-info {
+  flex: 1;
+}
+
+/* Styles for reserva info .reserva title. / Estilos para reserva info .reserva title. */
+.reserva-info .reserva-title {
+  font-weight: 700;
+  color: var(--text-primary, #111);
+  margin-bottom: 0.25rem;
+}
+
+/* Styles for reserva info .reserva detail. / Estilos para reserva info .reserva detail. */
+.reserva-info .reserva-detail {
+  font-size: 0.8rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+/* Styles for reserva info .reserva detail i. / Estilos para reserva info .reserva detail i. */
+.reserva-info .reserva-detail i {
+  margin-right: 0.25rem;
+  font-size: 0.7rem;
+}
+
+/* Styles for reserva status. / Estilos para reserva status. */
+.reserva-status {
+  flex-shrink: 0;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.reserva-status .badge {
+  border-radius: var(--radius-full, 40px);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Styles for reserva date. / Estilos para reserva date. */
+.reserva-date {
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 100px;
+}
+
+/* Styles for reserva date .date day. / Estilos para reserva date .date day. */
+.reserva-date .date-day {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-primary, #111);
+}
+
+/* Styles for reserva date .date time. / Estilos para reserva date .date time. */
+.reserva-date .date-time {
+  font-size: 0.7rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+/* Styles for empty state. / Estilos para empty state. */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Styles for empty state i. / Estilos para empty state i. */
+.empty-state i {
+  font-size: 3rem;
+  color: var(--border-medium, #d9e2d9);
+  margin-bottom: 1rem;
+}
+
+/* Styles for empty state p. / Estilos para empty state p. */
+.empty-state p {
+  color: var(--text-muted, #7a8f7a);
+  margin-bottom: 0;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success {
+  background: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success:hover {
+  background: var(--primary-green-dark, #27b545);
+  border-color: var(--primary-green-dark, #27b545);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger {
+  border-width: 1.5px;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger:hover {
+  transform: translateY(-1px);
+}
+
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-full, 40px) !important;
+  padding: 0.4rem 0.9rem;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge.bg-success {
+  background: var(--primary-green, #2ecc50) !important;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge.bg-warning {
+  background: #f59e0b !important;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge.bg-danger {
+  background: #ef4444 !important;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge.bg-info {
+  background: #0ea5e9 !important;
+}
+
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
+.toast {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-left: 4px solid var(--primary-green, #2ecc50);
+  border-radius: var(--radius-md, 10px);
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
+}
+
+/* Styles for spinner border. / Estilos para spinner border. */
+.spinner-border {
+  color: var(--primary-green, #2ecc50) !important;
+}
+
+@keyframes fadeIn {
+/* Styles for from. / Estilos para from. */
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+/* Styles for to. / Estilos para to. */
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+}
+
+.card, .reserva-item {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@media (max-width: 992px) {
+/* Styles for 768px). / Estilos para 768px). */
+  }
+
+@media (max-width: 768px) {
+  .btn {
+    padding: 0.5rem 1rem;
+  }
+  
+  .banner-welcome .display-4 {
+    font-size: 1.75rem;
+  }
+  
+  .banner-welcome .lead {
+    font-size: 0.9rem;
+  }
+  
+  #stats-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  .reserva-item {
+    flex-wrap: wrap;
+  }
+  
+  .reserva-date {
+    text-align: left;
+    margin-left: 3rem;
+  }
+}
+
+@media (max-width: 576px) {
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .card-header h5 {
+    font-size: 1rem;
+  }
+  
+/* Styles for row.g 4. / Estilos para row.g 4. */
+  .row.g-4 {
+    gap: 1rem;
+  }
+  
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+  .banner-welcome .banner-welcome .display-4 {
+    font-size: 1.5rem;
+  }
+  
+/* Home banner layout and overlay styling / Diseño del banner de inicio y estilo de superposición */
+  .banner-welcome .lead {
+    font-size: 0.8rem;
+  }
+  
+/* Reservation item layout and hover state styling / Diseño del elemento de reserva y estilo hover */
+  .reserva-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+/* Styles for reserva icon. / Estilos para reserva icon. */
+  .reserva-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+/* Styles for reserva icon i. / Estilos para reserva icon i. */
+  .reserva-icon i {
+    font-size: 1.25rem;
+  }
+  
+/* Styles for reserva date. / Estilos para reserva date. */
+  .reserva-date {
+    margin-left: 0;
+  }
+  
+/* Styles for stats container .col 12. / Estilos para stats container .col 12. */
+  #stats-container .col-12 {
+    margin-bottom: 0.75rem;
+  }
+/* Styles for .rounded 3. / Estilos para .rounded 3. */
+}
+
+.rounded-3 {
+  border-radius: var(--radius-md, 10px) !important;
+}
+
+/* Styles for shadow sm. / Estilos para shadow sm. */
+.shadow-sm {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Styles for text secondary. / Estilos para text secondary. */
+.text-secondary {
+  color: var(--text-muted, #7a8f7a) !important;
+}
+
+/* Styles for text white 50. / Estilos para text white 50. */
+.text-white-50 {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Styles for overflow hidden. / Estilos para overflow hidden. */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Styles for text truncate. / Estilos para text truncate. */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link) {
+  color: var(--primary-green-dark, #27b545);
+  text-decoration: none;
+  transition: color var(--transition, 0.2s ease);
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link):hover {

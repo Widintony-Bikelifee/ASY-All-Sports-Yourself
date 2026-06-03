@@ -1,11 +1,6 @@
-/* ═══════════════════════════════════════
-   navbar.js - Dual navigation bar system
-   Shows different navbar for guests vs authenticated users.
-   Queries Supabase session and displays the appropriate navbar.
-   Both navbars exist in HTML but are hidden by default.
-   ═══════════════════════════════════════ */
 
-// Default mock notifications
+
+
 const DEFAULT_USER_NOTIS = [
   { id: 'u1', text: "¡Tu reserva para este Sábado a las 10:00 en Cancha Sintética El Golazo ha sido CONFIRMADA! ⚽", read: false, time: "Hace 10 min", icon: "✅" },
   { id: 'u2', text: "Nuevo Torneo de Fútbol 5 en Ipiales. Inscripciones abiertas. ¡Premios en efectivo! 🏆", read: false, time: "Hace 2 horas", icon: "🏆" },
@@ -20,13 +15,10 @@ const DEFAULT_ADMIN_NOTIS = [
   { id: 'a4', text: "Felicidades, has alcanzado 50 reservas este mes. 🚀", read: true, time: "Hace 3 días", icon: "🌟" }
 ];
 
-/* ═══════════════════════════════════════
-   INITIALIZATION - IIFE to initialize navbar on load
-   ═══════════════════════════════════════
-   */
+
 (async function initDualNavbar() {
 
-  /* Step 1: Check Supabase session */
+  
   let session = null;
   if (window.supabaseClient) {
     try {
@@ -37,46 +29,46 @@ const DEFAULT_ADMIN_NOTIS = [
     }
   }
 
-  /* Step 2: Show the appropriate navbar based on session */
+  
   const guestNav = document.getElementById("navbar-guest");
   const userNav  = document.getElementById("navbar-user");
   const adminNav = document.getElementById("navbar-admin");
 
   if (session) {
-    // Get user role
+    
     let role = 'user';
     if (window.getUserRole) {
       role = await window.getUserRole();
     }
 
     if (role === 'admin_cancha' && adminNav) {
-      // Admin is logged in - show admin navbar
+      
       adminNav.classList.remove("navbar-wrapper--hidden");
       guestNav?.classList.add("navbar-wrapper--hidden");
       userNav?.classList.add("navbar-wrapper--hidden");
       setupUserNavbar(session.user, "admin-");
     } else {
-      // User is logged in - show user navbar
+      
       if (userNav) {
         userNav.classList.remove("navbar-wrapper--hidden");
         guestNav?.classList.add("navbar-wrapper--hidden");
         adminNav?.classList.add("navbar-wrapper--hidden");
         setupUserNavbar(session.user, "user-");
       } else {
-        // Fallback to guest if userNav doesn't exist
+        
         guestNav?.classList.remove("navbar-wrapper--hidden");
         setupGuestNavbar();
       }
     }
   } else {
-    // User is not logged in - show guest navbar
+    
     if (guestNav) {
       guestNav.classList.remove("navbar-wrapper--hidden");
       userNav?.classList.add("navbar-wrapper--hidden");
       adminNav?.classList.add("navbar-wrapper--hidden");
       setupGuestNavbar();
     } else {
-      // Fallback
+      
       const defaultNav = document.getElementById("navbar");
       if (defaultNav) {
         setupGuestNavbar();
@@ -93,10 +85,276 @@ const DEFAULT_ADMIN_NOTIS = [
 })();
 
 
-/* ═══════════════════════════════════════
-   GUEST NAVBAR - Setup for non-authenticated users
-   ═══════════════════════════════════════
-   */
+
+
+
+
+const DEFAULT_USER_NOTIS = [
+  { id: 'u1', text: "¡Tu reserva para este Sábado a las 10:00 en Cancha Sintética El Golazo ha sido CONFIRMADA! ⚽", read: false, time: "Hace 10 min", icon: "✅" },
+  { id: 'u2', text: "Nuevo Torneo de Fútbol 5 en Ipiales. Inscripciones abiertas. ¡Premios en efectivo! 🏆", read: false, time: "Hace 2 horas", icon: "🏆" },
+  { id: 'u3', text: "Has recibido 150 puntos Club ASY por tu última reserva jugada. 🏅", read: true, time: "Ayer", icon: "🎉" },
+  { id: 'u4', text: "Completa tu perfil para recibir un 10% de descuento en tu próxima reserva. 🎁", read: true, time: "Hace 2 días", icon: "🎁" }
+];
+
+const DEFAULT_ADMIN_NOTIS = [
+  { id: 'a1', text: "Nueva solicitud de reserva recibida de Juan Pérez para Cancha Sintética El Golazo (Viernes 18:00) 📅", read: false, time: "Hace 5 min", icon: "📥" },
+  { id: 'a2', text: "La cancha 'Cancha de Tenis Club' ha sido reservada y pagada vía PSE. 💳", read: false, time: "Hace 1 hora", icon: "💰" },
+  { id: 'a3', text: "Reporte de ventas mensual disponible para descarga. 📈", read: true, time: "Hace 1 día", icon: "📊" },
+  { id: 'a4', text: "Felicidades, has alcanzado 50 reservas este mes. 🚀", read: true, time: "Hace 3 días", icon: "🌟" }
+];
+
+
+(async function initDualNavbar() {
+
+  
+  let session = null;
+  if (window.supabaseClient) {
+    try {
+      const { data } = await supabaseClient.auth.getSession();
+      session  = data?.session ?? null;
+    } catch (e) {
+      console.warn("Error getting supabase session:", e);
+    }
+  }
+
+  
+  const guestNav = document.getElementById("navbar-guest");
+  const userNav  = document.getElementById("navbar-user");
+  const adminNav = document.getElementById("navbar-admin");
+
+  if (session) {
+    
+    let role = 'user';
+    if (window.getUserRole) {
+      role = await window.getUserRole();
+    }
+
+    if (role === 'admin_cancha' && adminNav) {
+      
+      adminNav.classList.remove("navbar-wrapper--hidden");
+      guestNav?.classList.add("navbar-wrapper--hidden");
+      userNav?.classList.add("navbar-wrapper--hidden");
+      setupUserNavbar(session.user, "admin-");
+    } else {
+      
+      if (userNav) {
+        userNav.classList.remove("navbar-wrapper--hidden");
+        guestNav?.classList.add("navbar-wrapper--hidden");
+        adminNav?.classList.add("navbar-wrapper--hidden");
+        setupUserNavbar(session.user, "user-");
+      } else {
+        
+        guestNav?.classList.remove("navbar-wrapper--hidden");
+        setupGuestNavbar();
+      }
+    }
+  } else {
+    
+    if (guestNav) {
+      guestNav.classList.remove("navbar-wrapper--hidden");
+      userNav?.classList.add("navbar-wrapper--hidden");
+      adminNav?.classList.add("navbar-wrapper--hidden");
+      setupGuestNavbar();
+    } else {
+      
+      const defaultNav = document.getElementById("navbar");
+      if (defaultNav) {
+        setupGuestNavbar();
+      }
+    }
+  }
+
+  if (session) {
+    setupHomePageLogoutInterception();
+  }
+
+  setupMockLinks();
+
+})();
+
+
+
+
+
+
+const DEFAULT_USER_NOTIS = [
+  { id: 'u1', text: "¡Tu reserva para este Sábado a las 10:00 en Cancha Sintética El Golazo ha sido CONFIRMADA! ⚽", read: false, time: "Hace 10 min", icon: "✅" },
+  { id: 'u2', text: "Nuevo Torneo de Fútbol 5 en Ipiales. Inscripciones abiertas. ¡Premios en efectivo! 🏆", read: false, time: "Hace 2 horas", icon: "🏆" },
+  { id: 'u3', text: "Has recibido 150 puntos Club ASY por tu última reserva jugada. 🏅", read: true, time: "Ayer", icon: "🎉" },
+  { id: 'u4', text: "Completa tu perfil para recibir un 10% de descuento en tu próxima reserva. 🎁", read: true, time: "Hace 2 días", icon: "🎁" }
+];
+
+const DEFAULT_ADMIN_NOTIS = [
+  { id: 'a1', text: "Nueva solicitud de reserva recibida de Juan Pérez para Cancha Sintética El Golazo (Viernes 18:00) 📅", read: false, time: "Hace 5 min", icon: "📥" },
+  { id: 'a2', text: "La cancha 'Cancha de Tenis Club' ha sido reservada y pagada vía PSE. 💳", read: false, time: "Hace 1 hora", icon: "💰" },
+  { id: 'a3', text: "Reporte de ventas mensual disponible para descarga. 📈", read: true, time: "Hace 1 día", icon: "📊" },
+  { id: 'a4', text: "Felicidades, has alcanzado 50 reservas este mes. 🚀", read: true, time: "Hace 3 días", icon: "🌟" }
+];
+
+
+(async function initDualNavbar() {
+
+  
+  let session = null;
+  if (window.supabaseClient) {
+    try {
+      const { data } = await supabaseClient.auth.getSession();
+      session  = data?.session ?? null;
+    } catch (e) {
+      console.warn("Error getting supabase session:", e);
+    }
+  }
+
+  
+  const guestNav = document.getElementById("navbar-guest");
+  const userNav  = document.getElementById("navbar-user");
+  const adminNav = document.getElementById("navbar-admin");
+
+  if (session) {
+    
+    let role = 'user';
+    if (window.getUserRole) {
+      role = await window.getUserRole();
+    }
+
+    if (role === 'admin_cancha' && adminNav) {
+      
+      adminNav.classList.remove("navbar-wrapper--hidden");
+      guestNav?.classList.add("navbar-wrapper--hidden");
+      userNav?.classList.add("navbar-wrapper--hidden");
+      setupUserNavbar(session.user, "admin-");
+    } else {
+      
+      if (userNav) {
+        userNav.classList.remove("navbar-wrapper--hidden");
+        guestNav?.classList.add("navbar-wrapper--hidden");
+        adminNav?.classList.add("navbar-wrapper--hidden");
+        setupUserNavbar(session.user, "user-");
+      } else {
+        
+        guestNav?.classList.remove("navbar-wrapper--hidden");
+        setupGuestNavbar();
+      }
+    }
+  } else {
+    
+    if (guestNav) {
+      guestNav.classList.remove("navbar-wrapper--hidden");
+      userNav?.classList.add("navbar-wrapper--hidden");
+      adminNav?.classList.add("navbar-wrapper--hidden");
+      setupGuestNavbar();
+    } else {
+      
+      const defaultNav = document.getElementById("navbar");
+      if (defaultNav) {
+        setupGuestNavbar();
+      }
+    }
+  }
+
+  if (session) {
+    setupHomePageLogoutInterception();
+  }
+
+  setupMockLinks();
+
+})();
+
+
+
+
+
+
+const DEFAULT_USER_NOTIS = [
+  { id: 'u1', text: "¡Tu reserva para este Sábado a las 10:00 en Cancha Sintética El Golazo ha sido CONFIRMADA! ⚽", read: false, time: "Hace 10 min", icon: "✅" },
+  { id: 'u2', text: "Nuevo Torneo de Fútbol 5 en Ipiales. Inscripciones abiertas. ¡Premios en efectivo! 🏆", read: false, time: "Hace 2 horas", icon: "🏆" },
+  { id: 'u3', text: "Has recibido 150 puntos Club ASY por tu última reserva jugada. 🏅", read: true, time: "Ayer", icon: "🎉" },
+  { id: 'u4', text: "Completa tu perfil para recibir un 10% de descuento en tu próxima reserva. 🎁", read: true, time: "Hace 2 días", icon: "🎁" }
+];
+
+const DEFAULT_ADMIN_NOTIS = [
+  { id: 'a1', text: "Nueva solicitud de reserva recibida de Juan Pérez para Cancha Sintética El Golazo (Viernes 18:00) 📅", read: false, time: "Hace 5 min", icon: "📥" },
+  { id: 'a2', text: "La cancha 'Cancha de Tenis Club' ha sido reservada y pagada vía PSE. 💳", read: false, time: "Hace 1 hora", icon: "💰" },
+  { id: 'a3', text: "Reporte de ventas mensual disponible para descarga. 📈", read: true, time: "Hace 1 día", icon: "📊" },
+  { id: 'a4', text: "Felicidades, has alcanzado 50 reservas este mes. 🚀", read: true, time: "Hace 3 días", icon: "🌟" }
+];
+
+
+(async function initDualNavbar() {
+
+  
+  let session = null;
+  if (window.supabaseClient) {
+    try {
+      const { data } = await supabaseClient.auth.getSession();
+      session  = data?.session ?? null;
+    } catch (e) {
+      console.warn("Error getting supabase session:", e);
+    }
+  }
+
+  
+  const guestNav = document.getElementById("navbar-guest");
+  const userNav  = document.getElementById("navbar-user");
+  const adminNav = document.getElementById("navbar-admin");
+
+  if (session) {
+    
+    let role = 'user';
+    if (window.getUserRole) {
+      role = await window.getUserRole();
+    }
+
+    if (role === 'admin_cancha' && adminNav) {
+      
+      adminNav.classList.remove("navbar-wrapper--hidden");
+      guestNav?.classList.add("navbar-wrapper--hidden");
+      userNav?.classList.add("navbar-wrapper--hidden");
+      setupUserNavbar(session.user, "admin-");
+    } else {
+      
+      if (userNav) {
+        userNav.classList.remove("navbar-wrapper--hidden");
+        guestNav?.classList.add("navbar-wrapper--hidden");
+        adminNav?.classList.add("navbar-wrapper--hidden");
+        setupUserNavbar(session.user, "user-");
+      } else {
+        
+        guestNav?.classList.remove("navbar-wrapper--hidden");
+        setupGuestNavbar();
+      }
+    }
+  } else {
+    
+    if (guestNav) {
+      guestNav.classList.remove("navbar-wrapper--hidden");
+      userNav?.classList.add("navbar-wrapper--hidden");
+      adminNav?.classList.add("navbar-wrapper--hidden");
+      setupGuestNavbar();
+    } else {
+      
+      const defaultNav = document.getElementById("navbar");
+      if (defaultNav) {
+        setupGuestNavbar();
+      }
+    }
+  }
+
+  if (session) {
+    setupHomePageLogoutInterception();
+  }
+
+  setupMockLinks();
+
+})();
+
+
+
+/**
+ * SetupGuestNavbar.
+ * Realiza.
+ */
+
 function setupGuestNavbar() {
   const hamburger  = document.getElementById("guest-hamburger") || document.getElementById("navbar-hamburger");
   const mobileMenu = document.getElementById("guest-mobile-menu") || document.getElementById("navbar-mobile-menu");
@@ -105,6 +363,11 @@ function setupGuestNavbar() {
     hamburger.addEventListener("click", () =>
       mobileMenu.classList.toggle("open")
     );
+    /**
+     * Initialize page scripting once DOM content is ready.
+     * Inicializa el script de la página cuando el contenido DOM está listo.
+     */
+    
     document.addEventListener("click", (e) => {
       if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
         mobileMenu.classList.remove("open");
@@ -114,10 +377,12 @@ function setupGuestNavbar() {
 }
 
 
-/* ═══════════════════════════════════════
-   USER/ADMIN NAVBAR - Setup for authenticated users
-   ═══════════════════════════════════════
-   */
+
+/**
+ * SetupUserNavbar.
+ * Realiza.
+ */
+
 function setupUserNavbar(user, prefix = "user-") {
 
   const displayName =
@@ -132,7 +397,7 @@ function setupUserNavbar(user, prefix = "user-") {
   if (avatarEl) avatarEl.textContent = displayName.charAt(0).toUpperCase();
   if (nameEl)   nameEl.textContent   = displayName;
 
-  // Mobile Hamburger Menu
+  
   const hamburger  = document.getElementById(`${prefix}hamburger`);
   const mobileMenu = document.getElementById(`${prefix}mobile-menu`);
 
@@ -140,6 +405,11 @@ function setupUserNavbar(user, prefix = "user-") {
     hamburger.addEventListener("click", () =>
       mobileMenu.classList.toggle("open")
     );
+    /**
+     * Initialize page scripting once DOM content is ready.
+     * Inicializa el script de la página cuando el contenido DOM está listo.
+     */
+    
     document.addEventListener("click", (e) => {
       if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
         mobileMenu.classList.remove("open");
@@ -147,7 +417,7 @@ function setupUserNavbar(user, prefix = "user-") {
     });
   }
 
-  // Profile Dropdown
+  
   const trigger  = document.getElementById(`${prefix}trigger`);
   const dropdown = document.getElementById(`${prefix}dropdown`);
 
@@ -157,12 +427,14 @@ function setupUserNavbar(user, prefix = "user-") {
       dropdown.classList.toggle("open");
       trigger.classList.toggle("active");
 
-      // Close notification dropdown if open
+      
       const notiDropdown = document.getElementById(`${prefix}noti-dropdown`);
       const notiTrigger = document.getElementById(`${prefix}noti-trigger`);
       if (notiDropdown) notiDropdown.classList.remove("open");
       if (notiTrigger) notiTrigger.classList.remove("active");
     });
+    
+    
     
     document.addEventListener("click", () => {
       dropdown.classList.remove("open");
@@ -170,10 +442,10 @@ function setupUserNavbar(user, prefix = "user-") {
     });
   }
 
-  // Setup Notifications dropdown and badge
+  
   setupNotifications(prefix);
 
-  // Logout Buttons
+  
   const desktopLogout = document.getElementById(prefix === "admin-" ? "btn-logout-admin" : "btn-logout");
   const mobileLogout  = document.getElementById(prefix === "admin-" ? "btn-logout-mobile-admin" : "btn-logout-mobile");
   
@@ -181,15 +453,17 @@ function setupUserNavbar(user, prefix = "user-") {
   mobileLogout?.addEventListener("click", logout);
 }
 
-/* ═══════════════════════════════════════
-   LOGOUT - Sign out user and redirect
-   ═══════════════════════════════════════
-   */
+
+/**
+ * Logout.
+ * Cerrar sesión.
+ */
+
 async function logout() {
   if (window.supabaseClient) {
     await supabaseClient.auth.signOut();
   }
-  // Redirect to login page. We might need to adjust relative path depending on where we are.
+  
   const path = window.location.pathname;
   const isNested = path.includes('/pages/user/') || path.includes('/pages/admin/');
   const isSubPage = path.includes('/pages/') && !isNested;
@@ -197,10 +471,12 @@ async function logout() {
 }
 
 
-/* ═══════════════════════════════════════
-   NOTIFICATIONS MANAGEMENT
-   ═══════════════════════════════════════
-   */
+
+/**
+ * Get notifications.
+ * Obtener notifications.
+ */
+
 function getNotifications(type) {
   const key = `asy_notifications_${type}`;
   let notis = localStorage.getItem(key);
@@ -212,10 +488,20 @@ function getNotifications(type) {
   return JSON.parse(notis);
 }
 
+/**
+ * Save notifications.
+ * Guardar notifications.
+ */
+
 function saveNotifications(type, notis) {
   const key = `asy_notifications_${type}`;
   localStorage.setItem(key, JSON.stringify(notis));
 }
+
+/**
+ * Update notification ui.
+ * Actualizar notification ui.
+ */
 
 function updateNotificationUI(prefix) {
   const type = prefix === 'admin-' ? 'admin' : 'user';
@@ -229,7 +515,7 @@ function updateNotificationUI(prefix) {
 
   const unreadCount = notis.filter(n => !n.read).length;
 
-  // Update badge
+  
   if (badge) {
     if (unreadCount > 0) {
       badge.textContent = unreadCount;
@@ -239,7 +525,7 @@ function updateNotificationUI(prefix) {
     }
   }
 
-  // Update list
+  
   if (notis.length === 0) {
     list.innerHTML = `
       <div class="navbar__noti-empty">
@@ -261,7 +547,7 @@ function updateNotificationUI(prefix) {
       </div>
     `).join('');
 
-    // Attach click events to items to mark them as read
+    
     list.querySelectorAll('.navbar__noti-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -272,6 +558,11 @@ function updateNotificationUI(prefix) {
   }
 }
 
+/**
+ * MarkNotificationAsRead.
+ * Realiza.
+ */
+
 function markNotificationAsRead(type, id, prefix) {
   let notis = getNotifications(type);
   notis = notis.map(n => n.id === id ? { ...n, read: true } : n);
@@ -279,12 +570,22 @@ function markNotificationAsRead(type, id, prefix) {
   updateNotificationUI(prefix);
 }
 
+/**
+ * MarkAllAsRead.
+ * Realiza.
+ */
+
 function markAllAsRead(type, prefix) {
   let notis = getNotifications(type);
   notis = notis.map(n => ({ ...n, read: true }));
   saveNotifications(type, notis);
   updateNotificationUI(prefix);
 }
+
+/**
+ * SetupNotifications.
+ * Realiza.
+ */
 
 function setupNotifications(prefix) {
   const type = prefix === 'admin-' ? 'admin' : 'user';
@@ -294,39 +595,46 @@ function setupNotifications(prefix) {
 
   if (!trigger || !dropdown) return;
 
-  // Initial render
+  
   updateNotificationUI(prefix);
 
-  // Toggle dropdown
+  
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
     dropdown.classList.toggle('open');
     trigger.classList.toggle('active');
 
-    // Close other dropdowns (user profile dropdown)
+    
     const userDropdown = document.getElementById(`${prefix}dropdown`);
     const userTrigger = document.getElementById(`${prefix}trigger`);
     if (userDropdown) userDropdown.classList.remove('open');
     if (userTrigger) userTrigger.classList.remove('active');
   });
 
-  // Clear / mark all read button
+  
   clearBtn?.addEventListener('click', (e) => {
     e.stopPropagation();
     markAllAsRead(type, prefix);
   });
 
-  // Close dropdown on click outside
+  
+  /**
+   * Initialize page scripting once DOM content is ready.
+   * Inicializa el script de la página cuando el contenido DOM está listo.
+   */
+  
   document.addEventListener('click', () => {
     dropdown.classList.remove('open');
     trigger.classList.remove('active');
   });
 }
 
-/* ═══════════════════════════════════════
-   PROVISIONAL FEATURES MODAL LÓGICA
-   ═══════════════════════════════════════
-   */
+
+/**
+ * InitMockFeatureModal.
+ * Realiza.
+ */
+
 function initMockFeatureModal() {
   if (document.getElementById('navbar-feature-modal')) return;
 
@@ -356,6 +664,11 @@ function initMockFeatureModal() {
   });
 }
 
+/**
+ * Show mock feature modal.
+ * Mostrar mock feature modal.
+ */
+
 function showMockFeatureModal(name, desc, icon) {
   initMockFeatureModal();
   const modal = document.getElementById('navbar-feature-modal');
@@ -367,9 +680,19 @@ function showMockFeatureModal(name, desc, icon) {
   modal.classList.add('open');
 }
 
+/**
+ * SetupMockLinks.
+ * Realiza.
+ */
+
 function setupMockLinks() {
+  /**
+   * Initialize page scripting once DOM content is ready.
+   * Inicializa el script de la página cuando el contenido DOM está listo.
+   */
+  
   document.addEventListener('click', (e) => {
-    // Find closest anchor or button that has the mock classes
+    
     const link = e.target.closest('.navbar__link--mock, .navbar__dropdown-item--mock');
     if (link) {
       e.preventDefault();
@@ -382,14 +705,14 @@ function setupMockLinks() {
 }
 
 
-/* ═══════════════════════════════════════
-   HOME PAGE LOGOUT INTERCEPTION
-   When an authenticated user is already on index.html and clicks
-   the logo or an "Inicio" link, ask them to confirm session close.
-   ═══════════════════════════════════════
-   */
+
+/**
+ * SetupHomePageLogoutInterception.
+ * Realiza.
+ */
+
 function setupHomePageLogoutInterception() {
-  // Only activate when the current page IS index.html (root or /index.html)
+  
   const path = window.location.pathname;
   const isHomePage = path === '/' ||
                      path.endsWith('/index.html') ||
@@ -398,12 +721,17 @@ function setupHomePageLogoutInterception() {
 
   if (!isHomePage) return;
 
-  // We intercept via a delegated listener to catch dynamically-visible navbars
+  
+  /**
+   * Initialize page scripting once DOM content is ready.
+   * Inicializa el script de la página cuando el contenido DOM está listo.
+   */
+  
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a');
     if (!link) return;
 
-    // Only care about links that point to the home page
+    
     const href = link.getAttribute('href') || '';
     const isHomeLink =
       href === './' ||
@@ -415,22 +743,24 @@ function setupHomePageLogoutInterception() {
 
     if (!isHomeLink) return;
 
-    // Check this link lives inside a logged-in navbar (not the guest one)
+    
     const inGuestNav = link.closest('#navbar-guest');
-    if (inGuestNav) return;  // Guest navbar: no interception needed
+    if (inGuestNav) return;  
 
-    // Intercept: prevent navigation, show confirm modal
+    
     e.preventDefault();
     showLogoutConfirmModal();
   });
 }
 
-/* ═══════════════════════════════════════
-   LOGOUT CONFIRMATION MODAL
-   ═══════════════════════════════════════
-   */
+
+/**
+ * Show logout confirm modal.
+ * Mostrar logout confirm modal.
+ */
+
 function showLogoutConfirmModal() {
-  // Reuse the existing modal overlay infrastructure
+  
   let overlay = document.getElementById('navbar-logout-confirm-modal');
 
   if (!overlay) {
@@ -457,12 +787,12 @@ function showLogoutConfirmModal() {
     `;
     document.body.appendChild(overlay);
 
-    // Cancel button
+    
     overlay.querySelector('#logout-confirm-cancel').addEventListener('click', () => {
       overlay.classList.remove('open');
     });
 
-    // Confirm button — sign out then reload so guest navbar appears
+    
     overlay.querySelector('#logout-confirm-ok').addEventListener('click', async () => {
       const btn = overlay.querySelector('#logout-confirm-ok');
       btn.textContent = 'Cerrando…';
@@ -470,16 +800,16 @@ function showLogoutConfirmModal() {
       if (window.supabaseClient) {
         await supabaseClient.auth.signOut();
       }
-      // Reload index.html — now without a session, the guest navbar will appear
+      
       window.location.reload();
     });
 
-    // Close on backdrop click
+    
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) overlay.classList.remove('open');
     });
   }
 
-  // Show with a small delay so the CSS transition fires
+  
   requestAnimationFrame(() => overlay.classList.add('open'));
 }

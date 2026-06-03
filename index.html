@@ -1,247 +1,134 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Sports Yourself</title>
+    <title>All Sports Yourself - Ipiales, Nariño</title>
+    <meta
+      name="description"
+      content="Reserva canchas deportivas en Ipiales. Fútbol, baloncesto, tenis y más. La plataforma líder en Nariño."
+    />
 
-    <!-- CSS -->
+    
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/hero.css" />
-    <link rel="stylesheet" href="./assets/css/navbar.css" />
+    <link rel="stylesheet" href="./assets/css/navbar/navbar.css" />
     <link rel="stylesheet" href="./assets/css/footer.css" />
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
   </head>
+
   <body>
-    <!-- NAVBAR GUEST -->
-    <div id="navbar-guest" class="navbar-wrapper navbar-wrapper--hidden">
-      <nav class="navbar" role="navigation">
-        <!-- LOGO -->
-        <a class="navbar__brand" href="./index.html">
+
+<!-- Page content starts here / Contenido principal de la página comienza aquí -->
+    
+    <nav
+      class="navbar navbar-expand-lg bg-white border-bottom border-light-subtle sticky-top"
+    >
+      <div class="container-fluid px-4">
+        <a
+          class="navbar-brand d-flex align-items-center gap-2"
+          href="./index.html"
+        >
           <div class="navbar__logo-icon">
-            <img src="./assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+            <img
+              src="./assets/img/Logo-ASY.png"
+              alt="Logo All Sports Yourself"
+            />
           </div>
           <span class="navbar__brand-text">All Sports Yourself</span>
         </a>
 
-        <!-- LINKS -->
-        <ul class="navbar__links">
-          <li><a class="navbar__link active" href="./index.html">Inicio</a></li>
-          <li><a class="navbar__link" href="./pages/venues.html">Espacios Deportivos</a></li>
-          <li><a class="navbar__link" href="#contacto">Contacto</a></li>
-        </ul>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <!-- Actions -->
-        <div class="navbar__actions">
-          <a href="./pages/login.html" class="navbar__btn-login">Iniciar Sesión</a>
-          <a href="./pages/register.html" class="navbar__btn-register">Registrarse</a>
-          <button class="navbar__hamburger" id="guest-hamburger">
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-
-        <!-- MOBILE MENU -->
-        <div class="navbar__mobile-menu" id="guest-mobile-menu">
-          <a href="./index.html" class="navbar__link active">Inicio</a>
-          <a href="./pages/venues.html" class="navbar__link">Espacios Deportivos</a>
-          <a href="#contacto" class="navbar__link">Contacto</a>
-          <a href="./pages/login.html" class="navbar__link">Iniciar Sesión</a>
-          <a href="./pages/register.html" class="navbar__link">Registrarse</a>
-        </div>
-      </nav>
-    </div>
-
-    <!-- NAVBAR USER -->
-    <div id="navbar-user" class="navbar-wrapper navbar-wrapper--hidden">
-      <nav class="navbar" role="navigation">
-        <!-- LOGO -->
-        <a class="navbar__brand" href="./index.html">
-          <div class="navbar__logo-icon">
-            <img src="./assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
-          </div>
-          <span class="navbar__brand-text">All Sports Yourself</span>
-        </a>
-
-        <!-- LINKS -->
-        <ul class="navbar__links">
-          <li><a class="navbar__link active" href="./index.html">Inicio</a></li>
-          <li><a class="navbar__link" href="./pages/user/user-dashboard.html?tab=venues">Espacios Deportivos</a></li>
-          <li><a class="navbar__link" href="./pages/user/user-dashboard.html?tab=reservas">Mis Reservas</a></li>
-          <li><a class="navbar__link" href="./pages/user-dashboard.html?tab=venues">Espacios Deportivos</a></li>
-          <li><a class="navbar__link" href="./pages/user-dashboard.html?tab=reservas">Mis Reservas</a></li>
-          <li><a class="navbar__link" href="#contacto">Contacto</a></li>
-        </ul>
-
-        <!-- Actions -->
-        <div class="navbar__actions">
-          <!-- Notification Bell -->
-          <div class="navbar__noti-container">
-            <button class="navbar__noti-btn" id="user-noti-trigger" aria-label="Notificaciones">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <span class="navbar__noti-badge" id="user-noti-badge" style="display: none;">0</span>
-            </button>
-            <div class="navbar__noti-dropdown" id="user-noti-dropdown">
-              <div class="navbar__noti-header">
-                <span class="navbar__noti-title">Notificaciones</span>
-                <button class="navbar__noti-clear" id="user-noti-clear">Marcar leídas</button>
-              </div>
-              <div class="navbar__noti-list" id="user-noti-list"></div>
-            </div>
-          </div>
-
-          <!-- User Profile Dropdown -->
-          <div class="navbar__user-menu">
-            <button class="navbar__user-trigger" id="user-trigger">
-              <span class="navbar__avatar" id="user-avatar">U</span>
-              <span class="navbar__username" id="user-name">Usuario</span>
-              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
-
-            <div class="navbar__dropdown" id="user-dropdown">
-              <a href="./pages/user/user-dashboard.html?tab=profile" class="navbar__dropdown-item">
-              <a href="./pages/user-dashboard.html?tab=profile" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-                </svg>
-                Mi Perfil
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul
+            class="navbar-nav mx-lg-auto mb-2 mb-lg-0 gap-4 text-center text-lg-start"
+          >
+            <li class="nav-item">
+              <a
+                class="navbar__link active"
+                aria-current="page"
+                href="./index.html"
+              >
+                <i class="bi bi-house-door me-1"></i>Inicio
               </a>
-              <a href="./pages/user/user-dashboard.html?tab=reservas" class="navbar__dropdown-item">
-              <a href="./pages/user-dashboard.html?tab=reservas" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                Mis Reservas
+            </li>
+            <li class="nav-item">
+              <a class="navbar__link" href="./pages/venues.html">
+                <i class="bi bi-geo-alt me-1"></i>Espacios Deportivos
               </a>
-              <hr class="navbar__dropdown-divider"/>
-              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-                </svg>
-                Cerrar Sesión
-              </button>
-            </div>
-          </div>
-
-          <button class="navbar__hamburger" id="user-hamburger">
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-
-        <!-- MOBILE MENU -->
-        <div class="navbar__mobile-menu" id="user-mobile-menu">
-          <a href="./index.html" class="navbar__link active">Inicio</a>
-          <a href="./pages/user/user-dashboard.html?tab=venues" class="navbar__link">Espacios Deportivos</a>
-          <a href="./pages/user/user-dashboard.html?tab=reservas" class="navbar__link">Mis Reservas</a>
-          <a href="./pages/user-dashboard.html?tab=venues" class="navbar__link">Espacios Deportivos</a>
-          <a href="./pages/user-dashboard.html?tab=reservas" class="navbar__link">Mis Reservas</a>
-          <a href="#contacto" class="navbar__link">Contacto</a>
-        </div>
-      </nav>
-    </div>
-
-    <!-- NAVBAR ADMIN -->
-    <div id="navbar-admin" class="navbar-wrapper navbar-wrapper--hidden">
-      <nav class="navbar" role="navigation">
-        <!-- LOGO -->
-        <a class="navbar__brand" href="./index.html">
-          <div class="navbar__logo-icon">
-            <img src="./assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
-          </div>
-          <span class="navbar__brand-text">All Sports Yourself</span>
-        </a>
-
-        <!-- LINKS -->
-        <ul class="navbar__links">
-          <li><a class="navbar__link active" href="./index.html">Inicio</a></li>
-          <li><a class="navbar__link" href="./pages/venues.html">Espacios Deportivos</a></li>
-          <li><a class="navbar__link" href="./pages/admin/admin-dashboard.html?tab=canchas">Mis Canchas</a></li>
-          <li><a class="navbar__link" href="#contacto">Contacto</a></li>
-        </ul>
-
-        <!-- Actions -->
-        <div class="navbar__actions">
-          <!-- Notification Bell -->
-          <div class="navbar__noti-container">
-            <button class="navbar__noti-btn" id="admin-noti-trigger" aria-label="Notificaciones">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <span class="navbar__noti-badge" id="admin-noti-badge" style="display: none;">0</span>
-            </button>
-            <div class="navbar__noti-dropdown" id="admin-noti-dropdown">
-              <div class="navbar__noti-header">
-                <span class="navbar__noti-title">Notificaciones</span>
-                <button class="navbar__noti-clear" id="admin-noti-clear">Marcar leídas</button>
-              </div>
-              <div class="navbar__noti-list" id="admin-noti-list"></div>
-            </div>
-          </div>
-
-          <!-- Admin Profile Dropdown -->
-          <div class="navbar__user-menu">
-            <button class="navbar__user-trigger" id="admin-trigger">
-              <span class="navbar__avatar" id="admin-avatar">A</span>
-              <span class="navbar__username" id="admin-name">Admin</span>
-              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
-
-            <div class="navbar__dropdown" id="admin-dropdown">
-              <a href="./pages/admin/admin-dashboard.html?tab=profile" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-                Mi Perfil
+            </li>
+            <li class="nav-item">
+              <a class="navbar__link" href="#nosotros">
+                <i class="bi bi-people me-1"></i>Nosotros
               </a>
-              <a href="./pages/admin/admin-dashboard.html" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                Dashboard
+            </li>
+            <li class="nav-item">
+              <a class="navbar__link" href="#beneficios">
+                <i class="bi bi-star me-1"></i>Beneficios
               </a>
-              <hr class="navbar__dropdown-divider"/>
-              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout-admin">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-                </svg>
-                Cerrar Sesión
-              </button>
-            </div>
+            </li>
+            <li class="nav-item">
+              <a class="navbar__link" href="#contacto">
+                <i class="bi bi-envelope me-1"></i>Contacto
+              </a>
+            </li>
+          </ul>
+
+          <div
+            class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2 mt-3 mt-lg-0"
+          >
+            <a
+              href="./pages/login.html"
+              class="navbar__btn-login text-decoration-none text-center"
+              id="guest-login-btn"
+            >
+              Iniciar Sesión
+            </a>
+            <a
+              href="./pages/register.html"
+              class="navbar__btn-register text-decoration-none text-center"
+              id="guest-register-btn"
+            >
+              Registrarse
+            </a>
           </div>
-
-          <button class="navbar__hamburger" id="admin-hamburger">
-            <span></span><span></span><span></span>
-          </button>
         </div>
+      </div>
+    </nav>
 
-        <!-- MOBILE MENU -->
-        <div class="navbar__mobile-menu" id="admin-mobile-menu">
-          <a href="./index.html" class="navbar__link active">Inicio</a>
-          <a href="./pages/venues.html" class="navbar__link">Espacios Deportivos</a>
-          <a href="./pages/admin/admin-dashboard.html?tab=canchas" class="navbar__link">Mis Canchas</a>
-          <a href="#contacto" class="navbar__link">Contacto</a>
-        </div>
-      </nav>
-    </div>
-
-    <!--HERO-->
+    
     <section class="page-home" aria-label="Página de inicio">
       <div class="hero" role="banner">
         <div class="hero__bg"></div>
         <div class="hero__noise"></div>
+        <div class="hero__stadium"></div>
 
-        <div class="hero__stadium">
-          <!-- PAGE BACKGROUND -->
-        </div>
-
-        <!-- CONTENTS -->
         <div class="hero__content">
-          <div class="hero__location">Ipiales, Nariño — Colombia</div>
+          <div class="hero__location">
+            <i class="bi bi-geo-alt-fill me-2"></i>Ipiales, Nariño — Colombia
+          </div>
 
           <h1 class="hero__headline">
             <span class="line1">Reserva tu</span>
@@ -255,12 +142,20 @@
           </p>
 
           <div class="hero__cta">
-            <a href="./pages/venues.html" class="hero__btn-primary"> Explorar Espacios </a>
-
-            <a href="#" class="hero__btn-secondary navbar__link--mock" data-feature="Cómo Funciona" data-icon="❓" data-desc="Aprende cómo buscar canchas, seleccionar horarios y realizar pagos en Ipiales en menos de 2 minutos."> Cómo Funciona </a>
+            <a href="./pages/venues.html" class="hero__btn-primary">
+              <i class="bi bi-compass me-2"></i>Explorar Espacios
+            </a>
+            <a
+              href="#"
+              class="hero__btn-secondary navbar__link--mock"
+              data-feature="Cómo Funciona"
+              data-icon="❓"
+              data-desc="Aprende cómo buscar canchas, seleccionar horarios y realizar pagos en Ipiales en menos de 2 minutos."
+            >
+              <i class="bi bi-question-circle me-2"></i>Cómo Funciona
+            </a>
           </div>
 
-          <!-- STATISTICS -->
           <div class="hero__stats">
             <div class="hero__stat">
               <span class="hero__stat-value">50+</span>
@@ -281,7 +176,6 @@
           </div>
         </div>
 
-        <!-- DOTS -->
         <div class="hero__dots">
           <div class="hero__dot active"></div>
           <div class="hero__dot"></div>
@@ -290,74 +184,457 @@
       </div>
     </section>
 
-    <!-- FOOTER (Added id="contacto" for navigation) -->
-    <footer class="footer" id="contacto">
-      <div class="footer__container">
-        <div class="footer__grid">
-          <!-- Info & Newsletter -->
-          <div class="footer__col">
-            <div class="footer__brand">
-              <img src="./assets/img/Logo-ASY.png" alt="Logo" class="footer__logo-img">
-              <span class="footer__brand-text">ALL SPORTS YOURSELF</span>
+    
+    <section id="nosotros" class="py-5 bg-white">
+      <div class="container py-4">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <img
+              src="./assets/img/Logo-ASY.png"
+              alt="All Sports Yourself"
+              class="img-fluid rounded-4 shadow"
+            />
+          </div>
+          <div class="col-lg-6">
+            <span
+              class="badge rounded-pill py-2 px-3 mb-3"
+              style="background: rgba(46, 204, 80, 0.1); color: #2ecc50"
+            >
+              <i class="bi bi-heart-pulse me-1"></i> Nuestra Misión
+            </span>
+            <h2 class="display-6 fw-bold mb-4">
+              El corazón del deporte en Ipiales y Nariño
+            </h2>
+            <p class="text-secondary mb-3">
+              Somos el puente digital que une a los deportistas ipialeños con
+              los mejores escenarios deportivos de la región. Lideramos la
+              transformación deportiva en el sur de Colombia.
+            </p>
+            <p class="text-secondary mb-4">
+              Ya sea que tengas un club, una cancha o busques dónde jugar, aquí
+              empieza tu experiencia deportiva en Ipiales.
+            </p>
+            <p class="fw-bold fs-5 mb-4 text-success">
+              No solo gestionamos reservas. Creamos la comunidad deportiva de
+              Nariño.
+            </p>
+            <div class="d-flex flex-column flex-sm-row gap-3">
+              <a
+                href="./pages/register.html"
+                class="btn btn-primary rounded-pill px-4 py-2"
+              >
+                <i class="bi bi-person-plus me-2"></i>Registrarme gratis
+              </a>
+              <a
+                href="./pages/venues.html"
+                class="btn btn-outline-primary rounded-pill px-4 py-2"
+              >
+                <i class="bi bi-geo-alt me-2"></i>Ver espacios en Ipiales
+              </a>
             </div>
-            <p class="footer__desc">La plataforma líder en reserva de espacios deportivos en Ipiales, Nariño. Conectamos deportistas con los mejores escenarios de la ciudad.</p>
-            <form class="footer__newsletter" id="footer-newsletter">
-              <input type="email" placeholder="Tu correo electrónico" required class="footer__input">
-              <button type="submit" class="footer__btn">Suscribirse</button>
-            </form>
           </div>
+        </div>
 
-          <!-- Links -->
-          <div class="footer__col">
-            <h4 class="footer__title">Enlaces Rápidos</h4>
-            <ul class="footer__list">
-              <li><a href="./pages/venues.html" class="footer__link">Espacios Deportivos</a></li>
-              <li><a href="#" class="footer__link">¿Cómo Reservar?</a></li>
-              <li><a href="./pages/reservas.html" class="footer__link">Mis Reservas</a></li>
-            </ul>
+        
+        <div class="row text-center mt-5 pt-4 g-4">
+          <div class="col-md-3 col-6">
+            <div class="card border-0 bg-light h-100">
+              <div class="card-body">
+                <h3 class="fw-bold display-6 text-success mb-1">1.2K+</h3>
+                <p class="text-secondary mb-0">
+                  Deportistas activos<br />en Ipiales
+                </p>
+              </div>
+            </div>
           </div>
-
-          <!-- Contact & Social -->
-          <div class="footer__col">
-            <h4 class="footer__title">Contacto</h4>
-            <ul class="footer__contact">
-              <li><i class="ri-phone-line"></i> +57 (2) 773-0000</li>
-              <li><i class="ri-mail-line"></i> info@allsportsyourself.co</li>
-              <li><i class="ri-map-pin-line"></i> Calle 5 #12-34, Ipiales, Nariño</li>
-            </ul>
-            <div class="footer__socials">
-              <p class="footer__socials-label">SÍGUENOS</p>
-              <div class="footer__socials-grid">
-                <a href="#" class="footer__social-icon"><i class="ri-facebook-fill"></i></a>
-                <a href="#" class="footer__social-icon"><i class="ri-instagram-line"></i></a>
-                <a href="#" class="footer__social-icon"><i class="ri-twitter-x-line"></i></a>
-                <a href="#" class="footer__social-icon"><i class="ri-whatsapp-line"></i></a>
+          <div class="col-md-3 col-6">
+            <div class="card border-0 bg-light h-100">
+              <div class="card-body">
+                <h3 class="fw-bold display-6 text-success mb-1">50+</h3>
+                <p class="text-secondary mb-0">
+                  Espacios deportivos<br />registrados
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="card border-0 bg-light h-100">
+              <div class="card-body">
+                <h3 class="fw-bold display-6 text-success mb-1">2.4K+</h3>
+                <p class="text-secondary mb-0">Reservas<br />realizadas</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="card border-0 bg-light h-100">
+              <div class="card-body">
+                <h3 class="fw-bold display-6 text-success mb-1">10+</h3>
+                <p class="text-secondary mb-0">
+                  Barrios conectados<br />en la ciudad
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <div class="footer__bottom">
-          <p class="footer__copy">© 2026 All Sports Yourself - Ipiales, Nariño. Todos los derechos reservados.</p>
-          <div class="footer__legal">
-            <a href="#" class="footer__legal-link">Términos y Condiciones</a>
-            <a href="#" class="footer__legal-link">Política de Privacidad</a>
+      </div>
+    </section>
+
+    
+    <section id="espacios" class="py-5 bg-light">
+      <div class="container py-4">
+        <div class="text-center mb-5">
+          <span
+            class="badge rounded-pill py-2 px-3 mb-3"
+            style="background: rgba(46, 204, 80, 0.1); color: #2ecc50"
+          >
+            <i class="bi bi-geo-alt me-1"></i> Catálogo
+          </span>
+          <h2 class="display-6 fw-bold mb-3">
+            Espacios disponibles en Ipiales
+          </h2>
+          <p class="lead text-secondary mx-auto" style="max-width: 700px">
+            Encuentra la mejor cancha cerca de tu barrio. Fútbol, baloncesto,
+            tenis y más.
+          </p>
+        </div>
+
+        <div class="row g-4" id="home-venues-grid">
+          <div class="col-12">
+            <div class="venues__empty">
+              <div class="venues__empty-icon">⏳</div>
+              <h3>Cargando espacios...</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-5">
+          <a
+            href="./pages/venues.html"
+            class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm"
+          >
+            <i class="bi bi-compass me-2"></i>Ver todos los espacios en Ipiales
+          </a>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="beneficios" class="py-5 bg-white">
+      <div class="container py-4">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7">
+            <span
+              class="badge rounded-pill py-2 px-3 mb-3"
+              style="background: rgba(46, 204, 80, 0.1); color: #2ecc50"
+            >
+              <i class="bi bi-star me-1"></i> Beneficios
+            </span>
+            <h2 class="display-6 fw-bold mb-4">
+              Tu próximo partido, a un clic de distancia
+            </h2>
+            <p class="text-secondary mb-4">
+              Únete a la comunidad deportiva más activa de Ipiales. Accede a los
+              mejores espacios, asegura tu cancha en segundos y disfruta
+              beneficios exclusivos.
+            </p>
+
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <i class="ri-checkbox-circle-fill text-success fs-4 mt-1"></i>
+              <p class="mb-0">
+                <strong>Reservas inmediatas</strong> — Confirma tu cancha en
+                menos de 1 minuto.
+              </p>
+            </div>
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <i class="ri-checkbox-circle-fill text-success fs-4 mt-1"></i>
+              <p class="mb-0">
+                <strong>Pagos seguros</strong> — Tarjeta, Nequi, Daviplata o
+                efectivo.
+              </p>
+            </div>
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <i class="ri-checkbox-circle-fill text-success fs-4 mt-1"></i>
+              <p class="mb-0">
+                <strong>Sin llamadas</strong> — Disponibilidad en tiempo real,
+                24/7.
+              </p>
+            </div>
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <i class="ri-checkbox-circle-fill text-success fs-4 mt-1"></i>
+              <p class="mb-0">
+                <strong>Promociones locales</strong> — Descuentos especiales
+                para ipialeños.
+              </p>
+            </div>
+
+            <div class="mt-4">
+              <a
+                href="./pages/register.html"
+                class="btn btn-primary rounded-pill px-4 py-2"
+              >
+                <i class="bi bi-person-plus me-2"></i>Crear cuenta gratis
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <img
+              src="./assets/img/Logo-ASY.png"
+              alt="All Sports Yourself"
+              class="img-fluid rounded-4 shadow"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="py-5 bg-light">
+      <div class="container py-4">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6 order-lg-2">
+            <img
+              src="./assets/img/Logo-ASY.png"
+              alt="All Sports Yourself"
+              class="img-fluid rounded-4 shadow"
+            />
+          </div>
+          <div class="col-lg-6 order-lg-1">
+            <span
+              class="badge rounded-pill py-2 px-3 mb-3"
+              style="background: rgba(46, 204, 80, 0.1); color: #2ecc50"
+            >
+              <i class="bi bi-shop me-1"></i> Para Dueños
+            </span>
+            <h2 class="display-6 fw-bold mb-4">
+              ¿Tienes una cancha o espacio deportivo?
+            </h2>
+            <p class="text-secondary mb-4">
+              Digitaliza tu negocio. Conéctate con cientos de deportistas en
+              Ipiales que buscan dónde jugar cerca de ellos.
+            </p>
+
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <i class="ri-checkbox-circle-fill text-success fs-4 mt-1"></i>
+              <p class="mb-0">
+                <strong>Más clientes</strong> — Aparece en la app de
+                deportistas.
+              </p>
+            </div>
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <i class="ri-checkbox-circle-fill text-success fs-4 mt-1"></i>
+              <p class="mb-0">
+                <strong>Gestión simple</strong> — Calendario, precios y
+                disponibilidad digital.
+              </p>
+            </div>
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <i class="ri-checkbox-circle-fill text-success fs-4 mt-1"></i>
+              <p class="mb-0">
+                <strong>Cobros automáticos</strong> — Olvídate del efectivo.
+              </p>
+            </div>
+            <div class="d-flex align-items-start gap-3 mb-3">
+              <i class="ri-checkbox-circle-fill text-success fs-4 mt-1"></i>
+              <p class="mb-0">
+                <strong>Reportes y estadísticas</strong> — Ocupación, ingresos,
+                tendencias.
+              </p>
+            </div>
+
+            <div class="mt-4">
+              <a
+                href="./pages/register.html"
+                class="btn btn-primary rounded-pill px-4 py-2"
+              >
+                <i class="bi bi-building-add me-2"></i>Registrar mi espacio
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="py-5 bg-white">
+      <div class="container py-4">
+        <div class="text-center mb-5">
+          <span
+            class="badge rounded-pill py-2 px-3 mb-3"
+            style="background: rgba(46, 204, 80, 0.1); color: #2ecc50"
+          >
+            <i class="bi bi-geo-alt me-1"></i> Cobertura
+          </span>
+          <h2 class="display-6 fw-bold mb-3">
+            Encuentra cancha cerca de tu barrio
+          </h2>
+          <p class="lead text-secondary mx-auto" style="max-width: 700px">
+            Estamos en los principales sectores de Ipiales para que juegues
+            donde estés.
+          </p>
+        </div>
+
+        <div class="row g-3 text-center" id="home-coverage-grid">
+          <div class="col-12">
+            <div class="venues__empty">
+              <div class="venues__empty-icon">⏳</div>
+              <h3>Cargando barrios...</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <footer class="footer" id="contacto">
+      <div class="container">
+        <div class="row g-4 g-lg-5 mb-5">
+          <div class="col-12 col-lg-6">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <img
+                src="./assets/img/Logo-ASY.png"
+                alt="Logo"
+                class="footer__logo-img"
+              />
+              <span class="footer__brand-text">ALL SPORTS YOURSELF</span>
+            </div>
+            <p class="footer__desc">
+              La plataforma líder en reserva de espacios deportivos en Ipiales,
+              Nariño. Conectamos deportistas con los mejores escenarios de la
+              ciudad.
+            </p>
+<!-- Form section / Sección de formulario -->
+            <form class="d-flex gap-2" id="footer-newsletter">
+              <input
+                type="email"
+                placeholder="Tu correo electrónico"
+                required
+                class="footer__input"
+              />
+              <button type="submit" class="footer__btn">Suscribirse</button>
+            </form>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-3">
+            <h4 class="footer__title h5">Enlaces Rápidos</h4>
+            <ul class="footer__list list-unstyled d-flex flex-column gap-2">
+              <li>
+                <a href="./pages/venues.html" class="footer__link text-white-50"
+                  >Espacios Deportivos</a
+                >
+              </li>
+              <li>
+                <a href="#" class="footer__link text-white-50"
+                  >¿Cómo Reservar?</a
+                >
+              </li>
+              <li>
+                <a
+                  href="./pages/reservas.html"
+                  class="footer__link text-white-50"
+                  >Mis Reservas</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-12 col-sm-6 col-lg-3">
+            <h4 class="footer__title h5">Contacto</h4>
+            <ul
+              class="footer__contact list-unstyled d-flex flex-column gap-2 text-white-50"
+            >
+              <li><i class="ri-phone-line me-2"></i>+57 (2) 773-0000</li>
+              <li>
+                <i class="ri-mail-line me-2"></i>info@allsportsyourself.co
+              </li>
+              <li>
+                <i class="ri-map-pin-line me-2"></i>Calle 5 #12-34, Ipiales,
+                Nariño
+              </li>
+            </ul>
+            <div class="footer__socials mt-4">
+              <p class="footer__socials-label small mb-2">SÍGUENOS</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-outline-light btn-sm"
+                  ><i class="ri-facebook-fill"></i
+                ></a>
+                <a href="#" class="btn btn-outline-light btn-sm"
+                  ><i class="ri-instagram-line"></i
+                ></a>
+                <a href="#" class="btn btn-outline-light btn-sm"
+                  ><i class="ri-twitter-x-line"></i
+                ></a>
+                <a href="#" class="btn btn-outline-light btn-sm"
+                  ><i class="ri-whatsapp-line"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="footer__bottom d-flex justify-content-between align-items-center flex-column flex-md-row pt-4 border-top border-secondary"
+        >
+          <p class="footer__copy small text-white-50 mb-2 mb-md-0">
+            © 2026 All Sports Yourself - Ipiales, Nariño. Todos los derechos
+            reservados.
+          </p>
+          <div class="d-flex gap-4">
+            <a href="#" class="footer__legal-link small text-white-50"
+              >Términos y Condiciones</a
+            >
+            <a href="#" class="footer__legal-link small text-white-50"
+              >Política de Privacidad</a
+            >
           </div>
         </div>
       </div>
     </footer>
 
-    <!-- TOAST GLOBAL -->
-    <div class="toast" id="toast"></div>
+    
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div
+        class="toast align-items-center border-0"
+        id="toast"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div
+            class="toast-body d-flex align-items-center gap-2"
+            id="toast-body-content"
+          >
+            <i class="bi bi-bell"></i>
+            <span></span>
+          </div>
+          <button
+            type="button"
+            class="btn-close me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
 
-    <!-- Supabase SDK -->
+    
+<!-- Page scripts / Scripts de la página -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="./assets/js/services/supabaseClient.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="./assets/js/services/authService.js"></script>
-
-    <!-- JAVASCRIPT -->
+<!-- Page scripts / Scripts de la página -->
+    <script src="./assets/js/services/venuesService.js"></script>
+<!-- Page scripts / Scripts de la página -->
+    <script src="./assets/js/home.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="./assets/js/app.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="./assets/js/navbar.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="./assets/js/footer.js"></script>
   </body>
 </html>
-

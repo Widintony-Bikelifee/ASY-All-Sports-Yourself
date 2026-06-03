@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrar Cancha – All Sports Yourself</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/css/admin/register_court_admin.css" />
+  </head>
+  <body class="bg-light min-vh-100 d-flex flex-column">
+    
+    <div class="container-fluid py-4 flex-grow-1 d-flex flex-column">
+      <div class="row flex-grow-1">
+        
+        
+        <div class="col-md-4 col-lg-3 bg-success text-white p-4 d-flex flex-column">
+          <div class="text-center mb-4">
+            <img src="../../assets/img/Logo-ASY.png" alt="Logo ASY" width="80" height="80" class="mb-3" style="filter: brightness(0) invert(1);">
+            <h3 class="fw-bold">All Sports Yourself</h3>
+            <p class="opacity-75">Registra tu espacio deportivo</p>
+          </div>
+          
+          <hr class="border-white opacity-25">
+          
+          <div class="mb-4">
+            <h5 class="fw-semibold mb-3">Beneficios</h5>
+            <div class="mb-2"><i class="bi bi-app me-2"></i> Mayor visibilidad</div>
+            <div class="mb-2"><i class="bi bi-app me-2"></i> Gestión de reservas</div>
+            <div class="mb-2"><i class="bi bi-app me-2"></i> Pagos seguros</div>
+            <div class="mb-2"><i class="bi bi-app me-2"></i> Reportes y estadísticas</div>
+            <div><i class="bi bi-app me-2"></i> Soporte 24/7</div>
+          </div>
+          
+          <div class="mt-auto">
+            <hr class="border-white opacity-25">
+            <small class="opacity-75">© 2026 All Sports Yourself<br>Ipiales, Nariño - Colombia</small>
+          </div>
+        </div>
+
+        
+        <div class="col-md-8 col-lg-9 p-4 p-md-5">
+          
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+              
+              <div id="success-alert" class="alert alert-success d-none">
+                <i class="bi bi-app me-2"></i>
+                <span id="success-message">¡Cancha registrada exitosamente!</span>
+              </div>
+
+              <form id="register-court-form">
+                
+                <div class="row g-3 mb-3">
+                  <div class="col-md-6">
+                    <label for="court-name" class="form-label fw-semibold">Nombre de la Cancha <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="court-name" placeholder="Ej: Cancha Principal Los Pinos" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="court-sport" class="form-label fw-semibold">Tipo de Deporte <span class="text-danger">*</span></label>
+                    <select class="form-select" id="court-sport" required>
+                      <option value="">Selecciona un deporte...</option>
+                      <option value="Fútbol 11">⚽ Fútbol 11</option>
+                      <option value="Fútbol 7">⚽ Fútbol 7</option>
+                      <option value="Fútbol 5">⚽ Fútbol 5 (Sala)</option>
+                      <option value="Baloncesto">🏀 Baloncesto</option>
+                      <option value="Tenis">🎾 Tenis</option>
+                      <option value="Pádel">🎾 Pádel</option>
+                      <option value="Voleibol">🏐 Voleibol</option>
+                      <option value="Béisbol">⚾ Béisbol</option>
+                      <option value="Natación">🏊 Natación</option>
+                      <option value="Gimnasio">💪 Gimnasio</option>
+                      <option value="CrossFit">🏋️ CrossFit</option>
+                      <option value="Boxeo">🥊 Boxeo</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                  <div class="col-md-8">
+                    <label for="court-location" class="form-label fw-semibold">Ubicación / Dirección <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="court-location" placeholder="Calle 123 #45-67, Ciudad" required>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="court-price" class="form-label fw-semibold">Precio por Hora <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="number" class="form-control" id="court-price" placeholder="0" min="0" step="1000" required>
+                      <span class="input-group-text">COP</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card bg-light border mb-4">
+                  <div class="card-body">
+                    <h6 class="fw-semibold mb-3"><i class="bi bi-app me-2"></i>Comisión de la Plataforma</h6>
+                    <div class="alert alert-warning text-center py-2 mb-3">
+                      <strong class="fs-4">10%</strong><br>
+                      <small>de comisión por cada reserva</small>
+                    </div>
+                    
+                    <div class="bg-white rounded p-3">
+                      <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span>💰 Precio por hora:</span>
+                        <span id="preview-price">$0 COP</span>
+                      </div>
+                      <div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+                        <span>📊 Comisión (10%):</span>
+                        <span class="text-primary" id="preview-commission">$0 COP</span>
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <span>✅ Tu ganancia por hora:</span>
+                        <strong class="text-success" id="preview-earning">$0 COP</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                  <div class="col-md-4">
+                    <label for="open-time" class="form-label fw-semibold">Hora Apertura <span class="text-danger">*</span></label>
+                    <input type="time" class="form-control" id="open-time" value="08:00" required>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="close-time" class="form-label fw-semibold">Hora Cierre <span class="text-danger">*</span></label>
+                    <input type="time" class="form-control" id="close-time" value="22:00" required>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="court-capacity" class="form-label fw-semibold">Capacidad (personas)</label>
+                    <input type="number" class="form-control" id="court-capacity" placeholder="Ej: 20" min="1" value="10">
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">Imagen de la Cancha</label>
+                  
+                  <ul class="nav nav-pills mb-3" id="imageTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="upload-tab" data-bs-toggle="pill" data-bs-target="#upload-panel" type="button">
+                        <i class="bi bi-app me-1"></i> Subir archivo
+                      </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="url-tab" data-bs-toggle="pill" data-bs-target="#url-panel" type="button">
+                        <i class="bi bi-app me-1"></i> Usar enlace
+                      </button>
+                    </li>
+                  </ul>
+                  
+                  <div class="tab-content">
+                    <div class="tab-pane fade show active" id="upload-panel">
+                      <div id="drop-zone" class="border border-2 border-dashed rounded-3 p-4 text-center bg-light" style="cursor: pointer;">
+                        <i class="bi ph-image fs-1 text-muted"></i>
+                        <p class="mt-2 mb-1"><strong>Arrastra y suelta</strong> una imagen aquí</p>
+                        <small class="text-muted">JPG, PNG, GIF, WebP (Max. 5MB)</small>
+                        <input type="file" id="file-input" accept="image/*" class="d-none">
+                      </div>
+                      <div id="upload-progress" class="mt-3 d-none">
+                        <div class="progress" style="height: 8px;">
+                          <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress-bar" style="width: 0%"></div>
+                        </div>
+                        <small class="text-muted" id="progress-text">Subiendo imagen...</small>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="url-panel">
+                      <input type="url" class="form-control" id="court-image-url" placeholder="https://ejemplo.com/imagen-cancha.jpg">
+                    </div>
+                  </div>
+
+                  <div id="image-preview-wrapper" class="mt-3 d-none">
+                    <div class="position-relative d-inline-block">
+                      <img id="preview-img" src="" alt="Vista previa" class="rounded border" style="max-width: 100%; max-height: 200px;">
+                      <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle m-1" id="remove-image" style="width: 30px; height: 30px;">
+                        <i class="bi bi-x"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <input type="hidden" id="final-image-url" value="">
+                </div>
+
+                <div class="card bg-light mb-4">
+                  <div class="card-body">
+                    <h6 class="fw-semibold mb-3">Características adicionales</h6>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="feature-lights" value="Iluminación"><label class="form-check-label" for="feature-lights">💡 Iluminación nocturna</label></div>
+                        <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="feature-parking" value="Parqueadero"><label class="form-check-label" for="feature-parking">🅿️ Parqueadero</label></div>
+                        <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="feature-locker" value="Vestidores"><label class="form-check-label" for="feature-locker">🚿 Vestidores / Duchas</label></div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="feature-wifi" value="WiFi"><label class="form-check-label" for="feature-wifi">📶 WiFi gratuito</label></div>
+                        <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="feature-snack" value="Snack Bar"><label class="form-check-label" for="feature-snack">🍔 Snack Bar</label></div>
+                        <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="feature-equipment" value="Alquiler Equipo"><label class="form-check-label" for="feature-equipment">🏸 Alquiler de equipo</label></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="court-description" class="form-label fw-semibold">Descripción (opcional)</label>
+                  <textarea class="form-control" id="court-description" rows="3" placeholder="Describe las características especiales de tu cancha..."></textarea>
+                </div>
+
+                <div class="form-check mb-4">
+                  <input class="form-check-input" type="checkbox" id="terms-check" required>
+                  <label class="form-check-label" for="terms-check">
+                    Acepto los <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">términos y condiciones</a>
+                  </label>
+                </div>
+
+                <div class="d-flex gap-3">
+                  <button type="button" class="btn btn-outline-secondary flex-fill" onclick="window.history.back()">
+                    <i class="bi bi-app me-2"></i>Cancelar
+                  </button>
+                  <button type="submit" class="btn btn-success flex-fill" id="submit-btn">
+                    <i class="bi bi-check-circle me-2"></i>Registrar Cancha
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="termsModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title"><i class="bi bi-app me-2"></i>Términos y Condiciones</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <h6 class="fw-bold">1. Comisión</h6>
+            <p>All Sports Yourself cobra una comisión del <strong>10%</strong> sobre cada reserva.</p>
+            <h6 class="fw-bold">2. Pago</h6>
+            <p>La comisión se deduce automáticamente del pago del cliente.</p>
+            <h6 class="fw-bold">3. Contenido</h6>
+            <p>El propietario es responsable de la veracidad de la información.</p>
+            <h6 class="fw-bold">4. Precios</h6>
+            <p>Los precios y horarios deben mantenerse actualizados.</p>
+            <h6 class="fw-bold">5. Cancelaciones</h6>
+            <p>Notificar con al menos 24 horas de anticipación.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../assets/js/services/supabaseClient.js"></script>
+    <script src="../../assets/js/services/authService.js"></script>
+    <script src="../../assets/js/services/venuesService.js"></script>
+    <script src="../../assets/js/app.js"></script>
+    <script src="../../assets/js/admin/register_court.js"></script>
+  </body>
+</html>

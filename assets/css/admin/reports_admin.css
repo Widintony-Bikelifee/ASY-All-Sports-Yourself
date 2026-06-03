@@ -1,0 +1,441 @@
+/*
+ * reports_admin.css stylesheet file.
+ * Archivo de hoja de estilos reports_admin.css.
+ */
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.kpi-card {
+  text-align: center;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.kpi-card .kpi-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md, 12px);
+  margin: 0 auto 1rem;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.kpi-card .kpi-value {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-primary, #111);
+  line-height: 1.2;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.kpi-card .kpi-label {
+  font-size: 0.75rem;
+  color: var(--text-muted, #7a8f7a);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+/* Styles for reportes table. / Estilos para reportes table. */
+.reportes-table {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+/* Styles for reportes table thead th. / Estilos para reportes table thead th. */
+.reportes-table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted, #7a8f7a);
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  padding: 1rem 0.75rem;
+  background: transparent;
+}
+
+/* Styles for reportes table tbody td. / Estilos para reportes table tbody td. */
+.reportes-table tbody td {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+  color: var(--text-secondary, #1a1a1a);
+  font-size: 0.9rem;
+}
+
+/* Styles for reportes table tbody tr. / Estilos para reportes table tbody tr. */
+.reportes-table tbody tr {
+  transition: background var(--transition, 0.2s ease);
+}
+
+/* Styles for reportes table tbody tr. / Estilos para reportes table tbody tr. */
+.reportes-table tbody tr:hover {
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.03));
+}
+
+/* Styles for reportes table tbody tr. / Estilos para reportes table tbody tr. */
+.reportes-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Styles for progress bar custom. / Estilos para progress bar custom. */
+.progress-bar-custom {
+  background: var(--primary-green-dim, rgba(46, 204, 80, 0.15));
+  border-radius: var(--radius-full, 40px);
+  height: 8px;
+  overflow: hidden;
+}
+
+/* Styles for progress bar custom .progress fill. / Estilos para progress bar custom .progress fill. */
+.progress-bar-custom .progress-fill {
+  background: var(--primary-green, #2ecc50);
+  height: 100%;
+  border-radius: var(--radius-full, 40px);
+  transition: width 0.5s ease;
+}
+
+/* Styles for ingresos mes item. / Estilos para ingresos mes item. */
+.ingresos-mes-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-light, #e8ede8);
+}
+
+/* Styles for ingresos mes item. / Estilos para ingresos mes item. */
+.ingresos-mes-item:last-child {
+  border-bottom: none;
+}
+
+/* Styles for ingresos mes item .mes nombre. / Estilos para ingresos mes item .mes nombre. */
+.ingresos-mes-item .mes-nombre {
+  font-weight: 600;
+  color: var(--text-primary, #111);
+  min-width: 100px;
+}
+
+/* Styles for ingresos mes item .mes monto. / Estilos para ingresos mes item .mes monto. */
+.ingresos-mes-item .mes-monto {
+  font-weight: 800;
+  color: var(--primary-green, #2ecc50);
+  font-size: 1rem;
+}
+
+/* Styles for ingresos mes item .mes reservas. / Estilos para ingresos mes item .mes reservas. */
+.ingresos-mes-item .mes-reservas {
+  font-size: 0.75rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+
+
+
+
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-success {
+  border-color: var(--primary-green, #2ecc50);
+  color: var(--primary-green, #2ecc50);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-success:hover {
+  background-color: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-success:hover i {
+  color: white;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success {
+  background: var(--primary-green, #2ecc50);
+  border-color: var(--primary-green, #2ecc50);
+  color: white;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success:hover {
+  background: var(--primary-green-dark, #27b545);
+  border-color: var(--primary-green-dark, #27b545);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger {
+  border-width: 1.5px;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger:hover {
+  transform: translateY(-1px);
+}
+
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.badge {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-full, 40px) !important;
+  padding: 0.4rem 0.9rem;
+}
+
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
+.toast {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-left: 4px solid var(--primary-green, #2ecc50);
+  border-radius: var(--radius-md, 10px);
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
+}
+
+/* Styles for spinner border. / Estilos para spinner border. */
+.spinner-border {
+  color: var(--primary-green, #2ecc50) !important;
+}
+
+@keyframes fadeIn {
+/* Styles for from. / Estilos para from. */
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+/* Styles for to. / Estilos para to. */
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+}
+
+.card, .kpi-card, .reportes-table tbody tr {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@media (max-width: 992px) {
+/* Styles for 768px). / Estilos para 768px). */
+  }
+
+@media (max-width: 768px) {
+  .btn {
+    padding: 0.5rem 1rem;
+  }
+  
+  .kpi-card .kpi-value {
+    font-size: 1.25rem;
+  }
+  
+  .reportes-table thead {
+    display: none;
+  }
+  
+  .reportes-table tbody tr {
+    display: block;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light, #e8ede8);
+  }
+  
+  .reportes-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border: none;
+  }
+  
+  .reportes-table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: var(--text-muted, #7a8f7a);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .ingresos-mes-item {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .card-header h5 {
+    font-size: 1rem;
+  }
+  
+/* Styles for row.g 3. / Estilos para row.g 3. */
+  .row.g-3 {
+    gap: 0.75rem;
+  }
+  
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .kpi-card .kpi-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .kpi-card .kpi-value {
+    font-size: 1.1rem;
+  }
+  
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+  .kpi-card .kpi-label {
+    font-size: 0.65rem;
+  }
+/* Styles for .rounded 3. / Estilos para .rounded 3. */
+}
+
+.rounded-3 {
+  border-radius: var(--radius-md, 10px) !important;
+}
+
+/* Styles for shadow sm. / Estilos para shadow sm. */
+.shadow-sm {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Styles for text secondary. / Estilos para text secondary. */
+.text-secondary {
+  color: var(--text-muted, #7a8f7a) !important;
+}
+
+/* Styles for overflow hidden. / Estilos para overflow hidden. */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Styles for text truncate. / Estilos para text truncate. */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link) {
+  color: var(--primary-green-dark, #27b545);
+  text-decoration: none;
+  transition: color var(--transition, 0.2s ease);
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link):hover {
+  color: var(--primary-green, #2ecc50);
+  text-decoration: underline;
+}
+
+/* Styles for empty state. / Estilos para empty state. */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Styles for empty state i. / Estilos para empty state i. */
+.empty-state i {
+  font-size: 3rem;
+  color: var(--border-medium, #d9e2d9);
+  margin-bottom: 1rem;
+}
+
+/* Styles for empty state p. / Estilos para empty state p. */
+.empty-state p {
+  color: var(--text-muted, #7a8f7a);
+  margin-bottom: 0;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.page-title-badge {
+  background: rgba(46,204,80,.1);
+  color: #2ecc50;
+}
+
+/* Styles for page title heading. / Estilos para page title heading. */
+.page-title-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  color: var(--text-primary, #111);
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.dashboard-venue-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border-radius: var(--radius-lg, 16px);
+  padding: 1.1rem 1.4rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  transition: box-shadow .2s ease, transform .2s ease;
+  flex-wrap: wrap;
+}
+
+/* Card component styling for panels and containers / Estilo del componente tarjeta para paneles y contenedores */
+.dashboard-venue-card:hover {
+  box-shadow: 0 6px 20px rgba(46,204,80,.12);
+  transform: translateY(-2px);
+}
+
+/* Styles for dashboard venue info. / Estilos para dashboard venue info. */
+.dashboard-venue-info {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Styles for dashboard venue title. / Estilos para dashboard venue title. */
+.dashboard-venue-title {
+  font-family: var(--font-display, 'Poppins', sans-serif);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary, #111);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Styles for dashboard venue meta. / Estilos para dashboard venue meta. */
+.dashboard-venue-meta {
+  font-size: .82rem;
+  color: var(--text-muted, #7a8f7a);
+}
+
+/* Styles for dashboard venue action. / Estilos para dashboard venue action. */
+.dashboard-venue-action {
+  display: inline-flex;
+  align-items: center;
+  padding: .35rem .85rem;
+  border-radius: var(--radius-md, 8px);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s ease;
+  text-decoration: none;
+  border: 1.5px solid var(--primary-green, #2ecc50);
+  color: var(--primary-green, #2ecc50);
+  background: transparent;
+}
+
+/* Styles for dashboard venue action. / Estilos para dashboard venue action. */
+.dashboard-venue-action:hover {
+  background: var(--primary-green, #2ecc50);
+  color: #fff;
+}
+
+/* Styles for dashboard venue action  danger. / Estilos para dashboard venue action  danger. */
+.dashboard-venue-action--danger {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* Styles for dashboard venue action  danger. / Estilos para dashboard venue action  danger. */
+.dashboard-venue-action--danger:hover {
