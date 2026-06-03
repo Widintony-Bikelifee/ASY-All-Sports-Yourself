@@ -16,6 +16,7 @@ const DEFAULT_ADMIN_NOTIS = [
 ];
 
 
+/** Initialize dual navbar based on session role / Inicializar el navbar según el rol de sesión */
 (async function initDualNavbar() {
 
   
@@ -351,8 +352,7 @@ const DEFAULT_ADMIN_NOTIS = [
 
 
 /**
- * SetupGuestNavbar.
- * Realiza.
+ * Setup guest navigation bar / Configurar navbar para visitantes
  */
 
 function setupGuestNavbar() {
@@ -379,8 +379,7 @@ function setupGuestNavbar() {
 
 
 /**
- * SetupUserNavbar.
- * Realiza.
+ * Setup authenticated user navbar / Configurar navbar para usuario autenticado
  */
 
 function setupUserNavbar(user, prefix = "user-") {
@@ -559,8 +558,7 @@ function updateNotificationUI(prefix) {
 }
 
 /**
- * MarkNotificationAsRead.
- * Realiza.
+ * Mark a single notification as read / Marcar una notificación como leída
  */
 
 function markNotificationAsRead(type, id, prefix) {
@@ -571,8 +569,7 @@ function markNotificationAsRead(type, id, prefix) {
 }
 
 /**
- * MarkAllAsRead.
- * Realiza.
+ * Mark all notifications as read / Marcar todas las notificaciones como leídas
  */
 
 function markAllAsRead(type, prefix) {
@@ -583,8 +580,7 @@ function markAllAsRead(type, prefix) {
 }
 
 /**
- * SetupNotifications.
- * Realiza.
+ * Setup notification dropdown and events / Configurar dropdown de notificaciones y eventos
  */
 
 function setupNotifications(prefix) {
@@ -631,8 +627,7 @@ function setupNotifications(prefix) {
 
 
 /**
- * InitMockFeatureModal.
- * Realiza.
+ * Inject coming-soon feature modal into DOM / Inyectar modal de función próximamente en el DOM
  */
 
 function initMockFeatureModal() {
@@ -655,6 +650,7 @@ function initMockFeatureModal() {
 
   const closeBtn = modalOverlay.querySelector('#navbar-modal-close');
   const actionBtn = modalOverlay.querySelector('#navbar-modal-btn');
+  /** Close modal overlay / Cerrar modal overlay */
   const closeModal = () => modalOverlay.classList.remove('open');
 
   closeBtn.addEventListener('click', closeModal);
@@ -665,8 +661,7 @@ function initMockFeatureModal() {
 }
 
 /**
- * Show mock feature modal.
- * Mostrar mock feature modal.
+ * Display feature modal with given content / Mostrar modal de función con contenido dado
  */
 
 function showMockFeatureModal(name, desc, icon) {
@@ -681,8 +676,7 @@ function showMockFeatureModal(name, desc, icon) {
 }
 
 /**
- * SetupMockLinks.
- * Realiza.
+ * Intercept mock feature links and show modal / Interceptar enlaces mock y mostrar modal
  */
 
 function setupMockLinks() {
@@ -707,8 +701,7 @@ function setupMockLinks() {
 
 
 /**
- * SetupHomePageLogoutInterception.
- * Realiza.
+ * Intercept home-page navigation to show logout confirm / Interceptar navegación en home para confirmar logout
  */
 
 function setupHomePageLogoutInterception() {
@@ -755,8 +748,7 @@ function setupHomePageLogoutInterception() {
 
 
 /**
- * Show logout confirm modal.
- * Mostrar logout confirm modal.
+ * Show logout confirmation modal / Mostrar modal de confirmación de logout
  */
 
 function showLogoutConfirmModal() {

@@ -134,8 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   
   /**
-   * ClearImagePreview.
-   * Realiza.
+   * ClearImagePreview. Resets the image preview area, clearing all file and URL inputs.
+   * ClearImagePreview. Restablece el área de previsualización de imagen, limpiando todos los inputs de archivo y URL.
    */
   function clearImagePreview() {
     previewWrapper.classList.add('d-none');

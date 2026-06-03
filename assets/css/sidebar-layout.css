@@ -239,7 +239,53 @@ body, .form-label, .text-muted, .list-group-item,
   background: var(--primary-green-dim, rgba(46, 204, 80, 0.03));
 }
 
-/* Styles for table tbody tr. / Estilos para table tbody tr. */
 .table tbody tr:last-child td {
   border-bottom: none;
 }
+
+/* ==========================================================================
+   MOBILE DEVICES (Sidebar Responsiveness) / DISPOSITIVOS MÓVILES (Responsividad de Sidebar)
+   ========================================================================== */
+@media (max-width: 991.98px) {
+  /* Hide sidebar by default moving it to the left / Ocultar el sidebar por defecto moviéndolo a la izquierda */
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh !important;
+    z-index: 1040; /* Above mobile header and content / Por encima de la cabecera móvil y contenido */
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* Show sidebar when .show class is present / Mostrar el sidebar cuando tiene la clase .show */
+  .sidebar.show {
+    left: 0 !important;
+  }
+
+  /* Adjust main content for full screen / Ajustar el contenido principal para pantalla completa */
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding-top: 5rem !important; /* Space for fixed mobile header / Espacio para la cabecera móvil fija */
+  }
+
+  /* Dark overlay backdrop when sidebar is open / Capa de fondo oscuro al abrir el sidebar */
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1030;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .sidebar-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+

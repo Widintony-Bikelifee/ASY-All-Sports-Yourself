@@ -189,8 +189,8 @@
       }
       
       /**
-       * BuildTimeline.
-       * Realiza.
+       * BuildTimeline. Builds and renders the reservation history timeline based on the reservation's current state.
+       * BuildTimeline. Construye y renderiza la línea de tiempo del historial de la reserva según su estado actual.
        */
       function buildTimeline(reservation) {
         const timelineDiv = document.getElementById('timeline-container');

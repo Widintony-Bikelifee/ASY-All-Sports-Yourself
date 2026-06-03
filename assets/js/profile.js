@@ -7,8 +7,8 @@
 
 
 /**
- * UserProfile module.
- * Realiza module.
+ * UserProfile module. Manages user profile display, editing, password change, and avatar upload.
+ * Módulo UserProfile. Gestiona la visualización, edición, cambio de contraseña y subida de avatar del perfil de usuario.
  */
 
 const UserProfile = (() => {
@@ -23,8 +23,8 @@ const UserProfile = (() => {
   document.addEventListener("DOMContentLoaded", init);
 
   /**
-   * Init.
-   * Realiza.
+   * Init. Loads the authenticated user's session and profile data, then renders the profile page.
+   * Inicializa. Carga la sesión y el perfil del usuario autenticado, luego renderiza la página de perfil.
    */
   
   async function init() {
@@ -102,8 +102,8 @@ const UserProfile = (() => {
   }
 
   /**
-   * BindStaticActions.
-   * Realiza.
+   * BindStaticActions. Attaches event listeners to static profile UI elements (edit toggle, password modal, logout).
+   * BindStaticActions. Adjunta los listeners de eventos a los elementos estáticos de la UI del perfil (edición, modal de contraseña, cerrar sesión).
    */
   
   function bindStaticActions(els) {
@@ -228,8 +228,8 @@ const UserProfile = (() => {
   }
 
   /**
-   * BindProfileForm.
-   * Realiza.
+   * BindProfileForm. Attaches submit and cancel handlers to the profile editing form.
+   * BindProfileForm. Adjunta los manejadores de envío y cancelación al formulario de edición de perfil.
    */
   
   function bindProfileForm(els) {
@@ -408,8 +408,8 @@ const UserProfile = (() => {
   }
 
   /**
-   * SignOutAll.
-   * Realiza.
+   * SignOutAll. Signs the user out of all active sessions globally and redirects to the home page.
+   * SignOutAll. Cierra la sesión del usuario en todos los dispositivos activos y redirige a la página de inicio.
    */
   
   async function signOutAll() {
@@ -535,8 +535,8 @@ const UserProfile = (() => {
   }
 
   /**
-   * EmailName.
-   * Realiza.
+   * EmailName. Extracts the display name from an email address (the part before the @).
+   * EmailName. Extrae el nombre de visualización de un correo electrónico (la parte antes del @).
    */
   
   function emailName(email) {
@@ -544,8 +544,8 @@ const UserProfile = (() => {
   }
 
   /**
-   * BuildAvatarUrl.
-   * Realiza.
+   * BuildAvatarUrl. Returns the user's stored avatar URL or a generated fallback from ui-avatars.com.
+   * BuildAvatarUrl. Devuelve la URL del avatar almacenado o una URL de respaldo generada en ui-avatars.com.
    */
   
   function buildAvatarUrl(name, user) {
@@ -572,8 +572,8 @@ const UserProfile = (() => {
   }
 
   /**
-   * RedirectToLogin.
-   * Realiza.
+   * RedirectToLogin. Redirects the browser to the login page.
+   * RedirectToLogin. Redirige el navegador a la página de inicio de sesión.
    */
   
   function redirectToLogin() {

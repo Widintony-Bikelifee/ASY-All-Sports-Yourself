@@ -46,8 +46,8 @@ function togglePassword(inputId, eyeEl) {
 
 
 /**
- * IsValidEmail.
- * Realiza.
+ * IsValidEmail. Validates that a string matches a basic email format.
+ * IsValidEmail. Valida que una cadena coincida con el formato básico de un correo electrónico.
  */
 
 function isValidEmail(email) {
@@ -56,8 +56,8 @@ function isValidEmail(email) {
 
 
 /**
- * IsValidPassword.
- * Realiza.
+ * IsValidPassword. Checks that a password meets the minimum length requirement of 8 characters.
+ * IsValidPassword. Verifica que una contraseña cumpla el requisito mínimo de 8 caracteres.
  */
 
 function isValidPassword(pass) {
@@ -338,8 +338,8 @@ const Register = (() => {
 
   
   /**
-   * Init.
-   * Realiza.
+   * Init. Attaches blur and input validation listeners to each registration field and the submit button.
+   * Inicializa. Adjunta los listeners de validación de blur e input a cada campo del formulario de registro y al botón de envío.
    */
   
   function init() {

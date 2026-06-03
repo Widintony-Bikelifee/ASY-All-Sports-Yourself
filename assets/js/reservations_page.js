@@ -120,8 +120,8 @@
   }
 
   /**
-   * ProceedToPayment.
-   * Realiza.
+   * ProceedToPayment. Validates reservation form inputs and redirects to the payment page with session data.
+   * ProceedToPayment. Valida los campos del formulario de reserva y redirige a la página de pago con los datos en sesión.
    */
   
   function proceedToPayment(event) {
@@ -177,8 +177,8 @@
     
     if (endTime) {
       /**
-       * endHour24 module.
-       * Realiza module.
+       * endHour24. Resolves the end hour in 24-hour format from the computed end time string.
+       * endHour24. Obtiene la hora de finalización en formato 24 horas a partir de la cadena de hora calculada.
        */
       
       const endHour24 = (() => {

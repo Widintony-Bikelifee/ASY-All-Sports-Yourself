@@ -8,7 +8,7 @@
 
 /**
  * AdminDashboard module with page helpers and application logic.
- * Realiza module with page helpers and application logic.
+ * Módulo AdminDashboard con funciones de página y lógica de aplicación.
  */
 
 const AdminDashboard = (() => {
@@ -31,8 +31,8 @@ const AdminDashboard = (() => {
 
   
   /**
-   * Init.
-   * Realiza.
+   * Init. Authenticates the session, checks admin role, loads user profile and dashboard data.
+   * Inicializa. Autentica la sesión, verifica el rol de administrador, carga el perfil y los datos del dashboard.
    */
   
   async function init() {
@@ -90,8 +90,8 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * _populateSidebar.
-   * Realiza.
+   * _populateSidebar. Fills the sidebar with the admin's name, email, and avatar URL.
+   * _populateSidebar. Rellena la barra lateral con el nombre, correo y URL de avatar del administrador.
    */
   
   function _populateSidebar(fullName, email, avatarUrl) {
@@ -263,8 +263,8 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * _populateVenueFilter.
-   * Realiza.
+   * _populateVenueFilter. Fills the venue filter dropdown with unique venue names from reservations.
+   * _populateVenueFilter. Rellena el selector de cancha con los nombres únicos extraídos de las reservas.
    */
   
   function _populateVenueFilter() {
@@ -277,8 +277,8 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * FilterReservas.
-   * Realiza.
+   * FilterReservas. Applies active filters and re-renders the reservations table.
+   * FilterReservas. Aplica los filtros activos y vuelve a renderizar la tabla de reservas.
    */
   
   function filterReservas() { renderReservasTable(); }
@@ -349,8 +349,8 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * _buildActions.
-   * Realiza.
+   * _buildActions. Builds action buttons (confirm, complete, cancel) for a reservation row based on its current state.
+   * _buildActions. Construye los botones de acción (confirmar, completar, cancelar) de una fila de reserva según su estado.
    */
   
   function _buildActions(id, estado) {
@@ -368,8 +368,8 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * ChangeEstado.
-   * Realiza.
+   * ChangeEstado. Updates the status of a reservation and refreshes the table.
+   * ChangeEstado. Actualiza el estado de una reserva y refresca la tabla.
    */
   
   async function changeEstado(reservaId, nuevoEstado) {
@@ -478,8 +478,8 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * DeleteVenue.
-   * Realiza.
+   * DeleteVenue. Confirms and permanently deletes a venue from the database.
+   * DeleteVenue. Confirma y elimina permanentemente una cancha de la base de datos.
    */
   
   async function deleteVenue(id) {
@@ -495,8 +495,8 @@ const AdminDashboard = (() => {
 
   
   /**
-   * _diffHours.
-   * Realiza.
+   * _diffHours. Calculates the difference in hours between two HH:MM time strings.
+   * _diffHours. Calcula la diferencia en horas entre dos cadenas de tiempo HH:MM.
    */
   
   function _diffHours(inicio, fin) {
@@ -529,15 +529,15 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * _fmtTime.
-   * Realiza.
+   * _fmtTime. Formats a time string to HH:MM, returning a dash for empty values.
+   * _fmtTime. Formatea una cadena de tiempo a HH:MM, devolviendo un guion si el valor está vacío.
    */
   
   function _fmtTime(t) { return t ? t.slice(0, 5) : "–"; }
 
   /**
-   * _statusLabel.
-   * Realiza.
+   * _statusLabel. Returns the human-readable Spanish label for a reservation status key.
+   * _statusLabel. Devuelve la etiqueta legible en español para una clave de estado de reserva.
    */
   
   function _statusLabel(s) {
@@ -545,8 +545,8 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * _paymentLabel.
-   * Realiza.
+   * _paymentLabel. Returns an icon-labelled HTML string for a payment method key.
+   * _paymentLabel. Devuelve una cadena HTML con ícono y etiqueta para una clave de método de pago.
    */
   
   function _paymentLabel(m) {
@@ -658,8 +658,8 @@ const AdminDashboard = (() => {
   }
 
   /**
-   * FilterClientes.
-   * Realiza.
+   * FilterClientes. Filters the client list by name or email and re-renders the table.
+   * FilterClientes. Filtra la lista de clientes por nombre o correo y vuelve a renderizar la tabla.
    */
   
   function filterClientes() {

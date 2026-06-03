@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+  <!-- Page head: meta, fonts, styles / Cabecera: meta, fuentes, estilos -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,6 +19,7 @@
   <body class="sidebar-layout">
     
     
+    <!-- Sidebar navigation / Navegación lateral -->
     <aside class="sidebar bg-white shadow-sm d-flex flex-column">
       <div class="sidebar-header p-4 border-bottom text-center">
         <a class="navbar-brand d-flex flex-column align-items-center gap-2 text-decoration-none" href="../../index.html">
@@ -68,6 +70,7 @@
     </aside>
 
     
+    <!-- Main content area / Área principal de contenido -->
     <main class="main-content">
 
       
@@ -90,6 +93,7 @@
         </div>
 
         
+        <!-- Dashboard stats cards / Tarjetas de estadísticas del panel -->
         <div class="row g-4 mb-5">
           <div class="col-12 col-sm-6 col-xl-3">
             <div class="card border-0 shadow-sm h-100">
@@ -149,6 +153,7 @@
         </div>
 
         
+        <!-- Venues list panel / Panel de lista de canchas -->
         <div id="dashboard-venues-container" style="display:none;">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="h4 fw-bold mb-0" style="font-family: var(--font-display); color: var(--text-primary);">
@@ -161,6 +166,7 @@
         </div>
 
         
+        <!-- Empty state: no courts registered / Estado vacío: sin canchas registradas -->
         <div id="admin-empty-state" class="text-center py-5">
           <div class="card shadow-sm border-0 p-5">
             <div class="mb-4">
@@ -182,6 +188,7 @@
     </main>
 
     
+    <!-- Modal: add / edit venue / Modal: añadir / editar cancha -->
     <div class="modal fade" id="venue-modal" tabindex="-1" aria-labelledby="venueModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -251,6 +258,7 @@
     </div>
 
     
+    <!-- Toast notifications / Notificaciones toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div class="toast align-items-center border-0" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
@@ -264,6 +272,7 @@
     </div>
 
     
+    <!-- Page scripts / Scripts de la página -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="../../assets/js/services/supabaseClient.js"></script>
