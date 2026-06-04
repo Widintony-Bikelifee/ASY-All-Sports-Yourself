@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+  <!-- Page head: meta, fonts, styles / Cabecera: meta, fuentes, estilos -->
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,749 +8,279 @@
     <title>Panel de Administración – All Sports Yourself</title>
     <meta name="description" content="Panel de administración de canchas para ASY." />
 
-    <!-- CSS -->
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/sidebar-layout.css" />
-    <link rel="stylesheet" href="../../assets/css/admin-dashboard.css" />
-
-
-    <style>
-      /* ── Tabs internos (solo dentro del panel canchas) ── */
-      .admin-tabs {
-        display: flex; gap: .5rem; border-bottom: 2px solid var(--border-light);
-        margin-bottom: 2rem;
-      }
-      .admin-tab {
-        padding: .7rem 1.4rem; font-weight: 700; font-size: var(--fs-sm);
-        border: none; background: none; cursor: pointer;
-        color: var(--text-muted); border-bottom: 3px solid transparent;
-        margin-bottom: -2px; transition: all .2s; border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-      }
-      .admin-tab:hover { color: var(--text-dark); background: var(--bg-light); }
-      .admin-tab.active { color: var(--color-green-dark); border-bottom-color: var(--color-green); background: rgba(46,204,80,.05); }
-
-      /* ── Reservations table ── */
-      .reservas-admin-table-wrap {
-        background: var(--bg-white); border-radius: var(--radius-md);
-        border: 1px solid var(--border-light);
-        box-shadow: 0 4px 15px rgba(0,0,0,.03);
-        overflow-x: auto; margin-top: 1.5rem;
-      }
-      .reservas-admin-table {
-        width: 100%; border-collapse: collapse; min-width: 780px;
-      }
-      .reservas-admin-table th {
-        padding: .9rem 1.2rem; text-align: left;
-        font-size: var(--fs-xs); text-transform: uppercase;
-        letter-spacing: .5px; font-weight: 700; color: var(--text-muted);
-        background: rgba(0,0,0,.02); border-bottom: 1px solid var(--border-light);
-      }
-      .reservas-admin-table td {
-        padding: .9rem 1.2rem; font-size: var(--fs-sm);
-        border-bottom: 1px solid var(--border-light); vertical-align: middle;
-      }
-      .reservas-admin-table tr:last-child td { border-bottom: none; }
-      .reservas-admin-table tbody tr:hover { background: rgba(46,204,80,.02); }
-
-      /* Status badge */
-      .res-badge {
-        display: inline-flex; align-items: center; gap: .3rem;
-        padding: .22rem .65rem; border-radius: 99px;
-        font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
-      }
-      .res-badge::before { content:""; width:5px; height:5px; border-radius:50%; }
-      .res-badge--pendiente  { background:rgba(245,158,11,.12); color:#92400e; }
-      .res-badge--pendiente::before  { background:#f59e0b; }
-      .res-badge--confirmada { background:rgba(59,130,246,.12); color:#1e40af; }
-      .res-badge--confirmada::before { background:#3b82f6; }
-      .res-badge--completada { background:rgba(16,185,129,.12); color:#065f46; }
-      .res-badge--completada::before { background:#10b981; }
-      .res-badge--cancelada  { background:rgba(239,68,68,.1);  color:#991b1b; }
-      .res-badge--cancelada::before  { background:#ef4444; }
-
-      /* Action buttons inside table */
-      .res-act-btn {
-        padding: .28rem .75rem; border-radius: 99px;
-        font-size: .72rem; font-weight: 700; border: 1.5px solid;
-        cursor: pointer; transition: all .2s; background: transparent;
-      }
-      .res-act-btn--confirm  { color: #1e40af; border-color: #93c5fd; }
-      .res-act-btn--confirm:hover  { background: #eff6ff; }
-      .res-act-btn--complete { color: #065f46; border-color: #6ee7b7; }
-      .res-act-btn--complete:hover { background: #ecfdf5; }
-      .res-act-btn--cancel   { color: #991b1b; border-color: #fca5a5; }
-      .res-act-btn--cancel:hover   { background: #fef2f2; }
-
-      /* Reservas filters */
-      .res-filters {
-        display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; margin-top: 1.5rem;
-      }
-      .res-filter-select {
-        padding: .5rem 1rem; border: 1.5px solid var(--border-dark);
-        border-radius: var(--radius-md); font-family: var(--font-body);
-        font-size: var(--fs-sm); color: var(--text-dark); background: var(--bg-white);
-        appearance: none; cursor: pointer;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a8f7a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-        background-repeat: no-repeat; background-position: right .85rem center; padding-right: 2rem;
-      }
-      .res-filter-select:focus { outline: none; border-color: var(--color-green); }
-      .res-count { font-size: var(--fs-sm); color: var(--text-muted); margin-left: auto; }
-
-      /* ── Panel sections: one fills the full main content area ── */
-      .panel-section { display: none; }
-      .panel-section.active { display: block; }
-
-      /* ── Page header inside each panel ── */
-      .panel-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        margin-bottom: 2rem;
-      }
-    </style>
+    <link rel="stylesheet" href="../../assets/css/admin/admin_dashboard.css" />
   </head>
 
   <body class="sidebar-layout">
+    
+    
+    <!-- Sidebar navigation / Navegación lateral -->
+    <aside class="sidebar bg-white shadow-sm d-flex flex-column">
+      <div class="sidebar-header p-4 border-bottom text-center">
+        <a class="navbar-brand d-flex flex-column align-items-center gap-2 text-decoration-none" href="../../index.html">
+          <img src="../../assets/img/Logo-ASY.png" alt="Logo ASY" width="48" height="48" />
+          <span class="fw-bold text-dark">All Sports Yourself</span>
+        </a>
+      </div>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="sidebar__logo">
-        <img src="../../assets/img/Logo-ASY.png" alt="Logo ASY" />
-        <div class="sidebar__brand-text">
-          All Sports <span>Yourself</span>
+      <div class="sidebar-user p-4 d-flex align-items-center gap-3 border-bottom">
+        <img id="sidebar-avatar-img" 
+             src="https://ui-avatars.com/api/?name=Usuario&background=2ecc50&color=fff" 
+             alt="Avatar" 
+             class="rounded-circle" 
+             width="48" 
+             height="48" />
+        <div class="overflow-hidden">
+          <div class="fw-semibold text-truncate" id="sidebar-user-name">Cargando...</div>
+          <small class="text-muted text-truncate d-block" id="sidebar-user-email">cargando@...</small>
         </div>
       </div>
 
-      <div class="sidebar__user">
-        <div class="sidebar__avatar">
-          <img src="https://ui-avatars.com/api/?name=Admin&background=2ecc50&color=fff" alt="Avatar" id="sidebar-avatar-img">
-        </div>
-        <div class="sidebar__user-info">
-          <span class="sidebar__user-name" id="sidebar-user-name">Cargando...</span>
-          <span class="sidebar__user-email" id="sidebar-user-email">cargando@...</span>
-        </div>
-      </div>
-
-      <nav class="sidebar__nav">
-        <button onclick="AdminDashboard.switchTab('canchas')" class="sidebar__link active" id="sidebar-tab-canchas" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-          Mis Canchas
-        </button>
-        <button onclick="AdminDashboard.switchTab('reservas')" class="sidebar__link" id="sidebar-tab-reservas" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Reservas Recibidas
-          <span id="sidebar-badge-reservas" style="
-            display:none;margin-left:auto;min-width:18px;height:18px;border-radius:50%;
-            font-size:.65rem;font-weight:800;background:var(--color-green);color:#000;
-            align-items:center;justify-content:center;"></span>
-        </button>
-        <button onclick="AdminDashboard.switchTab('clientes')" class="sidebar__link" id="sidebar-tab-clientes" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          Clientes
-        </button>
-        <button onclick="AdminDashboard.switchTab('reportes')" class="sidebar__link" id="sidebar-tab-reportes" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-          Reportes
-        </button>
-        <button onclick="AdminDashboard.switchTab('profile')" class="sidebar__link" id="sidebar-tab-profile" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;font-family:inherit;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Mi Perfil
-        </button>
-
-        <div style="margin-top:auto;">
-          <button class="sidebar__link" id="btn-logout" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;color:#ff4757;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="stroke:#ff4757;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-            Cerrar Sesión
-          </button>
-        </div>
+      <nav class="nav nav-pills flex-column p-3 gap-1 flex-grow-1">
+        <a href="./admin-dashboard.html" class="nav-link active text-start" id="tab-inicio">
+          <i class="bi bi-house-door me-2"></i>Inicio
+        </a>
+        <a href="./courts_admin.html" class="nav-link text-start" id="tab-canchas">
+          <i class="bi bi-geo-alt me-2"></i>Mis Canchas
+        </a>
+        <a href="./reservations_admin.html" class="nav-link text-start" id="tab-venues">
+          <i class="bi bi-calendar-check me-2"></i>Reservas Recibidas
+        </a>
+        <a href="./clients_admin.html" class="nav-link text-start">
+          <i class="bi bi-people me-2"></i>Clientes
+        </a>
+        <a href="./reports_admin.html" class="nav-link text-start" id="tab-reportes">
+          <i class="bi bi-bar-chart me-2"></i>Reportes
+        </a>
+        <a href="./perfil_admin.html" class="nav-link text-start" id="tab-profile">
+          <i class="bi bi-person-circle me-2"></i>Mi Perfil
+        </a>
       </nav>
+
+      <div class="p-3 border-top">
+        <button class="btn btn-outline-danger w-100" id="btn-logout">
+          <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+        </button>
+      </div>
     </aside>
 
-    <!-- MAIN — only the active panel is visible -->
+    
+    <!-- Main content area / Área principal de contenido -->
     <main class="main-content">
 
-      <!-- ══════════════════════════════════════════
-           PANEL: Mis Canchas
-      ══════════════════════════════════════════ -->
+      
       <div class="panel-section active" id="panel-canchas">
 
-        <!-- Header -->
-        <div class="panel-header">
+        
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
           <div>
-            <span class="admin-tag" style="display:inline-block;padding:0.3rem 0.8rem;background:rgba(100,255,100,0.1);color:var(--color-green);border-radius:99px;font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;margin-bottom:0.8rem;">🏟️ Dashboard</span>
-            <h1 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,2.8rem);line-height:1.1;color:var(--text-primary);">Mis Canchas</h1>
-            <p style="color:var(--text-secondary);font-size:var(--fs-base);margin-top:0.5rem;">Gestiona tus espacios deportivos.</p>
+            <span class="badge rounded-pill py-2 px-3 mb-3 page-title-badge">
+              <i class="bi bi-speedometer2 me-1"></i> Dashboard
+            </span>
+            <h1 class="fw-bold mb-1 page-title-heading">
+              Panel de Administración
+            </h1>
+            <p class="text-secondary mb-0">Gestiona tus espacios deportivos y monitorea tu actividad en tiempo real.</p>
           </div>
-          <button class="btn btn-primary" onclick="AdminDashboard.openModal()">+ Añadir Cancha</button>
+          <button class="btn btn-success px-4 py-2 fw-semibold shadow-sm" onclick="AdminDashboard.openModal()">
+            <i class="bi bi-plus-lg me-2"></i>Añadir Cancha
+          </button>
         </div>
 
-        <!-- Stats -->
-        <div class="stats-grid" style="margin-bottom:2rem;">
-          <div class="stat-card-clean">
-            <div class="stat-card-clean__icon stat-card-clean__icon--blue">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        
+        <!-- Dashboard stats cards / Tarjetas de estadísticas del panel -->
+        <div class="row g-4 mb-5">
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background: rgba(13,110,253,.1);">
+                    <i class="bi bi-building fs-4 text-primary"></i>
+                  </div>
+                </div>
+                <h2 class="fw-bold mb-1" id="stat-canchas-count">0</h2>
+                <p class="text-muted small mb-0">Mis Canchas</p>
+              </div>
             </div>
-            <span class="stat-card-clean__value" id="stat-canchas-count">0</span>
-            <span class="stat-card-clean__label">Mis Canchas</span>
           </div>
-          <div class="stat-card-clean">
-            <div class="stat-card-clean__icon stat-card-clean__icon--orange">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background: rgba(255,152,0,.1);">
+                    <i class="bi bi-clock-history fs-4 text-warning"></i>
+                  </div>
+                </div>
+                <h2 class="fw-bold mb-1" id="stat-reservas-pendientes">0</h2>
+                <p class="text-muted small mb-0">Reservas Pendientes</p>
+              </div>
             </div>
-            <span class="stat-card-clean__value" id="stat-reservas-pendientes">0</span>
-            <span class="stat-card-clean__label">Reservas Pendientes</span>
           </div>
-          <div class="stat-card-clean">
-            <div class="stat-card-clean__icon stat-card-clean__icon--green">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background: rgba(46,204,80,.1);">
+                    <i class="bi bi-check-circle fs-4 text-success"></i>
+                  </div>
+                </div>
+                <h2 class="fw-bold mb-1" id="stat-reservas-confirmadas">0</h2>
+                <p class="text-muted small mb-0">Reservas Confirmadas</p>
+              </div>
             </div>
-            <span class="stat-card-clean__value" id="stat-reservas-confirmadas">0</span>
-            <span class="stat-card-clean__label">Reservas Confirmadas</span>
           </div>
-          <div class="stat-card-clean">
-            <div class="stat-card-clean__icon" style="background:rgba(99,102,241,.1);color:#6366f1;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          
+          <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                  <div class="rounded-3 p-2" style="background: rgba(99,102,241,.1);">
+                    <i class="bi bi-cash-stack fs-4 text-indigo" style="color: #6366f1;"></i>
+                  </div>
+                </div>
+                <h2 class="fw-bold mb-1" id="stat-ingresos">$0</h2>
+                <p class="text-muted small mb-0">Ingresos Estimados</p>
+              </div>
             </div>
-            <span class="stat-card-clean__value" id="stat-ingresos">$0</span>
-            <span class="stat-card-clean__label">Ingresos Estimados</span>
           </div>
         </div>
 
-        <!-- Venues list -->
+        
+        <!-- Venues list panel / Panel de lista de canchas -->
         <div id="dashboard-venues-container" style="display:none;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
-            <h2 style="font-family:var(--font-display);font-size:1.4rem;color:var(--text-primary);">Canchas Publicadas</h2>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h4 fw-bold mb-0" style="font-family: var(--font-display); color: var(--text-primary);">
+              <i class="bi bi-geo-alt me-2"></i>Canchas Publicadas
+            </h2>
           </div>
-          <div id="dashboard-venues-list" style="display:grid;gap:1rem;"></div>
-        </div>
-
-        <!-- Empty state -->
-        <div class="admin-empty-state" id="admin-empty-state">
-          <div class="admin-empty-state__icon">🏟️</div>
-          <h3>Aún no tienes canchas registradas</h3>
-          <p>Añade tu primer espacio deportivo para empezar a recibir reservas.</p>
-          <button class="btn btn-primary" onclick="AdminDashboard.openModal()">Crear mi primera cancha</button>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════════
-           PANEL: Reservas Recibidas
-      ══════════════════════════════════════════ -->
-      <div class="panel-section" id="panel-reservas">
-
-        <!-- Header -->
-        <div class="panel-header">
-          <div>
-            <span style="display:inline-block;padding:0.3rem 0.8rem;background:rgba(59,130,246,.1);color:#1e40af;border-radius:99px;font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;margin-bottom:0.8rem;">📅 Reservas</span>
-            <h1 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,2.8rem);line-height:1.1;color:var(--text-primary);">Reservas Recibidas</h1>
-            <p style="color:var(--text-secondary);font-size:var(--fs-base);margin-top:0.5rem;">Revisa y gestiona las reservas de tus canchas.</p>
+          <div id="dashboard-venues-list" class="row g-4">
+            
           </div>
-          <button onclick="AdminDashboard.loadReservas()" style="
-            padding:.5rem 1.2rem;border-radius:99px;border:1.5px solid var(--border-dark2);
-            font-size:var(--fs-sm);font-weight:600;color:var(--text-muted);
-            background:transparent;cursor:pointer;">
-            🔄 Actualizar
-          </button>
         </div>
 
-        <!-- Filters -->
-        <div class="res-filters">
-          <select id="res-filter-status" class="res-filter-select" onchange="AdminDashboard.filterReservas()">
-            <option value="">Todos los estados</option>
-            <option value="pendiente">🟡 Pendiente</option>
-            <option value="confirmada">🔵 Confirmada</option>
-            <option value="completada">🟢 Completada</option>
-            <option value="cancelada">🔴 Cancelada</option>
-          </select>
-          <select id="res-filter-venue" class="res-filter-select" onchange="AdminDashboard.filterReservas()">
-            <option value="">Todas las canchas</option>
-          </select>
-          <span class="res-count" id="res-count"></span>
-        </div>
-
-        <!-- Table -->
-        <div class="reservas-admin-table-wrap">
-          <table class="reservas-admin-table">
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Cancha</th>
-                <th>Fecha</th>
-                <th>Horario</th>
-                <th>Pago</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="reservas-admin-tbody">
-              <tr>
-                <td colspan="7" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando reservas…</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════════
-           PANEL: Clientes
-      ══════════════════════════════════════════ -->
-      <div class="panel-section" id="panel-clientes">
-
-        <!-- Header -->
-        <div class="panel-header">
-          <div>
-            <span style="display:inline-block;padding:0.3rem 0.8rem;background:rgba(139,92,246,.1);color:#6d28d9;border-radius:99px;font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;margin-bottom:0.8rem;">👥 Clientes</span>
-            <h1 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,2.8rem);line-height:1.1;color:var(--text-primary);">Mis Clientes</h1>
-            <p style="color:var(--text-secondary);font-size:var(--fs-base);margin-top:0.5rem;">Deportistas que han reservado en tus canchas.</p>
-          </div>
-          <button onclick="AdminDashboard.loadClientes()" style="
-            padding:.5rem 1.2rem;border-radius:99px;border:1.5px solid var(--border-dark2);
-            font-size:var(--fs-sm);font-weight:600;color:var(--text-muted);
-            background:transparent;cursor:pointer;">
-            🔄 Actualizar
-          </button>
-        </div>
-
-        <!-- Search -->
-        <div style="margin-bottom:1.25rem;">
-          <input type="text" id="clientes-search" placeholder="🔍 Buscar por nombre o correo..."
-            oninput="AdminDashboard.filterClientes()"
-            style="width:100%;max-width:380px;padding:.6rem 1rem;border:1.5px solid var(--border-dark);
-                   border-radius:var(--radius-md);font-family:var(--font-body);font-size:var(--fs-sm);
-                   color:var(--text-dark);background:var(--bg-white);">
-        </div>
-
-        <!-- Table -->
-        <div class="reservas-admin-table-wrap">
-          <table class="reservas-admin-table">
-            <thead>
-              <tr>
-                <th>Cliente</th>
-                <th>Teléfono</th>
-                <th>Reservas</th>
-                <th>Última Reserva</th>
-                <th>Cancha Favorita</th>
-              </tr>
-            </thead>
-            <tbody id="clientes-tbody">
-              <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando clientes…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════════
-           PANEL: Reportes
-      ══════════════════════════════════════════ -->
-      <div class="panel-section" id="panel-reportes">
-
-        <!-- Header -->
-        <div class="panel-header">
-          <div>
-            <span style="display:inline-block;padding:0.3rem 0.8rem;background:rgba(16,185,129,.1);color:#065f46;border-radius:99px;font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;margin-bottom:0.8rem;">📊 Reportes</span>
-            <h1 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,2.8rem);line-height:1.1;color:var(--text-primary);">Reportes</h1>
-            <p style="color:var(--text-secondary);font-size:var(--fs-base);margin-top:0.5rem;">Estadísticas de facturación y ocupación de tus canchas.</p>
-          </div>
-          <button onclick="AdminDashboard.loadReportes()" style="
-            padding:.5rem 1.2rem;border-radius:99px;border:1.5px solid var(--border-dark2);
-            font-size:var(--fs-sm);font-weight:600;color:var(--text-muted);
-            background:transparent;cursor:pointer;">
-            🔄 Actualizar
-          </button>
-        </div>
-
-        <!-- KPIs -->
-        <div id="reportes-kpis" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem;"></div>
-
-        <!-- Reservas por cancha -->
-        <div style="background:var(--bg-white);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 4px 15px rgba(0,0,0,.03);">
-          <h3 style="font-family:var(--font-display);font-size:1.05rem;margin-bottom:1.25rem;color:var(--text-primary);">Reservas por Cancha</h3>
-          <div id="reportes-por-cancha"></div>
-        </div>
-
-        <!-- Ingresos por mes -->
-        <div style="background:var(--bg-white);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:1.5rem;box-shadow:0 4px 15px rgba(0,0,0,.03);">
-          <h3 style="font-family:var(--font-display);font-size:1.05rem;margin-bottom:1.25rem;color:var(--text-primary);">Ingresos Estimados por Mes</h3>
-          <div id="reportes-ingresos-mes"></div>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════════
-           PANEL: Mi Perfil
-      ══════════════════════════════════════════ -->
-      <div class="panel-section" id="panel-profile">
-        <style>
-          /* ── Profile Card ── */
-          .prf-card {
-            background: #fff;
-            border: 1px solid #e8ede8;
-            border-radius: 16px;
-            box-shadow: 0 2px 12px rgba(0,0,0,.05);
-            padding: 1.5rem;
-            margin-bottom: 1.25rem;
-          }
-          /* Profile hero row */
-          .prf-hero {
-            display: flex;
-            align-items: center;
-            gap: 1.1rem;
-          }
-          .prf-avatar-wrap {
-            position: relative;
-            flex-shrink: 0;
-          }
-          .prf-avatar {
-            width: 64px; height: 64px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #e8ede8;
-          }
-          .prf-avatar-badge {
-            position: absolute;
-            bottom: 2px; right: 2px;
-            width: 18px; height: 18px;
-            border-radius: 50%;
-            background: #2ecc50;
-            border: 2px solid #fff;
-          }
-          .prf-hero-info { flex: 1; min-width: 0; }
-          .prf-hero-name {
-            font-size: 1.15rem; font-weight: 800;
-            color: #111; margin-bottom: .1rem;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-          }
-          .prf-hero-email {
-            font-size: .82rem; color: #7a8f7a;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-          }
-          .prf-hero-since {
-            font-size: .75rem; color: #aaa; margin-top: .2rem;
-          }
-          .prf-edit-btn {
-            display: inline-flex; align-items: center; gap: .35rem;
-            padding: .45rem 1rem; border-radius: 99px;
-            border: 1.5px solid #d1d5d1; background: #fff;
-            font-size: .8rem; font-weight: 700; color: #333;
-            cursor: pointer; transition: all .2s; white-space: nowrap;
-          }
-          .prf-edit-btn:hover { border-color: #2ecc50; color: #1a7a2e; background: rgba(46,204,80,.05); }
-
-          /* Section heading */
-          .prf-section-title {
-            font-size: .72rem; font-weight: 800;
-            text-transform: uppercase; letter-spacing: .6px;
-            color: #7a8f7a; margin-bottom: 1rem;
-          }
-
-          /* Info rows (view mode) */
-          .prf-field { margin-bottom: 1.1rem; }
-          .prf-field:last-child { margin-bottom: 0; }
-          .prf-field-label {
-            font-size: .68rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: .5px; color: #aaa; margin-bottom: .3rem;
-          }
-          .prf-field-value {
-            font-size: .93rem; color: #1a1a1a; font-weight: 500;
-            padding: .7rem .9rem;
-            background: #f7faf7; border: 1px solid #e8ede8;
-            border-radius: 10px;
-          }
-
-          /* Edit form inputs */
-          .prf-input {
-            width: 100%; padding: .7rem .9rem;
-            border: 1.5px solid #d8e4d8; border-radius: 10px;
-            font-family: inherit; font-size: .93rem; color: #1a1a1a;
-            background: #fff; transition: border-color .2s;
-            box-sizing: border-box;
-          }
-          .prf-input:focus { outline: none; border-color: #2ecc50; }
-          .prf-input:disabled { background: #f0f0f0; color: #999; cursor: not-allowed; }
-          .prf-input-row { display: flex; gap: .75rem; }
-          .prf-input-row .prf-field { flex: 1; }
-
-          /* Security rows */
-          .prf-security-row {
-            display: flex; align-items: center; gap: 1rem;
-            padding: .95rem 0;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer; transition: background .15s;
-            border-radius: 8px; padding-left: .5rem; padding-right: .5rem;
-          }
-          .prf-security-row:last-child { border-bottom: none; }
-          .prf-security-row:hover { background: #f7faf7; }
-          .prf-security-icon {
-            width: 36px; height: 36px; border-radius: 10px;
-            background: #f3f4f6; display: flex; align-items: center;
-            justify-content: center; flex-shrink: 0;
-          }
-          .prf-security-icon svg { width: 16px; height: 16px; stroke: #555; }
-          .prf-security-text { flex: 1; }
-          .prf-security-label { font-size: .88rem; font-weight: 700; color: #1a1a1a; }
-          .prf-security-desc  { font-size: .76rem; color: #9ca3af; margin-top: .1rem; }
-          .prf-security-arrow { color: #ccc; font-size: 1rem; }
-
-          /* Danger zone */
-          .prf-danger-row {
-            display: flex; align-items: center; gap: .6rem;
-            color: #dc2626; font-size: .88rem; font-weight: 700;
-            cursor: pointer; padding: .5rem 0;
-          }
-          .prf-danger-row svg { width: 16px; height: 16px; stroke: #dc2626; }
-          .prf-danger-row:hover { text-decoration: underline; }
-
-          /* Save button */
-          .prf-save-btn {
-            width: 100%; padding: .75rem;
-            background: #2ecc50; border: none; border-radius: 10px;
-            font-size: .93rem; font-weight: 800; color: #fff;
-            cursor: pointer; transition: background .2s; margin-top: .5rem;
-          }
-          .prf-save-btn:hover { background: #27b545; }
-          .prf-save-btn:disabled { background: #a8d5b5; cursor: not-allowed; }
-          .prf-cancel-btn {
-            width: 100%; padding: .7rem;
-            background: transparent; border: 1.5px solid #d1d5d1;
-            border-radius: 10px; font-size: .88rem; font-weight: 700;
-            color: #555; cursor: pointer; margin-top: .5rem;
-            transition: all .2s;
-          }
-          .prf-cancel-btn:hover { border-color: #aaa; color: #111; }
-
-          /* Change password modal overlay */
-          .prf-modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,.45); z-index: 1000;
-            align-items: center; justify-content: center;
-          }
-          .prf-modal-overlay.open { display: flex; }
-          .prf-modal-box {
-            background: #fff; border-radius: 16px; padding: 2rem;
-            width: 100%; max-width: 420px; margin: 1rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,.15);
-          }
-          .prf-modal-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.25rem; color: #111; }
-          .prf-modal-field { margin-bottom: 1rem; }
-          .prf-modal-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #7a8f7a; margin-bottom: .4rem; display: block; }
-          .prf-modal-actions { display: flex; gap: .75rem; margin-top: 1.25rem; }
-          .prf-modal-actions button { flex: 1; padding: .75rem; border-radius: 10px; font-size: .9rem; font-weight: 700; cursor: pointer; }
-          .prf-modal-btn-cancel { background: #f3f4f6; border: none; color: #555; }
-          .prf-modal-btn-save   { background: #2ecc50; border: none; color: #fff; }
-          .prf-modal-btn-cancel:hover { background: #e5e7eb; }
-          .prf-modal-btn-save:hover   { background: #27b545; }
-        </style>
-
-        <!-- ── Profile Hero Card ── -->
-        <div class="prf-card">
-          <div class="prf-hero">
-            <div class="prf-avatar-wrap">
-              <img id="prf-avatar-img"
-                   src="https://ui-avatars.com/api/?name=Admin&background=2ecc50&color=fff"
-                   alt="Avatar" class="prf-avatar" />
-              <div class="prf-avatar-badge"></div>
+        
+        <!-- Empty state: no courts registered / Estado vacío: sin canchas registradas -->
+        <div id="admin-empty-state" class="text-center py-5">
+          <div class="card shadow-sm border-0 p-5">
+            <div class="mb-4">
+              <i class="bi bi-geo-alt display-1 text-muted"></i>
             </div>
-            <div class="prf-hero-info">
-              <div class="prf-hero-name" id="prf-hero-name">Cargando...</div>
-              <div class="prf-hero-email" id="prf-hero-email">—</div>
-              <div class="prf-hero-since" id="prf-hero-since">Miembro desde —</div>
+            <h3 class="fw-bold mb-3">Aún no tienes canchas registradas</h3>
+            <p class="text-secondary mb-4 mx-auto" style="max-width: 450px;">
+              Añade tu primer espacio deportivo para empezar a recibir reservas y gestionar tus horarios desde aquí.
+            </p>
+            <div>
+              <button class="btn btn-success btn-lg px-5 shadow-sm" onclick="AdminDashboard.openModal()">
+                <i class="bi bi-plus-lg me-2"></i>Crear mi primera cancha
+              </button>
             </div>
-            <button class="prf-edit-btn" id="prf-edit-toggle" onclick="AdminDashboard.toggleProfileEdit()">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-              </svg>
-              Editar
-            </button>
-          </div>
-        </div>
-
-        <!-- ── Información Personal (view mode) ── -->
-        <div class="prf-card" id="prf-view-mode">
-          <div class="prf-section-title">Información Personal</div>
-
-          <div class="prf-field">
-            <div class="prf-field-label">Nombre Completo</div>
-            <div class="prf-field-value" id="prf-view-name">—</div>
-          </div>
-          <div class="prf-field">
-            <div class="prf-field-label">Correo Electrónico</div>
-            <div class="prf-field-value" id="prf-view-email">—</div>
-          </div>
-          <div class="prf-field">
-            <div class="prf-field-label">Teléfono</div>
-            <div class="prf-field-value" id="prf-view-phone">—</div>
-          </div>
-          <div class="prf-field">
-            <div class="prf-field-label">Ciudad</div>
-            <div class="prf-field-value">Ipiales, Nariño</div>
-          </div>
-        </div>
-
-        <!-- ── Información Personal (edit mode, hidden by default) ── -->
-        <div class="prf-card" id="prf-edit-mode" style="display:none;">
-          <div class="prf-section-title">Editar Información</div>
-          <form id="profile-form">
-            <div class="prf-input-row" style="margin-bottom:1rem;">
-              <div class="prf-field">
-                <div class="prf-field-label">Nombre</div>
-                <input type="text" id="profile-name" class="prf-input" placeholder="Tu nombre" required />
-              </div>
-              <div class="prf-field">
-                <div class="prf-field-label">Apellido</div>
-                <input type="text" id="profile-lastname" class="prf-input" placeholder="Tu apellido" required />
-              </div>
-            </div>
-            <div class="prf-field" style="margin-bottom:1rem;">
-              <div class="prf-field-label">Correo Electrónico</div>
-              <input type="email" id="profile-email" class="prf-input" disabled />
-            </div>
-            <div class="prf-field" style="margin-bottom:.5rem;">
-              <div class="prf-field-label">Teléfono</div>
-              <input type="tel" id="profile-phone" class="prf-input" placeholder="+57 300 123 4567" />
-            </div>
-            <button type="submit" class="prf-save-btn" id="btn-save">Guardar Cambios</button>
-            <button type="button" class="prf-cancel-btn" onclick="AdminDashboard.toggleProfileEdit()">Cancelar</button>
-          </form>
-        </div>
-
-        <!-- ── Seguridad ── -->
-        <div class="prf-card">
-          <div class="prf-section-title">Seguridad</div>
-
-          <div class="prf-security-row" onclick="AdminDashboard.openChangePassword()">
-            <div class="prf-security-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2"/>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-            </div>
-            <div class="prf-security-text">
-              <div class="prf-security-label">Cambiar Contraseña</div>
-              <div class="prf-security-desc">Actualiza tu contraseña de acceso</div>
-            </div>
-            <span class="prf-security-arrow">›</span>
-          </div>
-
-          <div class="prf-security-row" onclick="App.showToast('Función disponible próximamente.')">
-            <div class="prf-security-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
-            <div class="prf-security-text">
-              <div class="prf-security-label">Verificación en 2 pasos</div>
-              <div class="prf-security-desc">Añade una capa extra de seguridad</div>
-            </div>
-            <span class="prf-security-arrow">›</span>
-          </div>
-
-          <div class="prf-security-row" onclick="App.showToast('Función disponible próximamente.')">
-            <div class="prf-security-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                <path d="M8 21h8M12 17v4"/>
-              </svg>
-            </div>
-            <div class="prf-security-text">
-              <div class="prf-security-label">Sesiones Activas</div>
-              <div class="prf-security-desc">Gestiona los dispositivos conectados</div>
-            </div>
-            <span class="prf-security-arrow">›</span>
-          </div>
-        </div>
-
-        <!-- ── Zona de Peligro ── -->
-        <div class="prf-card">
-          <div class="prf-section-title">Zona de Peligro</div>
-          <div class="prf-danger-row" onclick="AdminDashboard.signOutAll()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="3" width="20" height="14" rx="2"/>
-              <path d="M8 21h8M12 17v4"/>
-            </svg>
-            Cerrar Sesión en todos los dispositivos
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Change Password Modal ── -->
-      <div class="prf-modal-overlay" id="prf-password-modal">
-        <div class="prf-modal-box">
-          <div class="prf-modal-title">🔒 Cambiar Contraseña</div>
-          <div class="prf-modal-field">
-            <label class="prf-modal-label" for="prf-new-password">Nueva Contraseña</label>
-            <input type="password" id="prf-new-password" class="prf-input" placeholder="Mínimo 8 caracteres" />
-          </div>
-          <div class="prf-modal-field">
-            <label class="prf-modal-label" for="prf-confirm-password">Confirmar Contraseña</label>
-            <input type="password" id="prf-confirm-password" class="prf-input" placeholder="Repite la contraseña" />
-          </div>
-          <p id="prf-password-error" style="color:#dc2626;font-size:.8rem;margin-top:.5rem;"></p>
-          <div class="prf-modal-actions">
-            <button class="prf-modal-btn-cancel" onclick="AdminDashboard.closeChangePassword()">Cancelar</button>
-            <button class="prf-modal-btn-save" onclick="AdminDashboard.saveNewPassword()">Guardar</button>
           </div>
         </div>
       </div>
 
     </main>
 
-    <!-- MODAL (Create/Edit Venue) -->
-    <div class="admin-modal" id="venue-modal">
-      <div class="admin-modal__content">
-        <div class="admin-modal__header">
-          <h2 id="modal-title">Añadir Cancha</h2>
-          <button class="admin-modal__close" onclick="AdminDashboard.closeModal()">&times;</button>
-        </div>
-        <div class="admin-modal__body">
-          <input type="hidden" id="venue-id">
-          <div class="admin-form-group">
-            <label for="venue-nombre">Nombre de la Cancha *</label>
-            <input type="text" id="venue-nombre" class="admin-form-control" placeholder="Ej. Cancha Sintética El Golazo" required>
+    
+    <!-- Modal: add / edit venue / Modal: añadir / editar cancha -->
+    <div class="modal fade" id="venue-modal" tabindex="-1" aria-labelledby="venueModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="venueModalLabel">
+              <i class="bi bi-geo-alt me-2"></i>Añadir Cancha
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="admin-form-group">
-            <label for="venue-tipo">Tipo de Deporte *</label>
-            <select id="venue-tipo" class="admin-form-control" required>
-              <option value="">Selecciona un deporte</option>
-              <option value="Fútbol">Fútbol</option>
-              <option value="Baloncesto">Baloncesto</option>
-              <option value="Tenis">Tenis</option>
-              <option value="Voleibol">Voleibol</option>
-              <option value="Natación">Natación</option>
-            </select>
+          <div class="modal-body">
+            <input type="hidden" id="venue-id" />
+            
+            <div class="mb-3">
+              <label for="venue-nombre" class="form-label fw-semibold">
+                Nombre de la Cancha <span class="text-danger">*</span>
+              </label>
+              <input type="text" id="venue-nombre" class="form-control" placeholder="Ej. Cancha Sintética El Golazo" required />
+            </div>
+            
+            <div class="mb-3">
+              <label for="venue-tipo" class="form-label fw-semibold">
+                Tipo de Deporte <span class="text-danger">*</span>
+              </label>
+              <select id="venue-tipo" class="form-select" required>
+                <option value="">Selecciona un deporte</option>
+                <option value="Fútbol">⚽ Fútbol</option>
+                <option value="Baloncesto">🏀 Baloncesto</option>
+                <option value="Tenis">🎾 Tenis</option>
+                <option value="Voleibol">🏐 Voleibol</option>
+                <option value="Natación">🏊 Natación</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label for="venue-ubicacion" class="form-label fw-semibold">Ubicación</label>
+              <input type="text" id="venue-ubicacion" class="form-control" placeholder="Ej. Centro de Ipiales" />
+            </div>
+            
+            <div class="mb-3">
+              <label for="venue-precio" class="form-label fw-semibold">
+                Precio por Hora ($) <span class="text-danger">*</span>
+              </label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" id="venue-precio" class="form-control" placeholder="40,000" min="0" step="1000" required />
+                <span class="input-group-text">COP</span>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="venue-imagen" class="form-label fw-semibold">URL de la Imagen (opcional)</label>
+              <input type="text" id="venue-imagen" class="form-control" placeholder="https://mis-imagenes.com/cancha.jpg" />
+            </div>
+            
+            <div id="modal-error" class="alert alert-danger d-none mt-3"></div>
           </div>
-          <div class="admin-form-group">
-            <label for="venue-ubicacion">Ubicación</label>
-            <input type="text" id="venue-ubicacion" class="admin-form-control" placeholder="Ej. Centro de Ipiales">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="AdminDashboard.closeModal()">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-success px-4" id="modal-btn-save" onclick="AdminDashboard.saveVenue()">
+              <i class="bi bi-check-lg me-2"></i>Guardar Cancha
+            </button>
           </div>
-          <div class="admin-form-group">
-            <label for="venue-precio">Precio por Hora ($) *</label>
-            <input type="number" id="venue-precio" class="admin-form-control" placeholder="Ej. 40000" min="0" step="1000" required>
-          </div>
-          <div class="admin-form-group">
-            <label for="venue-imagen">URL de la Imagen (opcional)</label>
-            <input type="text" id="venue-imagen" class="admin-form-control" placeholder="Ej. https://mis-imagenes.com/cancha.jpg">
-          </div>
-          <p id="modal-error" style="color:var(--color-red);font-size:var(--fs-sm);margin-top:1rem;"></p>
-        </div>
-        <div class="admin-modal__footer">
-          <button class="btn btn-outline" onclick="AdminDashboard.closeModal()">Cancelar</button>
-          <button class="btn btn-primary" id="modal-btn-save" onclick="AdminDashboard.saveVenue()">Guardar Cancha</button>
         </div>
       </div>
     </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
+    
+    <!-- Toast notifications / Notificaciones toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div class="toast align-items-center border-0" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body d-flex align-items-center gap-2" id="toast-body-content">
+            <i class="bi ph-bell"></i>
+            <span></span>
+          </div>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
 
-    <!-- Supabase SDK -->
+    
+    <!-- Page scripts / Scripts de la página -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="../../assets/js/services/supabaseClient.js"></script>
     <script src="../../assets/js/services/authService.js"></script>
     <script src="../../assets/js/services/venuesService.js"></script>
 
-    <!-- JAVASCRIPT -->
+    
     <script src="../../assets/js/app.js"></script>
-    <script src="../../assets/js/navbar.js"></script>
-    <script src="../../assets/js/admin-dashboard.js"></script>
+    <script src="../../assets/js/admin.js"></script>
   </body>
 </html>

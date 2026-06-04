@@ -1,0 +1,53 @@
+/*
+ * payments_user.css stylesheet file.
+ * Archivo de hoja de estilos payments_user.css.
+ */
+
+/* Styles for table thead. / Estilos para table thead. */
+.table thead {
+    display: none;
+  }
+  
+/* Styles for table tbody td. / Estilos para table tbody td. */
+  .table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.7rem;
+    color: var(--text-muted, #7a8f7a);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+/* Styles for pagination .page item .page link. / Estilos para pagination .page item .page link. */
+  .pagination .page-item .page-link {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+
+/* Styles for rounded 3. / Estilos para rounded 3. */
+.rounded-3 {
+  border-radius: var(--radius-md, 10px) !important;
+}
+
+/* Styles for shadow sm. / Estilos para shadow sm. */
+.shadow-sm {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Styles for text secondary. / Estilos para text secondary. */
+.text-secondary {
+  color: var(--text-muted, #7a8f7a) !important;
+}
+
+/* Styles for overflow hidden. / Estilos para overflow hidden. */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Styles for text truncate. / Estilos para text truncate. */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

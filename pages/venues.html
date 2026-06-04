@@ -5,722 +5,190 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Escenarios Deportivos – All Sports Yourself</title>
-    <meta
-      name="description"
-      content="Explora y reserva escenarios deportivos en Ipiales."
-    />
+    <meta name="description" content="Explora y reserva escenarios deportivos en Ipiales." />
 
-    <!-- CSS -->
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../assets/css/main.css" />
-    <link rel="stylesheet" href="../assets/css/navbar.css" />
+    <link rel="stylesheet" href="../assets/css/navbar/navbar.css" />
     <link rel="stylesheet" href="../assets/css/venues.css" />
-
-    <style>
-      /* ── 2-Step Reservation Modal ── */
-      .reserva-modal-overlay {
-        position: fixed; inset: 0;
-        background: rgba(0,0,0,0.55);
-        display: flex; align-items: center; justify-content: center;
-        z-index: 1100;
-        opacity: 0; visibility: hidden;
-        transition: all .25s ease;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        padding: 1rem;
-      }
-      .reserva-modal-overlay.open { opacity:1; visibility:visible; }
-
-      .reserva-modal {
-        background: var(--bg-white);
-        border-radius: 18px;
-        width: 100%; max-width: 500px;
-        box-shadow: 0 24px 60px rgba(0,0,0,0.18);
-        transform: translateY(24px) scale(.97);
-        transition: all .28s ease;
-        overflow: hidden;
-        display: flex; flex-direction: column;
-        max-height: 92vh;
-      }
-      .reserva-modal-overlay.open .reserva-modal { transform: translateY(0) scale(1); }
-
-      /* Progress bar */
-      .rmodal-progress {
-        display: flex; height: 4px; background: var(--border-light);
-      }
-      .rmodal-progress__bar {
-        height: 100%;
-        background: linear-gradient(90deg, var(--color-green), #34d399);
-        transition: width .35s ease;
-      }
-
-      .rmodal-header {
-        padding: 1.4rem 1.6rem 1rem;
-        display: flex; justify-content: space-between; align-items: flex-start;
-        border-bottom: 1px solid var(--border-light);
-      }
-      .rmodal-header__left {}
-      .rmodal-step-label {
-        font-size: .7rem; font-weight: 700; text-transform: uppercase;
-        letter-spacing: .8px; color: var(--color-green-dark);
-        margin-bottom: .3rem;
-      }
-      .rmodal-title {
-        font-family: var(--font-display);
-        font-size: 1.35rem; font-weight: 800;
-        color: var(--text-dark); line-height: 1.2;
-      }
-      .rmodal-close {
-        background: var(--bg-light); border: none; border-radius: 50%;
-        width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-        color: var(--text-muted); cursor: pointer; font-size: 1.1rem;
-        transition: all .2s ease; flex-shrink: 0;
-      }
-      .rmodal-close:hover { background: var(--border-dark); color: var(--text-dark); }
-
-      .rmodal-venue-info {
-        display: flex; align-items: center; gap: .85rem;
-        padding: 1rem 1.6rem;
-        background: var(--bg-light);
-        border-bottom: 1px solid var(--border-light);
-      }
-      .rmodal-venue-icon {
-        width: 46px; height: 46px; border-radius: 12px;
-        background: var(--color-green-dim);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.4rem; flex-shrink: 0;
-      }
-      .rmodal-venue-name {
-        font-family: var(--font-display); font-weight: 800;
-        font-size: 1.05rem; color: var(--text-dark); display: block;
-      }
-      .rmodal-venue-meta {
-        font-size: .78rem; color: var(--text-muted); font-weight: 500;
-      }
-
-      .rmodal-body {
-        padding: 1.4rem 1.6rem; overflow-y: auto; flex: 1;
-      }
-
-      /* Steps visibility */
-      .rmodal-step { display: none; }
-      .rmodal-step.active { display: block; }
-
-      .rmodal-form-group { margin-bottom: 1.1rem; }
-      .rmodal-form-group label {
-        display: block; font-size: .8rem; font-weight: 700;
-        color: var(--text-dark); margin-bottom: .4rem;
-      }
-      .rmodal-input, .rmodal-select {
-        width: 100%; padding: .65rem 1rem;
-        border: 1.5px solid var(--border-dark);
-        border-radius: 10px;
-        font-family: var(--font-body); font-size: .9rem;
-        color: var(--text-dark); background: var(--bg-white);
-        transition: border-color .2s, box-shadow .2s;
-      }
-      .rmodal-input:focus, .rmodal-select:focus {
-        outline: none;
-        border-color: var(--color-green);
-        box-shadow: 0 0 0 3px rgba(46,204,80,.12);
-      }
-      .rmodal-row { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
-      .rmodal-error {
-        color: #dc2626; font-size: .8rem; font-weight: 600;
-        margin-top: .8rem; min-height: 1.2em;
-      }
-
-      /* Step 2 – summary */
-      .rmodal-summary {
-        background: var(--bg-light); border-radius: 12px;
-        padding: 1.1rem 1.25rem; margin-bottom: 1.25rem;
-        display: flex; flex-direction: column; gap: .55rem;
-      }
-      .rmodal-summary-row {
-        display: flex; justify-content: space-between;
-        align-items: center; font-size: .86rem;
-      }
-      .rmodal-summary-row .lbl { color: var(--text-muted); font-weight: 500; }
-      .rmodal-summary-row .val { font-weight: 700; color: var(--text-dark); }
-      .rmodal-summary-row--total .val {
-        color: var(--color-green-dark); font-size: 1.15rem;
-        font-family: var(--font-display);
-      }
-      .rmodal-summary__divider {
-        height: 1px; background: var(--border-dark); margin: .2rem 0;
-      }
-
-      /* Payment method selector */
-      .rmodal-payment-label {
-        font-size: .8rem; font-weight: 700;
-        color: var(--text-dark); margin-bottom: .7rem; display: block;
-      }
-      .rmodal-payment-options {
-        display: grid; grid-template-columns: 1fr 1fr; gap: .7rem;
-      }
-      .rmodal-payment-opt {
-        border: 2px solid var(--border-dark);
-        border-radius: 12px; padding: .85rem .9rem;
-        cursor: pointer; display: flex; align-items: center; gap: .6rem;
-        transition: all .2s ease; background: var(--bg-white);
-        position: relative;
-      }
-      .rmodal-payment-opt:hover { border-color: var(--color-green); }
-      .rmodal-payment-opt.selected {
-        border-color: var(--color-green);
-        background: rgba(46,204,80,.06);
-      }
-      .rmodal-payment-opt input[type=radio] {
-        position: absolute; opacity: 0; pointer-events: none;
-      }
-      .rmodal-payment-opt__icon { font-size: 1.4rem; line-height: 1; }
-      .rmodal-payment-opt__text {
-        display: flex; flex-direction: column;
-      }
-      .rmodal-payment-opt__name {
-        font-weight: 700; font-size: .83rem; color: var(--text-dark);
-      }
-      .rmodal-payment-opt__sub {
-        font-size: .7rem; color: var(--text-muted);
-      }
-      .rmodal-payment-check {
-        margin-left: auto; width: 18px; height: 18px;
-        border-radius: 50%; border: 2px solid var(--border-dark);
-        background: white; flex-shrink: 0;
-        display: flex; align-items: center; justify-content: center;
-        transition: all .2s;
-      }
-      .rmodal-payment-opt.selected .rmodal-payment-check {
-        background: var(--color-green);
-        border-color: var(--color-green);
-      }
-      .rmodal-payment-opt.selected .rmodal-payment-check::after {
-        content: '';
-        width: 6px; height: 6px;
-        border-radius: 50%; background: white;
-      }
-
-      .rmodal-footer {
-        padding: 1.1rem 1.6rem;
-        border-top: 1px solid var(--border-light);
-        display: flex; gap: .8rem; justify-content: flex-end;
-      }
-      .rmodal-btn-back {
-        padding: .65rem 1.3rem;
-        border: 1.5px solid var(--border-dark2); border-radius: 99px;
-        font-weight: 600; font-size: .85rem; color: var(--text-dark);
-        background: transparent; cursor: pointer;
-        transition: all .2s;
-      }
-      .rmodal-btn-back:hover { background: var(--bg-light); }
-      .rmodal-btn-next {
-        padding: .65rem 1.6rem;
-        border: none; border-radius: 99px;
-        font-family: var(--font-display); font-weight: 700;
-        font-size: .9rem; letter-spacing: .4px;
-        background: var(--color-green); color: #000;
-        cursor: pointer; transition: all .2s;
-        display: inline-flex; align-items: center; gap: .4rem;
-      }
-      .rmodal-btn-next:hover {
-        background: var(--color-green-dark);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 16px rgba(46,204,80,.3);
-      }
-      .rmodal-btn-next:disabled {
-        opacity: .6; cursor: not-allowed; transform: none;
-      }
-
-      /* Success state overlay inside modal */
-      .rmodal-success {
-        display: none; flex-direction: column;
-        align-items: center; text-align: center;
-        padding: 2.5rem 1.6rem;
-        gap: 1rem;
-      }
-      .rmodal-success.active { display: flex; }
-      .rmodal-success__icon {
-        width: 72px; height: 72px; border-radius: 50%;
-        background: rgba(46,204,80,.12);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 2rem;
-      }
-      .rmodal-success__title {
-        font-family: var(--font-display);
-        font-size: 1.6rem; font-weight: 900; color: var(--text-dark);
-      }
-      .rmodal-success__text { color: var(--text-muted); font-size: .9rem; line-height: 1.6; }
-      .rmodal-success__btn {
-        padding: .75rem 2rem;
-        border: none; border-radius: 99px;
-        background: var(--color-green); color: #000;
-        font-family: var(--font-display); font-weight: 700;
-        font-size: .95rem; cursor: pointer;
-        transition: all .2s;
-      }
-      .rmodal-success__btn:hover { background: var(--color-green-dark); }
-    </style>
   </head>
 
   <body>
-    <!-- NAVBAR GUEST -->
-    <div id="navbar-guest" class="navbar-wrapper navbar-wrapper--hidden">
-      <nav class="navbar" role="navigation">
-        <!-- LOGO -->
-        <a class="navbar__brand" href="../index.html">
-          <div class="navbar__logo-icon">
-            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
-          </div>
-          <span class="navbar__brand-text">All Sports Yourself</span>
+
+<!-- Page content starts here / Contenido principal de la página comienza aquí -->
+    
+    
+    <nav class="navbar navbar-expand-lg bg-white border-bottom border-light-subtle sticky-top">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="../index.html">
+      <div class="navbar__logo-icon">
+        <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
+      </div>
+      <span class="navbar__brand-text">All Sports Yourself</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0 gap-4 text-center text-lg-start">
+        <li class="nav-item">
+          <a class="navbar__link" href="../index.html">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="navbar__link active" aria-current="page" href="../pages/venues.html">Espacios Deportivos</a>
+        </li>
+        <li class="nav-item">
+          <a class="navbar__link" href="#contacto">Contacto</a>
+        </li>
+      </ul>
+
+      <div class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2 mt-3 mt-lg-0">
+        <a href="../pages/login.html" class="navbar__btn-login text-decoration-none text-center" id="guest-login-btn">
+          Iniciar Sesión
         </a>
-
-        <!-- LINKS -->
-        <ul class="navbar__links">
-          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
-          <li><a class="navbar__link active" href="./venues.html">Espacios Deportivos</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Cómo Funciona" data-icon="❓" data-desc="Aprende cómo buscar canchas, seleccionar horarios y realizar pagos seguros en Ipiales en menos de 2 minutos.">Cómo Funciona</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Torneos Deportivos" data-icon="🏆" data-desc="Inscríbete en torneos locales de fútbol, baloncesto y tenis en Ipiales. ¡Organiza tus llaves y compite por premios!">Torneos</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Beneficios Club ASY" data-icon="🎁" data-desc="Acumula puntos con cada reserva y canjéalos por horas gratis, bebidas y artículos deportivos.">Beneficios</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Soporte y Contacto" data-icon="📞" data-desc="¿Tienes alguna duda o inconveniente? Chatea con nuestro equipo de soporte disponible 24/7 en Ipiales.">Soporte</a></li>
-        </ul>
-
-        <!-- Actions -->
-        <div class="navbar__actions">
-          <a href="./login.html" class="navbar__btn-login">Iniciar Sesión</a>
-          <a href="./register.html" class="navbar__btn-register">Registrarse</a>
-          <button class="navbar__hamburger" id="guest-hamburger">
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-
-        <!-- MOBILE MENU -->
-        <div class="navbar__mobile-menu" id="guest-mobile-menu">
-          <a href="../index.html" class="navbar__link">Inicio</a>
-          <a href="./venues.html" class="navbar__link active">Espacios Deportivos</a>
-          <a href="#" class="navbar__link navbar__link--mock" data-feature="Cómo Funciona" data-icon="❓" data-desc="Aprende cómo buscar canchas, seleccionar horarios y realizar pagos en Ipiales en menos de 2 minutos.">Cómo Funciona</a>
-          <a href="#" class="navbar__link navbar__link--mock" data-feature="Torneos Deportivos" data-icon="🏆" data-desc="Inscríbete en torneos locales de fútbol, baloncesto y tenis en Ipiales. ¡Organiza tus llaves y compite por premios!">Torneos</a>
-          <a href="./login.html" class="navbar__link">Iniciar Sesión</a>
-          <a href="./register.html" class="navbar__link">Registrarse</a>
-        </div>
-      </nav>
+        <a href="../pages/register.html" class="navbar__btn-register text-decoration-none text-center" id="guest-register-btn">
+          Registrarse
+        </a>
+      </div>
     </div>
+  </div>
+</nav>
 
-    <!-- NAVBAR USER -->
-    <div id="navbar-user" class="navbar-wrapper navbar-wrapper--hidden">
-      <nav class="navbar" role="navigation">
-        <!-- LOGO -->
-        <a class="navbar__brand" href="../index.html">
-          <div class="navbar__logo-icon">
-            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
-          </div>
-          <span class="navbar__brand-text">All Sports Yourself</span>
-        </a>
+    
+    <section class="page-venues py-5" aria-label="Catálogo de escenarios deportivos">
 
-        <!-- LINKS -->
-        <ul class="navbar__links">
-          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
-          <li><a class="navbar__link" href="./user/user-dashboard.html">Panel Principal</a></li>
-          <li><a class="navbar__link active" href="./venues.html">Reservar Cancha</a></li>
-          <li><a class="navbar__link" href="./reservas.html">Mis Reservas</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Mis Estadísticas" data-icon="📈" data-desc="Visualiza tus partidos jugados, horas activas, deportes preferidos y tu rendimiento de juego en Ipiales.">Mis Estadísticas</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Buscar Compañeros" data-icon="🤝" data-desc="¿Te falta un jugador? Conéctate con otros deportistas en Ipiales, únete a partidos abiertos o arma tu equipo.">Buscar Compañeros</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Retos y Desafíos" data-icon="🎯" data-desc="Cumple metas de reserva semanales o mensuales y gana medallas exclusivas además de descuentos en tus canchas.">Retos</a></li>
-        </ul>
+      
+      <div class="venues__header mb-5">
+        <div class="container">
 
-        <!-- Actions -->
-        <div class="navbar__actions">
-          <!-- Notification Bell -->
-          <div class="navbar__noti-container">
-            <button class="navbar__noti-btn" id="user-noti-trigger" aria-label="Notificaciones">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <span class="navbar__noti-badge" id="user-noti-badge" style="display: none;">0</span>
-            </button>
-            <div class="navbar__noti-dropdown" id="user-noti-dropdown">
-              <div class="navbar__noti-header">
-                <span class="navbar__noti-title">Notificaciones</span>
-                <button class="navbar__noti-clear" id="user-noti-clear">Marcar leídas</button>
+          
+          <div class="row align-items-end mb-4">
+            <div class="col-12 col-md-8">
+              <span class="badge rounded-pill py-2 px-3 mb-3" class="page-title-badge">
+                <i class="bi bi-compass me-1"></i> Nuestro Catálogo
+              </span>
+              <h2 class="fw-bold mb-2" class="page-title-heading">
+                Escenarios Deportivos
+              </h2>
+              <p class="text-secondary mb-0">Descubre y reserva los mejores espacios para tu deporte favorito.</p>
+            </div>
+            <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
+              <div class="card bg-light border-0">
+                <div class="card-body py-3 text-center">
+                  <i class="bi bi-geo-alt-fill text-success me-2"></i>
+                  <span class="fw-semibold" id="venues-count">
+                    Mostrando <strong class="text-success">0 espacios</strong> en Ipiales
+                  </span>
+                </div>
               </div>
-              <div class="navbar__noti-list" id="user-noti-list"></div>
             </div>
           </div>
 
-          <!-- User Profile Dropdown -->
-          <div class="navbar__user-menu">
-            <button class="navbar__user-trigger" id="user-trigger">
-              <span class="navbar__avatar" id="user-avatar">U</span>
-              <span class="navbar__username" id="user-name">Usuario</span>
-              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
-
-            <div class="navbar__dropdown" id="user-dropdown">
-              <a href="./profile.html" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-                </svg>
-                Mi Perfil
-              </a>
-              <a href="./reservas.html" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-                </svg>
-                Mis Reservas
-              </a>
-              <hr class="navbar__dropdown-divider"/>
-              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-                </svg>
-                Cerrar Sesión
-              </button>
-            </div>
-          </div>
-
-          <button class="navbar__hamburger" id="user-hamburger">
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-
-        <!-- MOBILE MENU -->
-        <div class="navbar__mobile-menu" id="user-mobile-menu">
-          <a href="../index.html" class="navbar__link">Inicio</a>
-          <a href="./user/user-dashboard.html">Panel Principal</a>
-          <a href="./venues.html" class="navbar__link active">Reservar Cancha</a>
-          <a href="./reservas.html" class="navbar__link">Mis Reservas</a>
-          <a href="#" class="navbar__link navbar__link--mock" data-feature="Mis Estadísticas" data-icon="📈" data-desc="Visualiza tus partidos jugados, horas activas, deportes preferidos y tu rendimiento de juego en Ipiales.">Mis Estadísticas</a>
-          <a href="./profile.html" class="navbar__link">Mi Perfil</a>
-          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile">Cerrar Sesión</button>
-        </div>
-      </nav>
-    </div>
-
-    <!-- NAVBAR ADMIN -->
-    <div id="navbar-admin" class="navbar-wrapper navbar-wrapper--hidden">
-      <nav class="navbar" role="navigation">
-        <!-- LOGO -->
-        <a class="navbar__brand" href="../index.html">
-          <div class="navbar__logo-icon">
-            <img src="../assets/img/Logo-ASY.png" alt="Logo All Sports Yourself" />
-          </div>
-          <span class="navbar__brand-text">All Sports Yourself</span>
-        </a>
-
-        <!-- LINKS -->
-        <ul class="navbar__links">
-          <li><a class="navbar__link" href="../index.html">Inicio</a></li>
-          <li><a class="navbar__link" href="./admin/admin-dashboard.html">Panel Admin</a></li>
-          <li><a class="navbar__link" href="./admin-venues.html">Mis Canchas</a></li>
-          <li><a class="navbar__link active" href="./venues.html">Ver Catálogo</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Historial Completo" data-icon="📋" data-desc="Accede a un registro histórico detallado de todas las reservas, cancelaciones e ingresos de tus escenarios.">Historial Completo</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Gestión de Clientes" data-icon="👥" data-desc="Ver listado de deportistas que reservan en tu club, datos de contacto, historial individual y bloqueos.">Gestión de Clientes</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Torneos y Eventos Admin" data-icon="🏅" data-desc="Crea campeonatos en tus canchas, administra llaves de eliminación, tablas de posiciones y calendarios de juego.">Torneos y Eventos</a></li>
-          <li><a class="navbar__link navbar__link--mock" href="#" data-feature="Reportes y Ventas" data-icon="📊" data-desc="Visualiza gráficos de facturación mensual, horas de mayor ocupación y deportes más rentables para tu club.">Reportes y Ventas</a></li>
-        </ul>
-
-        <!-- Actions -->
-        <div class="navbar__actions">
-          <!-- Notification Bell -->
-          <div class="navbar__noti-container">
-            <button class="navbar__noti-btn" id="admin-noti-trigger" aria-label="Notificaciones">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <span class="navbar__noti-badge" id="admin-noti-badge" style="display: none;">0</span>
-            </button>
-            <div class="navbar__noti-dropdown" id="admin-noti-dropdown">
-              <div class="navbar__noti-header">
-                <span class="navbar__noti-title">Notificaciones</span>
-                <button class="navbar__noti-clear" id="admin-noti-clear">Marcar leídas</button>
+          
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <label class="form-label fw-semibold small text-muted mb-3">
+                <i class="bi bi-funnel me-1"></i>Filtrar por deporte:
+              </label>
+              <div class="d-flex flex-wrap gap-2" id="venues-filters" role="group">
+                <button class="btn btn-success venues__filter-chip active" onclick="Venues.applyFilter('todos', this)">
+                  <i class="bi bi-grid-fill me-1"></i>Todos
+                </button>
+                <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('futbol', this)">
+                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Fútbol
+                </button>
+                <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('baloncesto', this)">
+                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Baloncesto
+                </button>
+                <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('tenis', this)">
+                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Tenis
+                </button>
+                <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('voleibol', this)">
+                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Voleibol
+                </button>
+                <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('gimnasio', this)">
+                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Gimnasio
+                </button>
+                <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('natacion', this)">
+                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Natación
+                </button>
               </div>
-              <div class="navbar__noti-list" id="admin-noti-list"></div>
             </div>
           </div>
 
-          <!-- Admin Profile Dropdown -->
-          <div class="navbar__user-menu">
-            <button class="navbar__user-trigger" id="admin-trigger">
-              <span class="navbar__avatar" id="admin-avatar">A</span>
-              <span class="navbar__username" id="admin-name">Admin</span>
-              <svg class="navbar__chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
-
-            <div class="navbar__dropdown" id="admin-dropdown">
-              <a href="./profile.html" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-                Mi Perfil
-              </a>
-              <a href="./admin/admin-dashboard.html" class="navbar__dropdown-item">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                Dashboard
-              </a>
-              <hr class="navbar__dropdown-divider"/>
-              <button class="navbar__dropdown-item navbar__dropdown-logout" id="btn-logout-admin">
-                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
-                </svg>
-                Cerrar Sesión
-              </button>
-            </div>
-          </div>
-
-          <button class="navbar__hamburger" id="admin-hamburger">
-            <span></span><span></span><span></span>
-          </button>
-        </div>
-
-        <!-- MOBILE MENU -->
-        <div class="navbar__mobile-menu" id="admin-mobile-menu">
-          <a href="../index.html" class="navbar__link">Inicio</a>
-          <a href="./admin/admin-dashboard.html" class="navbar__link">Panel Admin</a>
-          <a href="./admin-venues.html" class="navbar__link">Mis Canchas</a>
-          <a href="./venues.html" class="navbar__link active">Catálogo</a>
-          <a href="./profile.html" class="navbar__link">Mi Perfil</a>
-          <button class="navbar__link navbar__mobile-logout" id="btn-logout-mobile-admin">Cerrar Sesión</button>
-        </div>
-      </nav>
-    </div>
-
-    <!-- main -->
-    <section class="page-venues" aria-label="Catálogo de escenarios deportivos">
-      <!-- venues header -->
-      <div class="venues__header">
-        <div class="venues__header-inner">
-          <div>
-            <span class="venues__section-tag">🏟️ Catálogo</span>
-            <h2 class="venues__title">Escenarios Deportivos</h2>
-          </div>
-
-          <p class="venues__count" id="venues-count">
-            Mostrando <strong>0 espacios</strong> en Ipiales
-          </p>
-        </div>
-
-        <!-- Filters -->
-        <div class="venues__filters" id="venues-filters" role="group">
-          <button
-            class="venues__filter-chip active"
-            onclick="Venues.applyFilter('todos', this)"
-          >
-            Todos
-          </button>
-
-          <button
-            class="venues__filter-chip"
-            onclick="Venues.applyFilter('futbol', this)"
-          >
-            Futbol
-          </button>
-
-          <button
-            class="venues__filter-chip"
-            onclick="Venues.applyFilter('baloncesto', this)"
-          >
-            Baloncesto
-          </button>
-
-          <button
-            class="venues__filter-chip"
-            onclick="Venues.applyFilter('tenis', this)"
-          >
-            Tenis
-          </button>
-
-          <button
-            class="venues__filter-chip"
-            onclick="Venues.applyFilter('voleibol', this)"
-          >
-            Voleibol
-          </button>
-
-          <button
-            class="venues__filter-chip"
-            onclick="Venues.applyFilter('gimnasio', this)"
-          >
-            Gimnasio
-          </button>
-
-          <button
-            class="venues__filter-chip"
-            onclick="Venues.applyFilter('natacion', this)"
-          >
-            Natación
-          </button>
         </div>
       </div>
 
-      <!-- GRID -->
-      <div class="venues__grid" id="venues-grid"></div>
+      
+      <div class="container">
+        
+        <div id="venues-loading" class="text-center py-5">
+          <div class="spinner-border spinner-border-sm text-success mb-3" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted">Cargando espacios deportivos...</p>
+        </div>
+
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4" id="venues-grid"></div>
+
+        
+        <div id="venues-empty" class="text-center py-5 d-none">
+          <div class="card shadow-sm border-0 p-5">
+            <div class="mb-4">
+              <i class="bi bi-compass display-1 text-muted"></i>
+            </div>
+            <h3 class="fw-bold mb-3">No se encontraron espacios</h3>
+            <p class="text-secondary mb-4 mx-auto" style="max-width: 450px;">
+              No hay canchas disponibles con los filtros seleccionados. Intenta con otra categoría.
+            </p>
+            <button class="btn btn-success px-4" onclick="Venues.applyFilter('todos', document.querySelector('#venues-filters button'))">
+              <i class="bi bi-arrow-repeat me-2"></i>Ver todos los espacios
+            </button>
+          </div>
+        </div>
+      </div>
+
     </section>
 
-    <!-- ══ 2-STEP RESERVATION MODAL ══════════════════════════════════ -->
-    <div class="reserva-modal-overlay" id="reserva-modal" role="dialog" aria-modal="true" aria-labelledby="rmodal-title">
-      <div class="reserva-modal">
-
-        <!-- Progress bar -->
-        <div class="rmodal-progress" role="progressbar" aria-valuemin="1" aria-valuemax="2" aria-valuenow="1">
-          <div class="rmodal-progress__bar" id="rmodal-progress-bar" style="width:50%"></div>
+    
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div class="toast align-items-center border-0" id="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body d-flex align-items-center gap-2" id="toast-body-content">
+            <i class="bi bi-bell"></i>
+            <span></span>
+          </div>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-
-        <!-- Header -->
-        <div class="rmodal-header">
-          <div class="rmodal-header__left">
-            <div class="rmodal-step-label" id="rmodal-step-label">Paso 1 de 2</div>
-            <h2 class="rmodal-title" id="rmodal-title">Elige fecha y horario</h2>
-          </div>
-          <button class="rmodal-close" onclick="Venues.closeModal()" aria-label="Cerrar">&times;</button>
-        </div>
-
-        <!-- Venue info strip -->
-        <div class="rmodal-venue-info">
-          <div class="rmodal-venue-icon" id="rmodal-venue-icon">🏟️</div>
-          <div>
-            <span class="rmodal-venue-name" id="modal-venue-name">Cancha</span>
-            <span class="rmodal-venue-meta" id="modal-venue-tipo-precio">Tipo · Precio</span>
-          </div>
-        </div>
-
-        <!-- Body (steps) -->
-        <div class="rmodal-body">
-
-          <!-- ── STEP 1: date + time ── -->
-          <div class="rmodal-step active" id="rmodal-step-1">
-            <div class="rmodal-form-group">
-              <label for="modal-fecha">📅 Fecha de la reserva</label>
-              <input type="date" id="modal-fecha" class="rmodal-input" required />
-            </div>
-            <div class="rmodal-row">
-              <div class="rmodal-form-group">
-                <label for="modal-hora-inicio">🕐 Hora de inicio</label>
-                <input type="time" id="modal-hora-inicio" class="rmodal-input" required />
-              </div>
-              <div class="rmodal-form-group">
-                <label for="modal-hora-fin">🕓 Hora de fin</label>
-                <input type="time" id="modal-hora-fin" class="rmodal-input" required />
-              </div>
-            </div>
-            <p class="rmodal-error" id="modal-error"></p>
-          </div>
-
-          <!-- ── STEP 2: summary + payment ── -->
-          <div class="rmodal-step" id="rmodal-step-2">
-            <!-- Booking summary -->
-            <div class="rmodal-summary" id="rmodal-summary">
-              <div class="rmodal-summary-row">
-                <span class="lbl">Cancha</span>
-                <span class="val" id="sum-venue">–</span>
-              </div>
-              <div class="rmodal-summary-row">
-                <span class="lbl">Fecha</span>
-                <span class="val" id="sum-date">–</span>
-              </div>
-              <div class="rmodal-summary-row">
-                <span class="lbl">Horario</span>
-                <span class="val" id="sum-time">–</span>
-              </div>
-              <div class="rmodal-summary-row">
-                <span class="lbl">Duración</span>
-                <span class="val" id="sum-duration">–</span>
-              </div>
-              <div class="rmodal-summary__divider"></div>
-              <div class="rmodal-summary-row rmodal-summary-row--total">
-                <span class="lbl">Total estimado</span>
-                <span class="val" id="sum-total">–</span>
-              </div>
-            </div>
-
-            <!-- Payment method -->
-            <span class="rmodal-payment-label">💳 Método de pago</span>
-            <div class="rmodal-payment-options" id="payment-options">
-
-              <label class="rmodal-payment-opt selected" data-value="efectivo">
-                <input type="radio" name="metodo_pago" value="efectivo" checked />
-                <span class="rmodal-payment-opt__icon">💵</span>
-                <span class="rmodal-payment-opt__text">
-                  <span class="rmodal-payment-opt__name">Efectivo</span>
-                  <span class="rmodal-payment-opt__sub">Al llegar</span>
-                </span>
-                <span class="rmodal-payment-check"></span>
-              </label>
-
-              <label class="rmodal-payment-opt" data-value="transferencia">
-                <input type="radio" name="metodo_pago" value="transferencia" />
-                <span class="rmodal-payment-opt__icon">🏦</span>
-                <span class="rmodal-payment-opt__text">
-                  <span class="rmodal-payment-opt__name">Transferencia</span>
-                  <span class="rmodal-payment-opt__sub">Nequi / Bancolombia</span>
-                </span>
-                <span class="rmodal-payment-check"></span>
-              </label>
-
-              <label class="rmodal-payment-opt" data-value="tarjeta">
-                <input type="radio" name="metodo_pago" value="tarjeta" />
-                <span class="rmodal-payment-opt__icon">💳</span>
-                <span class="rmodal-payment-opt__text">
-                  <span class="rmodal-payment-opt__name">Tarjeta</span>
-                  <span class="rmodal-payment-opt__sub">Débito / Crédito</span>
-                </span>
-                <span class="rmodal-payment-check"></span>
-              </label>
-
-              <label class="rmodal-payment-opt" data-value="pse">
-                <input type="radio" name="metodo_pago" value="pse" />
-                <span class="rmodal-payment-opt__icon">🌐</span>
-                <span class="rmodal-payment-opt__text">
-                  <span class="rmodal-payment-opt__name">PSE</span>
-                  <span class="rmodal-payment-opt__sub">Pago en línea</span>
-                </span>
-                <span class="rmodal-payment-check"></span>
-              </label>
-
-            </div>
-            <p class="rmodal-error" id="modal-error-2"></p>
-          </div>
-
-          <!-- ── SUCCESS STATE ── -->
-          <div class="rmodal-success" id="rmodal-success">
-            <div class="rmodal-success__icon">✅</div>
-            <h3 class="rmodal-success__title">¡Reserva Confirmada!</h3>
-            <p class="rmodal-success__text" id="success-text">Tu reserva ha sido registrada exitosamente. El administrador de la cancha la revisará pronto.</p>
-            <a href="./reservas.html" class="rmodal-success__btn">Ver mis reservas</a>
-          </div>
-
-        </div><!-- /.rmodal-body -->
-
-        <!-- Footer (hidden during success) -->
-        <div class="rmodal-footer" id="rmodal-footer">
-          <button class="rmodal-btn-back" id="rmodal-btn-back" onclick="Venues.prevStep()" style="display:none">← Volver</button>
-          <button class="rmodal-btn-next" id="rmodal-btn-next" onclick="Venues.nextStep()">
-            Siguiente
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
-
-      </div><!-- /.reserva-modal -->
+      </div>
     </div>
 
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
-
-    <!-- Supabase SDK -->
+    
+<!-- Page scripts / Scripts de la página -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="../assets/js/services/supabaseClient.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="../assets/js/services/authService.js"></script>
 
-    <!-- JAVASCRIPT -->
+    
+<!-- Page scripts / Scripts de la página -->
     <script src="../assets/js/app.js"></script>
+<!-- Page scripts / Scripts de la página -->
     <script src="../assets/js/services/venuesService.js"></script>
-    <script src="../assets/js/venues.js"></script>
+<!-- Page scripts / Scripts de la página -->
+    <script src="../assets/js/user/venues.js"></script>
 
-    <!-- Navbar con doble estado (guest / usuario) -->
+    
+<!-- Page scripts / Scripts de la página -->
     <script src="../assets/js/navbar.js"></script>
   </body>
 </html>
-

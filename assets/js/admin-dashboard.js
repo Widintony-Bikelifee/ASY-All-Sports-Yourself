@@ -1,10 +1,18 @@
-/* ═══════════════════════════════════════
-   admin-dashboard.js - Admin dashboard logic and CRUD
-   Handles: venues CRUD, reservations management, tab switching.
-   ═══════════════════════════════════════ */
+
+
+
+
+
+
+
+
+/**
+ * AdminDashboard module with page helpers and application logic.
+ * Módulo AdminDashboard con funciones de página y lógica de aplicación.
+ */
 
 const AdminDashboard = (() => {
-  // ── DOM: Modal (Create/Edit Venue) ──
+  
   const modal        = document.getElementById("venue-modal");
   const modalTitle   = document.getElementById("modal-title");
   const modalBtnSave = document.getElementById("modal-btn-save");
@@ -16,14 +24,17 @@ const AdminDashboard = (() => {
   const inputPrecio    = document.getElementById("venue-precio");
   const inputImagen    = document.getElementById("venue-imagen");
 
-  // ── State ──
+  
   let allVenues   = [];
   let allReservas = [];
   let _activeTab  = "canchas";
 
-  /* ─────────────────────────────────────────────────────────────────
-     INIT
-  ───────────────────────────────────────────────────────────────── */
+  
+  /**
+   * Init. Authenticates the session, checks admin role, loads user profile and dashboard data.
+   * Inicializa. Autentica la sesión, verifica el rol de administrador, carga el perfil y los datos del dashboard.
+   */
+  
   async function init() {
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
@@ -36,89 +47,39 @@ const AdminDashboard = (() => {
         return;
       }
 
-      // Set admin profile in sidebar
-      const profile = await window.getUserProfile(session.user.id);
-      if (profile) {
-        const fullName = `${profile.nombre} ${profile.apellido}`;
-        const email = profile.correo_electronico || session.user.email;
-        
-        const nameEl = document.getElementById("sidebar-user-name");
-        const emailEl = document.getElementById("sidebar-user-email");
-        const avatarImg = document.getElementById("sidebar-avatar-img");
-        
-        if (nameEl) nameEl.textContent = fullName;
-        if (emailEl) emailEl.textContent = email;
-        if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
-
-        // Populate Profile Form (edit inputs)
-        const profileName = document.getElementById('profile-name');
-        const profileLastname = document.getElementById('profile-lastname');
-        const profileEmail = document.getElementById('profile-email');
-        const profilePhone = document.getElementById('profile-phone');
-        if (profileName) profileName.value = profile.nombre;
-        if (profileLastname) profileLastname.value = profile.apellido;
-        if (profileEmail) profileEmail.value = email;
-        if (profilePhone) profilePhone.value = profile.telefono || '';
-
-        // Populate hero + view-mode fields
-        _refreshProfileView(profile, email, session.user);
-      }
-
-      // Setup Profile Save
-      const profileForm = document.getElementById('profile-form');
-      if (profileForm) {
-        profileForm.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const btnSave = document.getElementById('btn-save');
-          btnSave.textContent = 'Guardando...';
-          btnSave.disabled = true;
-
-          const updatedData = {
-            nombre: document.getElementById('profile-name').value.trim(),
-            apellido: document.getElementById('profile-lastname').value.trim(),
-            telefono: document.getElementById('profile-phone').value.trim()
-          };
-
-          try {
-            await window.updateUserProfile(session.user.id, updatedData);
-            App.showToast('✅ Perfil actualizado correctamente');
-            const newFullName = `${updatedData.nombre} ${updatedData.apellido}`;
-            // Update sidebar
-            document.getElementById('sidebar-user-name').textContent = newFullName;
-            document.getElementById('sidebar-avatar-img').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(newFullName)}&background=2ecc50&color=fff`;
-            // Refresh view-mode fields & hero
-            _refreshProfileView({ nombre: updatedData.nombre, apellido: updatedData.apellido, telefono: updatedData.telefono }, email, session.user);
-            // Switch back to view mode
-            _setProfileEditMode(false);
-          } catch (err) {
-            App.showToast('❌ Error al actualizar el perfil');
-          } finally {
-            btnSave.textContent = 'Guardar Cambios';
-            btnSave.disabled = false;
-          }
-        });
-      }
       
-      // Setup Logout Button for sidebar
-      const logoutBtn = document.getElementById('btn-logout');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
+      try {
+        const authUser = session.user;
+        let profile = null;
+        try {
+          profile = await window.getUserProfile(authUser.id);
+        } catch (e) {
+          console.warn("No se encontró perfil en BD, usando metadatos.");
+        }
+        
+        const metadata = authUser.user_metadata || {};
+        const emailName = (email) => email ? email.split("@")[0] : "";
+        
+        const dbNombre = profile?.nombre || "";
+        const dbApellido = profile?.apellido || "";
+        const fullNameFromDb = `${dbNombre} ${dbApellido}`.trim();
+        
+        const fullName = fullNameFromDb || metadata.nombre || metadata.name || emailName(authUser.email) || 'Administrador';
+        const email = profile?.correo_electronico || authUser.email || 'sin@correo.com';
+        
+        _populateSidebar(fullName, email);
+      } catch (profileErr) {
+        console.error("Error al cargar el perfil de usuario:", profileErr);
+        _populateSidebar("Administrador", session.user.email);
+      }
+
+      
+      document.getElementById('btn-logout')?.addEventListener('click', async () => {
           await supabaseClient.auth.signOut();
           window.location.href = "../../index.html";
         });
-      }
 
       await loadDashboardData();
-      await loadReservas();
-
-      // SPA Tab parameter routing
-      const urlParams = new URLSearchParams(window.location.search);
-      const tabParam = urlParams.get('tab');
-      if (tabParam && ['canchas', 'reservas', 'profile'].includes(tabParam)) {
-        switchTab(tabParam);
-      } else {
-        switchTab('canchas');
-      }
     } catch (err) {
       console.error("Error loading admin dashboard:", err);
       App.showToast("Error de autenticación.");
@@ -126,42 +87,26 @@ const AdminDashboard = (() => {
     }
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     TAB SWITCHING
-  ───────────────────────────────────────────────────────────────── */
-  function switchTab(tab) {
-    _activeTab = tab;
-
-    const ALL_TABS = ["canchas", "reservas", "clientes", "reportes", "profile"];
-
-    // Update sidebar active state
-    ALL_TABS.forEach(t => {
-      document.getElementById(`sidebar-tab-${t}`)?.classList.toggle("active", tab === t);
-    });
-
-    // Show only the active panel, hide the rest
-    ALL_TABS.forEach(t => {
-      document.getElementById(`panel-${t}`)?.classList.toggle("active", tab === t);
-    });
-
-    // Scroll main content to top on every tab change
-    document.querySelector(".main-content")?.scrollTo({ top: 0, behavior: "smooth" });
-
-    // Update sidebar badge visibility
-    const badge = document.getElementById("sidebar-badge-reservas");
-    if (badge) {
-      const pending = parseInt(badge.textContent) || 0;
-      badge.style.display = pending > 0 ? "inline-flex" : "none";
-    }
-
-    // Auto-load data when entering each section
-    if (tab === "clientes") loadClientes();
-    if (tab === "reportes") loadReportes();
+  /**
+   * _populateSidebar. Fills the sidebar with the admin's name, email, and avatar.
+   * _populateSidebar. Rellena la barra lateral con el nombre, correo y avatar del administrador.
+   */
+  
+  function _populateSidebar(fullName, email) {
+    const nameEl = document.getElementById("sidebar-user-name");
+    const emailEl = document.getElementById("sidebar-user-email");
+    const avatarImg = document.getElementById("sidebar-avatar-img");
+    if (nameEl) nameEl.textContent = fullName;
+    if (emailEl) emailEl.textContent = email;
+    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=2ecc50&color=fff`;
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     VENUES (Canchas)
-  ───────────────────────────────────────────────────────────────── */
+  
+  /**
+   * Load dashboard data.
+   * Cargar dashboard data.
+   */
+  
   async function loadDashboardData() {
     if (!window.VenuesService) return;
 
@@ -169,10 +114,13 @@ const AdminDashboard = (() => {
     if (error) { App.showToast("Error al cargar las canchas."); return; }
 
     allVenues = canchas ?? [];
+    
+    
+    const statCanchasCount = document.getElementById("stat-canchas-count");
+    if (statCanchasCount) {
+      statCanchasCount.textContent = allVenues.length;
+    }
 
-    // Update stat
-    const countEl = document.getElementById("stat-canchas-count");
-    if (countEl) countEl.textContent = allVenues.length;
 
     const emptyState = document.getElementById("admin-empty-state");
     const container  = document.getElementById("dashboard-venues-container");
@@ -185,16 +133,25 @@ const AdminDashboard = (() => {
       if (list) {
         list.innerHTML = allVenues.map(c => {
           const precioStr = c.precio ? Number(c.precio).toLocaleString("es-CO") : "0";
+          const imgUrl = c.imagen_url || "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=400&auto=format&fit=crop";
           return `
-          <div class="dashboard-venue-card">
-            <div class="dashboard-venue-info">
-              <span class="dashboard-venue-title">${c.nombre}</span>
-              <span class="dashboard-venue-meta">📍 ${c.ubicacion || "Sin ubicación"} &nbsp;•&nbsp; 💰 $${precioStr}/hr</span>
-            </div>
-            <div style="display:flex;gap:.5rem;">
-              <button onclick="AdminDashboard.openModal(${c.id})" class="dashboard-venue-action">Editar</button>
-              <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger">Eliminar</button>
-            </div>
+          <div class="col-12">
+            <article class="dashboard-venue-card h-100">
+              <div class="dashboard-venue-thumb">
+                <img src="${imgUrl}" alt="${c.nombre}" />
+                ${c.tipo ? `<span class="dashboard-venue-badge bg-dark text-white position-absolute top-0 start-0 m-3">${c.tipo}</span>` : ""}
+              </div>
+              <div class="dashboard-venue-body">
+                <div class="dashboard-venue-info">
+                  <span class="dashboard-venue-title">${c.nombre}</span>
+                  <span class="dashboard-venue-meta">📍 ${c.ubicacion || "Sin ubicación"} • 💰 $${precioStr}/hr</span>
+                </div>
+                <div class="dashboard-venue-actions">
+                  <button onclick="AdminDashboard.openModal(${c.id})" class="dashboard-venue-action">Editar</button>
+                  <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger">Eliminar</button>
+                </div>
+              </div>
+            </article>
           </div>`;
         }).join("");
       }
@@ -202,11 +159,18 @@ const AdminDashboard = (() => {
       if (emptyState) emptyState.style.display = "flex";
       if (container)  container.style.display  = "none";
     }
+
+    
+    await loadReservas();
+
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     RESERVATIONS (Admin view)
-  ───────────────────────────────────────────────────────────────── */
+  
+  /**
+   * Load reservas.
+   * Cargar reservas.
+   */
+  
   async function loadReservas() {
     const tbody = document.getElementById("reservas-admin-tbody");
     if (tbody) {
@@ -215,19 +179,19 @@ const AdminDashboard = (() => {
 
     console.log("[Admin] Iniciando carga de reservas...");
 
-    // Get current user to show in console
+    
     const { data: sessionData } = await supabaseClient.auth.getSession();
     const userId = sessionData?.session?.user?.id;
     console.log("[Admin] Usuario logueado ID:", userId);
 
-    // Check venues for this admin
+    
     const { data: misEsc } = await supabaseClient
       .from("escenarios")
       .select("id, nombre, propietario_id")
       .eq("propietario_id", userId);
     console.log("[Admin] Canchas del admin:", misEsc);
 
-    // Check all reservations (without filter)
+    
     const { data: todasReservas, error: errTodas } = await supabaseClient
       .from("reservas")
       .select("id, estado, escenario_id, usuario_id, fecha")
@@ -253,7 +217,7 @@ const AdminDashboard = (() => {
       </td></tr>`;
     }
 
-    // Update stats
+    
     const pendientes  = allReservas.filter(r => r.estado === "pendiente").length;
     const confirmadas = allReservas.filter(r => r.estado === "confirmada").length;
 
@@ -262,7 +226,7 @@ const AdminDashboard = (() => {
     if (elPend) elPend.textContent = pendientes;
     if (elConf) elConf.textContent = confirmadas;
 
-    // Estimated income: confirmed + completed reservations
+    
     const income = allReservas
       .filter(r => r.estado === "confirmada" || r.estado === "completada")
       .reduce((acc, r) => {
@@ -272,20 +236,25 @@ const AdminDashboard = (() => {
     const elInc = document.getElementById("stat-ingresos");
     if (elInc) elInc.textContent = _formatCOP(income);
 
-    // Badge count (pending) — update sidebar badge
+    
     const badge = document.getElementById("sidebar-badge-reservas");
     if (badge) {
       badge.textContent = pendientes > 0 ? String(pendientes) : "";
       badge.style.display = pendientes > 0 ? "inline-flex" : "none";
     }
 
-    // Populate venue filter dropdown
+    
     _populateVenueFilter();
 
-    // Render table
+    
     renderReservasTable();
   }
 
+  /**
+   * _populateVenueFilter. Fills the venue filter dropdown with unique venue names from reservations.
+   * _populateVenueFilter. Rellena el selector de cancha con los nombres únicos extraídos de las reservas.
+   */
+  
   function _populateVenueFilter() {
     const sel = document.getElementById("res-filter-venue");
     if (!sel) return;
@@ -295,8 +264,18 @@ const AdminDashboard = (() => {
       venueNames.map(n => `<option value="${n}">${n}</option>`).join("");
   }
 
+  /**
+   * FilterReservas. Applies active filters and re-renders the reservations table.
+   * FilterReservas. Aplica los filtros activos y vuelve a renderizar la tabla de reservas.
+   */
+  
   function filterReservas() { renderReservasTable(); }
 
+  /**
+   * Render reservas table.
+   * Renderizar reservas table.
+   */
+  
   function renderReservasTable() {
     const statusFilter = document.getElementById("res-filter-status")?.value ?? "";
     const venueFilter  = document.getElementById("res-filter-venue")?.value  ?? "";
@@ -330,38 +309,57 @@ const AdminDashboard = (() => {
       const pago = _paymentLabel(r.metodo_pago);
       const estado = r.estado ?? "pendiente";
 
+      let statusBadgeClass = "";
+      switch (estado) {
+        case "pendiente": statusBadgeClass = "bg-warning-subtle text-warning"; break;
+        case "confirmada": statusBadgeClass = "bg-primary-subtle text-primary"; break;
+        case "completada": statusBadgeClass = "bg-success-subtle text-success"; break;
+        case "cancelada": statusBadgeClass = "bg-danger-subtle text-danger"; break;
+        default: statusBadgeClass = "bg-secondary-subtle text-secondary"; break;
+      }
+
       const actions = _buildActions(r.id, estado);
 
       return `
         <tr>
-          <td>
-            <strong style="display:block;font-weight:700;color:var(--text-dark);">${userName}</strong>
-            <span style="font-size:.75rem;color:var(--text-muted);">${userSub}</span>
+          <td class="py-3 px-4">
+            <strong class="d-block text-dark fw-bold">${userName}</strong>
+            <span class="text-muted small">${userSub}</span>
           </td>
-          <td><strong>${venueName}</strong>${esc?.tipo ? `<br><span style="font-size:.75rem;color:var(--text-muted);">${esc.tipo}</span>` : ""}</td>
-          <td>${fecha}</td>
-          <td>${horario}</td>
-          <td>${pago}</td>
-          <td><span class="res-badge res-badge--${estado}">${_statusLabel(estado)}</span></td>
-          <td><div style="display:flex;gap:.4rem;flex-wrap:wrap;">${actions}</div></td>
+          <td class="py-3 px-4"><strong>${venueName}</strong>${esc?.tipo ? `<br><span class="text-muted small">${esc.tipo}</span>` : ""}</td>
+          <td class="py-3 px-4">${fecha}</td>
+          <td class="py-3 px-4">${horario}</td>
+          <td class="py-3 px-4">${pago}</td>
+          <td class="py-3 px-4"><span class="badge ${statusBadgeClass}">${_statusLabel(estado)}</span></td>
+          <td class="py-3 px-4"><div class="d-flex gap-2 flex-wrap">${actions}</div></td>
         </tr>`;
     }).join("");
   }
 
+  /**
+   * _buildActions. Builds action buttons (confirm, complete, cancel) for a reservation row based on its current state.
+   * _buildActions. Construye los botones de acción (confirmar, completar, cancelar) de una fila de reserva según su estado.
+   */
+  
   function _buildActions(id, estado) {
     const btns = [];
-    if (estado === "pendiente") {
-      btns.push(`<button class="res-act-btn res-act-btn--confirm"   onclick="AdminDashboard.changeEstado('${id}','confirmada')">Confirmar</button>`);
-      btns.push(`<button class="res-act-btn res-act-btn--cancel"    onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
-    } else if (estado === "confirmada") {
-      btns.push(`<button class="res-act-btn res-act-btn--complete"  onclick="AdminDashboard.changeEstado('${id}','completada')">Completar</button>`);
-      btns.push(`<button class="res-act-btn res-act-btn--cancel"    onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
+    if (estado === "pendiente") { 
+      btns.push(`<button class="btn btn-sm btn-outline-primary" onclick="AdminDashboard.changeEstado('${id}','confirmada')">Confirmar</button>`);
+      btns.push(`<button class="btn btn-sm btn-outline-danger"  onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
+    } else if (estado === "confirmada") { 
+      btns.push(`<button class="btn btn-sm btn-outline-success" onclick="AdminDashboard.changeEstado('${id}','completada')">Completar</button>`);
+      btns.push(`<button class="btn btn-sm btn-outline-danger"  onclick="AdminDashboard.changeEstado('${id}','cancelada')">Cancelar</button>`);
     } else {
-      btns.push(`<span style="font-size:.75rem;color:var(--text-muted);">Sin acciones</span>`);
+      btns.push(`<span class="text-muted small">Sin acciones</span>`);
     }
     return btns.join("");
   }
 
+  /**
+   * ChangeEstado. Updates the status of a reservation and refreshes the table.
+   * ChangeEstado. Actualiza el estado de una reserva y refresca la tabla.
+   */
+  
   async function changeEstado(reservaId, nuevoEstado) {
     const labels = { confirmada: "confirmar", cancelada: "cancelar", completada: "completar" };
     if (!confirm(`¿Deseas ${labels[nuevoEstado]} esta reserva?`)) return;
@@ -372,21 +370,24 @@ const AdminDashboard = (() => {
       return;
     }
 
-    // Optimistic update
+    
     const idx = allReservas.findIndex(r => String(r.id) === String(reservaId));
     if (idx !== -1) allReservas[idx].estado = nuevoEstado;
 
     const msgs = { confirmada: "✅ Reserva confirmada.", cancelada: "🔴 Reserva cancelada.", completada: "🏁 Reserva marcada como completada." };
     App.showToast(msgs[nuevoEstado] ?? "Reserva actualizada.");
 
-    // Refresh stats + table
+    
     await loadReservas();
     renderReservasTable();
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     MODAL: Create / Edit Venue
-  ───────────────────────────────────────────────────────────────── */
+  
+  /**
+   * Open modal.
+   * Abrir modal.
+   */
+  
   function openModal(id = null) {
     if (!modal) return;
     modalError.textContent = "";
@@ -414,10 +415,20 @@ const AdminDashboard = (() => {
     modal.classList.add("open");
   }
 
+  /**
+   * Close modal.
+   * Cerrar modal.
+   */
+  
   function closeModal() {
     if (modal) modal.classList.remove("open");
   }
 
+  /**
+   * Save venue.
+   * Guardar venue.
+   */
+  
   async function saveVenue() {
     const nombre    = inputNombre.value.trim();
     const tipo      = inputTipo.value;
@@ -454,6 +465,11 @@ const AdminDashboard = (() => {
     await loadReservas();
   }
 
+  /**
+   * DeleteVenue. Confirms and permanently deletes a venue from the database.
+   * DeleteVenue. Confirma y elimina permanentemente una cancha de la base de datos.
+   */
+  
   async function deleteVenue(id) {
     if (!confirm("¿Eliminar esta cancha? Esta acción no se puede deshacer.")) return;
 
@@ -465,9 +481,12 @@ const AdminDashboard = (() => {
     await loadReservas();
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     HELPERS
-  ───────────────────────────────────────────────────────────────── */
+  
+  /**
+   * _diffHours. Calculates the difference in hours between two HH:MM time strings.
+   * _diffHours. Calcula la diferencia en horas entre dos cadenas de tiempo HH:MM.
+   */
+  
   function _diffHours(inicio, fin) {
     if (!inicio || !fin) return 0;
     const [h1, m1] = inicio.split(":").map(Number);
@@ -475,10 +494,20 @@ const AdminDashboard = (() => {
     return Math.max(0, Math.round(((h2 * 60 + m2) - (h1 * 60 + m1)) / 60 * 100) / 100);
   }
 
+  /**
+   * Format cop.
+   * Formatear cop.
+   */
+  
   function _formatCOP(n) {
     return new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 0 }).format(n);
   }
 
+  /**
+   * Format date short.
+   * Formatear date short.
+   */
+  
   function _formatDateShort(isoDate) {
     if (!isoDate) return "–";
     const [y, m, d] = isoDate.split("-").map(Number);
@@ -487,37 +516,55 @@ const AdminDashboard = (() => {
     });
   }
 
+  /**
+   * _fmtTime. Formats a time string to HH:MM, returning a dash for empty values.
+   * _fmtTime. Formatea una cadena de tiempo a HH:MM, devolviendo un guion si el valor está vacío.
+   */
+  
   function _fmtTime(t) { return t ? t.slice(0, 5) : "–"; }
 
+  /**
+   * _statusLabel. Returns the human-readable Spanish label for a reservation status key.
+   * _statusLabel. Devuelve la etiqueta legible en español para una clave de estado de reserva.
+   */
+  
   function _statusLabel(s) {
     return { pendiente: "Pendiente", confirmada: "Confirmada", completada: "Completada", cancelada: "Cancelada" }[s] ?? s;
   }
 
+  /**
+   * _paymentLabel. Returns an icon-labelled HTML string for a payment method key.
+   * _paymentLabel. Devuelve una cadena HTML con ícono y etiqueta para una clave de método de pago.
+   */
+  
   function _paymentLabel(m) {
     const icons = { efectivo: "💵 Efectivo", transferencia: "🏦 Transferencia", tarjeta: "💳 Tarjeta", pse: "🌐 PSE" };
     return `<span style="font-size:.82rem;">${icons[m] ?? (m ?? "–")}</span>`;
   }
 
 
-  /* ─────────────────────────────────────────────────────────────────
-     CLIENTES
-  ───────────────────────────────────────────────────────────────── */
+  
   let _allClientes = [];
 
+  /**
+   * Load clientes.
+   * Cargar clientes.
+   */
+  
   async function loadClientes() {
     const tbody = document.getElementById("clientes-tbody");
     if (tbody) {
       tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:3rem;">Cargando clientes…</td></tr>`;
     }
 
-    // Build client list from existing reservations data
+    
     const { data, error } = await window.VenuesService.getReservasAdmin();
     if (error || !data) {
       if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#dc2626;padding:3rem;">❌ Error al cargar clientes.</td></tr>`;
       return;
     }
 
-    // Group by user
+    
     const clientMap = {};
     data.forEach(r => {
       const uid = r.usuario_id;
@@ -537,7 +584,7 @@ const AdminDashboard = (() => {
     _allClientes = Object.values(clientMap).map(c => {
       const sorted = [...c.reservas].sort((a, b) => b.fecha?.localeCompare(a.fecha));
       const ultima = sorted[0];
-      // Most used venue
+      
       const venueCounts = {};
       c.reservas.forEach(r => {
         const n = r.escenarios?.nombre ?? "–";
@@ -550,6 +597,11 @@ const AdminDashboard = (() => {
     _renderClientes(_allClientes);
   }
 
+  /**
+   * Render clientes.
+   * Renderizar clientes.
+   */
+  
   function _renderClientes(list) {
     const tbody = document.getElementById("clientes-tbody");
     if (!tbody) return;
@@ -589,6 +641,11 @@ const AdminDashboard = (() => {
     }).join("");
   }
 
+  /**
+   * FilterClientes. Filters the client list by name or email and re-renders the table.
+   * FilterClientes. Filtra la lista de clientes por nombre o correo y vuelve a renderizar la tabla.
+   */
+  
   function filterClientes() {
     const q = document.getElementById("clientes-search")?.value.toLowerCase() ?? "";
     if (!q) { _renderClientes(_allClientes); return; }
@@ -598,14 +655,17 @@ const AdminDashboard = (() => {
     _renderClientes(filtered);
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     REPORTES
-  ───────────────────────────────────────────────────────────────── */
+  
+  /**
+   * Load reportes.
+   * Cargar reportes.
+   */
+  
   async function loadReportes() {
-    // Use existing allReservas if loaded, otherwise fetch
+    
     const reservas = allReservas.length > 0 ? allReservas : (await window.VenuesService.getReservasAdmin()).data ?? [];
 
-    // ── KPIs ──
+    
     const total      = reservas.length;
     const pendientes = reservas.filter(r => r.estado === "pendiente").length;
     const confirmadas= reservas.filter(r => r.estado === "confirmada").length;
@@ -626,16 +686,14 @@ const AdminDashboard = (() => {
         { label: "Ingresos Est.",    value: _formatCOP(ingresos), color: "#2ecc50", icon: "💰" },
       ];
       kpiEl.innerHTML = kpis.map(k => `
-        <div style="background:var(--bg-white);border:1px solid var(--border-light);
-                    border-radius:var(--radius-md);padding:1.25rem;
-                    box-shadow:0 4px 15px rgba(0,0,0,.03);text-align:center;">
-          <div style="font-size:1.6rem;margin-bottom:.35rem;">${k.icon}</div>
+        <div class="prf-card" style="text-align:center; margin-bottom: 0;">
+          <div style="font-size:2rem;margin-bottom:.5rem;">${k.icon}</div>
           <div style="font-size:1.5rem;font-weight:800;color:${k.color};font-family:var(--font-display);">${k.value}</div>
           <div style="font-size:.75rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${k.label}</div>
         </div>`).join("");
     }
 
-    // ── Reservas por cancha ──
+    
     const byCanchaEl = document.getElementById("reportes-por-cancha");
     if (byCanchaEl) {
       const counts = {};
@@ -667,7 +725,7 @@ const AdminDashboard = (() => {
       }
     }
 
-    // ── Ingresos por mes ──
+    
     const ingMesEl = document.getElementById("reportes-ingresos-mes");
     if (ingMesEl) {
       const byMonth = {};
@@ -708,102 +766,15 @@ const AdminDashboard = (() => {
     }
   }
 
-
-  /* ─────────────────────────────────────────────────────────────────
-     PROFILE UI HELPERS
-  ───────────────────────────────────────────────────────────────── */
-
-  function _refreshProfileView(profile, email, user) {
-    const fullName = `${profile.nombre ?? ""} ${profile.apellido ?? ""}`.trim();
-    email = email || user?.email || "";
-
-    // Hero card
-    const heroName  = document.getElementById("prf-hero-name");
-    const heroEmail = document.getElementById("prf-hero-email");
-    const heroSince = document.getElementById("prf-hero-since");
-    const avatarImg = document.getElementById("prf-avatar-img");
-    if (heroName)  heroName.textContent  = fullName || "—";
-    if (heroEmail) heroEmail.textContent = email;
-    if (avatarImg) avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName || "U")}&background=2ecc50&color=fff`;
-
-    // "Miembro desde" — parse created_at from user metadata or fallback
-    if (heroSince) {
-      const raw = user?.created_at || user?.user_metadata?.created_at;
-      if (raw) {
-        const d = new Date(raw);
-        const mes = d.toLocaleDateString("es-CO", { month: "long", year: "numeric" });
-        heroSince.textContent = `Miembro desde ${mes.charAt(0).toUpperCase() + mes.slice(1)}`;
-      } else {
-        heroSince.textContent = "Miembro ASY";
-      }
-    }
-
-    // View-mode fields
-    const vName  = document.getElementById("prf-view-name");
-    const vEmail = document.getElementById("prf-view-email");
-    const vPhone = document.getElementById("prf-view-phone");
-    if (vName)  vName.textContent  = fullName || "—";
-    if (vEmail) vEmail.textContent = email || "—";
-    if (vPhone) vPhone.textContent = profile.telefono || "—";
-  }
-
-  function _setProfileEditMode(editing) {
-    const view = document.getElementById("prf-view-mode");
-    const edit = document.getElementById("prf-edit-mode");
-    const btn  = document.getElementById("prf-edit-toggle");
-    if (view) view.style.display = editing ? "none"  : "block";
-    if (edit) edit.style.display = editing ? "block" : "none";
-    if (btn)  btn.innerHTML = editing
-      ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Cancelar`
-      : `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar`;
-  }
-
-  function toggleProfileEdit() {
-    const editMode = document.getElementById("prf-edit-mode");
-    const isEditing = editMode && editMode.style.display !== "none";
-    _setProfileEditMode(!isEditing);
-  }
-
-  function openChangePassword() {
-    const modal = document.getElementById("prf-password-modal");
-    if (modal) {
-      document.getElementById("prf-new-password").value = "";
-      document.getElementById("prf-confirm-password").value = "";
-      document.getElementById("prf-password-error").textContent = "";
-      modal.classList.add("open");
-    }
-  }
-
-  function closeChangePassword() {
-    document.getElementById("prf-password-modal")?.classList.remove("open");
-  }
-
-  async function saveNewPassword() {
-    const pw1 = document.getElementById("prf-new-password")?.value || "";
-    const pw2 = document.getElementById("prf-confirm-password")?.value || "";
-    const errEl = document.getElementById("prf-password-error");
-
-    if (pw1.length < 8) { errEl.textContent = "La contraseña debe tener al menos 8 caracteres."; return; }
-    if (pw1 !== pw2)    { errEl.textContent = "Las contraseñas no coinciden."; return; }
-
-    errEl.textContent = "";
-    const { error } = await supabaseClient.auth.updateUser({ password: pw1 });
-    if (error) { errEl.textContent = "Error: " + error.message; return; }
-
-    closeChangePassword();
-    App.showToast("✅ Contraseña actualizada correctamente.");
-  }
-
-  async function signOutAll() {
-    if (!confirm("¿Cerrar sesión en todos los dispositivos?")) return;
-    await supabaseClient.auth.signOut({ scope: "global" });
-    window.location.href = "../index.html";
-  }
-
-  return { init, switchTab, openModal, closeModal, saveVenue, deleteVenue, loadReservas, filterReservas, changeEstado, loadClientes, filterClientes, loadReportes, toggleProfileEdit, openChangePassword, closeChangePassword, saveNewPassword, signOutAll };
+  return { init, openModal, closeModal, saveVenue, deleteVenue, loadReservas, filterReservas, changeEstado, loadClientes, filterClientes, loadReportes };
 })();
 
 window.AdminDashboard = AdminDashboard;
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
 
 document.addEventListener("DOMContentLoaded", () => {
   AdminDashboard.init();

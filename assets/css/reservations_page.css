@@ -1,0 +1,93 @@
+/*
+ * reservations_page.css stylesheet file.
+ * Archivo de hoja de estilos reservations_page.css.
+ */
+
+
+/* Styles for . / Estilos para . */
+:root {
+  --primary-green: #2ecc50;
+  --primary-green-dark: #27b545;
+  --bg-soft: #f8faf9;
+}
+
+/* Styles for body. / Estilos para body. */
+body {
+  background: var(--bg-soft);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #2c3e2f;
+}
+
+/* Styles for court image placeholder. / Estilos para court image placeholder. */
+.court-image-placeholder {
+  background: linear-gradient(135deg, var(--primary-green), #1b5e20);
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.3);
+}
+
+/* Styles for form label. / Estilos para form label. */
+.form-label {
+  font-weight: 600;
+  color: #1e3322;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-primary-custom {
+  background: var(--primary-green);
+  color: white;
+  border: none;
+  font-weight: 700;
+  border-radius: 40px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(46, 204, 80, 0.2);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-primary-custom:hover {
+  background: var(--primary-green-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px -8px rgba(39, 174, 96, 0.4);
+  color: white;
+}
+
+/* Badge label styling for status and tags / Estilo de etiquetas badge para estados y tags */
+.price-badge {
+  background: #fdf5d3;
+  color: #a47600;
+  font-weight: 800;
+  border-radius: 50px;
+  padding: 6px 18px;
+  display: inline-block;
+  font-size: 1.1rem;
+}
+
+/* Styles for total price display. / Estilos para total price display. */
+.total-price-display {
+  background: rgba(46,204,80,.05);
+  border-radius: 1rem;
+  padding: 1rem;
+  text-align: center;
+  margin-top: 1rem;
+  border: 1.5px dashed rgba(46, 204, 80, 0.3);
+}
+
+/* Base styling for form fields and transitions / Estilo base para campos de formulario y transiciones */
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 0.25rem rgba(46, 204, 80, 0.25);
+}
+
+/* Footer area styling / Estilo del área de pie de página */
+footer {    
+  background: var(--bg-soft);
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}

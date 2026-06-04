@@ -1,6 +1,12 @@
-/* 
-   footer.js - Footer logic and newsletter handler
-   */
+
+
+
+
+/**
+ * Initialize page scripting once DOM content is ready.
+ * Inicializa el script de la página cuando el contenido DOM está listo.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
   const newsletterForm = document.getElementById('footer-newsletter');
 
@@ -9,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const email = newsletterForm.querySelector('input').value;
       
-      // Simulación de registro (puedes integrar con tu API aquí)
+      
       console.log('Newsletter subscription for:', email);
       App.showToast('¡Gracias por suscribirte! Te mantendremos informado.');
       newsletterForm.reset();

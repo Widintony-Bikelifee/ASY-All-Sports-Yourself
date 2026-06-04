@@ -1,0 +1,128 @@
+/*
+ * perfil_admin.css stylesheet file.
+ * Archivo de hoja de estilos perfil_admin.css.
+ */
+
+/* Styles for h1. / Estilos para h1. */
+h1, h2, h3, h4, h5, h6,
+.fw-bold,
+.navbar-brand span {
+  font-family: var(--font-display, 'Poppins', 'Montserrat', sans-serif);
+}
+
+
+
+
+
+
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success {
+  background: linear-gradient(135deg, var(--primary-green, #2ecc50) 0%, var(--primary-green-dark, #27b545) 100%);
+  border: none;
+  color: white;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-success:hover {
+  background: linear-gradient(135deg, var(--primary-green-dark, #27b545) 0%, var(--primary-green, #2ecc50) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(46, 204, 80, 0.3);
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger:hover {
+  transform: translateY(-1px);
+}
+
+/* Toast notification appearance and positioning / Apariencia y posicionamiento de notificaciones toast */
+.toast {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border-left: 4px solid var(--primary-green, #2ecc50);
+  border-radius: var(--radius-md, 10px);
+  box-shadow: var(--shadow-md, 0 8px 20px rgba(0, 0, 0, 0.1));
+}
+
+/* Styles for border danger subtle. / Estilos para border danger subtle. */
+.border-danger-subtle {
+  border-color: rgba(220, 38, 38, 0.2) !important;
+}
+
+/* Styles for bg danger subtle. / Estilos para bg danger subtle. */
+.bg-danger-subtle {
+  background-color: rgba(220, 38, 38, 0.05) !important;
+}
+
+/* Styles for text danger. / Estilos para text danger. */
+.text-danger {
+  color: var(--danger, #dc2626) !important;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger {
+  border-width: 1.5px;
+}
+
+/* Button styling including spacing and hover states / Estilo de botones incluyendo espaciado y estados hover */
+.btn-outline-danger:hover {
+  background-color: var(--danger, #dc2626);
+  border-color: var(--danger, #dc2626);
+}
+
+/* Styles for prf view mode. / Estilos para prf view mode. */
+#prf-view-mode,
+#prf-edit-mode {
+  transition: all var(--transition, 0.2s ease);
+}
+
+/* Styles for prf edit mode. / Estilos para prf edit mode. */
+#prf-edit-mode {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Styles for overflow hidden. / Estilos para overflow hidden. */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+/* Styles for text truncate. / Estilos para text truncate. */
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link) {
+  color: var(--primary-green-dark, #27b545);
+  text-decoration: none;
+  transition: color var(--transition, 0.2s ease);
+}
+
+/* Styles for a. / Estilos para a. */
+a:not(.btn):not(.nav-link):hover {
+  color: var(--primary-green, #2ecc50);
+  text-decoration: underline;
+}
+
+/* Styles for avatar upload wrapper .avatar overlay. / Estilos para avatar upload wrapper .avatar overlay. */
+.avatar-upload-wrapper .avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity var(--transition, 0.2s ease);
+  backdrop-filter: blur(2px);
+}
+
+/* Styles for avatar upload wrapper. / Estilos para avatar upload wrapper. */
+.avatar-upload-wrapper:hover .avatar-overlay {
+  opacity: 1;
+}
+
+/* Styles for cursor pointer. / Estilos para cursor pointer. */
+.cursor-pointer {
