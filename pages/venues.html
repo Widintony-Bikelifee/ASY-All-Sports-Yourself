@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../assets/css/main.css" />
     <link rel="stylesheet" href="../assets/css/navbar/navbar.css" />
     <link rel="stylesheet" href="../assets/css/venues.css" />
-  </head>
+    </head>
 
   <body>
 
@@ -70,7 +70,7 @@
           <div class="row align-items-end mb-4">
             <div class="col-12 col-md-8">
               <span class="badge rounded-pill py-2 px-3 mb-3" class="page-title-badge">
-                <i class="bi bi-compass me-1"></i> Nuestro Catálogo
+                <i class="bi bi-compass me-1" ></i> Nuestro Catálogo
               </span>
               <h2 class="fw-bold mb-2" class="page-title-heading">
                 Escenarios Deportivos
@@ -80,7 +80,7 @@
             <div class="col-12 col-md-4 text-md-end mt-3 mt-md-0">
               <div class="card bg-light border-0">
                 <div class="card-body py-3 text-center">
-                  <i class="bi bi-geo-alt-fill text-success me-2"></i>
+                  <i class="bi bi-geo-alt text-success me-2" ></i>
                   <span class="fw-semibold" id="venues-count">
                     Mostrando <strong class="text-success">0 espacios</strong> en Ipiales
                   </span>
@@ -93,29 +93,29 @@
           <div class="card shadow-sm border-0">
             <div class="card-body">
               <label class="form-label fw-semibold small text-muted mb-3">
-                <i class="bi bi-funnel me-1"></i>Filtrar por deporte:
+                <i class="bi bi-funnel me-1" ></i>Filtrar por deporte:
               </label>
               <div class="d-flex flex-wrap gap-2" id="venues-filters" role="group">
                 <button class="btn btn-success venues__filter-chip active" onclick="Venues.applyFilter('todos', this)">
-                  <i class="bi bi-grid-fill me-1"></i>Todos
+                  <i class="bi bi-grid me-1" ></i>Todos
                 </button>
                 <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('futbol', this)">
-                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Fútbol
+                  <i class="bi bi-circle-fill me-1"  style="font-size: 0.5rem;"></i>Fútbol
                 </button>
                 <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('baloncesto', this)">
-                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Baloncesto
+                  <i class="bi bi-circle-fill me-1"  style="font-size: 0.5rem;"></i>Baloncesto
                 </button>
                 <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('tenis', this)">
-                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Tenis
+                  <i class="bi bi-circle-fill me-1"  style="font-size: 0.5rem;"></i>Tenis
                 </button>
                 <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('voleibol', this)">
-                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Voleibol
+                  <i class="bi bi-circle-fill me-1"  style="font-size: 0.5rem;"></i>Voleibol
                 </button>
                 <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('gimnasio', this)">
-                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Gimnasio
+                  <i class="bi bi-circle-fill me-1"  style="font-size: 0.5rem;"></i>Gimnasio
                 </button>
                 <button class="btn btn-outline-success venues__filter-chip" onclick="Venues.applyFilter('natacion', this)">
-                  <i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Natación
+                  <i class="bi bi-circle-fill me-1"  style="font-size: 0.5rem;"></i>Natación
                 </button>
               </div>
             </div>
@@ -141,14 +141,14 @@
         <div id="venues-empty" class="text-center py-5 d-none">
           <div class="card shadow-sm border-0 p-5">
             <div class="mb-4">
-              <i class="bi bi-compass display-1 text-muted"></i>
+              <i class="bi bi-compass display-1 text-muted" ></i>
             </div>
             <h3 class="fw-bold mb-3">No se encontraron espacios</h3>
             <p class="text-secondary mb-4 mx-auto" style="max-width: 450px;">
               No hay canchas disponibles con los filtros seleccionados. Intenta con otra categoría.
             </p>
             <button class="btn btn-success px-4" onclick="Venues.applyFilter('todos', document.querySelector('#venues-filters button'))">
-              <i class="bi bi-arrow-repeat me-2"></i>Ver todos los espacios
+              <i class="bi bi-arrow-repeat me-2" ></i>Ver todos los espacios
             </button>
           </div>
         </div>

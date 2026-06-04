@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
       paymentError.textContent = '❌ Error al procesar tu reserva: ' + (err.message || 'Inténtalo de nuevo.');
       paymentError.classList.remove('d-none');
       btnPay.disabled = false;
-      btnPay.innerHTML = '<i class="bi bi-lock-fill me-2"></i> Confirmar y Reservar';
+      btnPay.innerHTML = '<i class="bi bi-lock me-2" ></i> Confirmar y Reservar';
     }
   });
 

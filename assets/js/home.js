@@ -103,7 +103,7 @@ function renderCoverageCard(venue) {
     <div class="col-6 col-md-3">
       <div class="card border-0 bg-light h-100">
         <div class="card-body">
-          <i class="ri-map-pin-line fs-1 text-success"></i>
+          <i class="bi bi-geo-alt fs-1 text-success" ></i>
           <p class="fw-bold mt-2 mb-0">${displayName}</p>
           <small class="text-secondary">${displayType} • ${displayLocation}</small>
         </div>

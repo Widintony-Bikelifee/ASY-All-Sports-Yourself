@@ -65,61 +65,10 @@ function isValidPassword(pass) {
 }
 
 /**
- * Get invalid feedback.
- * Obtener invalid feedback.
+ * Form validation error helper functions are centralized in App (app.js).
  */
-
-function getInvalidFeedback(input) {
-  const wrap = input.closest('.form__input-wrap') || input.parentElement;
-  if (!wrap) return null;
-
-  let feedback = wrap.querySelector('.invalid-feedback');
-  if (!feedback) {
-    feedback = document.createElement('div');
-    feedback.className = 'invalid-feedback';
-    wrap.parentNode.insertBefore(feedback, wrap.nextSibling);
-  }
-  return feedback;
-}
-
-/**
- * Set field error.
- * Establecer field error.
- */
-
-function setFieldError(fieldId, message) {
-  const input = document.getElementById(fieldId);
-  if (!input) return;
-
-  input.classList.add('is-invalid');
-  input.classList.remove('is-valid', 'input--error', 'input--ok');
-
-  const feedback = getInvalidFeedback(input);
-  if (feedback) {
-    feedback.textContent = message;
-    feedback.classList.add('d-block');
-  }
-}
-
-/**
- * Set field ok.
- * Establecer field ok.
- */
-
-function setFieldOk(fieldId) {
-  const input = document.getElementById(fieldId);
-  if (!input) return;
-
-  input.classList.remove('is-invalid', 'input--error', 'input--ok');
-  input.classList.add('is-valid');
-
-  const wrap = input.closest('.form__input-wrap') || input.parentElement;
-  const feedback = wrap?.querySelector('.invalid-feedback');
-  if (feedback) {
-    feedback.textContent = '';
-    feedback.classList.remove('d-block');
-  }
-}
+const setFieldError = App.setFieldError;
+const setFieldOk = App.setFieldOk;
 
 
 /**
@@ -246,27 +195,11 @@ const Register = (() => {
     } else { setFieldOk('reg-password2'); }
 
     
-    const termsInput = document.getElementById('reg-terms');
-    const termsWrap = termsInput?.closest('.form__check');
-    let termsFeedback = termsWrap?.querySelector('.invalid-feedback');
-
     if (!data.terms) {
-      if (!termsFeedback && termsWrap) {
-        termsFeedback = document.createElement('div');
-        termsFeedback.className = 'invalid-feedback d-block';
-        termsWrap.appendChild(termsFeedback);
-      }
-      if (termsFeedback) {
-        termsFeedback.textContent = 'Debes aceptar los terminos y condiciones.';
-      }
-      termsInput?.classList.add('is-invalid');
+      setFieldError('reg-terms', 'Debes aceptar los terminos y condiciones.');
       ok = false;
     } else {
-      termsInput?.classList.remove('is-invalid');
-      if (termsFeedback) {
-        termsFeedback.textContent = '';
-        termsFeedback.classList.remove('d-block');
-      }
+      setFieldOk('reg-terms');
     }
 
     return ok;
@@ -362,16 +295,7 @@ const Register = (() => {
     
     document.getElementById('reg-terms')
       ?.addEventListener('change', () => {
-        const termsInput = document.getElementById('reg-terms');
-        termsInput.classList.remove('is-invalid');
-        const feedback = termsInput
-          ?.closest('.form__check')
-          ?.querySelector('.invalid-feedback');
-
-        if (feedback) {
-          feedback.textContent = '';
-          feedback.classList.remove('d-block');
-        }
+        setFieldOk('reg-terms');
       });
 
     
