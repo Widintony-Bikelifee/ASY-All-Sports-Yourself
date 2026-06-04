@@ -189,7 +189,7 @@
       function renderBookingsTable(bookings) {
         const tbody = document.getElementById('bookings-history-tbody');
         if (!bookings.length) {
-          tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-5"><i class="bi bi-inbox fs-3 d-block mb-2"></i> No hay reservas registradas de este cliente en tus canchas</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-5"><i class="bi bi-inbox fs-3 d-block mb-2" ></i> No hay reservas registradas de este cliente en tus canchas</td></tr>`;
           return;
         }
         let html = '';
@@ -210,7 +210,7 @@
           html += `<tr>
             <td class="ps-4"><small class="text-muted">${String(booking.id || '').slice(0,8)}</small></td>
             <td><strong>${formattedDate}</strong><br><small>${formattedTime}</small></td>
-            <td><i class="bi bi-pin-map-fill me-1 text-success"></i> ${courtName} ${locationInfo ? `<span class="text-secondary small">(${locationInfo})</span>` : ''}</td>
+            <td><i class="bi bi-geo-alt me-1 text-success" ></i> ${courtName} ${locationInfo ? `<span class="text-secondary small">(${locationInfo})</span>` : ''}</td>
             <td>${amount}</td>
             <td>${statusBadge}</td>
             <td class="pe-4"><a href="./look_reservations_client.html?reservationId=${booking.id}" class="btn btn-sm btn-outline-info rounded-pill"><i class="bi bi-eye"></i> Ver</a></td>

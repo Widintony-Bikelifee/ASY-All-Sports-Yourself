@@ -30,9 +30,9 @@
     PRICE_PER_HOUR = selectedVenue.precio || 85000;
 
     
-    document.getElementById('courtNameDisplay').innerHTML = `<i class="bi bi-trophy-fill text-warning"></i> ${selectedVenue.nombre}`;
+    document.getElementById('courtNameDisplay').innerHTML = `<i class="bi bi-trophy-fill text-warning" ></i> ${selectedVenue.nombre}`;
     document.getElementById('courtLocationDisplay').textContent = selectedVenue.ubicacion || 'Ipiales';
-    document.getElementById('courtPriceDisplay').innerHTML = `<i class="bi bi-cash-stack"></i> ${_formatCOP(PRICE_PER_HOUR)} / hora`;
+    document.getElementById('courtPriceDisplay').innerHTML = `<i class="bi bi-cash"></i> ${_formatCOP(PRICE_PER_HOUR)} / hora`;
 
     if (selectedVenue.imagen_url) {
       const isExternal = selectedVenue.imagen_url.startsWith('http');

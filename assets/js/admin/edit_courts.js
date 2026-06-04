@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     } finally {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Guardar Cambios';
+      submitBtn.innerHTML = '<i class="bi bi-check-circle me-2" ></i>Guardar Cambios';
     }
   }
 
@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error('[edit_courts] Error Supabase:', error);
       showAlert('Error al guardar: ' + (error.message || JSON.stringify(error)), 'error');
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Guardar Cambios';
+      submitBtn.innerHTML = '<i class="bi bi-check-circle me-2" ></i>Guardar Cambios';
       return;
     }
 

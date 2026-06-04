@@ -46,61 +46,10 @@ function isValidPassword(pass) {
 }
 
 /**
- * Locate or create the invalid-feedback element for a field.
- * Encuentra o crea el elemento invalid-feedback para un campo.
+ * Form validation error helper functions are centralized in App (app.js).
  */
-
-function getInvalidFeedback(input) {
-  const wrap = input.closest('.form__input-wrap') || input.parentElement;
-  if (!wrap) return null;
-
-  let feedback = wrap.querySelector('.invalid-feedback');
-  if (!feedback) {
-    feedback = document.createElement('div');
-    feedback.className = 'invalid-feedback';
-    wrap.parentNode.insertBefore(feedback, wrap.nextSibling);
-  }
-  return feedback;
-}
-
-/**
- * Mark a field as invalid and display the provided error message.
- * Marca un campo como inválido y muestra el mensaje de error proporcionado.
- */
-
-function setFieldError(fieldId, message) {
-  const input = document.getElementById(fieldId);
-  if (!input) return;
-
-  input.classList.add('is-invalid');
-  input.classList.remove('is-valid', 'input--error', 'input--ok');
-
-  const feedback = getInvalidFeedback(input);
-  if (feedback) {
-    feedback.textContent = message;
-    feedback.classList.add('d-block');
-  }
-}
-
-/**
- * Mark a field as valid and clear any displayed error.
- * Marca un campo como válido y borra cualquier error mostrado.
- */
-
-function setFieldOk(fieldId) {
-  const input = document.getElementById(fieldId);
-  if (!input) return;
-
-  input.classList.remove('is-invalid', 'input--error', 'input--ok');
-  input.classList.add('is-valid');
-
-  const wrap = input.closest('.form__input-wrap') || input.parentElement;
-  const feedback = wrap?.querySelector('.invalid-feedback');
-  if (feedback) {
-    feedback.textContent = '';
-    feedback.classList.remove('d-block');
-  }
-}
+const setFieldError = App.setFieldError;
+const setFieldOk = App.setFieldOk;
 
 /**
  * Login module with validation helpers and submission workflow.
