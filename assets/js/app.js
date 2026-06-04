@@ -72,7 +72,72 @@ const App = (() => {
     window.location.href = base + relativeTarget;
   }
 
-  return { showToast, showPage };
+  /**
+   * Locate or create the invalid-feedback element for a field.
+   */
+  function getInvalidFeedback(input) {
+    const wrap = input.closest('.form__input-wrap') || input.closest('.input-group') || input.closest('.form-check') || input.parentElement;
+    if (!wrap) return null;
+
+    let feedback = wrap.querySelector('.invalid-feedback');
+    if (!feedback && wrap.nextElementSibling?.classList?.contains('invalid-feedback')) {
+      feedback = wrap.nextElementSibling;
+    }
+
+    if (!feedback) {
+      feedback = document.createElement('div');
+      feedback.className = 'invalid-feedback';
+
+      if (wrap.classList.contains('form-check')) {
+        wrap.appendChild(feedback);
+      } else {
+        wrap.parentNode.insertBefore(feedback, wrap.nextSibling);
+      }
+    }
+    return feedback;
+  }
+
+  /**
+   * Mark a field as invalid and display the provided error message.
+   */
+  function setFieldError(fieldId, message) {
+    const input = document.getElementById(fieldId);
+    if (!input) return;
+
+    input.classList.add('is-invalid');
+    input.classList.remove('is-valid', 'input--error', 'input--ok');
+
+    const feedback = getInvalidFeedback(input);
+    if (feedback) {
+      if (feedback.textContent !== message) {
+        feedback.textContent = message;
+      }
+      feedback.classList.add('d-block');
+    }
+  }
+
+  /**
+   * Mark a field as valid and clear any displayed error.
+   */
+  function setFieldOk(fieldId) {
+    const input = document.getElementById(fieldId);
+    if (!input) return;
+
+    input.classList.remove('is-invalid', 'input--error', 'input--ok');
+    input.classList.add('is-valid');
+
+    const wrap = input.closest('.form__input-wrap') || input.closest('.input-group') || input.closest('.form-check') || input.parentElement;
+    let feedback = wrap?.querySelector('.invalid-feedback');
+    if (!feedback && wrap?.nextElementSibling?.classList?.contains('invalid-feedback')) {
+      feedback = wrap.nextElementSibling;
+    }
+    if (feedback) {
+      feedback.textContent = '';
+      feedback.classList.remove('d-block');
+    }
+  }
+
+  return { showToast, showPage, setFieldError, setFieldOk };
 })();
 
 window.App = App;
@@ -83,6 +148,7 @@ window.App = App;
  */
 
 window.addEventListener("DOMContentLoaded", () => {
+
   if (!window.location.pathname.includes("/pages/user/") && !window.location.pathname.includes("/pages/admin/")) return;
 
   // --- MOBILE SIDEBAR RESPONSIVENESS INJECTION / INYECCIÓN DE RESPONSIVIDAD PARA EL SIDEBAR EN MÓVILES ---
@@ -95,7 +161,7 @@ window.addEventListener("DOMContentLoaded", () => {
     mobileHeader.innerHTML = `
       <div class="d-flex align-items-center">
         <button class="btn btn-link text-dark p-1 me-2" id="mobile-sidebar-toggle" aria-label="Abrir menú">
-          <i class="bi bi-list fs-2"></i>
+          <i class="bi bi-list fs-2" ></i>
         </button>
         <a href="../../index.html" class="d-flex align-items-center gap-2 text-decoration-none">
           <img src="../../assets/img/Logo-ASY.png" alt="Logo ASY" width="36" height="36" />

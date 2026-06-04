@@ -150,16 +150,16 @@ const AdminDashboard = (() => {
                 <div class="dashboard-venue-info mb-3">
                   <span class="dashboard-venue-title fs-5">${c.nombre}</span>
                   <span class="dashboard-venue-meta mt-1 d-flex flex-column gap-1">
-                    <span><i class="bi bi-geo-alt me-1 text-muted"></i>${c.ubicacion || "Sin ubicación"}</span>
-                    <span class="text-success fw-bold"><i class="bi bi-cash me-1"></i>$${precioStr}/hr</span>
+                    <span><i class="bi bi-geo-alt me-1 text-muted" ></i>${c.ubicacion || "Sin ubicación"}</span>
+                    <span class="text-success fw-bold"><i class="bi bi-cash me-1" ></i>$${precioStr}/hr</span>
                   </span>
                 </div>
                 <div class="d-flex gap-2 mt-auto">
                   <a href="./edit_courts.html?id=${c.id}" class="dashboard-venue-action flex-grow-1 justify-content-center">
-                    <i class="bi bi-pencil me-1"></i>Editar
+                    <i class="bi bi-pencil me-1" ></i>Editar
                   </a>
                   <button onclick="AdminDashboard.deleteVenue(${c.id})" class="dashboard-venue-action dashboard-venue-action--danger flex-grow-1 justify-content-center">
-                    <i class="bi bi-trash me-1"></i>Eliminar
+                    <i class="bi bi-trash me-1" ></i>Eliminar
                   </button>
                 </div>
               </div>
@@ -707,7 +707,7 @@ const AdminDashboard = (() => {
           <div class="card border-0 shadow-sm h-100">
             <div class="card-body text-center py-4 kpi-card">
               <div class="kpi-icon mx-auto mb-3" style="background:${k.bg};">
-                <i class="bi ${k.icon} fs-4" style="color:${k.color};"></i>
+                <i class="bi bi-${k.icon} fs-4"  style="color:${k.color};"></i>
               </div>
               <div class="kpi-value" style="color:${k.color};">${k.value}</div>
               <div class="kpi-label mt-1">${k.label}</div>
@@ -730,7 +730,7 @@ const AdminDashboard = (() => {
       if (entries.length === 0) {
         byCanchaEl.innerHTML = `
           <div class="text-center py-5 text-muted">
-            <i class="bi bi-bar-chart fs-1 d-block mb-2 opacity-25"></i>
+            <i class="bi bi-bar-chart fs-1 d-block mb-2 opacity-25" ></i>
             <p class="mb-0">Sin datos de reservas aún.</p>
           </div>`;
       } else {
@@ -774,7 +774,7 @@ const AdminDashboard = (() => {
       if (entries.length === 0) {
         ingMesEl.innerHTML = `
           <div class="text-center py-5 text-muted">
-            <i class="bi bi-cash-stack fs-1 d-block mb-2 opacity-25"></i>
+            <i class="bi bi-cash fs-1 d-block mb-2 opacity-25" ></i>
             <p class="mb-0">Sin ingresos registrados aún.</p>
           </div>`;
       } else {

@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error('[register_court] Error Supabase:', error);
       showToast('Error al registrar: ' + (error.message || JSON.stringify(error)), 'error');
       submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Registrar Cancha';
+      submitBtn.innerHTML = '<i class="bi bi-check-circle me-2" ></i>Registrar Cancha';
       return;
     }
 
