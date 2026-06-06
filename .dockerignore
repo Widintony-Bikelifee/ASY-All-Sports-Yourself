@@ -1,0 +1,8 @@
+.git/
+.gitignore
+.atl/
+README.md
+docker-compose*
+Dockerfile
+deploy.sh
+docs/
